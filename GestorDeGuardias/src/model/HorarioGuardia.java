@@ -1,21 +1,31 @@
 package model;
 
-public enum HorarioGuardia {
-    T8_20("8:00-20:00"),
-    T9_14("9:00-14:00"),
-    T14_19("14:00-19:00"),
-    T20_8("20:00-8:00");
+import java.time.LocalDate;
+import java.time.LocalTime;
 
-    //para mostrar en la tabla
-    //deberia ser final?
-    private final String text;
+public class HorarioGuardia {
+    private LocalTime inicio;
+    private LocalTime fin;
 
-    HorarioGuardia(String text) {
-        this.text = text;
+    public HorarioGuardia(LocalTime inicio, LocalTime fin) {
+        //TODO: check setter use
+        this.inicio = inicio;
+        this.fin = fin;
     }
 
-    public String getText() {
-        return text;
+    public LocalTime getFin() {
+        return fin;
     }
 
+    public void setFin(LocalTime fin) {
+        this.fin = fin;
+    }
+
+    public LocalTime getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(LocalTime inicio) {
+        this.inicio = inicio;
+    }
 }
