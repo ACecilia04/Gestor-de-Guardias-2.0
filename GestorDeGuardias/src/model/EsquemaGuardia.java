@@ -1,4 +1,4 @@
-package rdb.entity;
+package model;
 
 import java.time.DayOfWeek;
 

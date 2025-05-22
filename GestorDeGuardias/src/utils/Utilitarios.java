@@ -1,8 +1,8 @@
-package logica.comunes;
+package utils;
 
 import logica.excepciones.EntradaInvalidaException;
-import rdb.entity.DiaGuardia;
-import rdb.entity.Persona;
+import model.DiaGuardia;
+import model.Persona;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;

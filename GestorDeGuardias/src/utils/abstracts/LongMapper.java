@@ -1,4 +1,4 @@
-package rdb.abstracts;
+package utils.abstracts;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

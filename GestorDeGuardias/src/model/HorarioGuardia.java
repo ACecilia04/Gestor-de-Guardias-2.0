@@ -1,4 +1,4 @@
-package rdb.entity;
+package model;
 
 public enum HorarioGuardia {
     T8_20("8:00-20:00"),

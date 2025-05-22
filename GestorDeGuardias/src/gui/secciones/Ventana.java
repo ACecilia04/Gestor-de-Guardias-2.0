@@ -4,11 +4,11 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.internosComp.*;
 import gui.pantallasEmergentes.*;
-import logica.Gestor;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.DiaGuardia;
-import rdb.entity.HorarioGuardia;
+import model.DiaGuardia;
+import model.HorarioGuardia;
 
 import javax.swing.*;
 import java.awt.*;

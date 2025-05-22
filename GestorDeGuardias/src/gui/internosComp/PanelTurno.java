@@ -5,9 +5,9 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.CustomPopupMenu;
 import gui.componentes.Etiqueta;
-import rdb.entity.DiaGuardia;
-import rdb.entity.Persona;
-import rdb.entity.TurnoGuardia;
+import model.DiaGuardia;
+import model.Persona;
+import model.TurnoGuardia;
 
 import javax.swing.*;
 import java.awt.*;

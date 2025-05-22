@@ -7,8 +7,8 @@ import gui.componentes.Etiqueta;
 import gui.internosComp.PanelOpcionesMostrarP;
 import gui.internosComp.TablaBase;
 import gui.pantallasEmergentes.Advertencia;
-import logica.Gestor;
-import rdb.entity.DiaGuardia;
+import services.Gestor;
+import model.DiaGuardia;
 
 import javax.swing.*;
 import java.awt.*;

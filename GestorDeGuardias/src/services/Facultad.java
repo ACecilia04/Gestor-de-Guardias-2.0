@@ -1,15 +1,15 @@
-package logica;
+package services;
 
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.*;
+import model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static logica.comunes.Utilitarios.stringEsValido;
-import static logica.comunes.Utilitarios.stringSoloNumeros;
+import static utils.Utilitarios.stringEsValido;
+import static utils.Utilitarios.stringSoloNumeros;
 
 
 public class Facultad {

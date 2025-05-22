@@ -1,8 +1,8 @@
-package rdb.dao;
+package utils;
 
-import rdb.abstracts.LongMapper;
-import rdb.entity.Grupo;
-import rdb.mapper.GrupoMapper;
+import utils.abstracts.LongMapper;
+import model.Grupo;
+import utils.mapper.GrupoMapper;
 
 import java.util.List;
 

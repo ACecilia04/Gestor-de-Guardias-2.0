@@ -1,7 +1,7 @@
 package gui.pantallasEmergentes;
 
 import gui.secciones.Ventana;
-import logica.Gestor;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 

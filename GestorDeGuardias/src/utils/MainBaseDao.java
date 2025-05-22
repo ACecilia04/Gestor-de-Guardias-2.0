@@ -1,7 +1,7 @@
-package rdb.dao;
+package utils;
 
-import rdb.abstracts.BaseDao;
-import rdb.abstracts.JdbcTemplate;
+import utils.abstracts.BaseDao;
+import utils.abstracts.JdbcTemplate;
 
 public class MainBaseDao extends BaseDao {
 

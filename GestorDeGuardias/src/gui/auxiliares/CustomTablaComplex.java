@@ -1,7 +1,7 @@
 package gui.auxiliares;
 
 import gui.componentes.CustomScrollBar;
-import rdb.entity.Persona;
+import model.Persona;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;

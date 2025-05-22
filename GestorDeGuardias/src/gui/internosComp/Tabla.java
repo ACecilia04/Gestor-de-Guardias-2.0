@@ -8,10 +8,10 @@ import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.Ventana;
-import logica.Gestor;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.DiaGuardia;
+import model.DiaGuardia;
 
 import javax.swing.*;
 import java.awt.*;
