@@ -1,25 +1,26 @@
 package gui.internosComp;
 
 import gui.auxiliares.CustomTablaComplex;
-import rdb.entity.Estudiante;
 import rdb.entity.Persona;
 
+import java.io.Serial;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TablaEstudiantes extends CustomTablaComplex {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
     public void revalidarTabla(ArrayList<Persona> personas) {
         modelo.setRowCount(0);
         for (Persona e : personas) {
-            if (e instanceof Estudiante) {
+            if (e.getTipo().equalsIgnoreCase("estudiante")) {
                 String[] aux = new String[6];
                 aux[0] = e.getCi();
                 aux[1] = e.getApellidos();
                 aux[2] = e.getNombre();
-                aux[3] = e.getSexo().name();
+                aux[3] = e.getSexo();
                 aux[4] = e.getDisponibilidadParaFecha(LocalDate.now()).name();
                 aux[5] = Integer.toString(9);
 
@@ -39,8 +40,7 @@ public class TablaEstudiantes extends CustomTablaComplex {
 
     @Override
     public String[] getColumnas() {
-        String[] aux = {"ID", "Apellidos", "Nombre", "Sexo", "Disponibilidad", "Cant Guardias"};
-        return aux;
+        return new String[]{"ID", "Apellidos", "Nombre", "Sexo", "Disponibilidad", "Cant Guardias"};
     }
 
     @Override

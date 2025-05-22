@@ -4,7 +4,6 @@ package gui.componentes;
 import javax.swing.*;
 import java.awt.*;
 
-@SuppressWarnings("serial")
 public class Cuadro extends JPanel {
     //Valores predefinidos
     public static final int redBAJA = 15;

@@ -12,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-@SuppressWarnings("serial")
 public class Boton extends JPanel implements Actualizable {
     private final Paleta paleta = new Paleta();
 
@@ -22,11 +21,10 @@ public class Boton extends JPanel implements Actualizable {
 
     //Imprimir
     private int redondez = Cuadro.redBAJA;
-    private final Font fuente = new Font("Arial", Font.PLAIN, 17);
 
     //Componentes
     private final JLabel etiqueta = new JLabel();
-    private String textoLabel = "Predet";
+    private String textoLabel;
 
     //Tipo
     private boolean selecLetra = false;
@@ -59,12 +57,12 @@ public class Boton extends JPanel implements Actualizable {
     /**
      * Este es para Botones simples
      *
-     * @param texto
      */
     public Boton(String texto) {
         textoLabel = texto;
         inicializar();
 
+        Font fuente = new Font("Arial", Font.PLAIN, 17);
         etiqueta.setFont(fuente);
 
         etiqueta.setSize(etiqueta.getPreferredSize());
@@ -76,8 +74,6 @@ public class Boton extends JPanel implements Actualizable {
 
     /**
      * Este es para Iconos sin texto
-     *
-     * @param texto
      */
     public Boton() {
         textoLabel = "";
@@ -136,25 +132,17 @@ public class Boton extends JPanel implements Actualizable {
 
     /**
      * Icono a la izquierda
-     *
-     * @param texto
-     */
+     * */
     public void addIcono(String rutaImagen) {
         ImageIcon icono = new ImageIcon(getClass().getResource(rutaImagen));
         etiqueta.setIcon(icono);
         etiqueta.setIconTextGap(15);
         etiqueta.setHorizontalAlignment(JLabel.LEFT);
 
-        int alturaMayor;
-
-        if (icono.getIconHeight() > etiqueta.getSize().height) {
-            alturaMayor = icono.getIconHeight();
-        } else {
-            alturaMayor = etiqueta.getSize().height;
-        }
+        int alturaMayor = Math.max(icono.getIconHeight(), etiqueta.getSize().height);
 
         etiqueta.setSize(new Dimension(etiqueta.getPreferredSize().width, alturaMayor));
-        if (etiqueta.getText() == "") {
+        if (etiqueta.getText().isEmpty()) {
             redondez = 0;
 
             this.setPreferredSize(new Dimension(etiqueta.getSize().width + 10, etiqueta.getSize().height + 10));
@@ -178,7 +166,8 @@ public class Boton extends JPanel implements Actualizable {
             colorPresionado = colorFondo.darker();
             setBackground(colorFondo);
         }
-        setBackground(cont.getBackground());
+        if(cont != null)
+             setBackground(cont.getBackground());
 
     }
 
@@ -188,17 +177,17 @@ public class Boton extends JPanel implements Actualizable {
         setFondoContenedor();
     }
 
-    public void setRedondez(int red) {
-        this.redondez = red;
-    }
-
-    public void setDistancias(int x, int y) {
-        this.distanciaX = x;
-        this.distanciaY = y;
-        etiqueta.setLocation(distanciaX, distanciaY);
-        this.setPreferredSize(new Dimension(etiqueta.getSize().width + distanciaX * 2, etiqueta.getHeight() + distanciaY * 2));
-        this.setSize(getPreferredSize());
-    }
+//    public void setRedondez(int red) {
+//        this.redondez = red;
+//    }
+//
+//    public void setDistancias(int x, int y) {
+//        this.distanciaX = x;
+//        this.distanciaY = y;
+//        etiqueta.setLocation(distanciaX, distanciaY);
+//        this.setPreferredSize(new Dimension(etiqueta.getSize().width + distanciaX * 2, etiqueta.getHeight() + distanciaY * 2));
+//        this.setSize(getPreferredSize());
+//    }
 
     public void setText(String texto) {
         etiqueta.setText(texto);
@@ -281,8 +270,6 @@ public class Boton extends JPanel implements Actualizable {
 
     /**
      * Para decir si es boton tipo borde
-     *
-     * @param x
      */
     public void setSelectLetra(boolean x) {
         selecLetra = x;
@@ -296,8 +283,6 @@ public class Boton extends JPanel implements Actualizable {
 
     /**
      * Para decir si es boton tipo borde y ademas con Color
-     *
-     * @param x
      */
     public void setSelectLetra(boolean x, Color color) {
         selecLetra = x;
@@ -315,9 +300,9 @@ public class Boton extends JPanel implements Actualizable {
         etiqueta.setLocation((getWidth() - etiqueta.getWidth()) / 2, (getHeight() - etiqueta.getHeight()) / 2);
     }
 
-    public Color getColorLetra() {
-        return colorLetra;
-    }
+//    public Color getColorLetra() {
+//        return colorLetra;
+//    }
 
     public void setColorLetra(Color colorLetra) {
         this.colorLetra = colorLetra;
@@ -328,50 +313,50 @@ public class Boton extends JPanel implements Actualizable {
         etiqueta.setIconTextGap(x);
     }
 
-    public Color getColorLetraPres() {
-        return colorLetraPres;
-    }
-
-    public void setColorLetraPres(Color colorLetraPres) {
-        this.colorLetraPres = colorLetraPres;
-    }
-
-    public Color getColorBordeado() {
-        return colorBordeado;
-    }
-
-    public void setColorBordeado(Color colorBordeado) {
-        this.colorBordeado = colorBordeado;
-    }
-
-    public Color getColorPresionado() {
-        return colorPresionado;
-    }
+//    public Color getColorLetraPres() {
+//        return colorLetraPres;
+//    }
+//
+//    public void setColorLetraPres(Color colorLetraPres) {
+//        this.colorLetraPres = colorLetraPres;
+//    }
+//
+//    public Color getColorBordeado() {
+//        return colorBordeado;
+//    }
+//
+//    public void setColorBordeado(Color colorBordeado) {
+//        this.colorBordeado = colorBordeado;
+//    }
+//
+//    public Color getColorPresionado() {
+//        return colorPresionado;
+//    }
 
     public void setColorPresionado(Color colorPresionado) {
         colorFondo = paleta.getColorFondo();
         this.colorPresionado = colorPresionado;
     }
 
-    public boolean isBordeado() {
-        return bordeado;
-    }
+//    public boolean isBordeado() {
+//        return bordeado;
+//    }
 
     public void setBordeado(boolean bordeado) {
         this.bordeado = bordeado;
     }
 
-    public Color getColorIcono() {
-        return colorIcono;
-    }
+//    public Color getColorIcono() {
+//        return colorIcono;
+//    }
 
     public void setColorIcono(Color colorIcono) {
         this.colorIcono = colorIcono;
     }
 
-    public Color getColorIconoPres() {
-        return colorIconoPres;
-    }
+//    public Color getColorIconoPres() {
+//        return colorIconoPres;
+//    }
 
     public void setColorIconoPres(Color colorIconoPres) {
         this.colorIconoPres = colorIconoPres;

@@ -17,16 +17,16 @@ public class TablaOpcionesPlanif extends JPanel {
     Paleta paleta = new Paleta();
 
     private final JPanel superior;
-    private final int separacion = 10;
+//    private final int separacion = 10;
 
     private final CustomSplitPane splitPane;
-    private CustomSplitPane splitPaneInterno;
-    private JPanel panel1;
+//    private CustomSplitPane splitPaneInterno;
+//    private JPanel panel1;
     private final JPanel panel2;
     private final JPanel panel3;
     private final JPanel panel4;
-    private final int x = 40;
-    private final int y = separacion + 10;
+//    private final int x = 40;
+//    private final int y = separacion + 10;
 
     private final CustomTabla tablaSelec;
     private final Boton botonAddPersona;
@@ -34,7 +34,7 @@ public class TablaOpcionesPlanif extends JPanel {
     private final Boton botonAut;
 
 
-    private final Font fuente = new Font("Arial", Font.PLAIN, 17);
+ //   private final Font fuente = new Font("Arial", Font.PLAIN, 17);
 
     public TablaOpcionesPlanif(Dimension dimension) {
         setPreferredSize(dimension);
@@ -63,7 +63,7 @@ public class TablaOpcionesPlanif extends JPanel {
         botonAut.setNuevoSize(aux);
 
         tablaSelec = new CustomTabla("Seleccionados");
-        botonAddPersona = new Boton("A�adir Persona");
+        botonAddPersona = new Boton("Añadir Persona");
         botonAddPersona.setNuevoSize(new Dimension(botonAut.getSize().width + 10, botonAut.getSize().height + 10));
 
         aux = new Dimension(botonAut.getSize().width, botonAut.getSize().height);
@@ -78,7 +78,7 @@ public class TablaOpcionesPlanif extends JPanel {
 
         panel2.add(botonAut);
         panel2.add(botonAddPersona);
-        panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, 150));
+        panel2.setMinimumSize(new Dimension(getPreferredSize().width, 150));
 
         //Panel3
         panel3 = new JPanel(new BorderLayout());

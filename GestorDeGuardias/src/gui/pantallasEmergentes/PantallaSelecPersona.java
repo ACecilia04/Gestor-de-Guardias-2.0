@@ -10,7 +10,6 @@ import gui.secciones.Ventana;
 import logica.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.Estudiante;
 import rdb.entity.Persona;
 
 import javax.swing.*;

@@ -3,7 +3,6 @@ package gui.componentes;
 import javax.swing.*;
 import java.awt.*;
 
-@SuppressWarnings("serial")
 class CustomJMenu extends JMenu {
     private Color colorFondo = Color.WHITE;
 

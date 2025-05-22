@@ -4,7 +4,6 @@ import logica.Facultad;
 import logica.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.Sexo;
 
 import javax.swing.*;
 import java.awt.*;

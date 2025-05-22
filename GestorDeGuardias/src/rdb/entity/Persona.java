@@ -6,25 +6,41 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
-public abstract class Persona implements Comparable<Persona> {
-    protected String ci;
-    protected String nombre;
-    protected String apellidos;
-    protected char sexo;
+public class Persona implements Comparable<Persona> {
+    private Long id;
+    private String ci;
+    private String nombre;
+    private String apellidos;
+    private Character sexo;
+    private String tipo;
+
     protected LocalDate ultimaGuardiaHecha;
     protected ArrayList<LocalDate> guardiasAsignadas;
     protected int cantGuardiasRecuperacion = 0;
     protected LocalDate fechaDeBaja;
- //   protected ArrayList<? extends Licencia> licencias;   //las licencias estan ordenadas segun su inicio
 
-
-    public Persona(String id, String nombre, String apellidos, char sexo) {
+    public Persona(String id, String nombre, String apellidos, char sexo, String tipo) {
         setCi(id);
         setNombre(nombre);
         setApellidos(apellidos);
         setSexo(sexo);
+        setTipo(tipo);
         guardiasAsignadas = new ArrayList<LocalDate>();
         ultimaGuardiaHecha = LocalDate.of(-999999999, 1, 1);
+    }
+
+    public String getTipo(){
+        return tipo;
+    }
+    private void setTipo(String tipo) {
+        if(tipo.equalsIgnoreCase("estudiante"))
+            this.tipo = "Estudiante";
+        else if ( tipo.equalsIgnoreCase("trabajador")) {
+            this.tipo = "Trabajador";
+        } else{
+           // TODO: throw exception
+        }
+
     }
 
     public String getCi() {
@@ -51,8 +67,11 @@ public abstract class Persona implements Comparable<Persona> {
         this.apellidos = apellidos;
     }
 
-    public char getSexo() {
-        return sexo;
+    public String getSexo() {
+        if(sexo == 'f')
+            return "Femenino";
+        else
+            return "Masculino";
     }
 
     private void setSexo(char sexo) {
@@ -148,17 +167,15 @@ public abstract class Persona implements Comparable<Persona> {
         }
         return disponibilidad;
     }
-
-    public abstract boolean estaDisponibleEnRecesoDocente(LocalDate fecha);
+// TODO: esto en la bd
+ //   public abstract boolean estaDisponibleEnRecesoDocente(LocalDate fecha);
 
 //	public abstract boolean getDisponibilidadParaGuardia( LocalDate dia, HorarioGuardia horario);
 
     /**
      * Si la persona no tiene una fecha de baja, le da baja a esta en
      * la fecha dada mientras la fecha sea la actual o una futura
-     *
-     * @param fecha
-     */
+     **/
     public void darBaja(LocalDate fecha) {
         if (!fecha.isBefore(LocalDate.now()) && fechaDeBaja == null) {
             fechaDeBaja = fecha;
@@ -276,4 +293,5 @@ public abstract class Persona implements Comparable<Persona> {
         }
         return cant;
     }
+
 }

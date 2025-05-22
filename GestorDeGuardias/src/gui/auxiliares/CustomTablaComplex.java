@@ -10,9 +10,11 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import java.awt.*;
+import java.io.Serial;
 import java.util.ArrayList;
 
 public abstract class CustomTablaComplex extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     protected Paleta paleta = new Paleta();
@@ -25,7 +27,6 @@ public abstract class CustomTablaComplex extends JPanel {
     protected int columnaSelec = -1;
     protected ArrayList<Actualizable> actualizables;
 
-    @SuppressWarnings("serial")
     public CustomTablaComplex() {
 
         modelo = new DefaultTableModel(getColumnas(), 0) {
@@ -38,7 +39,7 @@ public abstract class CustomTablaComplex extends JPanel {
 
         tabla = new JTable(modelo);
 
-        componentes = new ArrayList<Component>();
+        componentes = new ArrayList<>();
 
         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -110,13 +111,13 @@ public abstract class CustomTablaComplex extends JPanel {
     public abstract void actualizar();
 
 
-    public void limpiarTabla() {
-        modelo.setRowCount(0);
-    }
-
-    public int getCantFilas() {
-        return modelo.getRowCount();
-    }
+//    public void limpiarTabla() {
+//        modelo.setRowCount(0);
+//    }
+//
+//    public int getCantFilas() {
+//        return modelo.getRowCount();
+//    }
 
     public ArrayList<Component> getComponentes() {
         return componentes;
@@ -134,13 +135,13 @@ public abstract class CustomTablaComplex extends JPanel {
         return columnaSelec;
     }
 
-    public void setColumnaSelec(int x) {
-        columnaSelec = x;
-    }
-
-    public ArrayList<Actualizable> getActualizables() {
-        return actualizables;
-    }
+//    public void setColumnaSelec(int x) {
+//        columnaSelec = x;
+//    }
+//
+//    public ArrayList<Actualizable> getActualizables() {
+//        return actualizables;
+//    }
 
     public void setActualizables(ArrayList<Actualizable> actualizables) {
         this.actualizables = actualizables;
@@ -149,6 +150,7 @@ public abstract class CustomTablaComplex extends JPanel {
     public abstract String getCarnet();
 
     private class CustomCellRenderer extends DefaultTableCellRenderer {
+        @Serial
         private static final long serialVersionUID = 1L;
         private final Font font = new Font("Arial", Font.PLAIN, 17);
 
@@ -178,6 +180,7 @@ public abstract class CustomTablaComplex extends JPanel {
     }
 
     private class CustomHeaderRenderer extends DefaultTableCellRenderer {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         @Override

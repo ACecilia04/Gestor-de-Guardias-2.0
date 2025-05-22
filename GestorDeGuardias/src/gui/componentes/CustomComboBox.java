@@ -154,9 +154,9 @@ public class CustomComboBox extends Cuadro {
         selectionListeners.add(listener);
     }
 
-    public void removeComboBoxSelectionListener(ComboBoxSelectionListener listener) {
-        selectionListeners.remove(listener);
-    }
+//    public void removeComboBoxSelectionListener(ComboBoxSelectionListener listener) {
+//        selectionListeners.remove(listener);
+//    }
 
     private void notificarListeners(String selectedItem) {
         if (!selectionListeners.isEmpty()) {
@@ -167,9 +167,9 @@ public class CustomComboBox extends Cuadro {
 
     }
 
-    public String getTextoNulo() {
-        return textoNulo;
-    }
+//    public String getTextoNulo() {
+//        return textoNulo;
+//    }
 
     public void setTextoNulo(String textoNulo) {
         this.textoNulo = textoNulo;
@@ -177,7 +177,7 @@ public class CustomComboBox extends Cuadro {
 
     public String getEleccion() {
         String eleccion = null;
-        if (textoNulo != null && info.getText() != textoNulo) {
+        if (textoNulo != null && !textoNulo.equals(info.getText())) {
             eleccion = info.getText();
         }
         return eleccion;

@@ -10,7 +10,6 @@ import gui.pantallasEmergentes.PantallaLicenciasTrabajador;
 import logica.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import rdb.entity.Disponibilidad;
-import rdb.entity.Estudiante;
 import rdb.entity.Persona;
 
 import javax.swing.*;

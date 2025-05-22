@@ -8,7 +8,7 @@ import javax.swing.text.PlainDocument;
 import java.awt.*;
 import java.awt.event.*;
 
-@SuppressWarnings("serial")
+
 public class CustomPasswordField extends Cuadro {
     //Distancias
     private static final int sepAncho = 20;
@@ -28,7 +28,7 @@ public class CustomPasswordField extends Cuadro {
     private final String iconoInvisible = "/iconos/Visible.png";
 
     //Colores
-    private Color colorFondo = Color.LIGHT_GRAY;
+    private Color colorFondo;
     private final Color colorSelec = Color.ORANGE;
 
     private final Color colorLetra = Color.BLACK;
@@ -155,9 +155,9 @@ public class CustomPasswordField extends Cuadro {
         revalidate();
     }
 
-    public JPasswordField getPasswordField() {
-        return textField;
-    }
+//    public JPasswordField getPasswordField() {
+//        return textField;
+//    }
 
     public String getText() {
         return new String(textField.getPassword());

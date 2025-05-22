@@ -9,7 +9,6 @@ import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-@SuppressWarnings("serial")
 public class Buscar extends CustomTextField {
     private static final Paleta paleta = new Paleta();
     private static final Color colorFondo = paleta.getColorCasillaTabla();

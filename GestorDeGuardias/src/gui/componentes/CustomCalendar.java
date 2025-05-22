@@ -229,7 +229,7 @@ public class CustomCalendar extends JPanel {
     }
 }
 
-@SuppressWarnings("serial")
+
 class botonRed extends JButton {
     private final Paleta paleta = new Paleta();
     private final Font fuente = new Font("Arial", Font.BOLD, 16); // Aumentar el tamaño de la fuente

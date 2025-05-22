@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.geom.Path2D;
 
 
-@SuppressWarnings("serial")
 public class CuadroRectoAbajo extends Cuadro {
     public CuadroRectoAbajo(Dimension dimension, int redondez, Color color) {
         super(dimension, redondez, color);

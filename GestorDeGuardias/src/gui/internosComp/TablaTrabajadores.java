@@ -2,7 +2,6 @@ package gui.internosComp;
 
 import gui.auxiliares.CustomTablaComplex;
 import rdb.entity.Persona;
-import rdb.entity.Trabajador;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,12 +13,12 @@ public class TablaTrabajadores extends CustomTablaComplex {
     public void revalidarTabla(ArrayList<Persona> personas) {
         modelo.setRowCount(0);
         for (Persona e : personas) {
-            if (e instanceof Trabajador) {
+            if (e.getTipo().equalsIgnoreCase("trabajador")) {
                 String[] aux = new String[7];
                 aux[0] = e.getCi();
                 aux[1] = e.getApellidos();
                 aux[2] = e.getNombre();
-                aux[3] = e.getSexo().name();
+                aux[3] = e.getSexo();
                 aux[4] = e.getDisponibilidadParaFecha(LocalDate.now()).name();
                 aux[5] = Integer.toString(9);
 

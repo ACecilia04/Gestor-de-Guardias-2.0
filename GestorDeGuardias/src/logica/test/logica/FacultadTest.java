@@ -4,7 +4,6 @@ import logica.Facultad;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 import org.junit.Test;
-import rdb.entity.Sexo;
 
 import java.time.LocalDate;
 

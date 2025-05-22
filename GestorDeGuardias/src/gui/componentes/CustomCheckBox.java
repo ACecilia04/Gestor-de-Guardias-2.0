@@ -3,7 +3,6 @@ package gui.componentes;
 import javax.swing.*;
 import java.awt.*;
 
-@SuppressWarnings("serial")
 public class CustomCheckBox extends JCheckBox {
 
     private final int border = 4;
@@ -55,21 +54,21 @@ public class CustomCheckBox extends JCheckBox {
         setSize(x2);
     }
 
-    public Color getColorSelec() {
-        return colorSelec;
-    }
-
-    public void setColorSelec(Color colorSelec) {
-        this.colorSelec = colorSelec;
-    }
-
-    public Color getColorBorde() {
-        return colorBorde;
-    }
-
-    public void setColorBorde(Color colorBorde) {
-        this.colorBorde = colorBorde;
-    }
+//    public Color getColorSelec() {
+//        return colorSelec;
+//    }
+//
+//    public void setColorSelec(Color colorSelec) {
+//        this.colorSelec = colorSelec;
+//    }
+//
+//    public Color getColorBorde() {
+//        return colorBorde;
+//    }
+//
+//    public void setColorBorde(Color colorBorde) {
+//        this.colorBorde = colorBorde;
+//    }
 
 
 }

@@ -16,15 +16,11 @@ public class PanelInterno extends Cuadro {
     private static final Color colorLetraCasual = paleta.getColorLetraMenu();
     private static final Color colorLetraHoy = Color.WHITE;
     private final LocalDate fechaInicio;
-    private final int espacioX = 20;
-    private final int espacioY = 20;
 
     private final Etiqueta titulo;
     private final Etiqueta titulo2;
 
-    private final Color colorLetra;
     private final Color colorFondo;
-    private final Font fuente = new Font("Arial", Font.BOLD, 16);
 
     private boolean seleccionado = false;
 
@@ -37,6 +33,7 @@ public class PanelInterno extends Cuadro {
         setLayout(null);
         this.fechaInicio = fechaInicial;
 
+        Color colorLetra;
         if (fechaInicial.getMonth() == LocalDate.now().getMonth() && fechaInicial.getYear() == LocalDate.now().getYear()) {
             colorFondo = colorHoy;
             colorLetra = colorLetraHoy;
@@ -49,7 +46,10 @@ public class PanelInterno extends Cuadro {
         this.setBackground(colorFondo);
 
         String string = fechaInicial.getMonth().name() + "  " + fechaInicial.getYear();
+        Font fuente = new Font("Arial", Font.BOLD, 16);
         titulo = new Etiqueta(fuente, colorLetra, string);
+        int espacioX = 20;
+        int espacioY = 20;
         titulo.setLocation(espacioX, espacioY);
 
 

@@ -9,9 +9,7 @@ import gui.pantallasEmergentes.PantallaLicenciasEstudiante;
 import logica.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import rdb.entity.Disponibilidad;
-import rdb.entity.Estudiante;
 import rdb.entity.Persona;
-import rdb.entity.Sexo;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -86,7 +84,7 @@ public class PantallaEstudiantes extends JPanel {
                         e1.printStackTrace();
                     }
                     ArrayList<Persona> personaUnica = new ArrayList<>();
-                    if (persona != null && persona instanceof Estudiante) {
+                    if (persona != null && persona.getTipo().equalsIgnoreCase("estudiante")) {
                         personaUnica.add(persona);
                     }
                     revalidarTabla(personaUnica);
@@ -114,7 +112,7 @@ public class PantallaEstudiantes extends JPanel {
                     e1.printStackTrace();
                 }
                 ArrayList<Persona> personaUnica = new ArrayList<>();
-                if (persona != null && persona instanceof Estudiante) {
+                if (persona != null && persona.getTipo().equalsIgnoreCase("estudiante")) {
                     personaUnica.add(persona);
                 }
                 revalidarTabla(personaUnica);
@@ -249,10 +247,10 @@ public class PantallaEstudiantes extends JPanel {
             if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckMasc().isSelected() && (e.getSexo() == 'm' || e.getSexo() == 'M') && selec) {
+            if (!tablaOpciones.getCheckMasc().isSelected() && e.getSexo().equalsIgnoreCase("masculino")&& selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckFem().isSelected() && (e.getSexo() == 'f' || e.getSexo() == 'F')  && selec) {
+            if (!tablaOpciones.getCheckFem().isSelected() && e.getSexo().equalsIgnoreCase("femenino")  && selec) {
                 selec = false;
             }
 
