@@ -8,21 +8,24 @@ import java.util.ArrayList;
 
 public class Persona implements Comparable<Persona> {
     private Long id;
-    private String ci;
     private String nombre;
-    private String apellidos;
+    private String apellido;
     private Character sexo;
-    private Tipo_Persona tipoPersona;
-
+    private String ci;
     protected LocalDate ultimaGuardiaHecha;
-    protected ArrayList<LocalDate> guardiasAsignadas;
-    protected int cantGuardiasRecuperacion = 0;
-    protected LocalDate fechaDeBaja;
+    private Tipo_Persona tipoPersona;
+    private int cantGuardiasRecuperacion = 0;
 
-    public Persona(String id, String nombre, String apellidos, char sexo, String tipo) {
+    private ArrayList<LocalDate> guardiasAsignadas;
+    private LocalDate fechaDeBaja;
+    private LocalDate fechaDeReincorporacion;
+
+
+
+    public Persona(String id, String nombre, String apellido, char sexo, String tipo) {
         setCi(id);
         setNombre(nombre);
-        setApellidos(apellidos);
+        setApellido(apellido);
         setSexo(sexo);
         setTipoPersona(new Tipo_Persona(tipo));
         guardiasAsignadas = new ArrayList<LocalDate>();
@@ -40,7 +43,7 @@ public class Persona implements Comparable<Persona> {
         return ci;
     }
 
-    private void setCi(String id) {
+    public void setCi(String id) {
         this.ci = id;
     }
 
@@ -48,16 +51,16 @@ public class Persona implements Comparable<Persona> {
         return nombre;
     }
 
-    private void setNombre(String nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    public String getApellidos() {
-        return apellidos;
+    public String getapellido() {
+        return apellido;
     }
 
-    private void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
     }
 
     public String getSexo() {
@@ -79,7 +82,7 @@ public class Persona implements Comparable<Persona> {
         if (ultimaGuardia == null)
             throw new EntradaInvalidaException("Fecha de �ltima guardia no especificada.");
         if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
-            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la ultima guardia hecha por " + this.getNombre() + this.getApellidos() + ".");
+            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la ultima guardia hecha por " + this.getNombre() + this.getapellido() + ".");
         }
         this.ultimaGuardiaHecha = ultimaGuardia;
     }
@@ -125,12 +128,12 @@ public class Persona implements Comparable<Persona> {
     }
 
     /**
-     * @return comparaci�n entre apellidos y si estos son iguales, compara los nombres
+     * @return comparaci�n entre apellido y si estos son iguales, compara los nombres
      */
     @Override
     public int compareTo(Persona persona) {
 
-        return getApellidos().equalsIgnoreCase(persona.getApellidos()) ? getNombre().compareTo(persona.getNombre()) : getApellidos().compareTo(persona.getApellidos());
+        return getapellido().equalsIgnoreCase(persona.getapellido()) ? getNombre().compareTo(persona.getNombre()) : getapellido().compareTo(persona.getapellido());
     }
 
     /**
