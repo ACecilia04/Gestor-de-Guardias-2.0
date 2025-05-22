@@ -72,7 +72,7 @@ public class PantallaTrabajadores extends JPanel {
                         e1.printStackTrace();
                     }
                     ArrayList<Persona> personaUnica = new ArrayList<>();
-                    if (persona != null && persona instanceof Estudiante) {
+                    if (persona != null && persona.getTipo().equalsIgnoreCase("estudiante")) {
                         personaUnica.add(persona);
                     }
                     revalidarTabla(personaUnica);
@@ -98,7 +98,7 @@ public class PantallaTrabajadores extends JPanel {
                 e1.printStackTrace();
             }
             ArrayList<Persona> personaUnica = new ArrayList<>();
-            if (persona != null && persona instanceof Estudiante) {
+            if (persona != null && persona.getTipo().equalsIgnoreCase("estudiante")) {
                 personaUnica.add(persona);
             }
             revalidarTabla(personaUnica);
@@ -154,7 +154,7 @@ public class PantallaTrabajadores extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String ID = tabla.getCarnet();
-                LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
+//                LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
                 try {
                     PantallaLicenciasTrabajador pantallaLic = new PantallaLicenciasTrabajador(Gestor.getInstance().getFacultad().buscarPersona(ID));
                     revalidarTabla();
@@ -170,7 +170,7 @@ public class PantallaTrabajadores extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String ID = tabla.getCarnet();
-                LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
+//                LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
                 try {
                     PantallaAddVolunt pantallaVolunt = new PantallaAddVolunt(Gestor.getInstance().getFacultad().buscarPersona(ID));
                     revalidarTabla();
@@ -244,10 +244,10 @@ public class PantallaTrabajadores extends JPanel {
             if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckMasc().isSelected() &&(e.getSexo() == 'm' || e.getSexo() == 'M')  && selec) {
+            if (!tablaOpciones.getCheckMasc().isSelected() &&e.getSexo().equalsIgnoreCase("masculino")  && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckFem().isSelected() && (e.getSexo() == 'f' || e.getSexo() == 'F')  && selec) {
+            if (!tablaOpciones.getCheckFem().isSelected() && e.getSexo().equalsIgnoreCase("femenino")  && selec) {
                 selec = false;
             }
 

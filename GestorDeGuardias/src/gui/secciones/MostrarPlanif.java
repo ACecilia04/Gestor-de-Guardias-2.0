@@ -16,17 +16,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class MostrarPlanif extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
     private static final int PANEL_WIDTH = 300;
     private static final int PANEL_HEIGHT = 200;
     private static final int HORIZONTAL_GAP = 30;
     private static final int VERTICAL_GAP = 20;
-    private static final Dimension tablaDim = new Dimension(1200, 745);
+//    private static final Dimension tablaDim = new Dimension(1200, 745);
     private final Paleta paleta = new Paleta();
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
     private final JPanel panelInterior;
@@ -133,15 +135,15 @@ public class MostrarPlanif extends JPanel {
 
     public void actualizarPlanif() {
         panelInterior.removeAll();
-        HashSet<String> mesesPlanificados = new HashSet<>();
+//        HashSet<String> mesesPlanificados = new HashSet<>();
 
         ArrayList<DiaGuardia> dias = Gestor.getInstance().getPlanDeGuardias();
         panelInterior.setLayout(layout);
 
         HashSet<String> mesesArchivables = new HashSet<>();
 
-        for (int i = 0; i < dias.size(); i++) {
-            LocalDate fechaAux = dias.get(i).getFecha();
+        for (DiaGuardia dia : dias) {
+            LocalDate fechaAux = dia.getFecha();
             int mesPlanif = fechaAux.getMonthValue();
             int annoPlanif = fechaAux.getYear();
             String claveMesAnno = annoPlanif + "-" + mesPlanif;
@@ -150,7 +152,7 @@ public class MostrarPlanif extends JPanel {
                 addPlanif(fechaAux);
             }
         }
-        if (paneles.size() == 0) {
+        if (paneles.isEmpty()) {
             panelInterior.setLayout(layout2);
             Etiqueta error = new Etiqueta(fuente, Color.GRAY, "No hay planificaciones");
             panelInterior.add(error);
@@ -172,16 +174,14 @@ public class MostrarPlanif extends JPanel {
                         panelOpciones.getBotonEditarPlanif().setSeleccionable(true);
                         panelOpciones.getBotonCrearPlanif().setSeleccionable(true);
                         panelOpciones.getBotonVerPlanif().setSeleccionable(true);
-                        repaint();
-                        revalidate();
                     } else {
                         panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
                         panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
                         panelOpciones.getBotonCrearPlanif().setSeleccionable(false);
                         panelOpciones.getBotonVerPlanif().setSeleccionable(false);
-                        repaint();
-                        revalidate();
                     }
+                    repaint();
+                    revalidate();
                 }
             });
         }

@@ -7,14 +7,13 @@ import gui.internosComp.PanelEdicion2;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.Serial;
 
 public class BarraSuperior extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
-
-    private final Paleta paleta = new Paleta();
-
-    private JPanel panelUsuario;
+//    private JPanel panelUsuario;
     private final JPanel panelOpciones;
     private final JPanel panelVacio;
     private final JPanel panelEdicion1;
@@ -25,6 +24,7 @@ public class BarraSuperior extends JPanel {
     public BarraSuperior(JPanel contenedor) {
         Dimension dim = new Dimension(contenedor.getSize().width, 85);
         setPreferredSize(new Dimension(dim));
+        Paleta paleta = new Paleta();
         setBackground(paleta.getColorFondoTabla());
         setLayout(new BorderLayout());
 

@@ -28,26 +28,23 @@ public class Persona implements Comparable<Persona> {
         guardiasAsignadas = new ArrayList<LocalDate>();
         ultimaGuardiaHecha = LocalDate.of(-999999999, 1, 1);
     }
-
-    public String getTipo(){
-        return tipo;
+    public Persona(){
+        super();
     }
-    private void setTipo(String tipo) {
-        if(tipo.equalsIgnoreCase("estudiante"))
-            this.tipo = "Estudiante";
-        else if ( tipo.equalsIgnoreCase("trabajador")) {
-            this.tipo = "Trabajador";
-        } else{
-           // TODO: throw exception
-        }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCi() {
         return ci;
     }
 
-    private void setCi(String id) {
+    public void setCi(String id) {
         this.ci = id;
     }
 
@@ -55,7 +52,7 @@ public class Persona implements Comparable<Persona> {
         return nombre;
     }
 
-    private void setNombre(String nombre) {
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -63,7 +60,7 @@ public class Persona implements Comparable<Persona> {
         return apellidos;
     }
 
-    private void setApellidos(String apellidos) {
+    public void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
 
@@ -74,7 +71,7 @@ public class Persona implements Comparable<Persona> {
             return "Masculino";
     }
 
-    private void setSexo(char sexo) {
+    public void setSexo(char sexo) {
         this.sexo = sexo;
     }
 
@@ -89,6 +86,20 @@ public class Persona implements Comparable<Persona> {
             throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la ultima guardia hecha por " + this.getNombre() + this.getApellidos() + ".");
         }
         this.ultimaGuardiaHecha = ultimaGuardia;
+    }
+
+    public String getTipo(){
+        return tipo;
+    }
+    private void setTipo(String tipo) {
+        if(tipo.equalsIgnoreCase("estudiante"))
+            this.tipo = "Estudiante";
+        else if ( tipo.equalsIgnoreCase("trabajador")) {
+            this.tipo = "Trabajador";
+        } else{
+            // TODO: throw exception
+        }
+
     }
 
     public int getDiasDesdeUltimaGuardiaHecha(LocalDate fecha) throws EntradaInvalidaException {

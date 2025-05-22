@@ -9,8 +9,10 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 
 public class Menu extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final Paleta paleta;
