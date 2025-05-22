@@ -23,16 +23,12 @@ public class PanelOpcionesMostrarP extends JPanel {
     private final Boton botonBorrarPlanif;
     private final Boton botonEditarPlanif;
     private final Boton botonCrearPlanif;
-
-
-    private Buscar buscar;
-    private Dimension dimBoton = new Dimension(200, 35);
-
     private final int separacion = 10;
     private final int x = 20;
     private final int y = separacion + 10;
-
     private final Font fuente = new Font("Arial", Font.PLAIN, 17);
+    private Buscar buscar;
+    private Dimension dimBoton = new Dimension(200, 35);
 
     public PanelOpcionesMostrarP(Dimension dim) {
         setPreferredSize(dim);

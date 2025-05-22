@@ -15,10 +15,10 @@ public class TablaEstudiantes extends CustomTablaComplex {
     public void revalidarTabla(ArrayList<Persona> personas) {
         modelo.setRowCount(0);
         for (Persona e : personas) {
-            if (e.getTipo().equalsIgnoreCase("estudiante")) {
+            if (e.getTipo().equals("estudiante")) {
                 String[] aux = new String[6];
-                aux[0] = e.getCi();
-                aux[1] = e.getApellidos();
+                aux[0] = e.getCarnet();
+                aux[1] = e.getApellido();
                 aux[2] = e.getNombre();
                 aux[3] = e.getSexo();
                 aux[4] = e.getDisponibilidadParaFecha(LocalDate.now()).name();

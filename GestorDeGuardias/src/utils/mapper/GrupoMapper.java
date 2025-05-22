@@ -1,7 +1,7 @@
 package utils.mapper;
 
-import utils.abstracts.RowMapper;
 import model.Grupo;
+import utils.abstracts.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

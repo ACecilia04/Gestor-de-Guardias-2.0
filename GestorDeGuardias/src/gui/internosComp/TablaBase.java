@@ -19,11 +19,6 @@ public class TablaBase extends Cuadro implements IsTabla {
     private static final long serialVersionUID = 1L;
 
     private static final int redondez = 0;
-    //Secciones
-    CuadroRectoAbajo titulo;
-    JPanel panelCasillas;
-    Cuadro myself;
-    ArrayList<DiaGuardia> dias;
     private final Paleta paleta = new Paleta();
     //Tamanos
     private final int tituloLargo = 67;
@@ -31,6 +26,11 @@ public class TablaBase extends Cuadro implements IsTabla {
     private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
     private final Font fuente = new Font("Arial", Font.BOLD, 16);
+    //Secciones
+    CuadroRectoAbajo titulo;
+    JPanel panelCasillas;
+    Cuadro myself;
+    ArrayList<DiaGuardia> dias;
 
     public TablaBase(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias) {
         super(dimension, redondez, color);

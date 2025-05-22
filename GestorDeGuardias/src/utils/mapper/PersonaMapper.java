@@ -1,7 +1,7 @@
 package utils.mapper;
 
-import utils.abstracts.RowMapper;
 import model.Persona;
+import utils.abstracts.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,7 +13,7 @@ public class PersonaMapper implements RowMapper<PersonaMapper> {
 
         Persona retVal = new Persona();
 
-        retVal.setCi(rs.getString("carnet"));
+        retVal.setCarnet(rs.getString("carnet"));
         retVal.setId(rs.getLong("id"));
         retVal.setNombre(rs.getString("nombre"));
         retVal.setApellidos(rs.getString("apellido"));

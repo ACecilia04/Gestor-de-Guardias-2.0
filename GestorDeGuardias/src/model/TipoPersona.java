@@ -1,37 +1,36 @@
 package model;
 
 public class TipoPersona {
-    private String tipo;
+    private final String nombre;
 
     public TipoPersona(String tipo) {
         if (tipo.equalsIgnoreCase("estudiante")) {
-            this.tipo = "Estudiante";
+            this.nombre = "Estudiante";
         } else if (tipo.equalsIgnoreCase("trabajador")) {
-            this.tipo = "Trabajador";
+            this.nombre = "Trabajador";
         } else {
             throw new IllegalArgumentException("Tipo de persona no válido: " + tipo);
         }
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getNombre() {
+        return nombre;
     }
 
     @Override
     public String toString() {
-        return tipo;
+        return nombre;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof TipoPersona)) return false;
-        TipoPersona that = (TipoPersona) o;
-        return tipo.equalsIgnoreCase(that.tipo);
+    public boolean equals(String tipo) {
+        if (tipo == null || tipo.trim().isEmpty()) {
+            return false;
+        }
+        return nombre.equalsIgnoreCase(tipo);
     }
 
     @Override
     public int hashCode() {
-        return tipo.toLowerCase().hashCode();
+        return nombre.toLowerCase().hashCode();
     }
 }

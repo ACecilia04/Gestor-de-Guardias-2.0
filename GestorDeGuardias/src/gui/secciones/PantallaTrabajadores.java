@@ -6,11 +6,10 @@ import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesTrabajador;
 import gui.pantallasEmergentes.Advertencia;
 import gui.pantallasEmergentes.PantallaAddVolunt;
-import gui.pantallasEmergentes.PantallaLicenciasTrabajador;
-import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import model.Disponibilidad;
 import model.Persona;
+import services.Gestor;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -30,12 +29,10 @@ public class PantallaTrabajadores extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private final JPanel contentPane;
-    private CustomTablaComplex tabla;
-
     private final PanelOpcionesTrabajador tablaOpciones;
     private final int opcionesAncho = 300;
-
     private final int margen = 25;
+    private CustomTablaComplex tabla;
 
     public PantallaTrabajadores() {
         this.setLayout(new BorderLayout());
@@ -72,7 +69,7 @@ public class PantallaTrabajadores extends JPanel {
                         e1.printStackTrace();
                     }
                     ArrayList<Persona> personaUnica = new ArrayList<>();
-                    if (persona != null && persona.getTipo().equalsIgnoreCase("estudiante")) {
+                    if (persona != null && persona.getTipo().equals("estudiante")) {
                         personaUnica.add(persona);
                     }
                     revalidarTabla(personaUnica);
@@ -98,7 +95,7 @@ public class PantallaTrabajadores extends JPanel {
                 e1.printStackTrace();
             }
             ArrayList<Persona> personaUnica = new ArrayList<>();
-            if (persona != null && persona.getTipo().equalsIgnoreCase("estudiante")) {
+            if (persona != null && persona.getTipo().equals("estudiante")) {
                 personaUnica.add(persona);
             }
             revalidarTabla(personaUnica);
@@ -155,13 +152,13 @@ public class PantallaTrabajadores extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String ID = tabla.getCarnet();
 //                LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
-                try {
-                    PantallaLicenciasTrabajador pantallaLic = new PantallaLicenciasTrabajador(Gestor.getInstance().getFacultad().buscarPersona(ID));
-                    revalidarTabla();
-                } catch (EntradaInvalidaException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
+//                try {
+////                    PantallaLicenciasTrabajador pantallaLic = new PantallaLicenciasTrabajador(Gestor.getInstance().getFacultad().buscarPersona(ID));
+//                    revalidarTabla();
+//                } catch (EntradaInvalidaException e1) {
+//                    // TODO Auto-generated catch block
+//                    e1.printStackTrace();
+//                }
 
             }
         });
@@ -244,10 +241,10 @@ public class PantallaTrabajadores extends JPanel {
             if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckMasc().isSelected() &&e.getSexo().equalsIgnoreCase("masculino")  && selec) {
+            if (!tablaOpciones.getCheckMasc().isSelected() && e.getSexo().equalsIgnoreCase("masculino") && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckFem().isSelected() && e.getSexo().equalsIgnoreCase("femenino")  && selec) {
+            if (!tablaOpciones.getCheckFem().isSelected() && e.getSexo().equalsIgnoreCase("femenino") && selec) {
                 selec = false;
             }
 

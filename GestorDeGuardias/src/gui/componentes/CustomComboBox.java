@@ -14,17 +14,14 @@ import java.util.List;
 public class CustomComboBox extends Cuadro {
     private final Boton botSel;
     private final Etiqueta info;
-    private CustomPopupMenu popupMenu;
     private final int separacion = 20;
     private final int separacionBoton = 10;
     private final Cuadro myself;
-    private String[] opciones;
-
     private final String titulo;
-
-    private String textoNulo = "NONE";
-
     private final List<ComboBoxSelectionListener> selectionListeners;
+    private CustomPopupMenu popupMenu;
+    private String[] opciones;
+    private String textoNulo = "NONE";
 
     public CustomComboBox(final String[] opc, String titulo, Dimension dimension, int redondez, Color color) {
         super(dimension, redondez, color);

@@ -17,10 +17,10 @@ import java.io.Serial;
 public class AddPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-    private static Dimension tablaDim = new Dimension(1200, 745);
-    int x;
+    private static final Dimension tablaDim = new Dimension(1200, 745);
     private final JPanel contentPane;
-    private TablaOpcionesPlanif tablaOpciones;
+    int x;
+    private final TablaOpcionesPlanif tablaOpciones;
     private Tabla tabla;
 
 

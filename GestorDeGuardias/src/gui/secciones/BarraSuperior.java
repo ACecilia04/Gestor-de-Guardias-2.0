@@ -13,7 +13,7 @@ public class BarraSuperior extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
 
-//    private JPanel panelUsuario;
+    //    private JPanel panelUsuario;
     private final JPanel panelOpciones;
     private final JPanel panelVacio;
     private final JPanel panelEdicion1;

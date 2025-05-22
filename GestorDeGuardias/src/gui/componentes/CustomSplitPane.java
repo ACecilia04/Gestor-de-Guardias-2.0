@@ -10,9 +10,8 @@ import java.awt.*;
 @SuppressWarnings("serial")
 public class CustomSplitPane extends JSplitPane {
     private final Paleta paleta = new Paleta();
-
-    private Color colorLineaDivisoria = paleta.getColorBorde();
     private final int grosor = 5;
+    private Color colorLineaDivisoria = paleta.getColorBorde();
 
     public CustomSplitPane(JComponent topComponent, JComponent bottomComponent, int x) {
         super(x);

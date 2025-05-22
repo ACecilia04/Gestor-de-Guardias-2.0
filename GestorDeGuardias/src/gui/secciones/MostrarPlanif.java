@@ -7,8 +7,8 @@ import gui.componentes.Etiqueta;
 import gui.internosComp.PanelOpcionesMostrarP;
 import gui.internosComp.TablaBase;
 import gui.pantallasEmergentes.Advertencia;
-import services.Gestor;
 import model.DiaGuardia;
+import services.Gestor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +28,7 @@ public class MostrarPlanif extends JPanel {
     private static final int PANEL_HEIGHT = 200;
     private static final int HORIZONTAL_GAP = 30;
     private static final int VERTICAL_GAP = 20;
-//    private static final Dimension tablaDim = new Dimension(1200, 745);
+    //    private static final Dimension tablaDim = new Dimension(1200, 745);
     private final Paleta paleta = new Paleta();
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
     private final JPanel panelInterior;

@@ -31,30 +31,22 @@ public class PanelOpcionesTrabajador extends JPanel {
 
     private final CustomCheckBox checkMasc;
     private final CustomCheckBox checkFem;
-
-    private CustomCalendar calendario;
-
-    private Boton botonBajaMini;
-    private Boton botonLic;
-    private Boton botonLic2;
     private final Boton botonVolunt;
     private final Boton botonEliminar;
     private final Boton botonLicencia;
     private final Boton botonBaja;
-
     private final String iconoVolver = "/iconos/FlechaAtras.png";
-
-
     private final Buscar buscar;
     private final Boton botonAddTrab;
-
-
     private final int separacion = 10;
     private final int x = 20;
-    private int y = separacion + 10;
-
     private final Font fuente = new Font("Arial", Font.PLAIN, 17);
     private final Font fuente2 = new Font("Arial", Font.BOLD, 17);
+    private CustomCalendar calendario;
+    private Boton botonBajaMini;
+    private Boton botonLic;
+    private Boton botonLic2;
+    private int y = separacion + 10;
 
     public PanelOpcionesTrabajador(Dimension dim) {
         setPreferredSize(dim);

@@ -20,19 +20,17 @@ public class CustomPasswordField extends Cuadro {
     private final Cuadro myself;
     private final JPasswordField textField;
     private final Boton toggleButton;
-    //Booleanos
-    private boolean isPasswordVisible = false; // Estado de visibilidad
     private final Font fuente = new Font("Arial", Font.PLAIN, 17);
     //Iconos
     private final String iconoVisible = "/iconos/Invisible.png";
     private final String iconoInvisible = "/iconos/Visible.png";
-
-    //Colores
-    private Color colorFondo;
     private final Color colorSelec = Color.ORANGE;
-
     private final Color colorLetra = Color.BLACK;
     private final Color colorLetraPres = Color.WHITE;
+    //Booleanos
+    private boolean isPasswordVisible = false; // Estado de visibilidad
+    //Colores
+    private final Color colorFondo;
 
 
     public CustomPasswordField(Dimension dim, final String texto, int redondez, int maxCaracteres, Color color) {

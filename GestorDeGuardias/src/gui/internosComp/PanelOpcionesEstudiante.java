@@ -31,28 +31,20 @@ public class PanelOpcionesEstudiante extends JPanel {
 
     private final CustomCheckBox checkMasc;
     private final CustomCheckBox checkFem;
-
-    private Boton botonBajaMini;
     private final Boton botonEliminar;
     private final Boton botonLicencia;
     private final Boton botonBaja;
-
     private final String iconoVolver = "/iconos/FlechaAtras.png";
-
-
     private final Buscar buscar;
     private final Boton botonAddTrab;
-
-
-    private JPanel panelCalendar;
-    private CustomCalendar calendario;
-
     private final int separacion = 10;
     private final int x = 20;
-    private int y = separacion + 10;
-
     private final Font fuente = new Font("Arial", Font.PLAIN, 17);
     private final Font fuente2 = new Font("Arial", Font.BOLD, 17);
+    private Boton botonBajaMini;
+    private JPanel panelCalendar;
+    private CustomCalendar calendario;
+    private int y = separacion + 10;
 
     public PanelOpcionesEstudiante(Dimension dim) {
         setPreferredSize(dim);

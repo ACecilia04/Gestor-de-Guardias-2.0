@@ -14,49 +14,39 @@ import java.awt.image.BufferedImage;
 
 public class Boton extends JPanel implements Actualizable {
     private final Paleta paleta = new Paleta();
-
-    //Accion
-    private ActionListener actionListener;
-    private MouseAdapter adaptador;
-
-    //Imprimir
-    private int redondez = Cuadro.redBAJA;
-
     //Componentes
     private final JLabel etiqueta = new JLabel();
-    private String textoLabel;
-
-    //Tipo
-    private boolean selecLetra = false;
-    private boolean seleccionable = true;
-
-    private boolean bordeado = false;
     private final int grosorBorde = 3;
-    private Color colorBordeado = paleta.getColorCaracteristico();
-
-    //Color
-    private Color colorFondo;
-    private Color colorPresionado;
-
-    private Color colorIcono;
-    private Color colorIconoPres = paleta.getColorCaracteristico();
-
-    private Color colorLetra = paleta.getColorLetraMenu();
-    private Color colorLetraPres = paleta.getColorLetraSelec();
-
     //Color cuando Bloqueado
     private final Color colorFondoBlock = paleta.getColorCasillaTabla();
     private final Color colorIconoBlock = Color.GRAY;
     private final Color colorLetraBlock = Color.GRAY;
-
+    //Accion
+    private ActionListener actionListener;
+    private MouseAdapter adaptador;
+    //Imprimir
+    private int redondez = Cuadro.redBAJA;
+    private final String textoLabel;
+    //Tipo
+    private boolean selecLetra = false;
+    private boolean seleccionable = true;
+    private boolean bordeado = false;
+    private Color colorBordeado = paleta.getColorCaracteristico();
+    //Color
+    private Color colorFondo;
+    private Color colorPresionado;
+    private Color colorIcono;
+    private Color colorIconoPres = paleta.getColorCaracteristico();
+    private Color colorLetra = paleta.getColorLetraMenu();
+    private Color colorLetraPres = paleta.getColorLetraSelec();
     //Aux
-    private int distanciaX = 2, distanciaY = 2;
+    private final int distanciaX = 2;
+    private final int distanciaY = 2;
     private boolean select = false;
 
 
     /**
      * Este es para Botones simples
-     *
      */
     public Boton(String texto) {
         textoLabel = texto;
@@ -132,7 +122,7 @@ public class Boton extends JPanel implements Actualizable {
 
     /**
      * Icono a la izquierda
-     * */
+     */
     public void addIcono(String rutaImagen) {
         ImageIcon icono = new ImageIcon(getClass().getResource(rutaImagen));
         etiqueta.setIcon(icono);
@@ -166,8 +156,8 @@ public class Boton extends JPanel implements Actualizable {
             colorPresionado = colorFondo.darker();
             setBackground(colorFondo);
         }
-        if(cont != null)
-             setBackground(cont.getBackground());
+        if (cont != null)
+            setBackground(cont.getBackground());
 
     }
 
@@ -313,42 +303,42 @@ public class Boton extends JPanel implements Actualizable {
         etiqueta.setIconTextGap(x);
     }
 
-//    public Color getColorLetraPres() {
-//        return colorLetraPres;
-//    }
-//
-//    public void setColorLetraPres(Color colorLetraPres) {
-//        this.colorLetraPres = colorLetraPres;
-//    }
-//
-//    public Color getColorBordeado() {
-//        return colorBordeado;
-//    }
-//
-//    public void setColorBordeado(Color colorBordeado) {
-//        this.colorBordeado = colorBordeado;
-//    }
-//
-//    public Color getColorPresionado() {
-//        return colorPresionado;
-//    }
+    public Color getColorLetraPres() {
+        return colorLetraPres;
+    }
+
+    public void setColorLetraPres(Color colorLetraPres) {
+        this.colorLetraPres = colorLetraPres;
+    }
+
+    public Color getColorBordeado() {
+        return colorBordeado;
+    }
+
+    public void setColorBordeado(Color colorBordeado) {
+        this.colorBordeado = colorBordeado;
+    }
+
+    public Color getColorPresionado() {
+        return colorPresionado;
+    }
 
     public void setColorPresionado(Color colorPresionado) {
         colorFondo = paleta.getColorFondo();
         this.colorPresionado = colorPresionado;
     }
 
-//    public boolean isBordeado() {
-//        return bordeado;
-//    }
+    public boolean isBordeado() {
+        return bordeado;
+    }
 
     public void setBordeado(boolean bordeado) {
         this.bordeado = bordeado;
     }
 
-//    public Color getColorIcono() {
-//        return colorIcono;
-//    }
+    public Color getColorIcono() {
+        return colorIcono;
+    }
 
     public void setColorIcono(Color colorIcono) {
         this.colorIcono = colorIcono;

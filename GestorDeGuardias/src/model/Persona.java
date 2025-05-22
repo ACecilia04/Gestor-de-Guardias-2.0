@@ -7,44 +7,35 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Persona implements Comparable<Persona> {
+    protected LocalDate ultimaGuardiaHecha;
     private Long id;
     private String nombre;
     private String apellido;
     private Character sexo;
-    private String ci;
-    protected LocalDate ultimaGuardiaHecha;
-    private Tipo_Persona tipoPersona;
-    private int cantGuardiasRecuperacion = 0;
-
+    private String carnet;
+    private int guardiasDeRecuperacion = 0;
+    private LocalDate baja;
+    private LocalDate reincorporacion;
+    private TipoPersona tipoPersona;
     private ArrayList<LocalDate> guardiasAsignadas;
-    private LocalDate fechaDeBaja;
-    private LocalDate fechaDeReincorporacion;
-
 
 
     public Persona(String id, String nombre, String apellido, char sexo, String tipo) {
-        setCi(id);
+        setCarnet(id);
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
-        setTipoPersona(new Tipo_Persona(tipo));
+        setTipoPersona(new TipoPersona(tipo));
         guardiasAsignadas = new ArrayList<LocalDate>();
         ultimaGuardiaHecha = LocalDate.of(-999999999, 1, 1);
     }
 
-    public Tipo_Persona getTipoPersona(){
-        return tipoPersona;
-    }
-    private void setTipoPersona(Tipo_Persona tipoPersona) {
-        this.tipoPersona = tipoPersona;
+    public Long getId() {
+        return id;
     }
 
-    public String getCi() {
-        return ci;
-    }
-
-    public void setCi(String id) {
-        this.ci = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -55,7 +46,7 @@ public class Persona implements Comparable<Persona> {
         this.nombre = nombre;
     }
 
-    public String getapellido() {
+    public String getApellido() {
         return apellido;
     }
 
@@ -64,14 +55,26 @@ public class Persona implements Comparable<Persona> {
     }
 
     public String getSexo() {
-        if(sexo == 'f')
+        if (sexo == 'f')
             return "Femenino";
         else
             return "Masculino";
     }
 
-    private void setSexo(char sexo) {
+    private void setSexo(Character sexo) {
         this.sexo = sexo;
+    }
+
+    public TipoPersona getTipo() {
+        return tipoPersona;
+    }
+
+    public String getCarnet() {
+        return carnet;
+    }
+
+    public void setCarnet(String id) {
+        this.carnet = id;
     }
 
     public LocalDate getUltimaGuardiaHecha() {
@@ -80,9 +83,9 @@ public class Persona implements Comparable<Persona> {
 
     public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) throws EntradaInvalidaException {
         if (ultimaGuardia == null)
-            throw new EntradaInvalidaException("Fecha de �ltima guardia no especificada.");
+            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
         if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
-            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la ultima guardia hecha por " + this.getNombre() + this.getapellido() + ".");
+            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la ultima guardia hecha por " + this.getNombre() + this.getApellido() + ".");
         }
         this.ultimaGuardiaHecha = ultimaGuardia;
     }
@@ -106,16 +109,44 @@ public class Persona implements Comparable<Persona> {
         return Math.abs((int) ChronoUnit.DAYS.between(fechaInicio, fecha));
     }
 
-    public int getCantGuardiasRecuperacion() {
-        return cantGuardiasRecuperacion;
+    public int getGuardiasDeRecuperacion() {
+        return guardiasDeRecuperacion;
     }
 
-    public void setCantGuardiasRecuperacion(int cant) {
-        this.cantGuardiasRecuperacion += cant;
+    public void setGuardiasDeRecuperacion(int cant) {
+        this.guardiasDeRecuperacion += cant;
     }
 
-    public LocalDate getFechaDeBaja() {
-        return fechaDeBaja;
+    public LocalDate getBaja() {
+        return baja;
+    }
+
+    public void setBaja(LocalDate fecha) {
+        this.baja = fecha;
+    }
+
+    public LocalDate getReincorporacion() {
+        return reincorporacion;
+    }
+
+    public void setReincorporacion(LocalDate reincorporacion) {
+        this.reincorporacion = reincorporacion;
+    }
+
+    public TipoPersona getTipoPersona() {
+        return tipoPersona;
+    }
+
+    public void setTipoPersona(TipoPersona tipoPersona) {
+        this.tipoPersona = tipoPersona;
+    }
+
+    public ArrayList<LocalDate> getGuardiasAsignadas() {
+        return guardiasAsignadas;
+    }
+
+    public void setGuardiasAsignadas(ArrayList<LocalDate> guardiasAsignadas) {
+        this.guardiasAsignadas = guardiasAsignadas;
     }
 
     /**
@@ -124,7 +155,7 @@ public class Persona implements Comparable<Persona> {
      */
     @Override
     public boolean equals(Object persona) {
-        return ((Persona) persona).getCi().equals(getCi());
+        return ((Persona) persona).getCarnet().equals(getCarnet());
     }
 
     /**
@@ -133,7 +164,7 @@ public class Persona implements Comparable<Persona> {
     @Override
     public int compareTo(Persona persona) {
 
-        return getapellido().equalsIgnoreCase(persona.getapellido()) ? getNombre().compareTo(persona.getNombre()) : getapellido().compareTo(persona.getapellido());
+        return getApellido().equalsIgnoreCase(persona.getApellido()) ? getNombre().compareTo(persona.getNombre()) : getApellido().compareTo(persona.getApellido());
     }
 
     /**
@@ -145,7 +176,7 @@ public class Persona implements Comparable<Persona> {
         Disponibilidad disponibilidad;
         boolean licenciaRelevanteEncontrada = false;
 
-        if ((fechaDeBaja == null || fechaDeBaja.isAfter(fecha)) && !licenciaRelevanteEncontrada) {
+        if ((baja == null || baja.isAfter(fecha)) && !licenciaRelevanteEncontrada) {
             disponibilidad = Disponibilidad.DISPONIBLE;
         } else {
             disponibilidad = Disponibilidad.BAJA;
@@ -154,16 +185,16 @@ public class Persona implements Comparable<Persona> {
     }
 
     public void darBaja(LocalDate fecha) {
-        if (!fecha.isBefore(LocalDate.now()) && fechaDeBaja == null) {
-            fechaDeBaja = fecha;
+        if (!fecha.isBefore(LocalDate.now()) && baja == null) {
+            baja = fecha;
         }
     }
 
     public void deshacerBaja() throws EntradaInvalidaException {
-        if (fechaDeBaja == null)
+        if (baja == null)
             throw new EntradaInvalidaException("Esta persona no tiene fecha de baja registrada.");
         else
-            fechaDeBaja = null;
+            baja = null;
     }
 
     public void annadirGuardiaAsignada(LocalDate fecha) {

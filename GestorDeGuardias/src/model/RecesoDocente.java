@@ -5,13 +5,11 @@ import java.time.LocalDate;
 public class RecesoDocente implements Comparable<RecesoDocente> {
     private LocalDate inicio;
     private LocalDate fin;
-    private String nombre;
 
 
-    public RecesoDocente(LocalDate fechaIncio, LocalDate fechaFin, String nombre) {
+    public RecesoDocente(LocalDate fechaIncio, LocalDate fechaFin) {
         setInicio(fechaIncio);
         setFin(fechaFin);
-        setNombre(nombre);
     }
 
     public LocalDate getInicio() {
@@ -28,14 +26,6 @@ public class RecesoDocente implements Comparable<RecesoDocente> {
 
     public void setFin(LocalDate fechaFin) {
         this.fin = fechaFin;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     /**

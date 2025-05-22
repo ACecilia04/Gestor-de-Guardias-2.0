@@ -13,28 +13,24 @@ import java.util.ArrayList;
 
 public class TablaOpcionesPlanif extends JPanel {
     private static final long serialVersionUID = 1L;
-
-    Paleta paleta = new Paleta();
-
     private final JPanel superior;
-//    private final int separacion = 10;
-
     private final CustomSplitPane splitPane;
-//    private CustomSplitPane splitPaneInterno;
+//    private final int separacion = 10;
+    //    private CustomSplitPane splitPaneInterno;
 //    private JPanel panel1;
     private final JPanel panel2;
     private final JPanel panel3;
     private final JPanel panel4;
+    private final CustomTabla tablaSelec;
 //    private final int x = 40;
 //    private final int y = separacion + 10;
-
-    private final CustomTabla tablaSelec;
     private final Boton botonAddPersona;
     private final Boton guardar;
     private final Boton botonAut;
+    Paleta paleta = new Paleta();
 
 
- //   private final Font fuente = new Font("Arial", Font.PLAIN, 17);
+    //   private final Font fuente = new Font("Arial", Font.PLAIN, 17);
 
     public TablaOpcionesPlanif(Dimension dimension) {
         setPreferredSize(dimension);

@@ -7,10 +7,10 @@ import gui.componentes.Boton;
 import gui.componentes.Buscar;
 import gui.internosComp.PanelTurno;
 import gui.secciones.Ventana;
-import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 import model.Persona;
+import services.Gestor;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -37,14 +37,12 @@ public class PantallaSelecPersona extends JDialog {
     private final Dimension dimOpc = new Dimension(280, 100);
 
     private final CustomTablaComplex tabla;
-    private Buscar buscar;
     private final Font fuente = new Font("Arial", Font.PLAIN, 17);
-
     private final ArrayList<Persona> personas;
-
     private final Boton boton1;
-    private String IDselec;
     private final ArrayList<Actualizable> actualizables;
+    private Buscar buscar;
+    private String IDselec;
 
     public PantallaSelecPersona(final CustomTablaComplex tabla, final ArrayList<Persona> personas, final PanelTurno turno) {
         super(Ventana.getInstance(), "JDialog", true);
@@ -179,7 +177,7 @@ public class PantallaSelecPersona extends JDialog {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
-                    if (persona != null && persona instanceof Estudiante) {
+                    if (persona != null && persona.getTipo().equals("estudiante")) {
                         revalidarTabla(persona);
                     }
 
@@ -208,7 +206,7 @@ public class PantallaSelecPersona extends JDialog {
                     e1.printStackTrace();
                 }
                 ArrayList<Persona> personaUnica = new ArrayList<>();
-                if (persona != null && persona instanceof Estudiante) {
+                if (persona != null && persona.getTipo().equals("estudiante")) {
                     personaUnica.add(persona);
                 }
                 revalidarTabla();

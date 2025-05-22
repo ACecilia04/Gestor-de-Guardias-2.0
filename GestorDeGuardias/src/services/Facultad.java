@@ -2,7 +2,9 @@ package services;
 
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import model.*;
+import model.Disponibilidad;
+import model.Persona;
+import model.RecesoDocente;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,19 +32,19 @@ public class Facultad {
     public ArrayList<Persona> getEstudiantes() {
         ArrayList<Persona> estudiantes = new ArrayList<>();
 
-        for (Persona e : personas)
-            if (e instanceof Estudiante)
-                estudiantes.add(e);
+//        for (Persona e : personas)
+//            if (e instanceof Estudiante)
+//                estudiantes.add(e);
 
         return estudiantes;
     }
 
     public ArrayList<Persona> getTrabajadores() {
         ArrayList<Persona> trabajadores = new ArrayList<>();
-
-        for (Persona e : personas)
-            if (e instanceof Trabajador)
-                trabajadores.add(e);
+//
+//        for (Persona e : personas)
+//            if (e instanceof Trabajador)
+//                trabajadores.add(e);
 
         return trabajadores;
     }
@@ -183,7 +185,7 @@ public class Facultad {
         if (!stringEsValido(ci))
             throw new EntradaInvalidaException("ci de identidad no especificado.");
         for (int i = 0; i < personas.size() && !encontrada; i++) {
-            if (personas.get(i).getCi().equals(ci)) {
+            if (personas.get(i).getCarnet().equals(ci)) {
                 indicada = personas.get(i);
                 encontrada = true;
             }
@@ -193,7 +195,7 @@ public class Facultad {
 
     /**
      * Dado una fecha busca el receso docente correspondiente
-     ** @return
+     * * @return
      */
     public RecesoDocente buscarRecesoDocente(LocalDate fecha) throws EntradaInvalidaException {
         RecesoDocente indicado = null;
@@ -221,7 +223,7 @@ public class Facultad {
      * @param sexo      sexo de la persona
      * @return lista de errores
      */
-    private ArrayList<String> validarPersona(String ci, String nombre, String apellidos, Sexo sexo) {
+    private ArrayList<String> validarPersona(String ci, String nombre, String apellidos, Character sexo) {
         ArrayList<String> errores = new ArrayList<String>();
         boolean carneIdentidadValido = true;
         if (!stringEsValido(ci)) {
@@ -274,7 +276,7 @@ public class Facultad {
             errores.add("Apellido no especificado.");
         if (sexo == null)
             errores.add("Sexo no especificado.");
-        else if (carneIdentidadValido && ((Integer.parseInt(ci.substring(9, 10)) % 2 == 0 && sexo != Sexo.MASCULINO) || (Integer.parseInt(ci.substring(9, 10)) % 2 != 0 && sexo != Sexo.FEMENINO)))
+        else if (carneIdentidadValido && ((Integer.parseInt(ci.substring(9, 10)) % 2 == 0 && sexo != 'm') || (Integer.parseInt(ci.substring(9, 10)) % 2 != 0 && sexo != 'f')))
             errores.add("Sexo seleccionado no coincide con la informaci�n del ci de identidad.");
 
         return errores;
@@ -291,7 +293,7 @@ public class Facultad {
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    private void validarEstudiante(String ci, String nombre, String apellidos, Sexo sexo) throws EntradaInvalidaException, MultiplesErroresException {
+    private void validarEstudiante(String ci, String nombre, String apellidos, Character sexo) throws EntradaInvalidaException, MultiplesErroresException {
         ArrayList<String> errores = validarPersona(ci, nombre, apellidos, sexo);
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Estudiante con datos err�neos: ", errores);
@@ -303,14 +305,14 @@ public class Facultad {
      * Valida datos de un trabajador con ayuda de validarPersona(String, String,
      * String, Sexo)
      *
-     * @param ci           ci de identidad del trabajador
-     * @param nombre       nombre del trabajador
-     * @param apellidos    apellidos del trabajador
-     * @param sexo         sexo del trabajador
+     * @param ci        ci de identidad del trabajador
+     * @param nombre    nombre del trabajador
+     * @param apellidos apellidos del trabajador
+     * @param sexo      sexo del trabajador
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    private void validarTrabajador(String ci, String nombre, String apellidos, Sexo sexo) throws EntradaInvalidaException, MultiplesErroresException {
+    private void validarTrabajador(String ci, String nombre, String apellidos, Character sexo) throws EntradaInvalidaException, MultiplesErroresException {
         ArrayList<String> errores = validarPersona(ci, nombre, apellidos, sexo);
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Trabajador con datos err�neos: ", errores);
@@ -321,7 +323,7 @@ public class Facultad {
     /**
      * * Colecciona lista de errores en datos al momento de dar baja a una
      * persona
-
+     *
      * @return lista de errores
      */
     private ArrayList<String> validarBaja(String ci, LocalDate fechaBaja) {
@@ -392,23 +394,13 @@ public class Facultad {
      *
      * @param inicio inicio del receso
      * @param fin    fin del receso
-     * @param nombre nombre del receso
      * @throws MultiplesErroresException si algun dato no es especificado
      * @throws EntradaInvalidaException
      */
-    private void validarRecesoDocente(LocalDate inicio, LocalDate fin, String nombre) throws MultiplesErroresException, EntradaInvalidaException {
+    private void validarRecesoDocente(LocalDate inicio, LocalDate fin) throws MultiplesErroresException, EntradaInvalidaException {
         ArrayList<String> errores = new ArrayList<String>();
         boolean nuevoRecesoSolapaOtro = false;
-        boolean nombreRepetido = false;
 
-        if (!stringEsValido(nombre))
-            errores.add("Nombre no especificado.");
-        else {
-            for (int i = 0; i < recesosDocentes.size() && !nombreRepetido; i++) {
-                if (recesosDocentes.get(i).getNombre().equalsIgnoreCase(nombre))
-                    errores.add("Ya existe un receso docente con ese nombre.");
-            }
-        }
         if (inicio == null)
             errores.add("Fecha de inicio no especificada.");
         if (fin == null)
@@ -437,17 +429,16 @@ public class Facultad {
      * A�ade un estudiante a la lista de personas de la facultad tomando en
      * conscieraci�n su ordenamiento alfab�tico
      *
-     * @param  ci        ci de identidad del estudiante
+     * @param ci        ci de identidad del estudiante
      * @param nombre    nombre del estudiante
      * @param apellidos apellidos del estudiante
      * @param sexo      sexo del estudiante
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    public void annadirEstudiante(String ci, String nombre, String apellidos, Sexo sexo) throws EntradaInvalidaException, MultiplesErroresException {
+    public void annadirEstudiante(String ci, String nombre, String apellidos, Character sexo) throws EntradaInvalidaException, MultiplesErroresException {
         validarEstudiante(ci, nombre, apellidos, sexo);
-        Estudiante estNuevo = new Estudiante(ci, nombre, apellidos, sexo);
-        personas.add(estNuevo);
+        personas.add(new Persona(ci, nombre, apellidos, sexo, "Estudiante"));
         Collections.sort(personas);
     }
 
@@ -455,17 +446,16 @@ public class Facultad {
      * A�ade un trabajador a la lista de personas de la facultad tomando en
      * consideraci�n su ordenamiento alfab�tico
      *
-     * @param ci          ci de identidad del trabajador
-     * @param nombre       nombre del trabajador
-     * @param apellidos    apellidos del trabajador
-     * @param sexo         sexo del trabajador
+     * @param ci        ci de identidad del trabajador
+     * @param nombre    nombre del trabajador
+     * @param apellidos apellidos del trabajador
+     * @param sexo      sexo del trabajador
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    public void annadirTrabajador(String ci, String nombre, String apellidos, Sexo sexo) throws EntradaInvalidaException, MultiplesErroresException {
+    public void annadirTrabajador(String ci, String nombre, String apellidos, Character sexo) throws EntradaInvalidaException, MultiplesErroresException {
         validarTrabajador(ci, nombre, apellidos, sexo);
-        Trabajador trbNuevo = new Trabajador(ci, nombre, apellidos, sexo);
-        personas.add(trbNuevo);
+        personas.add(new Persona(ci, nombre, apellidos, sexo, "Trabajador"));
         Collections.sort(personas);
     }
 
@@ -495,8 +485,8 @@ public class Facultad {
      * @throws EntradaInvalidaException
      */
     public void annadirRecesoDocente(LocalDate inicio, LocalDate fin, String nombre) throws MultiplesErroresException, EntradaInvalidaException {
-        validarRecesoDocente(inicio, fin, nombre);
-        RecesoDocente rd = new RecesoDocente(inicio, fin, nombre);
+        validarRecesoDocente(inicio, fin);
+        RecesoDocente rd = new RecesoDocente(inicio, fin);
         recesosDocentes.add(rd);
         Collections.sort(recesosDocentes);
     }
@@ -521,8 +511,8 @@ public class Facultad {
     /**
      * Pone fecha de baja a una persona dada
      *
-     * @param ci    ci de identidad de la persona
-     * @param fechaBaja  fecha de la baja
+     * @param ci        ci de identidad de la persona
+     * @param fechaBaja fecha de la baja
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
@@ -619,20 +609,20 @@ public class Facultad {
      * @throws EntradaInvalidaException
      * @throws MultiplesErroresException
      */
-    public void annadirFechaDeDisponibilidad(String id, LocalDate fecha) throws EntradaInvalidaException, MultiplesErroresException {
-        ArrayList<String> errores = new ArrayList<String>();
-        if (fecha == null)
-            throw new EntradaInvalidaException("Fecha no espeficicada.");
-        Persona persona = buscarPersona(id);
-        if (!(persona instanceof Trabajador))
-            errores.add("La persona que corresponde al ci dado no es un trabajador.");
-        if (!fechaEsRecesoDocente(fecha))
-            errores.add("Fecha no corresponde a ningún receso docente registrado.");
-        if (!errores.isEmpty())
-            throw new MultiplesErroresException("Datos erróneos: ", errores);
-
-        ((Trabajador) persona).annadirDiaDeDisponibilidad(fecha);
-    }
+//    public void annadirFechaDeDisponibilidad(String id, LocalDate fecha) throws EntradaInvalidaException, MultiplesErroresException {
+//        ArrayList<String> errores = new ArrayList<String>();
+//        if (fecha == null)
+//            throw new EntradaInvalidaException("Fecha no espeficicada.");
+//        Persona persona = buscarPersona(id);
+//        if (!(persona.getTipoPersona().getTipo().equalsIgnoreCase("trabajador")))
+//            errores.add("La persona que corresponde al ci dado no es un trabajador.");
+//        if (!fechaEsRecesoDocente(fecha))
+//            errores.add("Fecha no corresponde a ningún receso docente registrado.");
+//        if (!errores.isEmpty())
+//            throw new MultiplesErroresException("Datos erróneos: ", errores);
+//
+//        persona.annadirDiaDeDisponibilidad(fecha);
+//    }
 
     // *********************************************************Informacion********************************************************************************
 
@@ -657,27 +647,13 @@ public class Facultad {
         return p.getCantGuardiasAsignadas();
     }
 
-    public String[] getNombresDeRecesosDocentes() {
-        if (recesosDocentes == null || recesosDocentes.isEmpty()) {
-            return new String[0];
-        }
-
-        String[] nombres = new String[recesosDocentes.size()];
-
-        for (int i = 0; i < recesosDocentes.size(); i++) {
-            nombres[i] = recesosDocentes.get(i).getNombre();
-        }
-
-        return nombres;
-    }
-
     public RecesoDocente buscarRecesoDocente(String selectedItem) {
         RecesoDocente aux = null;
-        for (int i = 0; i < recesosDocentes.size() && aux == null; i++) {
-            if (recesosDocentes.get(i).getNombre().equalsIgnoreCase(selectedItem)) {
-                aux = recesosDocentes.get(i);
-            }
-        }
+//        for (int i = 0; i < recesosDocentes.size() && aux == null; i++) {
+//            if (recesosDocentes.get(i).getNombre().equalsIgnoreCase(selectedItem)) {
+//                aux = recesosDocentes.get(i);
+//            }
+//        }
         return aux;
     }
 

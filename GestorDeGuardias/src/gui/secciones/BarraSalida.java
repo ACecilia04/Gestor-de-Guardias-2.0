@@ -103,7 +103,7 @@ public class BarraSalida extends JPanel {
                     int x = e.getXOnScreen();
                     int y = e.getYOnScreen();
 //                    if (ventana != null) {
-                        ventana.setLocation(x - mouseX, y - mouseY);
+                    ventana.setLocation(x - mouseX, y - mouseY);
 //                    }
                 }
 

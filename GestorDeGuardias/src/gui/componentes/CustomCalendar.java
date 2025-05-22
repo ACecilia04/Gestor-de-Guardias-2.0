@@ -14,20 +14,17 @@ import java.time.YearMonth;
 
 public class CustomCalendar extends JPanel {
     private static final long serialVersionUID = 1L;
-    private LocalDate selectedDate;
     private final JLabel etiquetaMes;
     private final JLabel etiquetaAgno;
     private final JPanel daysPanel;
     private final Paleta paleta = new Paleta();
-    private LocalDate fechaSelec;
-
     private final Color colorIcono = paleta.getColorCasillaTabla().darker();
     private final Color colorIconoPres = paleta.getColorCaracteristico();
-
     private final String iconoAnterior = "/iconos/FlechaIzquierda.png";
     private final String iconoProx = "/iconos/FlechaDerecha.png";
-
     private final Color colorEncabezado1 = paleta.getColorFondoTabla();
+    private LocalDate selectedDate;
+    private LocalDate fechaSelec;
     private boolean noIgnorarDias = false;
 
 
@@ -236,10 +233,9 @@ class botonRed extends JButton {
     private final Color colorFondo = paleta.getColorCasillaTabla();
     private final Color colorFondoPres = paleta.getColorCasillaTabla().darker();
     private final Color pressedColor = paleta.getColorCaracteristico();
-
+    private final String texto;
     private boolean seleccionable = true;
     private boolean selected = false;
-    private final String texto;
 
     public botonRed(String text) {
         super();

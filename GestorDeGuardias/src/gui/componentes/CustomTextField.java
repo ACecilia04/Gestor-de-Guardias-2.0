@@ -11,21 +11,21 @@ import java.awt.event.*;
 public class CustomTextField extends Cuadro {
     private static final int redondez = Cuadro.redBAJA;
     private final String textoPorDefecto;
+    private final Font fuente = new Font("Arial", Font.PLAIN, 17);
+    private final Cuadro myself;
+    private final int maxCaracteres;
     protected JTextField textField;
     protected Color colorLetraPres = Color.WHITE;
     Paleta paleta = new Paleta();
-    private final Font fuente = new Font("Arial", Font.PLAIN, 17);
+    private final Color colorLetra = paleta.getColorLetraMenu();
     private int sepAncho = 20, sepLargo = 10;
     private int espBoton = 30;
     private Color colorFondo = Color.LIGHT_GRAY;
     private Color colorSelec = Color.ORANGE;
-    private final Color colorLetra = paleta.getColorLetraMenu();
-    private final Cuadro myself;
     private KeyAdapter listenerAux;
     private boolean filtroActivo;
     private boolean soloNumeros = false;
     private boolean soloLetras = false;
-    private final int maxCaracteres;
 
     public CustomTextField(Dimension dim, final String texto, int maxCaracteres, Color color) {
         super(dim, redondez, color);

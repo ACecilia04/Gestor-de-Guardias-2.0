@@ -18,21 +18,16 @@ public class TablaArchivar extends Cuadro implements IsTabla {
 
     private static final int redondez = 0;
     private final Paleta paleta = new Paleta();
-
-    //Secciones
-    private CuadroRectoAbajo titulo;
     private final JPanel panelCasillas;
-
     //Tamanos
     private final int tituloLargo = 67;
-
     private final ArrayList<PanelDiaBase> panelesCasillas = new ArrayList<>();
-
     private final ArrayList<DiaGuardia> dias;
-
     private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
     private final Font fuente = new Font("Arial", Font.BOLD, 16);
+    //Secciones
+    private CuadroRectoAbajo titulo;
 
     public TablaArchivar(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias) {
         super(dimension, redondez, color);

@@ -4,9 +4,9 @@ import gui.auxiliares.Paleta;
 import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
-import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import model.DiaGuardia;
+import services.Gestor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,12 +27,10 @@ public class ArchivarPlanif extends JPanel {
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
     private final JPanel panelInterior;
     private final ArrayList<PanelInterno> paneles;
-
-    private PanelInterno panelSelec;
     private final Font fuente = new Font("Arial", Font.PLAIN, 22);
-
     private final LayoutManager layout = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
     private final LayoutManager layout2 = new FlowLayout(FlowLayout.CENTER, 0, 100);
+    private PanelInterno panelSelec;
 
 
     public ArchivarPlanif() {

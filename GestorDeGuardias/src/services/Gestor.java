@@ -171,13 +171,13 @@ public class Gestor {
                             //caso especial que que la fecha esta en receso docente
                             if (fechaEsReceso) {
                                 if (persona.estaDisponibleEnRecesoDocente(fecha)) {
-                                    if (persona.getCantGuardiasRecuperacion() > 0) {
+                                    if (persona.getGuardiasDeRecuperacion() > 0) {
                                         personasConDeuda.add(persona);
                                     } else {
                                         personasSinDeuda.add(persona);
                                     }
                                 }
-                            } else if (persona.getCantGuardiasRecuperacion() > 0) {
+                            } else if (persona.getGuardiasDeRecuperacion() > 0) {
                                 personasConDeuda.add(persona);
                             } else {
                                 personasSinDeuda.add(persona);
@@ -260,7 +260,7 @@ public class Gestor {
             for (DiaGuardia dia : nuevosDias)
                 for (TurnoGuardia turno : dia.getTurnos())
                     if (turno.getPersonaAsignada() != null)
-                        facultad.asignarGuardia(turno.getPersonaAsignada().getCi(), dia.getFecha());  //ya que se va a guardar se le puede poner la guardia asignada a la persona
+                        facultad.asignarGuardia(turno.getPersonaAsignada().getCarnet(), dia.getFecha());  //ya que se va a guardar se le puede poner la guardia asignada a la persona
             // si la fecha del ultimo dia registrado esta antes el primer dia de
             // los nuevos (es decir: estas haciendo una nueva planif)
             if (this.planDeGuardias.isEmpty() || (planDeGuardias.get(planDeGuardias.size() - 1).getFecha().isBefore(nuevosDias.get(0).getFecha()))) {
@@ -350,7 +350,7 @@ public class Gestor {
     public void darBaja(String ci, LocalDate fechaBaja) throws EntradaInvalidaException, MultiplesErroresException {
         Persona persona = facultad.buscarPersona(ci);
 
-        facultad.darBaja(persona.getCi(), fechaBaja);
+        facultad.darBaja(persona.getCarnet(), fechaBaja);
         sustituirGuardias(fechaBaja, persona);
     }
 
@@ -365,7 +365,7 @@ public class Gestor {
      */
     public void darLicenciaEstudiante(String ci, LocalDate inicio) throws EntradaInvalidaException, MultiplesErroresException {
         Persona persona = facultad.buscarPersona(ci);
-        facultad.darLicenciaEstudiante(inicio, persona.getCi());
+        facultad.darLicenciaEstudiante(inicio, persona.getCarnet());
         sustituirGuardias(inicio, persona);
 
     }
@@ -382,7 +382,7 @@ public class Gestor {
      */
     public void darLicenciaEstudiante(String ci, LocalDate inicio, LocalDate fin) throws EntradaInvalidaException, MultiplesErroresException {
         Persona persona = facultad.buscarPersona(ci);
-        facultad.darLicenciaEstudiante(inicio, fin, persona.getCi());
+        facultad.darLicenciaEstudiante(inicio, fin, persona.getCarnet());
         sustituirGuardias(inicio, fin, persona);
 
     }
@@ -400,7 +400,7 @@ public class Gestor {
      */
     public void darLicenciaTrabajador(String ci, LocalDate inicio, LocalDate fin, TipoLicencia tipo) throws EntradaInvalidaException, MultiplesErroresException {
         Persona persona = facultad.buscarPersona(ci);
-        facultad.darLicenciaTrabajador(inicio, fin, persona.getCi(), tipo);
+        facultad.darLicenciaTrabajador(inicio, fin, persona.getCarnet(), tipo);
         sustituirGuardias(inicio, fin, persona);
 
     }
@@ -408,9 +408,6 @@ public class Gestor {
     /**
      * Asigna un sustituto adecuado en todas la guardias planificadas
      * asignadas a la persona entre las 2 fechas dadas
-     *
-     * @param fecha
-     * @param persona
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
@@ -477,7 +474,7 @@ public class Gestor {
         // ESPECIFICAMENTE
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Datos incorrectos:, errores");
-        if (facultad.buscarPersona(persona.getCi()) == null)
+        if (facultad.buscarPersona(persona.getCarnet()) == null)
             throw new EntradaInvalidaException("Persona no registrada.");
 
         ArrayList<EsquemaGuardia> esquemas = getEsquemasDeFecha(fecha);
@@ -558,7 +555,7 @@ public class Gestor {
         ArrayList<Persona> personasConDeudas = new ArrayList<Persona>();
         int i = 0;
 
-        while (personasDisponibles.get(i).getCantGuardiasRecuperacion() > 0) {
+        while (personasDisponibles.get(i).getGuardiasDeRecuperacion() > 0) {
             personasConDeudas.add(personasDisponibles.get(i));
             i++;
         }
@@ -583,7 +580,7 @@ public class Gestor {
         ArrayList<Persona> personasSinDeudas = new ArrayList<Persona>();
         int i = personasDisponibles.size() - 1;
 
-        while (personasDisponibles.get(i).getCantGuardiasRecuperacion() == 0) {
+        while (personasDisponibles.get(i).getGuardiasDeRecuperacion() == 0) {
             personasSinDeudas.add(0, personasDisponibles.get(i));
             i--;
         }

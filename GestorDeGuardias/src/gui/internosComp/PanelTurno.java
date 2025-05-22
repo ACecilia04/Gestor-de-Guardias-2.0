@@ -61,8 +61,8 @@ public class PanelTurno extends Cuadro implements Actualizable {
         colorFondo = color;
         colorPasada = colorFondo.darker();
         colorSelec = paleta.getColorCaracteristico();
-
-        String horarioText = this.turno.getHorario().getText();
+//TODO: aqui habia un getHorario.getText
+        String horarioText = this.turno.getHorario().toString();
         horario = new Etiqueta(fuente, colorLetra, horarioText);
         horarioPanel = new JPanel();
         horarioPanel.setLayout(null);
@@ -220,8 +220,8 @@ public class PanelTurno extends Cuadro implements Actualizable {
         Persona aux = turno.getPersonaAsignada();
         if (aux != null) {
             nombre.setText(aux.getNombre());
-            apellido.setText(aux.getApellidos());
-            ID.setText(aux.getCi());
+            apellido.setText(aux.getApellido());
+            ID.setText(aux.getCarnet());
             revalidate();
             repaint();
         }

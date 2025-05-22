@@ -6,9 +6,6 @@ import gui.componentes.CustomCalendar;
 import gui.componentes.CustomTextField;
 import gui.componentes.Etiqueta;
 import gui.secciones.Ventana;
-import services.Gestor;
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
 import model.Persona;
 
 import javax.swing.*;
@@ -32,14 +29,11 @@ public class PantallaAddVolunt extends JDialog {
     private final JPanel panelVolunt;
     private final Boton boton1;
     private final Boton boton2;
+    private final Persona persona;
     private LocalDate fechaAux;
-
     private CustomCalendar calendar;
     private Boton aceptar;
     private boolean eleccion = false;
-
-
-    private final Persona persona;
 
 
     public PantallaAddVolunt(Persona persona) {
@@ -224,22 +218,22 @@ public class PantallaAddVolunt extends JDialog {
                 } else {
                     LocalDate fechaInicio = LocalDate.of(Integer.valueOf(agno.getText()), Integer.valueOf(mes.getText()), Integer.valueOf(dia.getText()));
 
-                    try {
-                        Gestor.getInstance().getFacultad().annadirFechaDeDisponibilidad(persona.getCi(), fechaAux);
-                        dispose();
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "A�adido Exitosamente", "Voluntariedad a�adida Exitosamente", "Aceptar");
-                    } catch (EntradaInvalidaException e1) {
-                        String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
-                    } catch (MultiplesErroresException e1) {
-                        StringBuilder stringAux = new StringBuilder();
-                        for (String error : e1.getErrores()) {
-                            stringAux.append(error).append("<br>");
-                        }
-
-                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
-                    }
+//                    try {
+//                        Gestor.getInstance().getFacultad().annadirFechaDeDisponibilidad(persona.getCi(), fechaAux);
+//                        dispose();
+//                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "A�adido Exitosamente", "Voluntariedad a�adida Exitosamente", "Aceptar");
+//                    } catch (EntradaInvalidaException e1) {
+//                        String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
+//                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
+//                    } catch (MultiplesErroresException e1) {
+//                        StringBuilder stringAux = new StringBuilder();
+//                        for (String error : e1.getErrores()) {
+//                            stringAux.append(error).append("<br>");
+//                        }
+//
+//                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
+//                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
+//                    }
 
                 }
 

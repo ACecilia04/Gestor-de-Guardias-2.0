@@ -1,7 +1,5 @@
 package model;
 
-import java.time.DayOfWeek;
-
 public enum EsquemaGuardia {
 //    // dia de la semana      receso   par          horario                clase         sexo
 //

@@ -2,8 +2,6 @@ package gui.secciones;
 
 import services.Facultad;
 import services.Gestor;
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,9 +1,9 @@
 package gui.pantallasEmergentes;
 
 import gui.secciones.Ventana;
-import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
+import services.Gestor;
 
 public class PantallaAddEstudiante extends PantallaAddPersona {
 

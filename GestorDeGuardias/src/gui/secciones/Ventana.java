@@ -4,11 +4,11 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.internosComp.*;
 import gui.pantallasEmergentes.*;
-import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 import model.DiaGuardia;
 import model.HorarioGuardia;
+import services.Gestor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,17 +28,17 @@ public class Ventana extends JFrame {
     private static Ventana ventana;
     //Demora en aparecer el panel de inicio
     final int delayInSeconds = 2;
-    //Auxiliar
-    private JPanel contentPane;
     private final Paleta paleta;
     //Paneles para layouts
     private final JPanel contReal;
-    private JPanel panelVacio;
     private final JPanel zonaInferior; //Inferior
     //Pedazos de informacion
     private final BarraSalida barraSalida;
     private final BarraSuperior barraSup;
     private final Menu menu;
+    //Auxiliar
+    private JPanel contentPane;
+    private JPanel panelVacio;
     //Fondo negro
     private Cuadro overlayPanel;
     //Paneles de cambio

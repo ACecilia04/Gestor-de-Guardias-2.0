@@ -4,10 +4,10 @@ import gui.auxiliares.ComboBoxSelectionListener;
 import gui.auxiliares.Paleta;
 import gui.componentes.*;
 import gui.secciones.Ventana;
-import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 import model.RecesoDocente;
+import services.Gestor;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -26,33 +26,25 @@ public class PantallaFacultad extends JDialog {
 
     private final JPanel panel1;
     private final JPanel panel2;
-    private JPanel panel3;
     private final JPanel panel4;
-
     private final Dimension dim = new Dimension(1100, 700);
     private final Dimension dimBoton = new Dimension(120, 40);
     private final Dimension dimOpc = new Dimension(280, 100);
-
     private final JPanel panelVacio;
     private final JPanel panelRec;
     private final JPanel panelFac;
-
     private final Font fuente = new Font("Arial", Font.PLAIN, 17);
     private final Font fuenteE = new Font("Arial", Font.PLAIN, 15);
     private final Font fuente2 = new Font("Arial", Font.PLAIN, 15);
-
+    private final Boton boton1;
+    private JPanel panel3;
     private JPanel contentVacio;
-
     private CustomCalendar calendar;
     private boolean eleccion;
     private Boton aceptar;
     private LocalDate fechaAux;
-
     private Etiqueta fechaInicio, fechaFinal, duracion;
     private Boton eliminarRec;
-
-
-    private final Boton boton1;
 
     public PantallaFacultad() {
         super(Ventana.getInstance(), "Facultad", true);
@@ -255,7 +247,8 @@ public class PantallaFacultad extends JDialog {
         String[] recesosNombre = new String[recesos.size()];
         if (recesos.size() > 0) {
             for (int i = 0; i < recesos.size(); i++) {
-                recesosNombre[i] = recesos.get(i).getNombre();
+                //TODO: aqui habia un .getnombre
+                recesosNombre[i] = recesos.get(i).toString();
             }
         } else {
             recesosNombre = null;
@@ -329,11 +322,11 @@ public class PantallaFacultad extends JDialog {
                         e1.printStackTrace();
                     }
 
-                    String[] array = Gestor.getInstance().getFacultad().getNombresDeRecesosDocentes();
+//String[] array = Gestor.getInstance().getFacultad().getRecesosDocentes();
 
                     cantERec.setText("Cantidad de Recesos :  " + Gestor.getInstance().getFacultad().getRecesosDocentes().size());
 
-                    comboRec.setOpciones(array);
+                    //                   comboRec.setOpciones(array);
 
                     fechaInicio.setVisible(false);
                     fechaFinal.setVisible(false);
@@ -592,10 +585,10 @@ public class PantallaFacultad extends JDialog {
                     try {
                         Gestor.getInstance().getFacultad().annadirRecesoDocente(fechaInicio, fechaFinal, nombre.getText());
                         String string = "<html><p>Receso Guardado Exitosamente<br><br></p></html>";
-                        String[] array = Gestor.getInstance().getFacultad().getNombresDeRecesosDocentes();
+//                        String[] array = Gestor.getInstance().getFacultad().getNombresDeRecesosDocentes();
                         cantERec.setText("Cantidad de Recesos :  " + Gestor.getInstance().getFacultad().getRecesosDocentes().size());
-
-                        comboRec.setOpciones(array);
+//
+//                        comboRec.setOpciones(array);
                         Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Receso Guardado", string, "Aceptar");
                         CardLayout cardLayout = (CardLayout) contentVacio.getLayout();
                         cardLayout.show(contentVacio, "panelMini1");

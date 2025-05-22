@@ -11,6 +11,9 @@ import java.awt.event.ActionListener;
 
 public class Advertencia extends JDialog {
     private static final long serialVersionUID = 1L;
+    private final Dimension dimBoton = new Dimension(120, 40);
+    private final Paleta paleta = new Paleta();
+    private final Font fuente = new Font("Arial", Font.PLAIN, 20);
     protected Boton boton1;
     protected Boton boton2;
     protected JDialog myself;
@@ -20,11 +23,6 @@ public class Advertencia extends JDialog {
     private String opcion2 = "Cancelar";
     private boolean eleccion; //True op1
     private Dimension dim = new Dimension(450, 250);
-    private final Dimension dimBoton = new Dimension(120, 40);
-
-    private final Paleta paleta = new Paleta();
-    private final Font fuente = new Font("Arial", Font.PLAIN, 20);
-
     private JPanel buttonPanel;
     private GridBagConstraints gbc;
 

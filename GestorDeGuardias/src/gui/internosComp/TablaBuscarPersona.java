@@ -18,8 +18,8 @@ public class TablaBuscarPersona extends CustomTablaComplex {
         modelo.setRowCount(0);
         for (Persona e : personas) {
             String[] aux = new String[5];
-            aux[0] = e.getCi();
-            aux[1] = e.getApellidos();
+            aux[0] = e.getCarnet();
+            aux[1] = e.getApellido();
             aux[2] = e.getNombre();
             aux[3] = Integer.toString(9);
 

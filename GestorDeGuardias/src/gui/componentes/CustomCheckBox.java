@@ -6,8 +6,8 @@ import java.awt.*;
 public class CustomCheckBox extends JCheckBox {
 
     private final int border = 4;
-    private Color colorSelec = new Color(69, 124, 235);
-    private Color colorBorde = Color.GRAY;
+    private final Color colorSelec = new Color(69, 124, 235);
+    private final Color colorBorde = Color.GRAY;
 
     public CustomCheckBox(String texto) {
         super("  " + texto);

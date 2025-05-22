@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class CustomTabla extends JPanel {
     private final Paleta paleta = new Paleta();
     private final JTable tabla;
-    private ArrayList<Component> componentes;
     private final DefaultTableModel modelo;
+    private ArrayList<Component> componentes;
 
     public CustomTabla(String texto) {
         // Crear el modelo de la tabla sin encabezado

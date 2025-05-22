@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PantallaCump extends JPanel {
-//    private JPanel contentPane;
+    //    private JPanel contentPane;
     private final PanelOpcionesArchivar tablaOpciones;
 
     private final int opcionesAncho = 200;

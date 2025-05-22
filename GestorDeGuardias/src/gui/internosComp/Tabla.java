@@ -8,10 +8,10 @@ import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.Ventana;
-import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 import model.DiaGuardia;
+import services.Gestor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,25 +28,23 @@ public class Tabla extends Cuadro implements IsTabla {
     private static final long serialVersionUID = 1L;
 
     private static final int redondez = Cuadro.redMED;
-    //Secciones
-    CuadroRectoAbajo titulo;
-    JPanel panelCasillas;
-    Cuadro myself;
-    ArrayList<DiaGuardia> dias;
     private final Paleta paleta = new Paleta();
-    private int mouseX, mouseY;
     //Tamanos
     private final int tituloLargo = 67;
     private final ArrayList<PanelDiaBase> panelesCasillas = new ArrayList<>();
     private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
     private final Font fuente = new Font("Arial", Font.BOLD, 16);
-
     private final int distX;
     private final int distY;
     private final JPanel anchoTotal;
-
     private final TablaOpcionesPlanif tablaOpciones;
+    //Secciones
+    CuadroRectoAbajo titulo;
+    JPanel panelCasillas;
+    Cuadro myself;
+    ArrayList<DiaGuardia> dias;
+    private int mouseX, mouseY;
 
     public Tabla(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, final TablaOpcionesPlanif tablaOpciones, final int distX, final int distY, final JPanel anchoTotal) {
         super(dimension, redondez, color);

@@ -5,11 +5,10 @@ import gui.componentes.Buscar;
 import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesEstudiante;
 import gui.pantallasEmergentes.Advertencia;
-import gui.pantallasEmergentes.PantallaLicenciasEstudiante;
-import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import model.Disponibilidad;
 import model.Persona;
+import services.Gestor;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -29,13 +28,10 @@ public class PantallaEstudiantes extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private final JPanel contentPane;
-    private CustomTablaComplex tabla;
-
     private final PanelOpcionesEstudiante tablaOpciones;
-
     private final int opcionesAncho = 300;
-
     private final int margen = 25;
+    private CustomTablaComplex tabla;
 
     public PantallaEstudiantes() {
         this.setLayout(new BorderLayout());
@@ -81,7 +77,7 @@ public class PantallaEstudiantes extends JPanel {
                         e1.printStackTrace();
                     }
                     ArrayList<Persona> personaUnica = new ArrayList<>();
-                    if (persona != null && persona.getTipo().equalsIgnoreCase("estudiante")) {
+                    if (persona != null && persona.getTipo().equals("estudiante")) {
                         personaUnica.add(persona);
                     }
                     revalidarTabla(personaUnica);
@@ -109,7 +105,7 @@ public class PantallaEstudiantes extends JPanel {
                     e1.printStackTrace();
                 }
                 ArrayList<Persona> personaUnica = new ArrayList<>();
-                if (persona != null && persona.getTipo().equalsIgnoreCase("estudiante")) {
+                if (persona != null && persona.getTipo().equals("estudiante")) {
                     personaUnica.add(persona);
                 }
                 revalidarTabla(personaUnica);
@@ -170,13 +166,13 @@ public class PantallaEstudiantes extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String ID = tabla.getCarnet();
-                try {
-                    PantallaLicenciasEstudiante pantallaLic = new PantallaLicenciasEstudiante(Gestor.getInstance().getFacultad().buscarPersona(ID));
-                    revalidarTabla();
-                } catch (EntradaInvalidaException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
+//                try {
+//                    PantallaLicenciasEstudiante pantallaLic = new PantallaLicenciasEstudiante(Gestor.getInstance().getFacultad().buscarPersona(ID));
+//                    revalidarTabla();
+//                } catch (EntradaInvalidaException e1) {
+//                    // TODO Auto-generated catch block
+//                    e1.printStackTrace();
+//                }
             }
         });
 
@@ -244,10 +240,10 @@ public class PantallaEstudiantes extends JPanel {
             if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckMasc().isSelected() && e.getSexo().equalsIgnoreCase("masculino")&& selec) {
+            if (!tablaOpciones.getCheckMasc().isSelected() && e.getSexo().equalsIgnoreCase("masculino") && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckFem().isSelected() && e.getSexo().equalsIgnoreCase("femenino")  && selec) {
+            if (!tablaOpciones.getCheckFem().isSelected() && e.getSexo().equalsIgnoreCase("femenino") && selec) {
                 selec = false;
             }
 

@@ -6,16 +6,13 @@ import java.awt.*;
 public class Paleta {
 
     private static Modo modo;
+    private final Color colorDestacarCuadro = new Color(240, 243, 250);
     private Color colorFondo = new Color(240, 243, 250);
     private Color colorCaracteristico = new Color(49, 123, 244);
-
     private Color colorFondoTabla = new Color(255, 255, 255);
     private Color colorCasillaTabla = new Color(241, 241, 243);
     private Color colorCasillaTablaVacia = Color.WHITE;
     private Color colorBorde = new Color(230, 233, 248);
-
-    private final Color colorDestacarCuadro = new Color(240, 243, 250);
-
     //Letras
     private Color colorLetraMenu = new Color(62, 63, 67);
 
