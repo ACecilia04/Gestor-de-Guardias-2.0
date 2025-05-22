@@ -4,9 +4,9 @@ import gui.auxiliares.Paleta;
 import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
-import logica.Gestor;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
-import rdb.entity.DiaGuardia;
+import model.DiaGuardia;
 
 import javax.swing.*;
 import java.awt.*;

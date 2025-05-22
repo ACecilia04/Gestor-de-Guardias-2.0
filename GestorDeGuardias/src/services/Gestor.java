@@ -1,8 +1,8 @@
-package logica;
+package services;
 
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.*;
+import model.*;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-import static logica.comunes.Utilitarios.*;
+import static utils.Utilitarios.*;
 
 
 public class Gestor {

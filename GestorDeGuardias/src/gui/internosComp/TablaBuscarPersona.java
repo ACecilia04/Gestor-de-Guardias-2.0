@@ -2,7 +2,7 @@ package gui.internosComp;
 
 import gui.auxiliares.Actualizable;
 import gui.auxiliares.CustomTablaComplex;
-import rdb.entity.Persona;
+import model.Persona;
 
 import java.util.ArrayList;
 

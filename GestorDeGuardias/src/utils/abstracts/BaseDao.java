@@ -1,4 +1,4 @@
-package rdb.abstracts;
+package utils.abstracts;
 
 import java.util.List;
 

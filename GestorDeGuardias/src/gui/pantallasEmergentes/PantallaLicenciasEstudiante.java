@@ -6,7 +6,7 @@ import gui.componentes.*;
 import gui.secciones.Ventana;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.Persona;
+import model.Persona;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -1,4 +1,4 @@
-package rdb.entity;
+package model;
 
 import logica.excepciones.EntradaInvalidaException;
 
@@ -12,7 +12,7 @@ public class Persona implements Comparable<Persona> {
     private String nombre;
     private String apellidos;
     private Character sexo;
-    private String tipo;
+    private Tipo_Persona tipoPersona;
 
     protected LocalDate ultimaGuardiaHecha;
     protected ArrayList<LocalDate> guardiasAsignadas;
@@ -24,27 +24,23 @@ public class Persona implements Comparable<Persona> {
         setNombre(nombre);
         setApellidos(apellidos);
         setSexo(sexo);
-        setTipo(tipo);
+        setTipoPersona(new Tipo_Persona(tipo));
         guardiasAsignadas = new ArrayList<LocalDate>();
         ultimaGuardiaHecha = LocalDate.of(-999999999, 1, 1);
     }
-    public Persona(){
-        super();
-    }
 
-    public Long getId() {
-        return id;
+    public Tipo_Persona getTipoPersona(){
+        return tipoPersona;
     }
-
-    public void setId(Long id) {
-        this.id = id;
+    private void setTipoPersona(Tipo_Persona tipoPersona) {
+        this.tipoPersona = tipoPersona;
     }
 
     public String getCi() {
         return ci;
     }
 
-    public void setCi(String id) {
+    private void setCi(String id) {
         this.ci = id;
     }
 
@@ -52,7 +48,7 @@ public class Persona implements Comparable<Persona> {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    private void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -60,7 +56,7 @@ public class Persona implements Comparable<Persona> {
         return apellidos;
     }
 
-    public void setApellidos(String apellidos) {
+    private void setApellidos(String apellidos) {
         this.apellidos = apellidos;
     }
 
@@ -71,7 +67,7 @@ public class Persona implements Comparable<Persona> {
             return "Masculino";
     }
 
-    public void setSexo(char sexo) {
+    private void setSexo(char sexo) {
         this.sexo = sexo;
     }
 
@@ -86,20 +82,6 @@ public class Persona implements Comparable<Persona> {
             throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la ultima guardia hecha por " + this.getNombre() + this.getApellidos() + ".");
         }
         this.ultimaGuardiaHecha = ultimaGuardia;
-    }
-
-    public String getTipo(){
-        return tipo;
-    }
-    private void setTipo(String tipo) {
-        if(tipo.equalsIgnoreCase("estudiante"))
-            this.tipo = "Estudiante";
-        else if ( tipo.equalsIgnoreCase("trabajador")) {
-            this.tipo = "Trabajador";
-        } else{
-            // TODO: throw exception
-        }
-
     }
 
     public int getDiasDesdeUltimaGuardiaHecha(LocalDate fecha) throws EntradaInvalidaException {
@@ -133,10 +115,6 @@ public class Persona implements Comparable<Persona> {
         return fechaDeBaja;
     }
 
-//    public ArrayList<? extends Licencia> getLicencias() {
-//        return licencias;
-//    }
-
     /**
      * @param persona persona a comparar
      * @return comparacion entre carnets de identidad
@@ -164,13 +142,6 @@ public class Persona implements Comparable<Persona> {
         Disponibilidad disponibilidad;
         boolean licenciaRelevanteEncontrada = false;
 
-//        //encontrar primero la licencia relevante (la que incluye la fecha)
-//        for (int i = 0; i < getLicencias().size() && !licenciaRelevanteEncontrada; i++) {
-//            LocalDate fInicio = getLicencias().get(i).getInicio();
-//            LocalDate fFinal = getLicencias().get(i).getFin();
-//            licenciaRelevanteEncontrada = (!fecha.isBefore(fInicio)) && (fFinal == null || !fecha.isAfter(fFinal));
-//        }
-
         if ((fechaDeBaja == null || fechaDeBaja.isAfter(fecha)) && !licenciaRelevanteEncontrada) {
             disponibilidad = Disponibilidad.DISPONIBLE;
         } else {
@@ -178,15 +149,7 @@ public class Persona implements Comparable<Persona> {
         }
         return disponibilidad;
     }
-// TODO: esto en la bd
- //   public abstract boolean estaDisponibleEnRecesoDocente(LocalDate fecha);
 
-//	public abstract boolean getDisponibilidadParaGuardia( LocalDate dia, HorarioGuardia horario);
-
-    /**
-     * Si la persona no tiene una fecha de baja, le da baja a esta en
-     * la fecha dada mientras la fecha sea la actual o una futura
-     **/
     public void darBaja(LocalDate fecha) {
         if (!fecha.isBefore(LocalDate.now()) && fechaDeBaja == null) {
             fechaDeBaja = fecha;
@@ -199,58 +162,6 @@ public class Persona implements Comparable<Persona> {
         else
             fechaDeBaja = null;
     }
-
-//    public void eliminarLicencia(Licencia licencia) throws EntradaInvalidaException {
-//        if (licencia == null)
-//            throw new EntradaInvalidaException("Licencia a eliminar no especificada.");
-//        if (buscarLicencia(licencia) != null)
-//            getLicencias().remove(licencia);
-//        else {
-//            throw new EntradaInvalidaException("Licencia a eliminar no existe.");
-//        }
-//    }
-//
-//    public void eliminarLicencia(LocalDate inicioLicencia) throws EntradaInvalidaException {
-//        if (inicioLicencia == null)
-//            throw new EntradaInvalidaException("Fecha de inicio de la licencia a eliminar no especificada.");
-//        Licencia indicada = buscarLicencia(inicioLicencia);
-//
-//        if (indicada != null)
-//            getLicencias().remove(indicada);
-//        else {
-//            throw new EntradaInvalidaException("Licencia a eliminar no existe.");
-//        }
-//    }
-//
-//    public Licencia buscarLicencia(Licencia licencia) throws EntradaInvalidaException {
-//        Licencia indicada = null;
-//        boolean encontrada = false;
-//
-//        if (licencia == null)
-//            throw new EntradaInvalidaException("Licencia buscada no especificada.");
-//        for (int i = 0; i < getLicencias().size() && !encontrada; i++) {
-//            if (getLicencias().get(i).equals(licencia)) {
-//                indicada = getLicencias().get(i);
-//                encontrada = true;
-//            }
-//        }
-//        return indicada;
-//    }
-//
-//    public Licencia buscarLicencia(LocalDate inicio) throws EntradaInvalidaException {
-//        Licencia indicada = null;
-//        boolean encontrada = false;
-//
-//        if (inicio == null)
-//            throw new EntradaInvalidaException("Inicio de la licencia buscada no especificada.");
-//        for (int i = 0; i < getLicencias().size() && !encontrada; i++) {
-//            if (getLicencias().get(i).getInicio().equals(inicio)) {
-//                indicada = getLicencias().get(i);
-//                encontrada = true;
-//            }
-//        }
-//        return indicada;
-//    }
 
     public void annadirGuardiaAsignada(LocalDate fecha) {
         if (!guardiasAsignadas.contains(fecha)) ;
@@ -282,13 +193,6 @@ public class Persona implements Comparable<Persona> {
         if (fecha == null)
             throw new EntradaInvalidaException("Fecha de la guardia no especificada.");
     }
-
-//	public void actualizarCumplimiento(LocalDate fecha, Boolean cumplimiento) throws EntradaInvalidaException {
-//		if (fecha == null)
-//			throw new EntradaInvalidaException("Fecha de la guardia a actualizar no especificada. ");
-//		if(cumplimiento == false)
-//
-//	}
 
     public int getCantGuardiasAsignadas() {
         int cant = 0;

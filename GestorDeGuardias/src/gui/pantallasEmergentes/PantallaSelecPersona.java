@@ -7,10 +7,10 @@ import gui.componentes.Boton;
 import gui.componentes.Buscar;
 import gui.internosComp.PanelTurno;
 import gui.secciones.Ventana;
-import logica.Gestor;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.Persona;
+import model.Persona;
 
 import javax.swing.*;
 import javax.swing.border.Border;

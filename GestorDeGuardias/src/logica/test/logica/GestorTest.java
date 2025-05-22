@@ -1,12 +1,12 @@
 package logica.test.logica;
 
-import logica.Facultad;
-import logica.Gestor;
+import services.Facultad;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import rdb.entity.*;
+import model.*;
 
 import java.time.Clock;
 import java.time.Instant;

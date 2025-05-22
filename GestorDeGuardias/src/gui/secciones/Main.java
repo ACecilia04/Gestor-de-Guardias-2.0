@@ -1,7 +1,7 @@
 package gui.secciones;
 
-import logica.Facultad;
-import logica.Gestor;
+import services.Facultad;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 

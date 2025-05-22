@@ -2,8 +2,8 @@ package gui.internosComp;
 
 import gui.auxiliares.Actualizable;
 import gui.componentes.CustomRadioButton;
-import rdb.entity.DiaGuardia;
-import rdb.entity.TurnoGuardia;
+import model.DiaGuardia;
+import model.TurnoGuardia;
 
 import javax.swing.*;
 import java.awt.*;

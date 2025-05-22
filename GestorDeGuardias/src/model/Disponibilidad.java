@@ -1,4 +1,4 @@
-package rdb.entity;
+package model;
 
 public enum Disponibilidad {
     DISPONIBLE,

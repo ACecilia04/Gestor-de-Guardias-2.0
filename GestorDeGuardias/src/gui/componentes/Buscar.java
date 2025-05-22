@@ -1,9 +1,9 @@
 package gui.componentes;
 
 import gui.auxiliares.Paleta;
-import logica.Gestor;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
-import rdb.entity.Persona;
+import model.Persona;
 
 import java.awt.*;
 import java.awt.event.FocusAdapter;
