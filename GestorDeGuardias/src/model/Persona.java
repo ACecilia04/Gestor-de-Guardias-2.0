@@ -12,7 +12,7 @@ public class Persona implements Comparable<Persona> {
     private String nombre;
     private String apellidos;
     private Character sexo;
-    private Tipo_Persona tipoPersona;
+    private TipoPersona tipoPersona;
 
     protected LocalDate ultimaGuardiaHecha;
     protected ArrayList<LocalDate> guardiasAsignadas;
@@ -24,15 +24,15 @@ public class Persona implements Comparable<Persona> {
         setNombre(nombre);
         setApellidos(apellidos);
         setSexo(sexo);
-        setTipoPersona(new Tipo_Persona(tipo));
+        setTipoPersona(new TipoPersona(tipo));
         guardiasAsignadas = new ArrayList<LocalDate>();
         ultimaGuardiaHecha = LocalDate.of(-999999999, 1, 1);
     }
 
-    public Tipo_Persona getTipoPersona(){
+    public TipoPersona getTipoPersona(){
         return tipoPersona;
     }
-    private void setTipoPersona(Tipo_Persona tipoPersona) {
+    private void setTipoPersona(TipoPersona tipoPersona) {
         this.tipoPersona = tipoPersona;
     }
 
