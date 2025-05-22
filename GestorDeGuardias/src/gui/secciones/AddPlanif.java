@@ -11,15 +11,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serial;
 
 
 public class AddPlanif extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
     private static Dimension tablaDim = new Dimension(1200, 745);
     int x;
     private final JPanel contentPane;
     private TablaOpcionesPlanif tablaOpciones;
-    private final Paleta paleta = new Paleta();
     private Tabla tabla;
 
 
@@ -33,6 +34,7 @@ public class AddPlanif extends JPanel {
         contentPane = new JPanel();
         contentPane.setLayout(null);
 
+        Paleta paleta = new Paleta();
         contentPane.setBackground(paleta.getColorFondo());
 
 
@@ -46,7 +48,7 @@ public class AddPlanif extends JPanel {
                     try {
 
                         if (tablaOpciones.getTablaSelec().getComponentes().size() == 1) {
-                            PanelTurno aux = (PanelTurno) tablaOpciones.getTablaSelec().getComponentes().get(0);
+                            PanelTurno aux = (PanelTurno) tablaOpciones.getTablaSelec().getComponentes().getFirst();
                             Ventana.getInstance().addPantallaSelecPerona(aux, tabla.getDias());
                         }
 
@@ -71,9 +73,9 @@ public class AddPlanif extends JPanel {
         return tablaDim;
     }
 
-    public static void setTablaDim(Dimension tablaDim) {
-        AddPlanif.tablaDim = tablaDim;
-    }
+//    public static void setTablaDim(Dimension tablaDim) {
+//        AddPlanif.tablaDim = tablaDim;
+//    }
 
     public void addTabla(Tabla tabla) {
         if (this.tabla != null) {
@@ -91,7 +93,7 @@ public class AddPlanif extends JPanel {
         return tablaOpciones;
     }
 
-    public void setTablaOpciones(TablaOpcionesPlanif tablaOpciones) {
-        this.tablaOpciones = tablaOpciones;
-    }
+//    public void setTablaOpciones(TablaOpcionesPlanif tablaOpciones) {
+//        this.tablaOpciones = tablaOpciones;
+//    }
 }

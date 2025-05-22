@@ -11,12 +11,12 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PantallaCump extends JPanel {
-    private JPanel contentPane;
+//    private JPanel contentPane;
     private final PanelOpcionesArchivar tablaOpciones;
 
     private final int opcionesAncho = 200;
 
-    private final int margen = 25;
+//    private final int margen = 25;
 
     private TablaArchivar tabla;
 
@@ -67,8 +67,7 @@ public class PantallaCump extends JPanel {
 
         Ventana venAux = Ventana.getInstance();
         Dimension auxDim = new Dimension(venAux.getPanelVacio().getSize().width - opcionesAncho, venAux.getPanelVacio().getSize().height);
-        TablaArchivar tabla2 = new TablaArchivar(auxDim, Color.WHITE, diasAux);
-        this.tabla = tabla2;
+        this.tabla = new TablaArchivar(auxDim, Color.WHITE, diasAux);
 
         this.add(tabla, BorderLayout.CENTER);
 

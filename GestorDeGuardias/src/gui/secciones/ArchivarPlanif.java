@@ -12,18 +12,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serial;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 public class ArchivarPlanif extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
     private static final int PANEL_WIDTH = 300;
     private static final int PANEL_HEIGHT = 200;
     private static final int HORIZONTAL_GAP = 30;
     private static final int VERTICAL_GAP = 20;
-    private static final Dimension tablaDim = new Dimension(1200, 745);
-    private final Paleta paleta = new Paleta();
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
     private final JPanel panelInterior;
     private final ArrayList<PanelInterno> paneles;
@@ -44,6 +44,8 @@ public class ArchivarPlanif extends JPanel {
 
         // Crea el panelInterior
         panelInterior = new JPanel();
+        //    private static final Dimension tablaDim = new Dimension(1200, 745);
+        Paleta paleta = new Paleta();
         panelInterior.setBackground(paleta.getColorFondo());
 
 
@@ -74,15 +76,15 @@ public class ArchivarPlanif extends JPanel {
 
     public void actualizarPlanif() {
         panelInterior.removeAll();
-        ArrayList<DiaGuardia> dias = null;
+        ArrayList<DiaGuardia> dias;
         try {
             dias = Gestor.getInstance().getDiasPorActualizarCumplimiento();
             panelInterior.setLayout(layout);
 
             HashSet<String> mesesArchivables = new HashSet<>();
 
-            for (int i = 0; i < dias.size(); i++) {
-                LocalDate fechaAux = dias.get(i).getFecha();
+            for (DiaGuardia dia : dias) {
+                LocalDate fechaAux = dia.getFecha();
                 int mesPlanif = fechaAux.getMonthValue();
                 int annoPlanif = fechaAux.getYear();
                 String claveMesAnno = annoPlanif + "-" + mesPlanif;
@@ -91,7 +93,7 @@ public class ArchivarPlanif extends JPanel {
                     addPlanif(fechaAux);
                 }
             }
-            if (paneles.size() == 0) {
+            if (paneles.isEmpty()) {
                 panelInterior.setLayout(layout2);
                 Etiqueta error = new Etiqueta(fuente, Color.GRAY, "No hay planificaciones para Archivar");
                 panelInterior.add(error);
@@ -140,7 +142,7 @@ public class ArchivarPlanif extends JPanel {
         if (panelSelec != null) {
             ArrayList<DiaGuardia> diasAux = new ArrayList<>();
 
-            ArrayList<DiaGuardia> dias = null;
+            ArrayList<DiaGuardia> dias = new ArrayList<>();
             try {
                 dias = Gestor.getInstance().getDiasPorActualizarCumplimiento();
             } catch (EntradaInvalidaException e) {
