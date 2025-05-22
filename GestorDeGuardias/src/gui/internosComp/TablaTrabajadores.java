@@ -1,7 +1,7 @@
 package gui.internosComp;
 
 import gui.auxiliares.CustomTablaComplex;
-import rdb.entity.Persona;
+import model.Persona;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

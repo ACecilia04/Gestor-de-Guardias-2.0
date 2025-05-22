@@ -1,6 +1,6 @@
 package logica.test.logica;
 
-import logica.Facultad;
+import services.Facultad;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 import org.junit.Test;

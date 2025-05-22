@@ -6,10 +6,10 @@ import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesEstudiante;
 import gui.pantallasEmergentes.Advertencia;
 import gui.pantallasEmergentes.PantallaLicenciasEstudiante;
-import logica.Gestor;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
-import rdb.entity.Disponibilidad;
-import rdb.entity.Persona;
+import model.Disponibilidad;
+import model.Persona;
 
 import javax.swing.*;
 import javax.swing.border.Border;

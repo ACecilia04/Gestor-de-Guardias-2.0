@@ -1,4 +1,4 @@
-package rdb.entity;
+package model;
 
 public class TurnoGuardia {
     private Boolean cumplido;

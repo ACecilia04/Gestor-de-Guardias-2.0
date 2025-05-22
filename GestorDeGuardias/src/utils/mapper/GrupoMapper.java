@@ -1,7 +1,7 @@
-package rdb.mapper;
+package utils.mapper;
 
-import rdb.abstracts.RowMapper;
-import rdb.entity.Grupo;
+import utils.abstracts.RowMapper;
+import model.Grupo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

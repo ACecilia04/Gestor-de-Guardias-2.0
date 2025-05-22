@@ -4,10 +4,10 @@ import gui.auxiliares.ComboBoxSelectionListener;
 import gui.auxiliares.Paleta;
 import gui.componentes.*;
 import gui.secciones.Ventana;
-import logica.Gestor;
+import services.Gestor;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import rdb.entity.RecesoDocente;
+import model.RecesoDocente;
 
 import javax.swing.*;
 import javax.swing.border.Border;
