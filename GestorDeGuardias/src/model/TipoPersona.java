@@ -1,9 +1,9 @@
 package model;
 
-public class Tipo_Persona {
+public class TipoPersona {
     private String tipo;
 
-    public Tipo_Persona(String tipo) {
+    public TipoPersona(String tipo) {
         if (tipo.equalsIgnoreCase("estudiante")) {
             this.tipo = "Estudiante";
         } else if (tipo.equalsIgnoreCase("trabajador")) {
@@ -25,8 +25,8 @@ public class Tipo_Persona {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Tipo_Persona)) return false;
-        Tipo_Persona that = (Tipo_Persona) o;
+        if (!(o instanceof TipoPersona)) return false;
+        TipoPersona that = (TipoPersona) o;
         return tipo.equalsIgnoreCase(that.tipo);
     }
 
