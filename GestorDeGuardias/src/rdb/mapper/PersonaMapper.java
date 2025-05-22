@@ -14,10 +14,12 @@ public class PersonaMapper implements RowMapper<PersonaMapper> {
 
         Persona retVal = new Persona();
 
+        retVal.setCi(rs.getString("carnet"));
         retVal.setId(rs.getLong("id"));
-        retVal.setNumero(rs.getString("numero"));
-        retVal.setCantEstudiantes(rs.getInt("cant_estudiantes"));
-
+        retVal.setNombre(rs.getString("nombre"));
+        retVal.setApellidos(rs.getString("apellido"));
+//        retVal.setSexo(rs.getc);
+        retVal.setTipo();
         return retVal;
     }
 }

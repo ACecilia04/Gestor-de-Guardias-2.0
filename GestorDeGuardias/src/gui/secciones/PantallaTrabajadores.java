@@ -244,10 +244,10 @@ public class PantallaTrabajadores extends JPanel {
             if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckMasc().isSelected() &&(e.getSexo() == 'm' || e.getSexo() == 'M')  && selec) {
+            if (!tablaOpciones.getCheckMasc().isSelected() &&e.getSexo().equalsIgnoreCase("masculino")  && selec) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckFem().isSelected() && (e.getSexo() == 'f' || e.getSexo() == 'F')  && selec) {
+            if (!tablaOpciones.getCheckFem().isSelected() && e.getSexo().equalsIgnoreCase("femenino")  && selec) {
                 selec = false;
             }
 
