@@ -6,7 +6,6 @@ import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesEstudiante;
 import gui.pantallasEmergentes.Advertencia;
 import logica.excepciones.EntradaInvalidaException;
-import model.Disponibilidad;
 import model.Persona;
 import services.Gestor;
 

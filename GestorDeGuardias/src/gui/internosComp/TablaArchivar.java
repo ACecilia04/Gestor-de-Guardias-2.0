@@ -6,7 +6,6 @@ import gui.componentes.Cuadro;
 import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
-import model.DiaGuardia;
 
 import javax.swing.*;
 import java.awt.*;

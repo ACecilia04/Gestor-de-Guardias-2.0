@@ -2,8 +2,7 @@ package gui.internosComp;
 
 import gui.auxiliares.Actualizable;
 import gui.componentes.CustomRadioButton;
-import model.DiaGuardia;
-import model.TurnoGuardia;
+import model.TurnoDeGuardia;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +16,7 @@ public class PanelTurnoArch extends PanelTurno {
     private final CustomRadioButton noCumplido;
     private final ButtonGroup radioGrupo;
 
-    public PanelTurnoArch(int ancho, Color color, final TurnoGuardia turno, DiaGuardia fecha, final Actualizable act) {
+    public PanelTurnoArch(int ancho, Color color, final TurnoDeGuardia turno, DiaGuardia fecha, final Actualizable act) {
         super(ancho, color, turno, fecha, act);
         if (this.getSize().width - 1000 > 150) {
             LayoutManager layout = this.getLayout();

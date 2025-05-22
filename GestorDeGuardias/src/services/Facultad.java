@@ -2,9 +2,8 @@ package services;
 
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import model.Disponibilidad;
 import model.Persona;
-import model.RecesoDocente;
+import model.PeriodoNoPlanificable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import static utils.Utilitarios.stringSoloNumeros;
 
 public class Facultad {
     private final ArrayList<Persona> personas;
-    private final ArrayList<RecesoDocente> recesosDocentes;
+    private final ArrayList<PeriodoNoPlanificable> recesosDocentes;
 
     public Facultad() {
         personas = new ArrayList<>();
@@ -167,7 +166,7 @@ public class Facultad {
     /**
      * Devuelve lista cronologica de los recesos docentes registrados
      */
-    public ArrayList<RecesoDocente> getRecesosDocentes() {
+    public ArrayList<PeriodoNoPlanificable> getRecesosDocentes() {
         return recesosDocentes;
     }
 
@@ -197,8 +196,8 @@ public class Facultad {
      * Dado una fecha busca el receso docente correspondiente
      * * @return
      */
-    public RecesoDocente buscarRecesoDocente(LocalDate fecha) throws EntradaInvalidaException {
-        RecesoDocente indicado = null;
+    public PeriodoNoPlanificable buscarRecesoDocente(LocalDate fecha) throws EntradaInvalidaException {
+        PeriodoNoPlanificable indicado = null;
         boolean encontrado = false;
 
         if (fecha == null)
@@ -486,7 +485,7 @@ public class Facultad {
      */
     public void annadirRecesoDocente(LocalDate inicio, LocalDate fin, String nombre) throws MultiplesErroresException, EntradaInvalidaException {
         validarRecesoDocente(inicio, fin);
-        RecesoDocente rd = new RecesoDocente(inicio, fin);
+        PeriodoNoPlanificable rd = new PeriodoNoPlanificable(inicio, fin);
         recesosDocentes.add(rd);
         Collections.sort(recesosDocentes);
     }
@@ -498,7 +497,7 @@ public class Facultad {
      * @throws EntradaInvalidaException
      */
     public void eliminarRecesoDocente(LocalDate inicio) throws EntradaInvalidaException {
-        RecesoDocente rd = buscarRecesoDocente(inicio);
+        PeriodoNoPlanificable rd = buscarRecesoDocente(inicio);
         if (rd == null)
             throw new EntradaInvalidaException("Receso docente no registrado.");
         else {
@@ -647,8 +646,8 @@ public class Facultad {
         return p.getCantGuardiasAsignadas();
     }
 
-    public RecesoDocente buscarRecesoDocente(String selectedItem) {
-        RecesoDocente aux = null;
+    public PeriodoNoPlanificable buscarRecesoDocente(String selectedItem) {
+        PeriodoNoPlanificable aux = null;
 //        for (int i = 0; i < recesosDocentes.size() && aux == null; i++) {
 //            if (recesosDocentes.get(i).getNombre().equalsIgnoreCase(selectedItem)) {
 //                aux = recesosDocentes.get(i);

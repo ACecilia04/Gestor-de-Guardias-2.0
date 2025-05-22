@@ -6,8 +6,7 @@ import gui.internosComp.*;
 import gui.pantallasEmergentes.*;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import model.DiaGuardia;
-import model.HorarioGuardia;
+import model.Horario;
 import services.Gestor;
 
 import javax.swing.*;
@@ -301,7 +300,7 @@ public class Ventana extends JFrame {
         final TablaBuscarPersona tablaP = new TablaBuscarPersona();
         try {
             DiaGuardia fechaAux = turno.getFecha();
-            HorarioGuardia horarioAux = turno.getTurno().getHorario();
+            Horario horarioAux = turno.getTurno().getHorario();
 
             nuevaPantalla = new PantallaSelecPersona(tablaP, Gestor.getInstance().getPersonasDisponibles(fechaAux.getFecha(), horarioAux, diasEnPantalla), turno);
         } catch (MultiplesErroresException e) {

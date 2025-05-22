@@ -2,7 +2,6 @@ package gui.internosComp;
 
 import gui.auxiliares.Actualizable;
 import gui.auxiliares.IsTabla;
-import model.DiaGuardia;
 
 import javax.swing.*;
 import java.awt.*;

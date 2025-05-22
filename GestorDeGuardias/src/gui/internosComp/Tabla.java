@@ -10,7 +10,6 @@ import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.Ventana;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import model.DiaGuardia;
 import services.Gestor;
 
 import javax.swing.*;

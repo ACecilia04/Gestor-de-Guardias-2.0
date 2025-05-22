@@ -4,13 +4,7 @@ public class TipoPersona {
     private final String nombre;
 
     public TipoPersona(String tipo) {
-        if (tipo.equalsIgnoreCase("estudiante")) {
-            this.nombre = "Estudiante";
-        } else if (tipo.equalsIgnoreCase("trabajador")) {
-            this.nombre = "Trabajador";
-        } else {
-            throw new IllegalArgumentException("Tipo de persona no válido: " + tipo);
-        }
+        this.nombre = tipo;
     }
 
     public String getNombre() {

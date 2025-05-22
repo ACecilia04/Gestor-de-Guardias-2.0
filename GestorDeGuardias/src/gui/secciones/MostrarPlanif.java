@@ -7,7 +7,6 @@ import gui.componentes.Etiqueta;
 import gui.internosComp.PanelOpcionesMostrarP;
 import gui.internosComp.TablaBase;
 import gui.pantallasEmergentes.Advertencia;
-import model.DiaGuardia;
 import services.Gestor;
 
 import javax.swing.*;

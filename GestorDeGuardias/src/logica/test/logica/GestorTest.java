@@ -1,8 +1,7 @@
 package logica.test.logica;
 
 import logica.excepciones.EntradaInvalidaException;
-import model.DiaGuardia;
-import model.TurnoGuardia;
+import model.TurnoDeGuardia;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.Facultad;
@@ -238,7 +237,7 @@ public class GestorTest {
 
     private void mostrarPlanDeGuardia(ArrayList<DiaGuardia> planDeGuardia) {
         for (DiaGuardia guardia : planDeGuardia) {
-            for (TurnoGuardia turno : guardia.getTurnos()) {
+            for (TurnoDeGuardia turno : guardia.getTurnos()) {
                 System.out.printf("%1$s %2$s%n", guardia.getFecha(), turno.getHorario());
             }
         }

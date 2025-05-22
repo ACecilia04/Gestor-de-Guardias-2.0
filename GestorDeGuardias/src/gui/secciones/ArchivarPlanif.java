@@ -5,7 +5,6 @@ import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import logica.excepciones.EntradaInvalidaException;
-import model.DiaGuardia;
 import services.Gestor;
 
 import javax.swing.*;

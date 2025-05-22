@@ -7,7 +7,6 @@ import gui.internosComp.PanelOpcionesTrabajador;
 import gui.pantallasEmergentes.Advertencia;
 import gui.pantallasEmergentes.PantallaAddVolunt;
 import logica.excepciones.EntradaInvalidaException;
-import model.Disponibilidad;
 import model.Persona;
 import services.Gestor;
 

@@ -2,12 +2,12 @@ package model;
 
 import java.time.LocalDate;
 
-public class RecesoDocente implements Comparable<RecesoDocente> {
+public class PeriodoNoPlanificable implements Comparable<PeriodoNoPlanificable> {
     private LocalDate inicio;
     private LocalDate fin;
 
 
-    public RecesoDocente(LocalDate fechaIncio, LocalDate fechaFin) {
+    public PeriodoNoPlanificable(LocalDate fechaIncio, LocalDate fechaFin) {
         setInicio(fechaIncio);
         setFin(fechaFin);
     }
@@ -16,12 +16,12 @@ public class RecesoDocente implements Comparable<RecesoDocente> {
         return inicio;
     }
 
-    public void setInicio(LocalDate fechaIncio) {
-        this.inicio = fechaIncio;
-    }
-
     public LocalDate getFin() {
         return fin;
+    }
+
+    public void setInicio(LocalDate fechaIncio) {
+        this.inicio = fechaIncio;
     }
 
     public void setFin(LocalDate fechaFin) {
@@ -41,11 +41,11 @@ public class RecesoDocente implements Comparable<RecesoDocente> {
      */
     @Override
     public boolean equals(Object receso) {
-        return ((RecesoDocente) receso).getInicio().equals(inicio) && (((RecesoDocente) receso).getFin().equals(fin));
+        return ((PeriodoNoPlanificable) receso).getInicio().equals(inicio) && (((PeriodoNoPlanificable) receso).getFin().equals(fin));
     }
 
     @Override
-    public int compareTo(RecesoDocente receso) {
+    public int compareTo(PeriodoNoPlanificable receso) {
 
         return inicio.compareTo(receso.getInicio());
     }

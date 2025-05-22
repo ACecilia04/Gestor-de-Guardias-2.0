@@ -6,7 +6,7 @@ import gui.componentes.*;
 import gui.secciones.Ventana;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import model.RecesoDocente;
+import model.PeriodoNoPlanificable;
 import services.Gestor;
 
 import javax.swing.*;
@@ -237,7 +237,7 @@ public class PantallaFacultad extends JDialog {
         int sepEtiq = 20;
 
 
-        ArrayList<RecesoDocente> recesos = Gestor.getInstance().getFacultad().getRecesosDocentes();
+        ArrayList<PeriodoNoPlanificable> recesos = Gestor.getInstance().getFacultad().getRecesosDocentes();
         String aux = Integer.toString(recesos.size());
         final Etiqueta cantERec = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Recesos :  " + aux);
         cantERec.setLocation(x, y);
@@ -265,7 +265,7 @@ public class PantallaFacultad extends JDialog {
             @Override
             public void onItemSelected(String selectedItem) {
                 if (selectedItem != null) {
-                    RecesoDocente rec = Gestor.getInstance().getFacultad().buscarRecesoDocente(selectedItem);
+                    PeriodoNoPlanificable rec = Gestor.getInstance().getFacultad().buscarRecesoDocente(selectedItem);
                     mostrarReceso(rec);
                 }
             }
@@ -627,7 +627,7 @@ public class PantallaFacultad extends JDialog {
         panelRec.add(contentVacio, BorderLayout.CENTER);
     }
 
-    protected void mostrarReceso(RecesoDocente recMostrar) {
+    protected void mostrarReceso(PeriodoNoPlanificable recMostrar) {
         // TODO Auto-generated method stub
         if (recMostrar != null) {
             fechaInicio.setTexto("Fecha de Inicio: " + recMostrar.getInicio());

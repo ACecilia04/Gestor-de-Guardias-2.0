@@ -5,9 +5,8 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.CustomPopupMenu;
 import gui.componentes.Etiqueta;
-import model.DiaGuardia;
 import model.Persona;
-import model.TurnoGuardia;
+import model.TurnoDeGuardia;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +18,7 @@ public class PanelTurno extends Cuadro implements Actualizable {
     protected static int alto = 25;
     protected Paleta paleta = new Paleta();
     protected Color colorLetra = paleta.getColorLetraMenu();
-    protected TurnoGuardia turno;
+    protected TurnoDeGuardia turno;
 
     protected Etiqueta horario;
     protected Etiqueta nombre;
@@ -48,7 +47,7 @@ public class PanelTurno extends Cuadro implements Actualizable {
     protected DiaGuardia fecha;
 
 
-    public PanelTurno(int ancho, Color color, TurnoGuardia turno, DiaGuardia fecha, final Actualizable act) {
+    public PanelTurno(int ancho, Color color, TurnoDeGuardia turno, DiaGuardia fecha, final Actualizable act) {
         super(new Dimension(ancho, alto), 0, color);
         this.fecha = fecha;
         this.setPreferredSize(this.getSize());
@@ -227,7 +226,7 @@ public class PanelTurno extends Cuadro implements Actualizable {
         }
     }
 
-    public TurnoGuardia getTurno() {
+    public TurnoDeGuardia getTurno() {
         return turno;
     }
 

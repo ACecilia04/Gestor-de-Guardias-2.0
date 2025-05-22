@@ -64,10 +64,10 @@ public class Gestor {
 
         for (int i = 0; i <= numDias; i++) {
             LocalDate fecha = inicio.plusDays(i);
-            ArrayList<HorarioGuardia> horarios = getHorariosDeFecha(fecha);
-            ArrayList<TurnoGuardia> turnos = new ArrayList<TurnoGuardia>();
-            for (HorarioGuardia horario : horarios) {
-                turnos.add(new TurnoGuardia(horario));
+            ArrayList<Horario> horarios = getHorariosDeFecha(fecha);
+            ArrayList<TurnoDeGuardia> turnos = new ArrayList<TurnoDeGuardia>();
+            for (Horario horario : horarios) {
+//                turnos.add(new TurnoDeGuardia(horario));
             }
             dias.add(new DiaGuardia(fecha, turnos));
         }
@@ -83,14 +83,14 @@ public class Gestor {
      * @return lista de horarios de es fecha
      * @throws EntradaInvalidaException
      */
-    public ArrayList<HorarioGuardia> getHorariosDeFecha(LocalDate fecha) throws EntradaInvalidaException {
+    public ArrayList<Horario> getHorariosDeFecha(LocalDate fecha) throws EntradaInvalidaException {
         if (fecha == null)
             throw new EntradaInvalidaException("Fecha no especificada.");
-        ArrayList<HorarioGuardia> horarios = new ArrayList<HorarioGuardia>();
-        ArrayList<EsquemaGuardia> esquemas = getEsquemasDeFecha(fecha);
+        ArrayList<Horario> horarios = new ArrayList<Horario>();
+        ArrayList<Esquema> esquemas = getEsquemasDeFecha(fecha);
 
         if (esquemas != null && !esquemas.isEmpty()) {
-            for (EsquemaGuardia esquema : esquemas) { // recorrer la lista dada	if (!horarios.contains(esquema.getHorario()))
+            for (Esquema esquema : esquemas) { // recorrer la lista dada	if (!horarios.contains(esquema.getHorario()))
                 //si la lista a retornar no tiene ya el horario de ese esquema
                 horarios.add(esquema.getHorario()); // a�adirlo
             }
@@ -103,13 +103,13 @@ public class Gestor {
      * @return lista de esquemas de guardia que le corresponden a la fecha dada
      * @throws EntradaInvalidaException
      */
-    private ArrayList<EsquemaGuardia> getEsquemasDeFecha(LocalDate fecha) throws EntradaInvalidaException {
+    private ArrayList<Esquema> getEsquemasDeFecha(LocalDate fecha) throws EntradaInvalidaException {
         DayOfWeek diaDeSemana = fecha.getDayOfWeek();
         boolean fechaEnReceso = facultad.fechaEsRecesoDocente(fecha); //para saber si seran solo trabajores o no
         boolean fechaEnSemanaPar = fechaEnSemanaPar(fecha);  // por si es fin de semana saber si seran estudiantes o trabajadores en el horario diurno
 
-        ArrayList<EsquemaGuardia> retVal = new ArrayList<EsquemaGuardia>(); //lista a return
-        for (EsquemaGuardia esquema : EnumSet.allOf(EsquemaGuardia.class)) {  //recorrer los valores del enum esquema
+        ArrayList<Esquema> retVal = new ArrayList<Esquema>(); //lista a return
+        for (Esquema esquema : EnumSet.allOf(Esquema.class)) {  //recorrer los valores del enum esquema
             if ((esquema.getDiaSemana() == null || esquema.getDiaSemana().equals(diaDeSemana)) &&          //si el dia de la semana no importa o es igual al de la fecha
                     (esquema.getEsReceso() == null || esquema.getEsReceso().equals(fechaEnReceso)) &&          //y no importa si es receso o coincide con la fecha
                     (esquema.getEsSemanaPar() == null || esquema.getEsSemanaPar().equals(fechaEnSemanaPar))) { // si la paridad de la semana no importa p coincide con la de la fecha
@@ -142,7 +142,7 @@ public class Gestor {
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    public ArrayList<Persona> getPersonasDisponibles(LocalDate fecha, HorarioGuardia horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
+    public ArrayList<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
         ArrayList<String> errores = new ArrayList<String>();
         ArrayList<Persona> personasConDeuda = new ArrayList<Persona>(); // 2 arreglos para poner a los endeudados primero
         ArrayList<Persona> personasSinDeuda = new ArrayList<Persona>();
@@ -153,10 +153,10 @@ public class Gestor {
             errores.add("Horario no especificado.");
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Datos incorrectos:, errores");
-        ArrayList<EsquemaGuardia> esquemas = getEsquemasDeFecha(fecha);  //esta lanza la EntradaInvalidaException y poor eso es parte de la declaracion pero en realidad no tendr� oportunidad de lanzarla aqui
+        ArrayList<Esquema> esquemas = getEsquemasDeFecha(fecha);  //esta lanza la EntradaInvalidaException y poor eso es parte de la declaracion pero en realidad no tendr� oportunidad de lanzarla aqui
         ArrayList<Persona> personasEnPantalla = getPersonasEnPantalla(diasEnPantalla);
         boolean fechaEsReceso = facultad.fechaEsRecesoDocente(fecha);
-        for (EsquemaGuardia esquema : esquemas) {
+        for (Esquema esquema : esquemas) {
             if (esquema.getHorario() == horario) {
                 for (Persona persona : facultad.getPersonas()) {
                     if ( //si las clases y  sexos coinciden y la persona esta disponible
@@ -196,7 +196,7 @@ public class Gestor {
     private ArrayList<Persona> getPersonasEnPantalla(ArrayList<DiaGuardia> diasEnPantalla) {
         ArrayList<Persona> personas = new ArrayList<Persona>();
         for (DiaGuardia dia : diasEnPantalla)
-            for (TurnoGuardia turno : dia.getTurnos()) {
+            for (TurnoDeGuardia turno : dia.getTurnos()) {
                 if (turno.getPersonaAsignada() != null)
                     personas.add(turno.getPersonaAsignada());
             }
@@ -209,11 +209,10 @@ public class Gestor {
      * cambiar� una por la otra
      *
      * @param dia
-     * @param turno
      * @param persona
      * @throws EntradaInvalidaException
      */
-    public void asignarPersona(DiaGuardia dia, HorarioGuardia horario, Persona persona) throws EntradaInvalidaException, MultiplesErroresException {
+    public void asignarPersona(DiaGuardia dia, Horario horario, Persona persona) throws EntradaInvalidaException, MultiplesErroresException {
         ArrayList<String> errores = new ArrayList<String>();
 
         if (dia == null)
@@ -228,7 +227,7 @@ public class Gestor {
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Datos err�neos para la asignaci�n de guardia:", errores);
 
-        TurnoGuardia turno = dia.buscarTurno(horario);
+        TurnoDeGuardia turno = dia.buscarTurno(horario);
 
         if (turno == null)
             throw new EntradaInvalidaException("Este d�a no tiene el horario deseado.");
@@ -258,7 +257,7 @@ public class Gestor {
             throw new EntradaInvalidaException("Todo d�a lectivo debe tener una persona asignada.");
         } else {
             for (DiaGuardia dia : nuevosDias)
-                for (TurnoGuardia turno : dia.getTurnos())
+                for (TurnoDeGuardia turno : dia.getTurnos())
                     if (turno.getPersonaAsignada() != null)
                         facultad.asignarGuardia(turno.getPersonaAsignada().getCarnet(), dia.getFecha());  //ya que se va a guardar se le puede poner la guardia asignada a la persona
             // si la fecha del ultimo dia registrado esta antes el primer dia de
@@ -289,7 +288,7 @@ public class Gestor {
      * @throws EntradaInvalidaException
      * @throws MultiplesErroresException
      */
-    public void intercambiarTurnos(TurnoGuardia turno1, LocalDate fecha1, TurnoGuardia turno2, LocalDate fecha2) throws EntradaInvalidaException, MultiplesErroresException {
+    public void intercambiarTurnos(TurnoDeGuardia turno1, LocalDate fecha1, TurnoDeGuardia turno2, LocalDate fecha2) throws EntradaInvalidaException, MultiplesErroresException {
         if (turno1.getHorario() != turno2.getHorario())
             throw new EntradaInvalidaException("Estos dos turnos no son intercambiables porque sus horarios no son iguales.");
         else if (getDisponibilidadPersona(fecha1, turno1.getHorario(), turno2.getPersonaAsignada()) && getDisponibilidadPersona(fecha2, turno2.getHorario(), turno1.getPersonaAsignada())) {
@@ -301,12 +300,12 @@ public class Gestor {
         }
     }
 
-    public void borrarPersonaDeTurno(LocalDate fecha, HorarioGuardia horario) throws EntradaInvalidaException {
+    public void borrarPersonaDeTurno(LocalDate fecha, Horario horario) throws EntradaInvalidaException {
         DiaGuardia dia = buscarDiaGuardia(fecha);
 
         if (dia == null)
             throw new EntradaInvalidaException("No hay planificaci�n para esta fecha.");
-        TurnoGuardia turno = dia.buscarTurno(horario);
+        TurnoDeGuardia turno = dia.buscarTurno(horario);
 
         if (turno == null)
             throw new EntradaInvalidaException("Este d�a no tiene el horario deseado.");
@@ -318,7 +317,7 @@ public class Gestor {
 
         if (dia == null)
             throw new EntradaInvalidaException("No hay planificaci�n para esta fecha.");
-        for (TurnoGuardia turno : dia.getTurnos())
+        for (TurnoDeGuardia turno : dia.getTurnos())
             turno.borrarPersonaAsignada();
     }
 
@@ -326,7 +325,7 @@ public class Gestor {
         ArrayList<Persona> personasDisponibles;
 
         for (DiaGuardia dia : dias) {
-            for (TurnoGuardia turno : dia.getTurnos()) {
+            for (TurnoDeGuardia turno : dia.getTurnos()) {
                 if (turno.getPersonaAsignada() == null) {
 
                     personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
@@ -418,7 +417,7 @@ public class Gestor {
             // y esta despues de hoy
             if ((!dia.getFecha().isBefore(inicio) && !dia.getFecha().isAfter(fin))
                     && dia.getFecha().isAfter(LocalDate.now())) {
-                for (TurnoGuardia turno : dia.getTurnos()) {
+                for (TurnoDeGuardia turno : dia.getTurnos()) {
                     if (turno.getPersonaAsignada().equals(persona)) {
                         personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), new ArrayList<DiaGuardia>());
                         if (!personasDisponibles.isEmpty())
@@ -442,7 +441,7 @@ public class Gestor {
         ArrayList<Persona> personasDisponibles;
         for (DiaGuardia dia : this.planDeGuardias) {
             if (!dia.getFecha().isBefore(fecha) && dia.getFecha().isAfter(LocalDate.now())) {
-                for (TurnoGuardia turno : dia.getTurnos()) {
+                for (TurnoDeGuardia turno : dia.getTurnos()) {
                     if (turno.getPersonaAsignada().equals(persona)) {
                         personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), new ArrayList<DiaGuardia>());
                         if (!personasDisponibles.isEmpty())
@@ -462,7 +461,7 @@ public class Gestor {
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    public boolean getDisponibilidadPersona(LocalDate fecha, HorarioGuardia horario, Persona persona) throws MultiplesErroresException, EntradaInvalidaException {
+    public boolean getDisponibilidadPersona(LocalDate fecha, Horario horario, Persona persona) throws MultiplesErroresException, EntradaInvalidaException {
         ArrayList<String> errores = new ArrayList<String>();
 
         if (fecha == null)
@@ -477,7 +476,7 @@ public class Gestor {
         if (facultad.buscarPersona(persona.getCarnet()) == null)
             throw new EntradaInvalidaException("Persona no registrada.");
 
-        ArrayList<EsquemaGuardia> esquemas = getEsquemasDeFecha(fecha);
+        ArrayList<Esquema> esquemas = getEsquemasDeFecha(fecha);
         // esta lanza la EntradaInvalidaException y poor eso es partede la declaracion pero en
         // realidad no tendr� oportunidad de lanzarla aqui
         boolean disponible = false;
@@ -528,7 +527,7 @@ public class Gestor {
     //	}
     public void actualizarCumplimiento(ArrayList<DiaGuardia> diasPorActualizar) throws EntradaInvalidaException, MultiplesErroresException {
         for (DiaGuardia dia : diasPorActualizar)
-            for (TurnoGuardia turno : dia.getTurnos())
+            for (TurnoDeGuardia turno : dia.getTurnos())
                 if (turno.getCumplimiento() != null) {
 //					turno.getPersonaAsignada().actualizarCumplimiento(dia.getFecha(), turno.getCumplimiento());
                 } else
@@ -550,7 +549,7 @@ public class Gestor {
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    public ArrayList<Persona> getPersonasDisponiblesConGuardiasDeRecuperacion(LocalDate fecha, HorarioGuardia horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
+    public ArrayList<Persona> getPersonasDisponiblesConGuardiasDeRecuperacion(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
         ArrayList<Persona> personasDisponibles = getPersonasDisponibles(fecha, horario, diasEnPantalla);
         ArrayList<Persona> personasConDeudas = new ArrayList<Persona>();
         int i = 0;
@@ -575,7 +574,7 @@ public class Gestor {
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    public ArrayList<Persona> getPersonasDisponiblesSinGuardiasDeRecuperacion(LocalDate fecha, HorarioGuardia horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
+    public ArrayList<Persona> getPersonasDisponiblesSinGuardiasDeRecuperacion(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
         ArrayList<Persona> personasDisponibles = getPersonasDisponibles(fecha, horario, diasEnPantalla);
         ArrayList<Persona> personasSinDeudas = new ArrayList<Persona>();
         int i = personasDisponibles.size() - 1;
