@@ -17,6 +17,7 @@ public class Persona implements Comparable<Persona> {
     private LocalDate baja;
     private LocalDate reincorporacion;
     private TipoPersona tipoPersona;
+    private boolean activo;
     private ArrayList<LocalDate> guardiasAsignadas;
 
 
@@ -25,9 +26,19 @@ public class Persona implements Comparable<Persona> {
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
-        setTipoPersona(new TipoPersona(tipo));
+        setTipoPersona(tipo);
         guardiasAsignadas = new ArrayList<LocalDate>();
-        ultimaGuardiaHecha = LocalDate.of(-999999999, 1, 1);
+        ultimaGuardiaHecha = LocalDate.MIN;
+    }
+    public Persona(Long id, String carnet, String nombre, String apellido, char sexo, String tipo) {
+        setId(id);
+        setCarnet(carnet);
+        setNombre(nombre);
+        setApellido(apellido);
+        setSexo(sexo);
+        setTipoPersona(tipo);
+        guardiasAsignadas = new ArrayList<LocalDate>();
+        ultimaGuardiaHecha = LocalDate.MIN;
     }
 
     // Getters
@@ -85,9 +96,13 @@ public class Persona implements Comparable<Persona> {
         return reincorporacion;
     }
 
-    public TipoPersona getTipoPersona() {
+    public String getTipoPersona() {
         return tipoPersona;
     }
+    public String getTipoPersonaAsString() {
+        return tipoPersona.toString();
+    }
+
 
     public ArrayList<LocalDate> getGuardiasAsignadas() {
         return guardiasAsignadas;
@@ -107,6 +122,9 @@ public class Persona implements Comparable<Persona> {
         }
         return cant;
     }
+    public boolean isActivo(){
+        return activo;
+    }
 
     // Setters
     public void setId(Long id) {
@@ -121,7 +139,7 @@ public class Persona implements Comparable<Persona> {
         this.apellido = apellido;
     }
 
-    private void setSexo(Character sexo) {
+    public void setSexo(Character sexo) {
         this.sexo = sexo;
     }
 
@@ -151,7 +169,7 @@ public class Persona implements Comparable<Persona> {
         this.reincorporacion = reincorporacion;
     }
 
-    public void setTipoPersona(TipoPersona tipoPersona) {
+    public void setTipoPersona(String tipoPersona) {
         this.tipoPersona = tipoPersona;
     }
 
@@ -237,4 +255,6 @@ public class Persona implements Comparable<Persona> {
             throw new EntradaInvalidaException("Fecha de la guardia no especificada.");
     }
 
+    public void setActivo(boolean activo) {
+    }
 }

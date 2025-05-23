@@ -88,21 +88,21 @@ public class Utilitarios {
         }
     }
 
-    public static int binaryDateSearch(ArrayList<DiaGuardia> list, LocalDate key, int min, int max) {
-        int retVal;
-
-        if ((max < min) || (key == null) || (list == null) || (list.isEmpty()))
-            retVal = -1;
-        else {
-            int middle = min + (max - min) / 2;
-            if (key.equals(list.get(middle).getFecha())) {
-                retVal = middle;
-            } else if (key.isBefore(list.get(middle).getFecha())) {
-                retVal = binaryDateSearch(list, key, min, middle - 1);
-            } else {
-                retVal = binaryDateSearch(list, key, middle + 1, max);
-            }
-        }
-        return retVal;
-    }
+//    public static int binaryDateSearch(ArrayList<DiaGuardia> list, LocalDate key, int min, int max) {
+//        int retVal;
+//
+//        if ((max < min) || (key == null) || (list == null) || (list.isEmpty()))
+//            retVal = -1;
+//        else {
+//            int middle = min + (max - min) / 2;
+//            if (key.equals(list.get(middle).getFecha())) {
+//                retVal = middle;
+//            } else if (key.isBefore(list.get(middle).getFecha())) {
+//                retVal = binaryDateSearch(list, key, min, middle - 1);
+//            } else {
+//                retVal = binaryDateSearch(list, key, middle + 1, max);
+//            }
+//        }
+//        return retVal;
+//    }
 }
