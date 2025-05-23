@@ -279,6 +279,15 @@ BEGIN
 END
 GO
 
+CREATE PROCEDURE sp_read_persona_by_tipo
+    @tipo NVARCHAR(20)
+AS
+BEGIN
+    SELECT * FROM persona
+    WHERE tipo = @tipo;
+END
+GO
+
 CREATE PROCEDURE sp_update_persona
     @id bigint,
     @nombre nvarchar(50),

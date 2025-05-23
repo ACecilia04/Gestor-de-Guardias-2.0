@@ -26,19 +26,20 @@ public class Persona implements Comparable<Persona> {
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
-        setTipoPersona(tipo);
+        setTipoPersona(new TipoPersona(tipo));
         guardiasAsignadas = new ArrayList<LocalDate>();
         ultimaGuardiaHecha = LocalDate.MIN;
     }
-    public Persona(Long id, String carnet, String nombre, String apellido, char sexo, String tipo) {
+    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, boolean activo) {
         setId(id);
         setCarnet(carnet);
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
-        setTipoPersona(tipo);
+        setTipoPersona(new TipoPersona(tipo));
         guardiasAsignadas = new ArrayList<LocalDate>();
-        ultimaGuardiaHecha = LocalDate.MIN;
+        setUltimaGuardiaHecha(ultimaGuardiaHecha);
+        setActivo(activo);
     }
 
     // Getters
@@ -96,7 +97,7 @@ public class Persona implements Comparable<Persona> {
         return reincorporacion;
     }
 
-    public String getTipoPersona() {
+    public TipoPersona getTipoPersona() {
         return tipoPersona;
     }
     public String getTipoPersonaAsString() {
@@ -147,12 +148,12 @@ public class Persona implements Comparable<Persona> {
         this.carnet = id;
     }
 
-    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) throws EntradaInvalidaException {
+    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) {
         if (ultimaGuardia == null)
-            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
+//            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
         if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
-            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
-                    + this.getNombre() + " " + this.getApellido() + ".");
+//            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
+//                    + this.getNombre() + " " + this.getApellido() + ".");
         }
         this.ultimaGuardiaHecha = ultimaGuardia;
     }
@@ -169,7 +170,7 @@ public class Persona implements Comparable<Persona> {
         this.reincorporacion = reincorporacion;
     }
 
-    public void setTipoPersona(String tipoPersona) {
+    public void setTipoPersona(TipoPersona tipoPersona) {
         this.tipoPersona = tipoPersona;
     }
 

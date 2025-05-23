@@ -1,27 +1,25 @@
 package services;
 
 import model.Rol;
+import utils.abstracts.MainBaseDao;
 import utils.abstracts.RowMapper;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RolServices {
-    private Connection connection;
 
-    public RolServices(Connection connection) {
-        this.connection = connection;
+    private MainBaseDao baseDao;
+
+    public RolServices(MainBaseDao baseDao) {
+        this.baseDao = baseDao;
     }
 
     // Internal Mapper
     private static class RolMapper implements RowMapper<Rol> {
         @Override
         public Rol mapRow(ResultSet rs, int rowNum) throws SQLException {
-            if (rs == null) return null;
             return new Rol(
                     rs.getString("nombre")
             );
@@ -29,54 +27,28 @@ public class RolServices {
     }
 
     // CREATE
-    public void insertRol(String nombre) throws SQLException {
-        String sql = "{CALL InsertRol(?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setString(1, nombre);
-            stmt.executeUpdate();
-        }
-    }
-
-    // READ by ID
-    public Rol getRolById(long id) throws SQLException {
-        String sql = "{CALL GetRolById(?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next() ? new RolMapper().mapRow(rs, 1) : null;
-        }
+    public void insertRol(String nombre) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_create_rol(?)", nombre);
     }
 
     // READ all
-    public List<Rol> getAllRoles() throws SQLException {
-        List<Rol> roles = new ArrayList<>();
-        String sql = "{CALL GetAllRoles()}";
-        try (CallableStatement stmt = connection.prepareCall(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            int rowNum = 0;
-            while (rs.next()) {
-                roles.add(new RolMapper().mapRow(rs, rowNum++));
-            }
-        }
-        return roles;
+    public List<Rol> getAllRoles() {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_rol", new RolMapper());
+    }
+
+    // READ by nombre
+    public Rol getRolByNombre(String nombre) {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_rol_by_nombre(?)", new RolMapper(), nombre)
+                .stream().findFirst().orElse(null);
     }
 
     // UPDATE
-    public void updateRol(long id, String nombre) throws SQLException {
-        String sql = "{CALL UpdateRol(?, ?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            stmt.setString(2, nombre);
-            stmt.executeUpdate();
-        }
+    public void updateRol(String nombre, String nuevoNombre) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_update_rol(?, ?)", nombre, nuevoNombre);
     }
 
     // DELETE
-    public void deleteRol(long id) throws SQLException {
-        String sql = "{CALL DeleteRol(?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            stmt.executeUpdate();
-        }
+    public void deleteRol(String nombre) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_delete_rol(?)", nombre);
     }
 }

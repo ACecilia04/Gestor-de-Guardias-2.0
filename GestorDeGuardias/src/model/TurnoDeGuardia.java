@@ -1,7 +1,6 @@
 package model;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class TurnoDeGuardia {
     private Horario horario;
@@ -15,6 +14,13 @@ public class TurnoDeGuardia {
         this.horario = horario;
         this.personaAsignada = personaAsignada;
         this.hecho = false;
+    }
+
+    public TurnoDeGuardia(Horario horario, long personaAsignada, boolean hecho, LocalDate fecha) {
+        this.fecha = fecha;
+        this.horario = horario;
+//        this.personaAsignada = personaAsignada;
+        this.hecho = hecho;
     }
 
     // Getters

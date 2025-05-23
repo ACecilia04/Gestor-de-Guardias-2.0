@@ -2,7 +2,10 @@ package services;
 
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import model.*;
+import model.Esquema;
+import model.Horario;
+import model.Persona;
+import model.TurnoDeGuardia;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -12,7 +15,8 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-import static utils.Utilitarios.*;
+import static utils.Utilitarios.fechaEnSemanaPar;
+import static utils.Utilitarios.quickSort;
 
 
 public class Gestor {

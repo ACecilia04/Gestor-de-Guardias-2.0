@@ -1,7 +1,5 @@
 package model;
 
-import java.time.LocalTime;
-
 public class Configuracion {
         private Horario horario;
         private Esquema esquema;

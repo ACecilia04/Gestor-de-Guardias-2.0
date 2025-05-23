@@ -1,27 +1,24 @@
 package services;
 
 import model.TipoPersona;
+import utils.abstracts.MainBaseDao;
 import utils.abstracts.RowMapper;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TipoPersonaServices {
-    private Connection connection;
 
-    public TipoPersonaServices(Connection connection) {
-        this.connection = connection;
+    private MainBaseDao baseDao;
+
+    public TipoPersonaServices(MainBaseDao baseDao) {
+        this.baseDao = baseDao;
     }
-
     // Internal Mapper
     private static class TipoPersonaMapper implements RowMapper<TipoPersona> {
         @Override
         public TipoPersona mapRow(ResultSet rs, int rowNum) throws SQLException {
-            if (rs == null) return null;
             return new TipoPersona(
                     rs.getString("nombre")
             );
@@ -29,54 +26,28 @@ public class TipoPersonaServices {
     }
 
     // CREATE
-    public void insertTipoPersona(String nombre) throws SQLException {
-        String sql = "{CALL InsertTipoPersona(?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setString(1, nombre);
-            stmt.executeUpdate();
-        }
-    }
-
-    // READ by ID
-    public TipoPersona getTipoPersonaById(long id) throws SQLException {
-        String sql = "{CALL GetTipoPersonaById(?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next() ? new TipoPersonaMapper().mapRow(rs, 1) : null;
-        }
+    public void insertTipoPersona(String nombre) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_create_tipo_persona(?)", nombre);
     }
 
     // READ all
-    public List<TipoPersona> getAllTiposPersona() throws SQLException {
-        List<TipoPersona> tiposPersona = new ArrayList<>();
-        String sql = "{CALL GetAllTiposPersona()}";
-        try (CallableStatement stmt = connection.prepareCall(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            int rowNum = 0;
-            while (rs.next()) {
-                tiposPersona.add(new TipoPersonaMapper().mapRow(rs, rowNum++));
-            }
-        }
-        return tiposPersona;
+    public List<TipoPersona> getAllTiposPersona() {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_tipo_persona", new TipoPersonaMapper());
+    }
+
+    // READ by nombre
+    public TipoPersona getTipoPersonaByNombre(String nombre) {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_tipo_persona_by_nombre(?)", new TipoPersonaMapper(), nombre)
+                .stream().findFirst().orElse(null);
     }
 
     // UPDATE
-    public void updateTipoPersona(long id, String nombre) throws SQLException {
-        String sql = "{CALL UpdateTipoPersona(?, ?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            stmt.setString(2, nombre);
-            stmt.executeUpdate();
-        }
+    public void updateTipoPersona(String nombre, String nuevoNombre) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_update_tipo_persona(?, ?)", nombre, nuevoNombre);
     }
 
     // DELETE
-    public void deleteTipoPersona(long id) throws SQLException {
-        String sql = "{CALL DeleteTipoPersona(?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            stmt.executeUpdate();
-        }
+    public void deleteTipoPersona(String nombre) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_delete_tipo_persona(?)", nombre);
     }
 }

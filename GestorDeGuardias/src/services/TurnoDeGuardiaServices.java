@@ -1,0 +1,61 @@
+package services;
+
+import model.Horario;
+import model.TurnoDeGuardia;
+import utils.abstracts.MainBaseDao;
+import utils.abstracts.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
+public class TurnoDeGuardiaServices {
+
+    private MainBaseDao baseDao;
+
+    public TurnoDeGuardiaServices(MainBaseDao baseDao) {
+        this.baseDao = baseDao;
+    }
+
+    // Internal Mapper
+    private static class TurnoDeGuardiaMapper implements RowMapper<TurnoDeGuardia> {
+        @Override
+        public TurnoDeGuardia mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new TurnoDeGuardia( new Horario(
+                    rs.getTime("hora_inicio").toLocalTime(),
+                    rs.getTime("hora_fin").toLocalTime()),
+                    rs.getLong("persona_asignada"),
+                    rs.getBoolean("hecho"),
+                    rs.getDate("fecha").toLocalDate()
+            );
+        }
+    }
+
+    // CREATE
+    public void insertTurnoDeGuardia(LocalTime horaInicio, LocalTime horaFin, long personaAsignada, Boolean hecho, LocalDate fecha) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_create_turno_de_guardia(?, ?, ?, ?, ?)", horaInicio, horaFin, personaAsignada, hecho, fecha);
+    }
+
+    // READ all
+    public List<TurnoDeGuardia> getAllTurnosDeGuardia() {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_turno_de_guardia", new TurnoDeGuardiaMapper());
+    }
+
+    // READ by primary key
+    public TurnoDeGuardia getTurnoDeGuardiaByPk(LocalTime horaInicio, LocalTime horaFin, LocalDate fecha) {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_turno_de_guardia_by_pk(?, ?, ?)", new TurnoDeGuardiaMapper(), horaInicio, horaFin, fecha)
+                .stream().findFirst().orElse(null);
+    }
+
+    // UPDATE
+    public void updateTurnoDeGuardia(LocalTime horaInicio, LocalTime horaFin, LocalDate fecha, long personaAsignada, Boolean hecho) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_update_turno_de_guardia(?, ?, ?, ?, ?)", horaInicio, horaFin, fecha, personaAsignada, hecho);
+    }
+
+    // DELETE
+    public void deleteTurnoDeGuardia(LocalTime horaInicio, LocalTime horaFin, LocalDate fecha) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_delete_turno_de_guardia(?, ?, ?)", horaInicio, horaFin, fecha);
+    }
+}

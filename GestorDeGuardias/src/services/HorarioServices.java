@@ -1,24 +1,26 @@
 package services;
 
 import model.Horario;
+import utils.abstracts.MainBaseDao;
 import utils.abstracts.RowMapper;
-import java.time.LocalTime;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalTime;
 import java.util.List;
 
 public class HorarioServices {
-    private Connection connection;
 
-    public HorarioServices(Connection connection) {
-        this.connection = connection;
+    private MainBaseDao baseDao;
+
+    public HorarioServices(MainBaseDao baseDao) {
+        this.baseDao = baseDao;
     }
 
+    // Internal Mapper
     private static class HorarioMapper implements RowMapper<Horario> {
         @Override
         public Horario mapRow(ResultSet rs, int rowNum) throws SQLException {
-            if (rs == null) return null;
             return new Horario(
                     rs.getTime("inicio").toLocalTime(),
                     rs.getTime("fin").toLocalTime()
@@ -27,56 +29,28 @@ public class HorarioServices {
     }
 
     // CREATE
-    public void insertHorario(LocalTime inicio, LocalTime fin) throws SQLException {
-        String sql = "{CALL InsertHorario(?, ?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setTime(1, Time.valueOf(inicio));
-            stmt.setTime(2, Time.valueOf(fin));
-            stmt.executeUpdate();
-        }
+    public void insertHorario(LocalTime inicio, LocalTime fin) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_create_horario(?, ?)", inicio, fin);
     }
 
-    // READ
-    public Horario getHorarioById(long id) throws SQLException {
-        String sql = "{CALL GetHorarioById(?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next() ? new HorarioMapper().mapRow(rs, 1) : null;
-        }
+    // READ all
+    public List<Horario> getAllHorarios() {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_horario", new HorarioMapper());
     }
 
-    // READ
-    public List<Horario> getAllHorarios() throws SQLException {
-        List<Horario> horarios = new ArrayList<>();
-        String sql = "{CALL GetAllHorarios()}";
-        try (CallableStatement stmt = connection.prepareCall(sql);
-             ResultSet rs = stmt.executeQuery()) {
-            int rowNum = 0;
-            while (rs.next()) {
-                horarios.add(new HorarioMapper().mapRow(rs, rowNum++));
-            }
-        }
-        return horarios;
+    // READ by primary key
+    public Horario getHorarioByPk(LocalTime inicio, LocalTime fin) {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_horario_by_pk(?, ?)", new HorarioMapper(), inicio, fin)
+                .stream().findFirst().orElse(null);
     }
 
     // UPDATE
-    public void updateHorario(long id, LocalTime inicio, LocalTime fin) throws SQLException {
-        String sql = "{CALL UpdateHorario(?, ?, ?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            stmt.setTime(2, Time.valueOf(inicio));
-            stmt.setTime(3, Time.valueOf(fin));
-            stmt.executeUpdate();
-        }
+    public void updateHorario(LocalTime inicio, LocalTime fin, LocalTime nuevoInicio, LocalTime nuevoFin) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_update_horario(?, ?, ?, ?)", inicio, fin, nuevoInicio, nuevoFin);
     }
 
     // DELETE
-    public void deleteHorario(long id) throws SQLException {
-        String sql = "{CALL DeleteHorario(?)}";
-        try (CallableStatement stmt = connection.prepareCall(sql)) {
-            stmt.setLong(1, id);
-            stmt.executeUpdate();
-        }
+    public void deleteHorario(LocalTime inicio, LocalTime fin) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_delete_horario(?, ?)", inicio, fin);
     }
 }

@@ -8,12 +8,17 @@ public class Esquema {
     private int cantPersonas;
 
     // Constructor
-    public Esquema(int diaSemana, boolean diaEsReceso, TipoPersona tipoPersona, Character sexo, int cantPersonas) {
+    public Esquema(int diaSemana, boolean diaEsReceso, String tipoPersona, Character sexo, int cantPersonas) {
         this.diaSemana = diaSemana;
         this.diaEsReceso = diaEsReceso;
-        this.tipoPersona = tipoPersona;
+        this.tipoPersona = new TipoPersona(tipoPersona);
         this.sexo = sexo;
         this.cantPersonas = cantPersonas;
+    }
+
+    public Esquema(int diaSemana, boolean diaEsReceso) {
+        this.diaSemana = diaSemana;
+        this.diaEsReceso = diaEsReceso;
     }
 
     //Getters

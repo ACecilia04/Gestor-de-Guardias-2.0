@@ -2,8 +2,8 @@ package services;
 
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
-import model.Persona;
 import model.PeriodoNoPlanificable;
+import model.Persona;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
