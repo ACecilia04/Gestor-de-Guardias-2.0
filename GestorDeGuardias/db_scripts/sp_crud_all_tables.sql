@@ -9,15 +9,23 @@
 -------------------------------------------------------
 
 CREATE PROCEDURE sp_create_configuracion
-    @hora_inicio time,
-    @hora_fin time,
-    @dia_semana tinyint,
-    @dia_es_receso bit,
+    @esquema bigint,
+    @horario bigint,
     @actual bit
 AS
 BEGIN
-    INSERT INTO configuracion (hora_inicio, hora_fin, dia_semana, dia_es_receso, actual)
-    VALUES (@hora_inicio, @hora_fin, @dia_semana, @dia_es_receso, @actual);
+    INSERT INTO configuracion (esquema, horario, actual)
+    VALUES (@esquema, @horario, @actual);
+END
+GO
+
+CREATE PROCEDURE sp_create_configuracion
+    @esquema bigint,
+    @horario bigint,
+AS
+BEGIN
+    INSERT INTO configuracion (esquema, horario)
+    VALUES (@esquema, @horario);
 END
 GO
 
@@ -29,49 +37,34 @@ END
 GO
 
 CREATE PROCEDURE sp_read_configuracion_by_pk
-    @hora_inicio time,
-    @hora_fin time,
-    @dia_semana tinyint,
-    @dia_es_receso bit
+    @esquema bigint,
+    @horario bigint
 AS
 BEGIN
     SELECT * FROM configuracion
-    WHERE hora_inicio = @hora_inicio
-      AND hora_fin = @hora_fin
-      AND dia_semana = @dia_semana
-      AND dia_es_receso = @dia_es_receso;
+    WHERE esquema = @esquema AND horario = @horario;
 END
 GO
 
 CREATE PROCEDURE sp_update_configuracion
-    @hora_inicio time,
-    @hora_fin time,
-    @dia_semana tinyint,
-    @dia_es_receso bit,
+    @esquema bigint,
+    @horario bigint,
     @actual bit
 AS
 BEGIN
     UPDATE configuracion
     SET actual = @actual
-    WHERE hora_inicio = @hora_inicio
-      AND hora_fin = @hora_fin
-      AND dia_semana = @dia_semana
-      AND dia_es_receso = @dia_es_receso;
+    WHERE esquema = @esquema AND horario = @horario;
 END
 GO
 
 CREATE PROCEDURE sp_delete_configuracion
-    @hora_inicio time,
-    @hora_fin time,
-    @dia_semana tinyint,
-    @dia_es_receso bit
+    @esquema bigint,
+    @horario bigint
 AS
 BEGIN
     DELETE FROM configuracion
-    WHERE hora_inicio = @hora_inicio
-      AND hora_fin = @hora_fin
-      AND dia_semana = @dia_semana
-      AND dia_es_receso = @dia_es_receso;
+    WHERE esquema = @esquema AND horario = @horario;
 END
 GO
 
@@ -82,7 +75,7 @@ GO
 CREATE PROCEDURE sp_create_esquema
     @dia_semana tinyint,
     @dia_es_receso bit,
-    @tipo_persona nchar(1) = NULL,
+    @tipo_persona nvarchar(20) = NULL,
     @sexo nchar(1) = NULL,
     @cant_personas tinyint
 AS
@@ -99,18 +92,26 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_read_esquema_by_pk
+CREATE PROCEDURE sp_read_esquema_by_id
+    @id bigint
+AS
+BEGIN
+    SELECT * FROM esquema WHERE id = @id;
+END
+GO
+
+CREATE PROCEDURE sp_read_esquema_by_dia_semana_and_dia_receso
     @dia_semana tinyint,
     @dia_es_receso bit
 AS
 BEGIN
     SELECT * FROM esquema
-    WHERE dia_semana = @dia_semana
-      AND dia_es_receso = @dia_es_receso;
+    WHERE dia_semana = @dia_semana AND dia_es_receso = @dia_es_receso
 END
 GO
 
 CREATE PROCEDURE sp_update_esquema
+    @id bigint,
     @dia_semana tinyint,
     @dia_es_receso bit,
     @tipo_persona nchar(1) = NULL,
@@ -119,22 +120,20 @@ CREATE PROCEDURE sp_update_esquema
 AS
 BEGIN
     UPDATE esquema
-    SET tipo_persona = @tipo_persona,
+    SET dia_semana = @dia_semana,
+        dia_es_receso = @dia_es_receso,
+        tipo_persona = @tipo_persona,
         sexo = @sexo,
         cant_personas = @cant_personas
-    WHERE dia_semana = @dia_semana
-      AND dia_es_receso = @dia_es_receso;
+    WHERE id = @id;
 END
 GO
 
 CREATE PROCEDURE sp_delete_esquema
-    @dia_semana tinyint,
-    @dia_es_receso bit
+    @id bigint
 AS
 BEGIN
-    DELETE FROM esquema
-    WHERE dia_semana = @dia_semana
-      AND dia_es_receso = @dia_es_receso;
+    DELETE FROM esquema WHERE id = @id;
 END
 GO
 
@@ -158,7 +157,15 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_read_horario_by_pk
+CREATE PROCEDURE sp_read_horario_by_id
+    @id bigint
+AS
+BEGIN
+    SELECT * FROM horario WHERE id = @id;
+END
+GO
+
+CREATE PROCEDURE sp_read_horario_by_inicio_and_fin
     @inicio time,
     @fin time
 AS
@@ -168,8 +175,7 @@ END
 GO
 
 CREATE PROCEDURE sp_update_horario
-    @inicio time,
-    @fin time,
+    @id bigint,
     @nuevo_inicio time,
     @nuevo_fin time
 AS
@@ -177,16 +183,15 @@ BEGIN
     UPDATE horario
     SET inicio = @nuevo_inicio,
         fin = @nuevo_fin
-    WHERE inicio = @inicio AND fin = @fin;
+    WHERE id = @id;
 END
 GO
 
 CREATE PROCEDURE sp_delete_horario
-    @inicio time,
-    @fin time
+    @id bigint
 AS
 BEGIN
-    DELETE FROM horario WHERE inicio = @inicio AND fin = @fin;
+    DELETE FROM horario WHERE id = @id;
 END
 GO
 
@@ -261,6 +266,19 @@ AS
 BEGIN
     INSERT INTO persona (nombre, apellido, sexo, carnet, ultima_guardia_hecha, guardias_de_recuperacion, baja, reincorporacion, tipo, activo)
     VALUES (@nombre, @apellido, @sexo, @carnet, @ultima_guardia_hecha, @guardias_de_recuperacion, @baja, @reincorporacion, @tipo, @activo);
+END
+GO
+
+CREATE PROCEDURE sp_create_persona
+    @nombre nvarchar(50),
+    @apellido nvarchar(50),
+    @sexo char(1),
+    @carnet nvarchar(11),
+    @tipo nvarchar(20),
+AS
+BEGIN
+    INSERT INTO persona (nombre, apellido, sexo, carnet, tipo)
+    VALUES (@nombre, @apellido, @sexo, @carnet, @tipo);
 END
 GO
 
@@ -422,15 +440,13 @@ GO
 -------------------------------------------------------
 
 CREATE PROCEDURE sp_create_turno_de_guardia
-    @hora_inicio time,
-    @hora_fin time,
     @persona_asignada bigint,
-    @hecho bit = NULL,
-    @fecha date
+    @fecha date,
+    @horario bigint,
 AS
 BEGIN
-    INSERT INTO turno_de_guardia (hora_inicio, hora_fin, persona_asignada, hecho, fecha)
-    VALUES (@hora_inicio, @hora_fin, @persona_asignada, @hecho, @fecha);
+    INSERT INTO turno_de_guardia (persona_asignada, fecha, horario)
+    VALUES (@persona_asignada, @fecha, @horario);
 END
 GO
 
@@ -442,45 +458,43 @@ END
 GO
 
 CREATE PROCEDURE sp_read_turno_de_guardia_by_pk
-    @hora_inicio time,
-    @hora_fin time,
-    @fecha date
+    @persona_asignada bigint,
+    @fecha date,
+    @horario bigint
 AS
 BEGIN
     SELECT * FROM turno_de_guardia
-    WHERE hora_inicio = @hora_inicio
-      AND hora_fin = @hora_fin
-      AND fecha = @fecha;
+    WHERE persona_asignada = @persona_asignada
+      AND fecha = @fecha
+      AND horario = @horario;
 END
 GO
 
 CREATE PROCEDURE sp_update_turno_de_guardia
-    @hora_inicio time,
-    @hora_fin time,
-    @fecha date,
     @persona_asignada bigint,
+    @fecha date,
+    @horario bigint,
     @hecho bit
 AS
 BEGIN
     UPDATE turno_de_guardia
-    SET persona_asignada = @persona_asignada,
-        hecho = @hecho
-    WHERE hora_inicio = @hora_inicio
-      AND hora_fin = @hora_fin
-      AND fecha = @fecha;
+    SET hecho = @hecho
+    WHERE persona_asignada = @persona_asignada
+      AND fecha = @fecha
+      AND horario = @horario;
 END
 GO
 
 CREATE PROCEDURE sp_delete_turno_de_guardia
-    @hora_inicio time,
-    @hora_fin time,
-    @fecha date
+    @persona_asignada bigint,
+    @fecha date,
+    @horario bigint
 AS
 BEGIN
     DELETE FROM turno_de_guardia
-    WHERE hora_inicio = @hora_inicio
-      AND hora_fin = @hora_fin
-      AND fecha = @fecha;
+    WHERE persona_asignada = @persona_asignada
+      AND fecha = @fecha
+      AND horario = @horario;
 END
 GO
 
@@ -506,12 +520,11 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_read_usuario_by_pk
-    @nombre nvarchar(50),
-    @contrasenna nvarchar(50)
+CREATE PROCEDURE sp_read_usuario_by_id
+    @id bigint,
 AS
 BEGIN
-    SELECT * FROM usuario WHERE nombre = @nombre AND contrasenna = @contrasenna;
+    SELECT * FROM usuario WHERE id = @id;
 END
 GO
 
@@ -539,7 +552,3 @@ BEGIN
     DELETE FROM usuario WHERE nombre = @nombre AND contrasenna = @contrasenna;
 END
 GO
-
--- ==========================================
--- Fin del archivo CRUD para todas las tablas
--- ==========================================
