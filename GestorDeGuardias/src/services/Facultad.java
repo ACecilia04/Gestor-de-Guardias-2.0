@@ -28,62 +28,64 @@ public class Facultad {
         return personas;
     }
 
-    public ArrayList<Persona> getEstudiantes() {
-        ArrayList<Persona> estudiantes = new ArrayList<>();
-
-//        for (Persona e : personas)
-//            if (e instanceof Estudiante)
-//                estudiantes.add(e);
-
-        return estudiantes;
-    }
-
-    public ArrayList<Persona> getTrabajadores() {
-        ArrayList<Persona> trabajadores = new ArrayList<>();
+//    public ArrayList<Persona> getEstudiantes() {
+//        ArrayList<Persona> estudiantes = new ArrayList<>();
 //
-//        for (Persona e : personas)
-//            if (e instanceof Trabajador)
-//                trabajadores.add(e);
+////        for (Persona e : personas)
+////            if (e instanceof Estudiante)
+////                estudiantes.add(e);
+//
+//        return estudiantes;
+//    }
+//
+//    public ArrayList<Persona> getTrabajadores() {
+//        ArrayList<Persona> trabajadores = new ArrayList<>();
+////
+////        for (Persona e : personas)
+////            if (e instanceof Trabajador)
+////                trabajadores.add(e);
+//
+//        return trabajadores;
+//    }
 
-        return trabajadores;
-    }
-
-    /**
-     * Devuelve la lista de personas disponibles en un una fecha dada
-     * teniendo en cuenta si estan de baja o licencia en la fecha dada
-     *
-     * @param fecha fecha en la que se busca disponibilidad
-     * @return lista de personas disponibles ordenada alfab�ticamente
-     * @throws EntradaInvalidaException si la fecha no es especificada
-     */
-    public ArrayList<Persona> getPersonasDisponibles(LocalDate fecha) throws EntradaInvalidaException {
-        ArrayList<Persona> lista = new ArrayList<>();
-        if (fecha == null) {
-            throw new EntradaInvalidaException("Fecha no especificada.");
-        } else {
-            for (Persona p : personas)
-                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.DISPONIBLE)
-                    lista.add(p);
-        }
-        return lista;
-    }
-
-    /**
-     * @param fecha
-     * @param personas
-     * @return lista de personas disponibles en la fecha dada
-     * @throws EntradaInvalidaException
-     */
-    public ArrayList<Persona> getPersonasDisponibles(LocalDate fecha, ArrayList<Persona> personas) throws EntradaInvalidaException {
-        if (fecha == null) {
-            throw new EntradaInvalidaException("Fecha no especificada.");
-        } else {
-            for (Persona p : personas)
-                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.DISPONIBLE)
-                    personas.add(p);
-        }
-        return personas;
-    }
+//    /**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! la disponibilidad ya no estan en las personas,
+//    como atributo asi que no se que hacer muy bien con esto XD
+//
+//     * Devuelve la lista de personas disponibles en un una fecha dada
+//     * teniendo en cuenta si estan de baja o licencia en la fecha dada
+//     *
+//     * @param fecha fecha en la que se busca disponibilidad
+//     * @return lista de personas disponibles ordenada alfab�ticamente
+//     * @throws EntradaInvalidaException si la fecha no es especificada
+//     */
+//    public ArrayList<Persona> getPersonasDisponibles(LocalDate fecha) throws EntradaInvalidaException {
+//        ArrayList<Persona> lista = new ArrayList<>();
+//        if (fecha == null) {
+//            throw new EntradaInvalidaException("Fecha no especificada.");
+//        } else {
+//            for (Persona p : personas)
+//                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.DISPONIBLE)
+//                    lista.add(p);
+//        }
+//        return lista;
+//    }
+//
+//    /**
+//     * @param fecha
+//     * @param personas
+//     * @return lista de personas disponibles en la fecha dada
+//     * @throws EntradaInvalidaException
+//     */
+//    public ArrayList<Persona> getPersonasDisponibles(LocalDate fecha, ArrayList<Persona> personas) throws EntradaInvalidaException {
+//        if (fecha == null) {
+//            throw new EntradaInvalidaException("Fecha no especificada.");
+//        } else {
+//            for (Persona p : personas)
+//                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.DISPONIBLE)
+//                    personas.add(p);
+//        }
+//        return personas;
+//    }
 
     /**
      * Devuelve la lista de personas de baja en un una fecha dada
@@ -98,31 +100,31 @@ public class Facultad {
             throw new EntradaInvalidaException("Fecha no especificada.");
         } else {
             for (Persona p : personas)
-                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.BAJA)
+                if (p.getBaja() == fecha)
                     lista.add(p);
         }
         return lista;
     }
-
-    /**
-     * Devuelve de una lista de personas, las que estan de baja en una fecha
-     * dada
-     *
-     * @param fecha    fecha en la que se busca disponibilidad
-     * @param personas lista de personas
-     * @return lista de personas disponibles ordenada alfab�ticamente
-     * @throws EntradaInvalidaException si la fecha no es especificada
-     */
-    public ArrayList<Persona> getPersonasDeBaja(LocalDate fecha, ArrayList<Persona> personas) throws EntradaInvalidaException {
-        if (fecha == null) {
-            throw new EntradaInvalidaException("Fecha no especificada.");
-        } else {
-            for (Persona p : personas)
-                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.BAJA)
-                    personas.add(p);
-        }
-        return personas;
-    }
+//!!!!!!!!!!!esto no entendi muy xq es que esta si ya tienes una funcion ed obtener personas por baja, asi q la comento y te pregunto luego
+//    /**
+//     * Devuelve de una lista de personas, las que estan de baja en una fecha
+//     * dada
+//     *
+//     * @param fecha    fecha en la que se busca disponibilidad
+//     * @param personas lista de personas
+//     * @return lista de personas disponibles ordenada alfab�ticamente
+//     * @throws EntradaInvalidaException si la fecha no es especificada
+//     */
+//    public ArrayList<Persona> getPersonasDeBaja(LocalDate fecha, ArrayList<Persona> personas) throws EntradaInvalidaException {
+//        if (fecha == null) {
+//            throw new EntradaInvalidaException("Fecha no especificada.");
+//        } else {
+//            for (Persona p : personas)
+//                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.BAJA)
+//                    personas.add(p);
+//        }
+//        return personas;
+//    }
 
 //    /**
 //     * Devuelve la lista de personas de licencia en un una fecha dada

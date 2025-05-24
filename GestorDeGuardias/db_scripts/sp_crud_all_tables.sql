@@ -289,11 +289,11 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE sp_read_persona_by_id
-    @id bigint
+CREATE PROCEDURE sp_read_persona_by_ci
+    @carnet nvarchar(11)
 AS
 BEGIN
-    SELECT * FROM persona WHERE id = @id;
+    SELECT * FROM persona WHERE carnet = @carnet;
 END
 GO
 
@@ -305,6 +305,14 @@ BEGIN
     WHERE tipo = @tipo;
 END
 GO
+--cree esta func para poder hacerla en persona services
+CREATE PROCEDURE sp_read_persona_by_baja
+    @baja date
+AS
+BEGIN
+    SELECT * FROM Persona
+    WHERE baja = @baja;
+END;
 
 CREATE PROCEDURE sp_update_persona
     @id bigint,
@@ -336,10 +344,10 @@ END
 GO
 
 CREATE PROCEDURE sp_delete_persona
-    @id bigint
+    @carnet nvarchar(11)
 AS
 BEGIN
-    DELETE FROM persona WHERE id = @id;
+    DELETE FROM persona WHERE carnet = @carnet;
 END
 GO
 

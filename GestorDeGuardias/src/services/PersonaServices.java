@@ -1,5 +1,6 @@
 package services;
 
+import logica.excepciones.EntradaInvalidaException;
 import model.Persona;
 import model.TipoPersona;
 import utils.abstracts.MainBaseDao;
@@ -52,13 +53,24 @@ public class PersonaServices {
         return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona", new PersonaMapper());
     }
 
-    public Persona getPersonaById(long id) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_id(?)", new PersonaMapper(), id)
+    public Persona getPersonaByCi(String ci) {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_ci(?)", new PersonaMapper(), ci)
                 .stream().findFirst().orElse(null);
     }
 
     public List<Persona> getPersonaByTipo(TipoPersona tipoPersona) {
         return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
+    }
+    /*
+    * no estoy segura de si validar eso pero como asi es como estaba en facultad, igual se puede editar
+    */
+    public List<Persona> getPersonasDeBaja(LocalDate fecha) throws EntradaInvalidaException {
+        if (fecha == null) {
+            throw new EntradaInvalidaException("Fecha no especificada.");
+        }
+
+        return baseDao.getJdbcTemplate()
+                .executeProcedureWithResults("sp_read_persona_by_baja(?)", new PersonaMapper(), fecha);
     }
 
     // UPDATE
@@ -71,7 +83,10 @@ public class PersonaServices {
     }
 
     // DELETE
-    public void deletePersona(long id) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_persona(?)", id);
+    public void deletePersona(String ci) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_delete_persona(?)", ci);
     }
+
+
+
 }
