@@ -357,56 +357,56 @@ public class Gestor {
         sustituirGuardias(fechaBaja, persona);
     }
 
-    /**
-     * Luego de dar la licencia via la facultad, asigna un sustituto
-     * adecuado en todas la guardias asignadas al estudiante
-     *
-     * @param ci
-     * @param inicio
-     * @throws EntradaInvalidaException
-     * @throws MultiplesErroresException
-     */
-    public void darLicenciaEstudiante(String ci, LocalDate inicio) throws EntradaInvalidaException, MultiplesErroresException {
-        Persona persona = facultad.buscarPersona(ci);
-        facultad.darLicenciaEstudiante(inicio, persona.getCarnet());
-        sustituirGuardias(inicio, persona);
-
-    }
-
-    /**
-     * Luego de dar la licencia via la facultad, asigna un sustituto
-     * adecuado en todas la guardias asignadas al estudiante
-     *
-     * @param ci
-     * @param inicio
-     * @param fin
-     * @throws EntradaInvalidaException
-     * @throws MultiplesErroresException
-     */
-    public void darLicenciaEstudiante(String ci, LocalDate inicio, LocalDate fin) throws EntradaInvalidaException, MultiplesErroresException {
-        Persona persona = facultad.buscarPersona(ci);
-        facultad.darLicenciaEstudiante(inicio, fin, persona.getCarnet());
-        sustituirGuardias(inicio, fin, persona);
-
-    }
-
-    /**
-     * Luego de dar la licencia via la facultad, asigna un sustituto
-     * adecuado en todas la guardias asignadas al trabajador
-     *
-     * @param ci
-     * @param inicio
-     * @param fin
-     * @param tipo
-     * @throws EntradaInvalidaException
-     * @throws MultiplesErroresException
-     */
-    public void darLicenciaTrabajador(String ci, LocalDate inicio, LocalDate fin, TipoLicencia tipo) throws EntradaInvalidaException, MultiplesErroresException {
-        Persona persona = facultad.buscarPersona(ci);
-        facultad.darLicenciaTrabajador(inicio, fin, persona.getCarnet(), tipo);
-        sustituirGuardias(inicio, fin, persona);
-
-    }
+//    /**
+//     * Luego de dar la licencia via la facultad, asigna un sustituto
+//     * adecuado en todas la guardias asignadas al estudiante
+//     *
+//     * @param ci
+//     * @param inicio
+//     * @throws EntradaInvalidaException
+//     * @throws MultiplesErroresException
+//     */
+//    public void darLicenciaEstudiante(String ci, LocalDate inicio) throws EntradaInvalidaException, MultiplesErroresException {
+//        Persona persona = facultad.buscarPersona(ci);
+//        facultad.darLicenciaEstudiante(inicio, persona.getCarnet());
+//        sustituirGuardias(inicio, persona);
+//
+//    }
+//
+//    /**
+//     * Luego de dar la licencia via la facultad, asigna un sustituto
+//     * adecuado en todas la guardias asignadas al estudiante
+//     *
+//     * @param ci
+//     * @param inicio
+//     * @param fin
+//     * @throws EntradaInvalidaException
+//     * @throws MultiplesErroresException
+//     */
+//    public void darLicenciaEstudiante(String ci, LocalDate inicio, LocalDate fin) throws EntradaInvalidaException, MultiplesErroresException {
+//        Persona persona = facultad.buscarPersona(ci);
+//        facultad.darLicenciaEstudiante(inicio, fin, persona.getCarnet());
+//        sustituirGuardias(inicio, fin, persona);
+//
+//    }
+//
+//    /**
+//     * Luego de dar la licencia via la facultad, asigna un sustituto
+//     * adecuado en todas la guardias asignadas al trabajador
+//     *
+//     * @param ci
+//     * @param inicio
+//     * @param fin
+//     * @param tipo
+//     * @throws EntradaInvalidaException
+//     * @throws MultiplesErroresException
+//     */
+//    public void darLicenciaTrabajador(String ci, LocalDate inicio, LocalDate fin, TipoLicencia tipo) throws EntradaInvalidaException, MultiplesErroresException {
+//        Persona persona = facultad.buscarPersona(ci);
+//        facultad.darLicenciaTrabajador(inicio, fin, persona.getCarnet(), tipo);
+//        sustituirGuardias(inicio, fin, persona);
+//
+//    }
 
     /**
      * Asigna un sustituto adecuado en todas la guardias planificadas
