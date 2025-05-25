@@ -5,7 +5,6 @@ import gui.auxiliares.IsTabla;
 
 import javax.swing.*;
 import java.awt.*;
-
 public class PanelDia extends PanelDiaBase implements Actualizable {
     private static final long serialVersionUID = 1L;
 
