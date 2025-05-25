@@ -1,4 +1,4 @@
-package logica.excepciones;
+package utils.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

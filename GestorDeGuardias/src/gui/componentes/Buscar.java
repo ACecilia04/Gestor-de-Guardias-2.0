@@ -1,7 +1,7 @@
 package gui.componentes;
 
 import gui.auxiliares.Paleta;
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
 import services.Gestor;
 

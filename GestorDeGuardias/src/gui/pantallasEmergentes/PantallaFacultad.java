@@ -4,8 +4,8 @@ import gui.auxiliares.ComboBoxSelectionListener;
 import gui.auxiliares.Paleta;
 import gui.componentes.*;
 import gui.secciones.Ventana;
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import model.PeriodoNoPlanificable;
 import services.Gestor;
 

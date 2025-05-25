@@ -5,7 +5,7 @@ import gui.componentes.Buscar;
 import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesEstudiante;
 import gui.pantallasEmergentes.Advertencia;
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
 import services.Gestor;
 

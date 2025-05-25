@@ -7,8 +7,8 @@ import gui.componentes.Boton;
 import gui.componentes.Buscar;
 import gui.internosComp.PanelTurno;
 import gui.secciones.Ventana;
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import model.Persona;
 import services.Gestor;
 

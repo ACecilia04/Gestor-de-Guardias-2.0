@@ -4,8 +4,8 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.internosComp.*;
 import gui.pantallasEmergentes.*;
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import model.Horario;
 import services.Gestor;
 

@@ -4,7 +4,7 @@ import gui.auxiliares.Paleta;
 import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 import services.Gestor;
 
 import javax.swing.*;

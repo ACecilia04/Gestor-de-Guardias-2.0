@@ -1,6 +1,6 @@
 package services;
 
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
 import model.TipoPersona;
 import utils.abstracts.MainBaseDao;
@@ -9,7 +9,11 @@ import utils.abstracts.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+
+import static utils.Utilitarios.stringEsValido;
+import static utils.Utilitarios.stringSoloNumeros;
 
 public class PersonaServices {
 
@@ -38,6 +42,7 @@ public class PersonaServices {
             );
         }
     }
+    //TODO: manejar validacion de tipo
 
     // CREATE
     public void insertPersona(String nombre, String apellido, char sexo, String carnet,
@@ -47,6 +52,11 @@ public class PersonaServices {
                 nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha, guardiasDeRecuperacion,
                 baja, reincorporacion, tipo, activo);
     }
+    public void insertPersona(String nombre, String apellido, char sexo, String carnet,
+                              String tipo) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_create_persona(?, ?, ?, ?, ?)",
+                nombre, apellido, String.valueOf(sexo), carnet, tipo);
+    }
 
     // READ
     public List<Persona> getAllPersonas() {
@@ -55,6 +65,11 @@ public class PersonaServices {
 
     public Persona getPersonaByCi(String ci) {
         return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_ci(?)", new PersonaMapper(), ci)
+                .stream().findFirst().orElse(null);
+    }
+
+    public Persona getPersonaById(Long id) {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_id(?)", new PersonaMapper(), id)
                 .stream().findFirst().orElse(null);
     }
 
@@ -83,10 +98,72 @@ public class PersonaServices {
     }
 
     // DELETE
-    public void deletePersona(String ci) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_persona(?)", ci);
+    public void deletePersonaByCi(String ci) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_delete_persona_by_ci(?)", ci);
     }
 
+    public void deletePersonaById(String id) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_delete_persona_by_id(?)", id);
+    }
+
+    private ArrayList<String> validarPersona(String ci, String nombre, String apellidos, Character sexo) {
+        ArrayList<String> errores = new ArrayList<String>();
+        boolean carneIdentidadValido = true;
+        if (!stringEsValido(ci)) {
+            errores.add("Carnet de identidad no especificado.");
+            carneIdentidadValido = false;
+        } else {
+            if (ci.length() != 11) {
+                errores.add("Carnet de identidad no válido: Longitud incorrecta.");
+                carneIdentidadValido = false;
+            } else {
+                if (!stringSoloNumeros(ci)) {
+                    errores.add("Carnet de identidad no válido: Caracteres no numéricos.");
+                    carneIdentidadValido = false;
+                } else {
+                    int dia = Integer.parseInt(ci.substring(4, 6));
+                    int mes = Integer.parseInt(ci.substring(2, 4));
+                    int anno = Integer.parseInt(ci.substring(0, 2));
+
+                    if (mes > 0 && mes <= 12) {
+                        boolean diaValido = true;
+                        if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
+                            if (dia > 31 || dia == 0) {
+                                diaValido = false;
+                            }
+                        } else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+                            if (dia > 30 || dia == 0) {
+                                diaValido = false;
+                            }
+                        } else if (mes == 2) {
+                            if (anno % 4 != 0 && dia > 28) {
+                                diaValido = false;
+                            } else if (anno % 4 == 0 && dia > 29) {
+                                diaValido = false;
+                            }
+                        }
+                        if (!diaValido) {
+                            errores.add("Carnet de identidad no válido: Dia incorrecto.");
+                            carneIdentidadValido = false;
+                        }
+                    } else {
+                        errores.add("Carnet de identidad no válido: Mes incorrecto.");
+                        carneIdentidadValido = false;
+                    }
+                }
+            }
+        }
+        if (!stringEsValido(nombre))
+            errores.add("Nombre no especificado.");
+        if (!stringEsValido(apellidos))
+            errores.add("Apellido no especificado.");
+        if (sexo == null)
+            errores.add("Sexo no especificado.");
+        else if (carneIdentidadValido && ((Integer.parseInt(ci.substring(9, 10)) % 2 == 0 && sexo != 'm') || (Integer.parseInt(ci.substring(9, 10)) % 2 != 0 && sexo != 'f')))
+            errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
+
+        return errores;
+    }
 
 
 }

@@ -5,7 +5,7 @@ import gui.componentes.Boton;
 import gui.internosComp.PanelTurno;
 import gui.internosComp.Tabla;
 import gui.internosComp.TablaOpcionesPlanif;
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import java.awt.*;

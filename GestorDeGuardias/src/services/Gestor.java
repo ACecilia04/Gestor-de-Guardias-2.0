@@ -1,7 +1,7 @@
 package services;
 
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import model.Esquema;
 import model.Horario;
 import model.Persona;

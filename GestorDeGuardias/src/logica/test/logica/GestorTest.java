@@ -1,6 +1,6 @@
 package logica.test.logica;
 
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 import model.TurnoDeGuardia;
 import org.junit.BeforeClass;
 import org.junit.Test;

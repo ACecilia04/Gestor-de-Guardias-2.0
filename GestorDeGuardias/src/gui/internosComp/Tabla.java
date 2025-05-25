@@ -8,8 +8,8 @@ import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.Ventana;
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import services.Gestor;
 
 import javax.swing.*;

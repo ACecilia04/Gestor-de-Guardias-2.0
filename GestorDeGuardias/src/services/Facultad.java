@@ -1,7 +1,7 @@
 package services;
 
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import model.PeriodoNoPlanificable;
 import model.Persona;
 
@@ -28,25 +28,25 @@ public class Facultad {
         return personas;
     }
 
-//    public ArrayList<Persona> getEstudiantes() {
-//        ArrayList<Persona> estudiantes = new ArrayList<>();
+    public ArrayList<Persona> getEstudiantes() {
+        ArrayList<Persona> estudiantes = new ArrayList<>();
+
+//        for (Persona e : personas)
+//            if (e instanceof Estudiante)
+//                estudiantes.add(e);
+
+        return estudiantes;
+    }
+
+    public ArrayList<Persona> getTrabajadores() {
+        ArrayList<Persona> trabajadores = new ArrayList<>();
 //
-////        for (Persona e : personas)
-////            if (e instanceof Estudiante)
-////                estudiantes.add(e);
-//
-//        return estudiantes;
-//    }
-//
-//    public ArrayList<Persona> getTrabajadores() {
-//        ArrayList<Persona> trabajadores = new ArrayList<>();
-////
-////        for (Persona e : personas)
-////            if (e instanceof Trabajador)
-////                trabajadores.add(e);
-//
-//        return trabajadores;
-//    }
+//        for (Persona e : personas)
+//            if (e instanceof Trabajador)
+//                trabajadores.add(e);
+
+        return trabajadores;
+    }
 
 //    /**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! la disponibilidad ya no estan en las personas,
 //    como atributo asi que no se que hacer muy bien con esto XD

@@ -1,8 +1,8 @@
 package gui.pantallasEmergentes;
 
 import gui.secciones.Ventana;
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import services.Gestor;
 
 public class PantallaAddTrabajador extends PantallaAddPersona {

@@ -1,6 +1,6 @@
 package utils;
 
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
 
 import java.time.LocalDate;

@@ -6,7 +6,7 @@ import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesTrabajador;
 import gui.pantallasEmergentes.Advertencia;
 import gui.pantallasEmergentes.PantallaAddVolunt;
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
 import services.Gestor;
 

@@ -1,4 +1,4 @@
-package logica.excepciones;
+package utils.exceptions;
 
 public class EntradaInvalidaException extends Exception {
     private static final long serialVersionUID = 1L;
