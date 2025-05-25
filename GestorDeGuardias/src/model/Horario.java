@@ -27,4 +27,9 @@ public class Horario {
     public void setInicio(LocalTime inicio) {
         this.inicio = inicio;
     }
+
+    @Override
+    public String toString(){
+        return inicio.toString() + " - " + fin.toString();
+    }
 }

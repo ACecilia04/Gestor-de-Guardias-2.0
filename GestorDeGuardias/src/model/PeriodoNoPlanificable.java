@@ -29,7 +29,6 @@ public class PeriodoNoPlanificable implements Comparable<PeriodoNoPlanificable> 
     }
 
     /**
-     * @param fecha
      * @return true si inicio <= fecha dada <= fin
      */
     public boolean fechaEstaSolapada(LocalDate fecha) {

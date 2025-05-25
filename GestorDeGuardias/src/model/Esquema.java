@@ -62,6 +62,7 @@ public class Esquema {
     public void setCantPersonas(int cantPersonas) {
         this.cantPersonas = cantPersonas;
     }
+
 //    public Horario getHorario() { return horario; }
 //    public void setHorario(Horario horario) { this.horario = horario; }
 //
