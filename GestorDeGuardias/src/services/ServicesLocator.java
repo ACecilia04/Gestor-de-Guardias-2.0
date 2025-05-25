@@ -3,18 +3,18 @@ package services;
 import utils.abstracts.MainBaseDao;
 
 public class ServicesLocator {
-    ServicesLocator me = null;
-    ConfiguracionServices configuracionServices;
-    EsquemaServices esquemaServices;
-    HorarioServices horarioServices;
-    PeriodoNoPlanificableServices periodoNoPlanificableServices;
-    PersonaServices personaServices;
-    TipoPersonaServices tipoPersonaServices;
-    TurnoDeGuardiaServices turnoDeGuardiaServices;
-    UsuarioService usuarioService;
-    MainBaseDao mbDAO;
+    static ServicesLocator me = null;
+    private ConfiguracionServices configuracionServices;
+    private EsquemaServices esquemaServices;
+    private HorarioServices horarioServices;
+    private PeriodoNoPlanificableServices periodoNoPlanificableServices;
+    private PersonaServices personaServices;
+    private TipoPersonaServices tipoPersonaServices;
+    private TurnoDeGuardiaServices turnoDeGuardiaServices;
+    private UsuarioService usuarioService;
+    private MainBaseDao mbDAO;
 
-    public ServicesLocator getServicesLocatorInstance(){
+    public static ServicesLocator getServicesLocatorInstance(){
         if(me == null){
             return new ServicesLocator();
         }
