@@ -30,8 +30,8 @@ public class TurnoDeGuardiaServices {
     }
 
     // READ by primary key
-    public TurnoDeGuardia getTurnoDeGuardiaByPk(LocalTime horaInicio, LocalTime horaFin, LocalDate fecha) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_turno_de_guardia_by_pk(?, ?, ?)", new TurnoDeGuardiaMapper(), horaInicio, horaFin, fecha)
+    public TurnoDeGuardia getTurnoDeGuardiaByPk(Long horarioId, LocalDate fecha) {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_turno_de_guardia_by_pk( ?, ?)", new TurnoDeGuardiaMapper(),horarioId, fecha)
                 .stream().findFirst().orElse(null);
     }
 
