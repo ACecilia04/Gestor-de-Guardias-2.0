@@ -5,9 +5,11 @@ import gui.componentes.Buscar;
 import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesEstudiante;
 import gui.pantallasEmergentes.Advertencia;
-import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
+import model.TipoPersona;
 import services.Gestor;
+import services.ServicesLocator;
+import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -49,7 +51,7 @@ public class PantallaEstudiantes extends JPanel {
             aux.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ArrayList<Persona> personaAux = checkFiltros(Gestor.getInstance().getFacultad().getEstudiantes());
+                    ArrayList<Persona> personaAux = checkFiltros(ServicesLocator.getServicesLocatorInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante")));
                     revalidarTabla(personaAux);
                 }
             });
@@ -221,7 +223,7 @@ public class PantallaEstudiantes extends JPanel {
     }
 
     public void revalidarTabla() {
-        this.tabla.revalidarTabla(checkFiltros(Gestor.getInstance().getFacultad().getEstudiantes()));
+        this.tabla.revalidarTabla(checkFiltros(ServicesLocator.getServicesLocatorInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante"))));
 
         revalidate();
         repaint();
@@ -233,12 +235,12 @@ public class PantallaEstudiantes extends JPanel {
 
         for (Persona e : personas) {
             boolean selec = true;
-            if (!tablaOpciones.getCheckDisp().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.DISPONIBLE && selec) {
-                selec = false;
-            }
-            if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
-                selec = false;
-            }
+//            if (!tablaOpciones.getCheckDisp().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.DISPONIBLE && selec) {
+//                selec = false;
+//            }
+//            if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
+//                selec = false;
+//            }
             if (!tablaOpciones.getCheckMasc().isSelected() && e.getSexo().equalsIgnoreCase("masculino") && selec) {
                 selec = false;
             }

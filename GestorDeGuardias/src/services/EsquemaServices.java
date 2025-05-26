@@ -10,24 +10,10 @@ import java.util.List;
 
 public class EsquemaServices {
 
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public EsquemaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
-    }
-
-    // Internal Mapper
-    private static class EsquemaMapper implements RowMapper<Esquema> {
-        @Override
-        public Esquema mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Esquema(
-                    rs.getInt("dia_semana"),
-                    rs.getBoolean("dia_es_receso"),
-                    rs.getString("tipo_persona") != null ? rs.getString("tipo_persona") : null,
-                    rs.getString("sexo") != null ? rs.getString("sexo").charAt(0) : null,
-                    rs.getInt("cant_personas")
-            );
-        }
     }
 
     // CREATE
@@ -55,5 +41,19 @@ public class EsquemaServices {
     // DELETE
     public void deleteEsquema(int diaSemana, boolean diaEsReceso) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_esquema(?, ?)", diaSemana, diaEsReceso);
+    }
+
+    // Internal Mapper
+    private static class EsquemaMapper implements RowMapper<Esquema> {
+        @Override
+        public Esquema mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Esquema(
+                    rs.getInt("dia_semana"),
+                    rs.getBoolean("dia_es_receso"),
+                    rs.getString("tipo_persona") != null ? rs.getString("tipo_persona") : null,
+                    rs.getString("sexo") != null ? rs.getString("sexo").charAt(0) : null,
+                    rs.getInt("cant_personas")
+            );
+        }
     }
 }

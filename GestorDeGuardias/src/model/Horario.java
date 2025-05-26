@@ -16,12 +16,12 @@ public class Horario {
         return fin;
     }
 
-    public LocalTime getInicio() {
-        return inicio;
-    }
-
     public void setFin(LocalTime fin) {
         this.fin = fin;
+    }
+
+    public LocalTime getInicio() {
+        return inicio;
     }
 
     public void setInicio(LocalTime inicio) {
@@ -29,7 +29,7 @@ public class Horario {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return inicio.toString() + " - " + fin.toString();
     }
 }

@@ -10,19 +10,10 @@ import java.util.List;
 
 public class TipoPersonaServices {
 
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public TipoPersonaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
-    }
-    // Internal Mapper
-    private static class TipoPersonaMapper implements RowMapper<TipoPersona> {
-        @Override
-        public TipoPersona mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new TipoPersona(
-                    rs.getString("nombre")
-            );
-        }
     }
 
     // CREATE
@@ -49,5 +40,15 @@ public class TipoPersonaServices {
     // DELETE
     public void deleteTipoPersona(String nombre) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_tipo_persona(?)", nombre);
+    }
+
+    // Internal Mapper
+    private static class TipoPersonaMapper implements RowMapper<TipoPersona> {
+        @Override
+        public TipoPersona mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new TipoPersona(
+                    rs.getString("nombre")
+            );
+        }
     }
 }

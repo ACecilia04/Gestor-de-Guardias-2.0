@@ -10,18 +10,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UsuarioService {
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public UsuarioService(MainBaseDao baseDao) {
         this.baseDao = baseDao;
-    }
-
-    // Internal Mapper
-    private static class UsuarioMapper implements RowMapper<Usuario> {
-        @Override
-        public Usuario mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Usuario(rs.getString("nombre"), rs.getString("email"), new Rol(rs.getString("rol")));
-        }
     }
 
     // CREATE
@@ -48,5 +40,13 @@ public class UsuarioService {
     // DELETE
     public void deleteUsuario(int id) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_usuario(?)", id);
+    }
+
+    // Internal Mapper
+    private static class UsuarioMapper implements RowMapper<Usuario> {
+        @Override
+        public Usuario mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Usuario(rs.getString("nombre"), rs.getString("email"), new Rol(rs.getString("rol")));
+        }
     }
 }

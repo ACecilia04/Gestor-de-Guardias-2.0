@@ -11,21 +11,10 @@ import java.util.List;
 
 public class HorarioServices {
 
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public HorarioServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
-    }
-
-    // Internal Mapper
-    private static class HorarioMapper implements RowMapper<Horario> {
-        @Override
-        public Horario mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Horario(
-                    rs.getTime("inicio").toLocalTime(),
-                    rs.getTime("fin").toLocalTime()
-            );
-        }
     }
 
     // CREATE
@@ -52,5 +41,16 @@ public class HorarioServices {
     // DELETE
     public void deleteHorario(LocalTime inicio, LocalTime fin) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_horario(?, ?)", inicio, fin);
+    }
+
+    // Internal Mapper
+    private static class HorarioMapper implements RowMapper<Horario> {
+        @Override
+        public Horario mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Horario(
+                    rs.getTime("inicio").toLocalTime(),
+                    rs.getTime("fin").toLocalTime()
+            );
+        }
     }
 }

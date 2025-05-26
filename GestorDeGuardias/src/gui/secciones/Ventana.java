@@ -4,10 +4,13 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.internosComp.*;
 import gui.pantallasEmergentes.*;
+import logica.principal.DiaGuardia;
+import model.Horario;
+import model.TipoPersona;
+import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
-import model.Horario;
-import services.Gestor;
 
 import javax.swing.*;
 import java.awt.*;
@@ -283,7 +286,7 @@ public class Ventana extends JFrame {
         pantallaEstudiantes = new PantallaEstudiantes();
 
         TablaEstudiantes customTabla = new TablaEstudiantes();
-        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros(Gestor.getInstance().getFacultad().getEstudiantes()));
+        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros(ServicesLocator.getServicesLocatorInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante"))));
         pantallaEstudiantes.addTabla(customTabla);
     }
 

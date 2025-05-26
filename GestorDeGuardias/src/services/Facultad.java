@@ -1,9 +1,9 @@
 package services;
 
-import utils.exceptions.EntradaInvalidaException;
-import utils.exceptions.MultiplesErroresException;
 import model.PeriodoNoPlanificable;
 import model.Persona;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class Facultad {
         return personas;
     }
 
-    public ArrayList<Persona> getEstudiantes() {
+    public ArrayList<Persona> getEstudiante() {
         ArrayList<Persona> estudiantes = new ArrayList<>();
 
 //        for (Persona e : personas)

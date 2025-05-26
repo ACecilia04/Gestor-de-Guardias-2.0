@@ -13,24 +13,10 @@ import java.util.List;
 
 public class ConfiguracionServices {
 
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public ConfiguracionServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
-    }
-
-    // Internal Mapper
-    private static class ConfiguracionMapper implements RowMapper<Configuracion> {
-        @Override
-        public Configuracion mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Configuracion( new Horario(
-                    rs.getTime("hora_inicio").toLocalTime(),
-                    rs.getTime("hora_fin").toLocalTime()),
-                    new Esquema(rs.getInt("dia_semana"),
-                    rs.getBoolean("dia_es_receso")),
-                    rs.getBoolean("actual")
-            );
-        }
     }
 
     // CREATE
@@ -57,6 +43,20 @@ public class ConfiguracionServices {
     // DELETE
     public void deleteConfiguracion(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_configuracion(?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso);
+    }
+
+    // Internal Mapper
+    private static class ConfiguracionMapper implements RowMapper<Configuracion> {
+        @Override
+        public Configuracion mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Configuracion(new Horario(
+                    rs.getTime("hora_inicio").toLocalTime(),
+                    rs.getTime("hora_fin").toLocalTime()),
+                    new Esquema(rs.getInt("dia_semana"),
+                            rs.getBoolean("dia_es_receso")),
+                    rs.getBoolean("actual")
+            );
+        }
     }
 }
 

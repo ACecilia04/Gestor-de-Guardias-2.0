@@ -2,6 +2,7 @@ package gui.internosComp;
 
 import gui.auxiliares.Actualizable;
 import gui.auxiliares.IsTabla;
+import logica.principal.DiaGuardia;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +22,9 @@ public class PanelDiaArch extends PanelDiaBase implements Actualizable {
             panelTurnos.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
             for (int i = 0; i < dia.getTurnos().size(); i++) {
-                PanelTurno nuevo = new PanelTurnoArch(casillaLargo - anchoFecha, getBackground(), dia.getTurnos().get(i), this.dia, this);
-                panelTurnos.add(nuevo);
-                panelesTurno.add(nuevo);
+//                PanelTurno nuevo = new PanelTurnoArch(casillaLargo - anchoFecha, getBackground(), dia.getTurnos().get(i), this.dia, this);
+//                panelTurnos.add(nuevo);
+//                panelesTurno.add(nuevo);
                 panelTurnos.add(Box.createRigidArea(new Dimension(0, 5)));
             }
         }

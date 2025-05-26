@@ -4,7 +4,6 @@ import gui.auxiliares.CustomTablaComplex;
 import model.Persona;
 
 import java.io.Serial;
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TablaEstudiantes extends CustomTablaComplex {
@@ -21,7 +20,7 @@ public class TablaEstudiantes extends CustomTablaComplex {
                 aux[1] = e.getApellido();
                 aux[2] = e.getNombre();
                 aux[3] = e.getSexo();
-                aux[4] = e.getDisponibilidadParaFecha(LocalDate.now()).name();
+//                aux[4] = e.getDisponibilidadParaFecha(LocalDate.now()).name();
                 aux[5] = Integer.toString(9);
 
                 modelo.addRow(aux);

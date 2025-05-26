@@ -6,9 +6,9 @@ import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesTrabajador;
 import gui.pantallasEmergentes.Advertencia;
 import gui.pantallasEmergentes.PantallaAddVolunt;
-import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
 import services.Gestor;
+import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -236,10 +236,11 @@ public class PantallaTrabajadores extends JPanel {
         ArrayList<Persona> aux = new ArrayList<>();
 
         for (Persona e : personas) {
-            boolean selec = tablaOpciones.getCheckDisp().isSelected() || e.getDisponibilidadParaFecha(LocalDate.now()) != Disponibilidad.DISPONIBLE;
-            if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
-                selec = false;
-            }
+            boolean selec = tablaOpciones.getCheckDisp().isSelected();
+//                    || e.getDisponibilidadParaFecha(LocalDate.now()) != Disponibilidad.DISPONIBLE;
+//            if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
+//                selec = false;
+//            }
             if (!tablaOpciones.getCheckMasc().isSelected() && e.getSexo().equalsIgnoreCase("masculino") && selec) {
                 selec = false;
             }

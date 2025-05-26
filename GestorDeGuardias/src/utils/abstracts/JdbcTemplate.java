@@ -2,15 +2,17 @@ package utils.abstracts;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JdbcTemplate {
 
-    private String connUrl;
-    private String connUsername;
-    private String connPassword;
+    private final String connUrl;
+    private final String connUsername;
+    private final String connPassword;
 
     public JdbcTemplate(String connUrl, String connUsername, String connPassword) {
         this.connUrl = connUrl;
@@ -18,7 +20,11 @@ public class JdbcTemplate {
         this.connPassword = connPassword;
     }
 
-    public <T> List<T> query(String query, RowMapper<T> mapper){
+    private static <T> T convertInstanceOfObject(Object o, Class<T> clazz) {
+        return clazz.isInstance(o) ? clazz.cast(o) : null;
+    }
+
+    public <T> List<T> query(String query, RowMapper<T> mapper) {
         Connection connection;
         try {
             connection = DriverManager.getConnection(connUrl, connUsername, connPassword);
@@ -33,7 +39,7 @@ public class JdbcTemplate {
 
             List<T> retVal = new ArrayList<>();
             int i = 0;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 retVal.add(mapper.mapRow(resultSet, i++));
             }
 
@@ -49,7 +55,7 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> List<T> query(String query, RowMapper<T> mapper, Object... parameters){
+    public <T> List<T> query(String query, RowMapper<T> mapper, Object... parameters) {
         Connection connection;
         try {
             connection = DriverManager.getConnection(connUrl, connUsername, connPassword);
@@ -68,7 +74,7 @@ public class JdbcTemplate {
 
             List<T> retVal = new ArrayList<>();
             i = 0;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 retVal.add(mapper.mapRow(resultSet, i++));
             }
 
@@ -136,7 +142,6 @@ public class JdbcTemplate {
         }
     }
 
-
     public <T> List<T> executeProcedureWithResults(String procedureName, RowMapper<T> mapper, Object... parameters) {
         Connection connection;
         try {
@@ -156,7 +161,7 @@ public class JdbcTemplate {
 
             List<T> retVal = new ArrayList<>();
             i = 0;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 retVal.add(mapper.mapRow(resultSet, i++));
             }
 
@@ -171,7 +176,6 @@ public class JdbcTemplate {
             }
         }
     }
-
 
     public <T> T executeProcedureWithResult(String procedureName, String resultName, int resultType, Object... parameters) {
         Connection connection;
@@ -232,8 +236,12 @@ public class JdbcTemplate {
         }
     }
 
-
     private void setStatementField(PreparedStatement statement, int columnNr, Object value) throws SQLException {
+        if (value == null){
+            statement.setString(columnNr, null);
+            return;
+        }
+
         if (value.getClass() == Integer.class) {
             statement.setInt(columnNr, (Integer)value);
             return;
@@ -254,8 +262,9 @@ public class JdbcTemplate {
             return;
         }
 
-        if(value.getClass() == Date.class){
-            statement.setDate(columnNr, (Date)value);
+        if(value.getClass() == java.util.Date.class){
+            java.sql.Date sqlDate = new java.sql.Date(((Date)value).getTime());
+            statement.setDate(columnNr, sqlDate);
             return;
         }
 
@@ -264,12 +273,26 @@ public class JdbcTemplate {
             return;
         }
 
+        if(value.getClass() == LocalDate.class){
+            java.util.Date date = java.util.Date.from(((LocalDate)value).atStartOfDay(ZoneId.systemDefault()).toInstant());
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            statement.setDate(columnNr, sqlDate);
+            return;
+        }
+
+        if(value.getClass() == LocalDateTime.class){
+            statement.setTimestamp(columnNr, Timestamp.valueOf((LocalDateTime)value));
+            return;
+        }
+
         if(value.getClass() == Timestamp.class){
             statement.setTimestamp(columnNr, (Timestamp) value);
         }
+
+        if(value.getClass() == Boolean.class){
+            statement.setBoolean(columnNr, (Boolean)value);
+        }
     }
-
-
     private void setStatementInOutField(CallableStatement statement, int columnNr, Object value) throws SQLException {
         setStatementField(statement, columnNr, value);
     }
@@ -284,36 +307,31 @@ public class JdbcTemplate {
             case Types.NVARCHAR:
             case Types.LONGVARCHAR:
             case Types.LONGNVARCHAR:
-                return (T) convertInstanceOfObject(resultSet.getString(resultName), (Class<T>) String.class);
+                return convertInstanceOfObject(resultSet.getString(resultName), (Class<T>) String.class);
             case Types.INTEGER:
             case Types.SMALLINT:
-                return (T) convertInstanceOfObject(resultSet.getInt(resultName), (Class<T>) Integer.class);
+                return convertInstanceOfObject(resultSet.getInt(resultName), (Class<T>) Integer.class);
             case Types.BIGINT:
-                return (T) convertInstanceOfObject(resultSet.getLong(resultName), (Class<T>) Long.class);
+                return convertInstanceOfObject(resultSet.getLong(resultName), (Class<T>) Long.class);
             case Types.BOOLEAN:
-                return (T) convertInstanceOfObject(resultSet.getBoolean(resultName), (Class<T>) Boolean.class);
+                return convertInstanceOfObject(resultSet.getBoolean(resultName), (Class<T>) Boolean.class);
             case Types.TINYINT:
-                return (T) convertInstanceOfObject(resultSet.getByte(resultName), (Class<T>) Byte.class);
+                return convertInstanceOfObject(resultSet.getByte(resultName), (Class<T>) Byte.class);
             case Types.NUMERIC:
             case Types.FLOAT:
-                return (T) convertInstanceOfObject(resultSet.getFloat(resultName), (Class<T>) Float.class);
+                return convertInstanceOfObject(resultSet.getFloat(resultName), (Class<T>) Float.class);
             case Types.DECIMAL:
             case Types.DOUBLE:
-                return (T) convertInstanceOfObject(resultSet.getBigDecimal(resultName), (Class<T>) BigDecimal.class);
+                return convertInstanceOfObject(resultSet.getBigDecimal(resultName), (Class<T>) BigDecimal.class);
             case Types.DATE:
-                return (T) convertInstanceOfObject(resultSet.getDate(resultName), (Class<T>) java.util.Date.class);
-            case Types.TIME:i:
-                return (T) convertInstanceOfObject(resultSet.getTime(resultName), (Class<T>) java.util.Date.class);
-            case Types.TIMESTAMP:i:
-                return (T) convertInstanceOfObject(resultSet.getTime(resultName), (Class<T>) LocalDateTime.class);
+                return convertInstanceOfObject(resultSet.getDate(resultName), (Class<T>) java.util.Date.class);
+            case Types.TIME:
+                return convertInstanceOfObject(resultSet.getTime(resultName), (Class<T>) java.util.Date.class);
+            case Types.TIMESTAMP:
+                return convertInstanceOfObject(resultSet.getTime(resultName), (Class<T>) LocalDateTime.class);
             default:
                 return null;
         }
-    }
-
-
-    private static <T> T convertInstanceOfObject(Object o, Class<T> clazz) {
-        return clazz.isInstance(o) ? clazz.cast(o) : null;
     }
 
 }

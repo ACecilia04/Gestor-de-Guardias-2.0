@@ -16,12 +16,12 @@ public class PeriodoNoPlanificable implements Comparable<PeriodoNoPlanificable> 
         return inicio;
     }
 
-    public LocalDate getFin() {
-        return fin;
-    }
-
     public void setInicio(LocalDate fechaIncio) {
         this.inicio = fechaIncio;
+    }
+
+    public LocalDate getFin() {
+        return fin;
     }
 
     public void setFin(LocalDate fechaFin) {

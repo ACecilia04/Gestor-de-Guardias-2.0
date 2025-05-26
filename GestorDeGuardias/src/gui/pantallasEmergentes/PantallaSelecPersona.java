@@ -7,10 +7,10 @@ import gui.componentes.Boton;
 import gui.componentes.Buscar;
 import gui.internosComp.PanelTurno;
 import gui.secciones.Ventana;
-import utils.exceptions.EntradaInvalidaException;
-import utils.exceptions.MultiplesErroresException;
 import model.Persona;
 import services.Gestor;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import javax.swing.border.Border;

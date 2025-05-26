@@ -27,10 +27,10 @@ public class CustomPasswordField extends Cuadro {
     private final Color colorSelec = Color.ORANGE;
     private final Color colorLetra = Color.BLACK;
     private final Color colorLetraPres = Color.WHITE;
-    //Booleanos
-    private boolean isPasswordVisible = false; // Estado de visibilidad
     //Colores
     private final Color colorFondo;
+    //Booleanos
+    private boolean isPasswordVisible = false; // Estado de visibilidad
 
 
     public CustomPasswordField(Dimension dim, final String texto, int redondez, int maxCaracteres, Color color) {

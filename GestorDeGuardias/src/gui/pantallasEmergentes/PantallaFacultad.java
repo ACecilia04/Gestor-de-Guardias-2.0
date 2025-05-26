@@ -4,10 +4,12 @@ import gui.auxiliares.ComboBoxSelectionListener;
 import gui.auxiliares.Paleta;
 import gui.componentes.*;
 import gui.secciones.Ventana;
+import model.PeriodoNoPlanificable;
+import model.TipoPersona;
+import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
-import model.PeriodoNoPlanificable;
-import services.Gestor;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -194,7 +196,8 @@ public class PantallaFacultad extends JDialog {
         int y = 20;
         int sepEtiq = 20;
 
-        String aux = Integer.toString(Gestor.getInstance().getFacultad().getEstudiantes().size());
+        String aux = Integer.toString(ServicesLocator.getServicesLocatorInstance().getPersonaServices().
+                getPersonaByTipo(new TipoPersona("Estudiante")).size());
         Etiqueta cantE = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Estudiantes :  " + aux);
         cantE.setLocation(x, y);
         y += cantE.getHeight() + sepEtiq;

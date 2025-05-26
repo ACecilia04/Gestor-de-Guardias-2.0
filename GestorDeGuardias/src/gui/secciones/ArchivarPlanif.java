@@ -4,8 +4,9 @@ import gui.auxiliares.Paleta;
 import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
-import utils.exceptions.EntradaInvalidaException;
+import logica.principal.DiaGuardia;
 import services.Gestor;
+import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,7 +68,7 @@ public class ArchivarPlanif extends JPanel {
         panelInterior.revalidate();
         panelInterior.repaint();
 
-        // Calcula el tama�o preferido del panelInterior
+        // Calcula el tamaño preferido del panelInterior
         calculatePreferredSize();
     }
 

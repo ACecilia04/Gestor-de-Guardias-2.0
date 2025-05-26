@@ -1,9 +1,9 @@
 package model;
 
 public class Configuracion {
-        private Horario horario;
-        private Esquema esquema;
-        private boolean actual;
+    private Horario horario;
+    private Esquema esquema;
+    private boolean actual;
 
     public Configuracion(Horario horario, Esquema esquema, boolean actual) {
         this.horario = horario;
@@ -16,21 +16,21 @@ public class Configuracion {
         return actual;
     }
 
-    public Horario getHorario() {
-        return horario;
-    }
-
-    public Esquema getEsquema() {
-        return esquema;
-    }
-
     // Setters
     public void setActual(boolean actual) {
         this.actual = actual;
     }
 
+    public Horario getHorario() {
+        return horario;
+    }
+
     public void setHorario(Horario horario) {
         this.horario = horario;
+    }
+
+    public Esquema getEsquema() {
+        return esquema;
     }
 
     public void setEsquema(Esquema esquema) {

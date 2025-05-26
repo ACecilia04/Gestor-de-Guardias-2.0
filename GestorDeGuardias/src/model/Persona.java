@@ -17,7 +17,7 @@ public class Persona implements Comparable<Persona> {
     private LocalDate baja;
     private LocalDate reincorporacion;
     private TipoPersona tipoPersona;
-    private boolean activo;
+    private Boolean activo;
     private ArrayList<LocalDate> guardiasAsignadas;
 
 
@@ -29,8 +29,10 @@ public class Persona implements Comparable<Persona> {
         setTipoPersona(new TipoPersona(tipo));
         guardiasAsignadas = new ArrayList<LocalDate>();
         ultimaGuardiaHecha = LocalDate.MIN;
+        activo = true;
     }
-    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, boolean activo) {
+
+    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) {
         setId(id);
         setCarnet(carnet);
         setNombre(nombre);
@@ -38,6 +40,7 @@ public class Persona implements Comparable<Persona> {
         setSexo(sexo);
         setTipoPersona(new TipoPersona(tipo));
         guardiasAsignadas = new ArrayList<LocalDate>();
+        guardiasDeRecuperacion = cantGuardiasRecuperacion;
         setUltimaGuardiaHecha(ultimaGuardiaHecha);
         setActivo(activo);
     }
@@ -47,16 +50,33 @@ public class Persona implements Comparable<Persona> {
         return id;
     }
 
+    // Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getNombre() {
         return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getApellido() {
         return apellido;
     }
 
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
+
     public String getSexo() {
         return (sexo == 'f') ? "Femenino" : "Masculino";
+    }
+
+    public void setSexo(Character sexo) {
+        this.sexo = sexo;
     }
 
     public TipoPersona getTipo() {
@@ -67,8 +87,22 @@ public class Persona implements Comparable<Persona> {
         return carnet;
     }
 
+    public void setCarnet(String id) {
+        this.carnet = id;
+    }
+
     public LocalDate getUltimaGuardiaHecha() {
         return ultimaGuardiaHecha;
+    }
+
+    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) {
+//        if (ultimaGuardia == null)
+//            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
+//        if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
+//            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
+//                    + this.getNombre() + " " + this.getApellido() + ".");
+//        }
+        this.ultimaGuardiaHecha = ultimaGuardia;
     }
 
     public int getDiasDesdeUltimaGuardiaHecha(LocalDate fecha) throws EntradaInvalidaException {
@@ -89,24 +123,44 @@ public class Persona implements Comparable<Persona> {
         return guardiasDeRecuperacion;
     }
 
+    public void setGuardiasDeRecuperacion(int cant) {
+        this.guardiasDeRecuperacion += cant;
+    }
+
     public LocalDate getBaja() {
         return baja;
+    }
+
+    public void setBaja(LocalDate fecha) {
+        this.baja = fecha;
     }
 
     public LocalDate getReincorporacion() {
         return reincorporacion;
     }
 
+    public void setReincorporacion(LocalDate reincorporacion) {
+        this.reincorporacion = reincorporacion;
+    }
+
     public TipoPersona getTipoPersona() {
         return tipoPersona;
     }
+
+    public void setTipoPersona(TipoPersona tipoPersona) {
+        this.tipoPersona = tipoPersona;
+    }
+
     public String getTipoPersonaAsString() {
         return tipoPersona.toString();
     }
 
-
     public ArrayList<LocalDate> getGuardiasAsignadas() {
         return guardiasAsignadas;
+    }
+
+    public void setGuardiasAsignadas(ArrayList<LocalDate> guardiasAsignadas) {
+        this.guardiasAsignadas = guardiasAsignadas;
     }
 
     public int getCantGuardiasAsignadas() {
@@ -123,60 +177,14 @@ public class Persona implements Comparable<Persona> {
         }
         return cant;
     }
-    public boolean isActivo(){
+
+    public Boolean isActivo() {
         return activo;
     }
 
-    // Setters
-    public void setId(Long id) {
-        this.id = id;
+    public void setActivo(Boolean activo) {
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public void setSexo(Character sexo) {
-        this.sexo = sexo;
-    }
-
-    public void setCarnet(String id) {
-        this.carnet = id;
-    }
-
-    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) {
-        if (ultimaGuardia == null)
-//            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
-        if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
-//            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
-//                    + this.getNombre() + " " + this.getApellido() + ".");
-        }
-        this.ultimaGuardiaHecha = ultimaGuardia;
-    }
-
-    public void setGuardiasDeRecuperacion(int cant) {
-        this.guardiasDeRecuperacion += cant;
-    }
-
-    public void setBaja(LocalDate fecha) {
-        this.baja = fecha;
-    }
-
-    public void setReincorporacion(LocalDate reincorporacion) {
-        this.reincorporacion = reincorporacion;
-    }
-
-    public void setTipoPersona(TipoPersona tipoPersona) {
-        this.tipoPersona = tipoPersona;
-    }
-
-    public void setGuardiasAsignadas(ArrayList<LocalDate> guardiasAsignadas) {
-        this.guardiasAsignadas = guardiasAsignadas;
-    }
     /**
      * @param persona persona a comparar
      * @return comparacion entre carnets de identidad
@@ -184,15 +192,6 @@ public class Persona implements Comparable<Persona> {
     @Override
     public boolean equals(Object persona) {
         return ((Persona) persona).getCarnet().equals(getCarnet());
-    }
-
-    /**
-     * @return comparaci�n entre apellido y si estos son iguales, compara los nombres
-     */
-    @Override
-    public int compareTo(Persona persona) {
-
-        return getApellido().equalsIgnoreCase(persona.getApellido()) ? getNombre().compareTo(persona.getNombre()) : getApellido().compareTo(persona.getApellido());
     }
 
 //    /**
@@ -211,6 +210,15 @@ public class Persona implements Comparable<Persona> {
 //        }
 //        return disponibilidad;
 //    }
+
+    /**
+     * @return comparaci�n entre apellido y si estos son iguales, compara los nombres
+     */
+    @Override
+    public int compareTo(Persona persona) {
+
+        return getApellido().equalsIgnoreCase(persona.getApellido()) ? getNombre().compareTo(persona.getNombre()) : getApellido().compareTo(persona.getApellido());
+    }
 
     public void darBaja(LocalDate fecha) {
         if (!fecha.isBefore(LocalDate.now()) && baja == null) {
@@ -256,6 +264,22 @@ public class Persona implements Comparable<Persona> {
             throw new EntradaInvalidaException("Fecha de la guardia no especificada.");
     }
 
-    public void setActivo(boolean activo) {
+    @Override
+    public String toString() {
+        return "Persona {" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", sexo=" + sexo +
+                ", carnet='" + carnet + '\'' +
+                ", ultimaGuardiaHecha=" + ultimaGuardiaHecha +
+                ", guardiasDeRecuperacion=" + guardiasDeRecuperacion +
+                ", baja=" + baja +
+                ", reincorporacion=" + reincorporacion +
+                ", tipoPersona=" + (tipoPersona != null ? tipoPersona.getNombre() : "N/A") +
+                ", activo=" + activo +
+                ", guardiasAsignadas=" + guardiasAsignadas +
+                '}';
     }
+
 }

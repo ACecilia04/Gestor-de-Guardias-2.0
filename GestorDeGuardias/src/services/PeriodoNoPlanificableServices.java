@@ -11,21 +11,10 @@ import java.util.List;
 
 public class PeriodoNoPlanificableServices {
 
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public PeriodoNoPlanificableServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
-    }
-
-    // Internal Mapper
-    private static class PeriodoNoPlanificableMapper implements RowMapper<PeriodoNoPlanificable> {
-        @Override
-        public PeriodoNoPlanificable mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new PeriodoNoPlanificable(
-                    rs.getDate("inicio").toLocalDate(),
-                    rs.getDate("fin").toLocalDate()
-            );
-        }
     }
 
     // CREATE
@@ -52,5 +41,16 @@ public class PeriodoNoPlanificableServices {
     // DELETE
     public void deletePeriodoNoPlanificable(LocalDate inicio, LocalDate fin) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_periodo_no_planificable(?, ?)", inicio, fin);
+    }
+
+    // Internal Mapper
+    private static class PeriodoNoPlanificableMapper implements RowMapper<PeriodoNoPlanificable> {
+        @Override
+        public PeriodoNoPlanificable mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new PeriodoNoPlanificable(
+                    rs.getDate("inicio").toLocalDate(),
+                    rs.getDate("fin").toLocalDate()
+            );
+        }
     }
 }

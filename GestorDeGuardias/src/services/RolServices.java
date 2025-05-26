@@ -10,20 +10,10 @@ import java.util.List;
 
 public class RolServices {
 
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public RolServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
-    }
-
-    // Internal Mapper
-    private static class RolMapper implements RowMapper<Rol> {
-        @Override
-        public Rol mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Rol(
-                    rs.getString("nombre")
-            );
-        }
     }
 
     // CREATE
@@ -50,5 +40,15 @@ public class RolServices {
     // DELETE
     public void deleteRol(String nombre) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_rol(?)", nombre);
+    }
+
+    // Internal Mapper
+    private static class RolMapper implements RowMapper<Rol> {
+        @Override
+        public Rol mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Rol(
+                    rs.getString("nombre")
+            );
+        }
     }
 }

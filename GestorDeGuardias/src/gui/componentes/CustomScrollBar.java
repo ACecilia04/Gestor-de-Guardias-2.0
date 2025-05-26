@@ -8,7 +8,6 @@ import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 
-@SuppressWarnings("serial")
 public class CustomScrollBar extends JScrollBar {
 
     public CustomScrollBar() {

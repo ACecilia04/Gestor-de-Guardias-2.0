@@ -5,6 +5,7 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.CustomPopupMenu;
 import gui.componentes.Etiqueta;
+import logica.principal.DiaGuardia;
 import model.Persona;
 import model.TurnoDeGuardia;
 
@@ -75,9 +76,9 @@ public class PanelTurno extends Cuadro implements Actualizable {
         apellido = new Etiqueta(fuente, colorLetra, "");
         ID = new Etiqueta(fuente, colorLetra, "");
 
-        if (this.turno.getPersonaAsignada() != null) {
-            setPersona(this.turno.getPersonaAsignada());
-        }
+//        if (this.turno.getPersonaAsignada() != null) {
+//            setPersona(this.turno.getPersonaAsignada());
+//        }
 
         nombre.setSize(new Dimension(sizeNombre, horario.getSize().height));
         nombre.setPreferredSize(nombre.getSize());
@@ -166,9 +167,9 @@ public class PanelTurno extends Cuadro implements Actualizable {
         actualizar();
     }
 
-    public void eliminarPersona() {
-        turno.borrarPersonaAsignada();
-    }
+//    public void eliminarPersona() {
+//        turno.borrarPersonaAsignada();
+//    }
 
 
     public void cambiar(Color fondo, Color letra) {
@@ -216,14 +217,14 @@ public class PanelTurno extends Cuadro implements Actualizable {
     }
 
     public void actualizar() {
-        Persona aux = turno.getPersonaAsignada();
-        if (aux != null) {
-            nombre.setText(aux.getNombre());
-            apellido.setText(aux.getApellido());
-            ID.setText(aux.getCarnet());
-            revalidate();
-            repaint();
-        }
+//        Persona aux = turno.getPersonaAsignada();
+//        if (aux != null) {
+//            nombre.setText(aux.getNombre());
+//            apellido.setText(aux.getApellido());
+//            ID.setText(aux.getCarnet());
+//            revalidate();
+//            repaint();
+//        }
     }
 
     public TurnoDeGuardia getTurno() {

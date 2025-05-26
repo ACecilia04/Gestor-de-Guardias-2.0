@@ -1,10 +1,10 @@
 package services;
 
-import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
 import model.TipoPersona;
 import utils.abstracts.MainBaseDao;
 import utils.abstracts.RowMapper;
+import utils.exceptions.EntradaInvalidaException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,32 +17,11 @@ import static utils.Utilitarios.stringSoloNumeros;
 
 public class PersonaServices {
 
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public PersonaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
     }
-
-    // Internal Mapper
-    private static class PersonaMapper implements RowMapper<Persona> {
-        @Override
-        public Persona mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Persona(
-                    rs.getLong("id"),
-                    rs.getString("nombre"),
-                    rs.getString("apellido"),
-                    rs.getString("sexo").charAt(0),
-                    rs.getString("carnet"),
-                    rs.getDate("ultima_guardia_hecha") != null ? rs.getDate("ultima_guardia_hecha").toLocalDate() : null,
-                    rs.getInt("guardias_de_recuperacion"),
-                    rs.getDate("baja") != null ? rs.getDate("baja").toLocalDate() : null,
-                    rs.getDate("reincorporacion") != null ? rs.getDate("reincorporacion").toLocalDate() : null,
-                    rs.getString("tipo"),
-                    rs.getBoolean("activo")
-            );
-        }
-    }
-    //TODO: manejar validacion de tipo
 
     // CREATE
     public void insertPersona(String nombre, String apellido, char sexo, String carnet,
@@ -52,6 +31,8 @@ public class PersonaServices {
                 nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha, guardiasDeRecuperacion,
                 baja, reincorporacion, tipo, activo);
     }
+    //TODO: manejar validacion de tipo
+
     public void insertPersona(String nombre, String apellido, char sexo, String carnet,
                               String tipo) {
         baseDao.getJdbcTemplate().executeProcedure("sp_create_persona(?, ?, ?, ?, ?)",
@@ -73,12 +54,13 @@ public class PersonaServices {
                 .stream().findFirst().orElse(null);
     }
 
-    public List<Persona> getPersonaByTipo(TipoPersona tipoPersona) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
+    public ArrayList<Persona> getPersonaByTipo(TipoPersona tipoPersona) {
+        return (ArrayList<Persona>) baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
     }
+
     /*
-    * no estoy segura de si validar eso pero como asi es como estaba en facultad, igual se puede editar
-    */
+     * no estoy segura de si validar eso pero como asi es como estaba en facultad, igual se puede editar
+     */
     public List<Persona> getPersonasDeBaja(LocalDate fecha) throws EntradaInvalidaException {
         if (fecha == null) {
             throw new EntradaInvalidaException("Fecha no especificada.");
@@ -89,9 +71,9 @@ public class PersonaServices {
     }
 
     // UPDATE
-    public void updatePersona(long id, String nombre, String apellido, char sexo, String carnet,
+    public void updatePersona(long id, String nombre, String apellido, Character sexo, String carnet,
                               LocalDate ultimaGuardiaHecha, int guardiasDeRecuperacion, LocalDate baja,
-                              LocalDate reincorporacion, String tipo, boolean activo) {
+                              LocalDate reincorporacion, String tipo, Boolean activo) {
         baseDao.getJdbcTemplate().executeProcedure("sp_update_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 id, nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha,
                 guardiasDeRecuperacion, baja, reincorporacion, tipo, activo);
@@ -163,6 +145,26 @@ public class PersonaServices {
             errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
 
         return errores;
+    }
+
+    // Internal Mapper
+    private static class PersonaMapper implements RowMapper<Persona> {
+        @Override
+        public Persona mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Persona(
+                    rs.getLong("id"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getString("sexo").charAt(0),
+                    rs.getString("carnet"),
+                    rs.getDate("ultima_guardia_hecha") != null ? rs.getDate("ultima_guardia_hecha").toLocalDate() : null,
+                    rs.getInt("guardias_de_recuperacion"),
+                    rs.getDate("baja") != null ? rs.getDate("baja").toLocalDate() : null,
+                    rs.getDate("reincorporacion") != null ? rs.getDate("reincorporacion").toLocalDate() : null,
+                    rs.getString("tipo"),
+                    rs.getBoolean("activo")
+            );
+        }
     }
 
 

@@ -13,24 +13,10 @@ import java.util.List;
 
 public class TurnoDeGuardiaServices {
 
-    private MainBaseDao baseDao;
+    private final MainBaseDao baseDao;
 
     public TurnoDeGuardiaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
-    }
-
-    // Internal Mapper
-    private static class TurnoDeGuardiaMapper implements RowMapper<TurnoDeGuardia> {
-        @Override
-        public TurnoDeGuardia mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new TurnoDeGuardia( new Horario(
-                    rs.getTime("hora_inicio").toLocalTime(),
-                    rs.getTime("hora_fin").toLocalTime()),
-                    rs.getLong("persona_asignada"),
-                    rs.getBoolean("hecho"),
-                    rs.getDate("fecha").toLocalDate()
-            );
-        }
     }
 
     // CREATE
@@ -57,5 +43,19 @@ public class TurnoDeGuardiaServices {
     // DELETE
     public void deleteTurnoDeGuardia(LocalTime horaInicio, LocalTime horaFin, LocalDate fecha) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_turno_de_guardia(?, ?, ?)", horaInicio, horaFin, fecha);
+    }
+
+    // Internal Mapper
+    private static class TurnoDeGuardiaMapper implements RowMapper<TurnoDeGuardia> {
+        @Override
+        public TurnoDeGuardia mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new TurnoDeGuardia(new Horario(
+                    rs.getTime("hora_inicio").toLocalTime(),
+                    rs.getTime("hora_fin").toLocalTime()),
+                    rs.getLong("persona_asignada"),
+                    rs.getBoolean("hecho"),
+                    rs.getDate("fecha").toLocalDate()
+            );
+        }
     }
 }

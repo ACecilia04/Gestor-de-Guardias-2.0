@@ -4,24 +4,17 @@ import utils.abstracts.MainBaseDao;
 
 public class ServicesLocator {
     static ServicesLocator me = null;
-    private ConfiguracionServices configuracionServices;
-    private EsquemaServices esquemaServices;
-    private HorarioServices horarioServices;
-    private PeriodoNoPlanificableServices periodoNoPlanificableServices;
-    private PersonaServices personaServices;
-    private TipoPersonaServices tipoPersonaServices;
-    private TurnoDeGuardiaServices turnoDeGuardiaServices;
-    private UsuarioService usuarioService;
-    private MainBaseDao mbDAO;
+    private final ConfiguracionServices configuracionServices;
+    private final EsquemaServices esquemaServices;
+    private final HorarioServices horarioServices;
+    private final PeriodoNoPlanificableServices periodoNoPlanificableServices;
+    private final PersonaServices personaServices;
+    private final TipoPersonaServices tipoPersonaServices;
+    private final TurnoDeGuardiaServices turnoDeGuardiaServices;
+    private final UsuarioService usuarioService;
+    private final MainBaseDao mbDAO;
 
-    public static ServicesLocator getServicesLocatorInstance(){
-        if(me == null){
-            return new ServicesLocator();
-        }
-        return me;
-    }
-
-    private ServicesLocator(){
+    private ServicesLocator() {
         mbDAO = new MainBaseDao();
         configuracionServices = new ConfiguracionServices(mbDAO);
         esquemaServices = new EsquemaServices(mbDAO);
@@ -31,6 +24,13 @@ public class ServicesLocator {
         tipoPersonaServices = new TipoPersonaServices(mbDAO);
         turnoDeGuardiaServices = new TurnoDeGuardiaServices(mbDAO);
         usuarioService = new UsuarioService(mbDAO);
+    }
+
+    public static ServicesLocator getServicesLocatorInstance() {
+        if (me == null) {
+            return new ServicesLocator();
+        }
+        return me;
     }
 
     public ConfiguracionServices getConfiguracionServices() {

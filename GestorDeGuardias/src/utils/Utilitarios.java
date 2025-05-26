@@ -1,7 +1,7 @@
 package utils;
 
-import utils.exceptions.EntradaInvalidaException;
 import model.Persona;
+import utils.exceptions.EntradaInvalidaException;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;

@@ -21,12 +21,15 @@ public class Boton extends JPanel implements Actualizable {
     private final Color colorFondoBlock = paleta.getColorCasillaTabla();
     private final Color colorIconoBlock = Color.GRAY;
     private final Color colorLetraBlock = Color.GRAY;
+    private final String textoLabel;
+    //Aux
+    private final int distanciaX = 2;
+    private final int distanciaY = 2;
     //Accion
     private ActionListener actionListener;
     private MouseAdapter adaptador;
     //Imprimir
     private int redondez = Cuadro.redBAJA;
-    private final String textoLabel;
     //Tipo
     private boolean selecLetra = false;
     private boolean seleccionable = true;
@@ -39,9 +42,6 @@ public class Boton extends JPanel implements Actualizable {
     private Color colorIconoPres = paleta.getColorCaracteristico();
     private Color colorLetra = paleta.getColorLetraMenu();
     private Color colorLetraPres = paleta.getColorLetraSelec();
-    //Aux
-    private final int distanciaX = 2;
-    private final int distanciaY = 2;
     private boolean select = false;
 
 

@@ -1,25 +1,26 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class TurnoDeGuardia {
     private Horario horario;
-    private Persona personaAsignada;
+    private ArrayList<Persona> personasAsignadas;
     private boolean hecho;
     private LocalDate fecha;
 
 
-    public TurnoDeGuardia(LocalDate fecha, Horario horario, Persona personaAsignada) {
+    public TurnoDeGuardia(LocalDate fecha, Horario horario, ArrayList<Persona> personasAsignadas) {
         this.fecha = fecha;
         this.horario = horario;
-        this.personaAsignada = personaAsignada;
+        this.personasAsignadas = personasAsignadas;
         this.hecho = false;
     }
 
-    public TurnoDeGuardia(Horario horario, long personaAsignada, boolean hecho, LocalDate fecha) {
+    public TurnoDeGuardia(Horario horario, Long personaAsignada, boolean hecho, LocalDate fecha) {
         this.fecha = fecha;
         this.horario = horario;
-//        this.personaAsignada = personaAsignada;
+//        asignarPersona(personaAsignada);
         this.hecho = hecho;
     }
 
@@ -28,37 +29,45 @@ public class TurnoDeGuardia {
         return fecha;
     }
 
-    public Horario getHorario() {
-        return horario;
-    }
-
-    public Persona getPersonaAsignada() {
-        return personaAsignada;
-    }
-
-    public Boolean getCumplimiento() {
-        return hecho;
-    }
-
     // Setters
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
+    }
+
+    public Horario getHorario() {
+        return horario;
     }
 
     public void setHorario(Horario horario) {
         this.horario = horario;
     }
 
-    public void asignarPersona(Persona personaAsignada) {
-        this.personaAsignada = personaAsignada;
+    public ArrayList<Persona> getpersonasAsignadas() {
+        return personasAsignadas;
     }
 
-    public void borrarPersonaAsignada() {
-        this.personaAsignada = null;
+    public Boolean getCumplimiento() {
+        return hecho;
+    }
+
+    public void asignarPersona(Persona personaAsignada) {
+        personasAsignadas.add(personaAsignada);
+    }
+
+    public void borrarpersonasAsignadas() {
+        this.personasAsignadas = null;
     }
 
     public void actualizarCumplimiento(Boolean hecho) {
         this.hecho = hecho;
     }
+
+
+//    public List<Persona> getPersonasAsignadas() { return personasAsignadas; }
+//    public void asignarPersona(Persona persona) { personasAsignadas.add(persona); }
+//
+//    public boolean esValidoParaAsignacion() {
+//        return !diaEsReceso && personasAsignadas.size() < cantPersonas;
+//    }
 
 }

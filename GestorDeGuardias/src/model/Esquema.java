@@ -26,6 +26,11 @@ public class Esquema {
         return diaSemana;
     }
 
+    // Setters
+    public void setDiaSemana(int diaSemana) {
+        this.diaSemana = diaSemana;
+    }
+
     public boolean diaEsReceso() {
         return diaEsReceso;
     }
@@ -34,43 +39,30 @@ public class Esquema {
         return tipoPersona;
     }
 
-    public Character getSexo() {
-        return sexo;
-    }
-
-    public int getCantPersonas() {
-        return cantPersonas;
-    }
-
-    // Setters
-    public void setDiaSemana(int diaSemana) {
-        this.diaSemana = diaSemana;
-    }
-
-    public void setDiaEsReceso(boolean diaEsReceso) {
-        this.diaEsReceso = diaEsReceso;
-    }
-
     public void setTipoPersona(TipoPersona tipoPersona) {
         this.tipoPersona = tipoPersona;
+    }
+
+    public Character getSexo() {
+        return sexo;
     }
 
     public void setSexo(Character sexo) {
         this.sexo = sexo;
     }
 
+    public int getCantPersonas() {
+        return cantPersonas;
+    }
+
     public void setCantPersonas(int cantPersonas) {
         this.cantPersonas = cantPersonas;
     }
 
-//    public Horario getHorario() { return horario; }
-//    public void setHorario(Horario horario) { this.horario = horario; }
-//
-//    public List<Persona> getPersonasAsignadas() { return personasAsignadas; }
-//    public void asignarPersona(Persona persona) { personasAsignadas.add(persona); }
-//
-//    public boolean esValidoParaAsignacion() {
-//        return !diaEsReceso && personasAsignadas.size() < cantPersonas;
-//    }
+    public void setDiaEsReceso(boolean diaEsReceso) {
+        this.diaEsReceso = diaEsReceso;
+    }
+
+
 }
 

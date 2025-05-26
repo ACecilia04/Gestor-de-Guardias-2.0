@@ -4,6 +4,7 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.CustomSplitPane;
 import gui.componentes.CustomTabla;
+import logica.principal.DiaGuardia;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -14,14 +15,14 @@ public class TablaOpcionesPlanif extends JPanel {
     private static final long serialVersionUID = 1L;
     private final JPanel superior;
     private final CustomSplitPane splitPane;
-//    private final int separacion = 10;
+    //    private final int separacion = 10;
     //    private CustomSplitPane splitPaneInterno;
 //    private JPanel panel1;
     private final JPanel panel2;
     private final JPanel panel3;
     private final JPanel panel4;
     private final CustomTabla tablaSelec;
-//    private final int x = 40;
+    //    private final int x = 40;
 //    private final int y = separacion + 10;
     private final Boton botonAddPersona;
     private final Boton guardar;
