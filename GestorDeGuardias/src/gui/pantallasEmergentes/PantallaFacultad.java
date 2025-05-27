@@ -197,13 +197,13 @@ public class PantallaFacultad extends JDialog {
         int sepEtiq = 20;
 
         String aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().
-                getPersonaCountByTipo(new TipoPersona("Estudiante")));
+                getPersonaCountByTipo("Estudiante"));
         Etiqueta cantE = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Estudiantes :  " + aux);
         cantE.setLocation(x, y);
         y += cantE.getHeight() + sepEtiq;
         content.add(cantE);
 
-        aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().getPersonaCountByTipo(new TipoPersona("Trabajador")));
+        aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().getPersonaCountByTipo("Trabajador"));
         Etiqueta cantT = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Trabajadores :  " + aux);
         cantT.setLocation(x, y);
         y += cantT.getHeight() + sepEtiq;

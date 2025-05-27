@@ -32,13 +32,16 @@ public class Persona implements Comparable<Persona> {
         activo = true;
     }
 
-    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) throws EntradaInvalidaException {
+    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha,
+                   int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) {
         setId(id);
         setCarnet(carnet);
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
         setTipoPersona(new TipoPersona(tipo));
+        setBaja(baja);
+        setReincorporacion(reincorporacion);
         guardiasAsignadas = new ArrayList<>();
         guardiasDeRecuperacion = cantGuardiasRecuperacion;
         setUltimaGuardiaHecha(ultimaGuardiaHecha);
@@ -95,13 +98,13 @@ public class Persona implements Comparable<Persona> {
         return ultimaGuardiaHecha;
     }
 
-    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) throws EntradaInvalidaException {
-        if (ultimaGuardia == null)
-            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
-        if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
-            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
-                    + this.getNombre() + " " + this.getApellido() + ".");
-        }
+    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) {
+//        if (ultimaGuardia == null)
+////            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
+//        if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
+////            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
+////                    + this.getNombre() + " " + this.getApellido() + ".");
+//        }
         this.ultimaGuardiaHecha = ultimaGuardia;
     }
 
