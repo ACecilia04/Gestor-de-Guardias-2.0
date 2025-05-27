@@ -1,5 +1,7 @@
 package utils.abstracts;
 
+import utils.abstracts.mappers.RowMapper;
+
 import java.util.List;
 
 public abstract class BaseService {
@@ -46,7 +48,7 @@ public abstract class BaseService {
     }
 
     public <T> T spQuerySingleObject(String procedureName, RowMapper<T> mapper, Object... parameters) {
-        List<T> list = null;
+        List<T> list;
         if (isArrayValid(parameters)) {
             list = getJdbcTemplate().executeProcedureWithResults(procedureName, mapper, parameters);
         } else {
@@ -57,13 +59,6 @@ public abstract class BaseService {
             return list.getFirst();
         }
         return null;
-    }
-
-    public <T> T spQuerySingleResult(String procedureName, String resultName, int resultType, Object... parameters) {
-        if (isArrayValid(parameters)) {
-            return getJdbcTemplate().executeProcedureWithResult(procedureName, resultName, resultType, parameters);
-        }
-        return getJdbcTemplate().executeProcedureWithResult(procedureName, resultName, resultType);
     }
 
     public void spUpdate(String query, Object... parameters) {

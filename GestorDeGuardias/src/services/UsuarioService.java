@@ -3,7 +3,7 @@ package services;
 import model.Rol;
 import model.Usuario;
 import utils.abstracts.MainBaseDao;
-import utils.abstracts.RowMapper;
+import utils.abstracts.mappers.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

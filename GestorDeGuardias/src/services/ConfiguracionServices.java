@@ -4,7 +4,7 @@ import model.Configuracion;
 import model.Esquema;
 import model.Horario;
 import utils.abstracts.MainBaseDao;
-import utils.abstracts.RowMapper;
+import utils.abstracts.mappers.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

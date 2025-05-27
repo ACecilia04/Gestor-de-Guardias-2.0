@@ -201,13 +201,13 @@ public class Ventana extends JFrame {
                 comp1.setSize(panelVacio.getWidth(), panelVacio.getHeight());
             }
         }
-
-        pantallaPlanif.mostrarTabla();
-        if (pantallaActual == "panel7") {
-            ArrayList<DiaGuardia> dias = this.getPantallaCump().getTabla().getDias();
-            getPantallaCump().setTabla(dias);
+        if (pantallaPlanif != null) {
+            pantallaPlanif.mostrarTabla();
+            if (pantallaActual == "panel7") {
+                ArrayList<DiaGuardia> dias = this.getPantallaCump().getTabla().getDias();
+                getPantallaCump().setTabla(dias);
+            }
         }
-
 
         revalidate();
         repaint();

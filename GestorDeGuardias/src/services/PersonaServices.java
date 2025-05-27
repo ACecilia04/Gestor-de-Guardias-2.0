@@ -3,7 +3,8 @@ package services;
 import model.Persona;
 import model.TipoPersona;
 import utils.abstracts.MainBaseDao;
-import utils.abstracts.RowMapper;
+import utils.abstracts.mappers.IntegerMapper;
+import utils.abstracts.mappers.RowMapper;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -59,10 +60,9 @@ public class PersonaServices {
     public ArrayList<Persona> getPersonaByTipo(TipoPersona tipoPersona) {
         return (ArrayList<Persona>) baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
     }
-
+//changed
     public int getPersonaCountByTipo(String tipoPersona){
-        return baseDao.getJdbcTemplate().executeProcedureWithResult("sp_count_personas_by_tipo",
-                "total", Types.INTEGER, tipoPersona);
+        return baseDao.spQuerySingleObject("count_personas(?)", new IntegerMapper("total"),tipoPersona);
     }
 
     /*
