@@ -42,7 +42,6 @@ public class PantallaTrabajadores extends JPanel {
         //Hacer que funcionen los checks
         ArrayList<CustomCheckBox> checks = new ArrayList<>();
         checks.add(tablaOpciones.getCheckBaja());
-        checks.add(tablaOpciones.getCheckLicencia());
         checks.add(tablaOpciones.getCheckDisp());
         checks.add(tablaOpciones.getCheckFem());
         checks.add(tablaOpciones.getCheckMasc());
@@ -70,7 +69,7 @@ public class PantallaTrabajadores extends JPanel {
                         e1.printStackTrace();
                     }
                     ArrayList<Persona> personaUnica = new ArrayList<>();
-                    if (persona != null && persona.getTipo().equals("estudiante")) {
+                    if (persona != null && persona.getTipo().equals("Trabajador")) {
                         personaUnica.add(persona);
                     }
                     revalidarTabla(personaUnica);
@@ -96,7 +95,7 @@ public class PantallaTrabajadores extends JPanel {
                 e1.printStackTrace();
             }
             ArrayList<Persona> personaUnica = new ArrayList<>();
-            if (persona != null && persona.getTipo().equals("estudiante")) {
+            if (persona != null && persona.getTipo().equals("Trabajador")) {
                 personaUnica.add(persona);
             }
             revalidarTabla(personaUnica);
@@ -173,7 +172,7 @@ public class PantallaTrabajadores extends JPanel {
 
         tablaOpciones.getBotonEliminar().setSeleccionable(false);
         tablaOpciones.getBotonBaja().setSeleccionable(false);
-        tablaOpciones.getBotonVolunt().setSeleccionable(false);
+//        tablaOpciones.getBotonVolunt().setSeleccionable(false);
         tablaOpciones.getBotonLicencia().setSeleccionable(false);
 
         contentPane = new JPanel();

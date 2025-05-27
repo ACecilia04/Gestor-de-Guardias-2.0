@@ -27,19 +27,19 @@ public class Persona implements Comparable<Persona> {
         setApellido(apellido);
         setSexo(sexo);
         setTipoPersona(new TipoPersona(tipo));
-        guardiasAsignadas = new ArrayList<LocalDate>();
+        guardiasAsignadas = new ArrayList<>();
         ultimaGuardiaHecha = LocalDate.MIN;
         activo = true;
     }
 
-    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) {
+    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) throws EntradaInvalidaException {
         setId(id);
         setCarnet(carnet);
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
         setTipoPersona(new TipoPersona(tipo));
-        guardiasAsignadas = new ArrayList<LocalDate>();
+        guardiasAsignadas = new ArrayList<>();
         guardiasDeRecuperacion = cantGuardiasRecuperacion;
         setUltimaGuardiaHecha(ultimaGuardiaHecha);
         setActivo(activo);
@@ -95,13 +95,13 @@ public class Persona implements Comparable<Persona> {
         return ultimaGuardiaHecha;
     }
 
-    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) {
-//        if (ultimaGuardia == null)
-//            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
-//        if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
-//            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
-//                    + this.getNombre() + " " + this.getApellido() + ".");
-//        }
+    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) throws EntradaInvalidaException {
+        if (ultimaGuardia == null)
+            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
+        if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
+            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
+                    + this.getNombre() + " " + this.getApellido() + ".");
+        }
         this.ultimaGuardiaHecha = ultimaGuardia;
     }
 
@@ -163,6 +163,18 @@ public class Persona implements Comparable<Persona> {
         this.guardiasAsignadas = guardiasAsignadas;
     }
 
+    public String getDisponibilidad(LocalDate fecha){
+        boolean disponible = true;
+
+        if(this.baja != null) {
+            if (reincorporacion == null) {
+                disponible = fecha.isBefore(this.baja);
+            } else
+                disponible =  fecha.isBefore(this.baja) || fecha.isAfter(reincorporacion);
+        }
+         return disponible ? "Disponible" : "Baja";
+    }
+
     public int getCantGuardiasAsignadas() {
         int cant = 0;
         if (guardiasAsignadas.isEmpty())
@@ -183,6 +195,7 @@ public class Persona implements Comparable<Persona> {
     }
 
     public void setActivo(Boolean activo) {
+        this.activo = activo;
     }
 
     /**
@@ -194,25 +207,8 @@ public class Persona implements Comparable<Persona> {
         return ((Persona) persona).getCarnet().equals(getCarnet());
     }
 
-//    /**
-//     * @param fecha fecha en la que se busca la disponibilidad
-//     * @return enum Disponibilidad
-//     */
-//    public Disponibilidad getDisponibilidadParaFecha(LocalDate fecha) {
-//        //fecha seria la fecha actual o un dia x
-//        Disponibilidad disponibilidad;
-//        boolean licenciaRelevanteEncontrada = false;
-//
-//        if ((baja == null || baja.isAfter(fecha)) && !licenciaRelevanteEncontrada) {
-//            disponibilidad = Disponibilidad.DISPONIBLE;
-//        } else {
-//            disponibilidad = Disponibilidad.BAJA;
-//        }
-//        return disponibilidad;
-//    }
-
     /**
-     * @return comparaci�n entre apellido y si estos son iguales, compara los nombres
+     * @return comparación entre apellido y si estos son iguales, compara los nombres
      */
     @Override
     public int compareTo(Persona persona) {

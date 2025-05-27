@@ -3,6 +3,7 @@ package gui.internosComp;
 import gui.auxiliares.CustomTablaComplex;
 import model.Persona;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TablaTrabajadores extends CustomTablaComplex {
@@ -18,8 +19,8 @@ public class TablaTrabajadores extends CustomTablaComplex {
                 aux[1] = e.getApellido();
                 aux[2] = e.getNombre();
                 aux[3] = e.getSexo();
-//                aux[4] = e.getDisponibilidadParaFecha(LocalDate.now()).name();
-                aux[5] = Integer.toString(9);
+                aux[4] = e.getDisponibilidad(LocalDate.now());
+                aux[5] = String.valueOf(e.getCantGuardiasAsignadas());
 
                 modelo.addRow(aux);
             }

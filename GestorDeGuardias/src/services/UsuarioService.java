@@ -17,8 +17,8 @@ public class UsuarioService {
     }
 
     // CREATE
-    public void insertUsuario(int id, String nombre, String email) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_usuario(?, ?, ?)", id, nombre, email);
+    public void insertUsuario(String nombre, String email) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_create_usuario(?, ?)", nombre, email);
     }
 
     // READ all
@@ -27,8 +27,8 @@ public class UsuarioService {
     }
 
     // READ by primary key
-    public Usuario getUsuarioByPk(int id) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_usuario_by_pk(?)", new UsuarioMapper(), id)
+    public Usuario getUsuarioByNombre(String nombre) {
+        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_usuario_by_pk(?)", new UsuarioMapper(), nombre)
                 .stream().findFirst().orElse(null);
     }
 

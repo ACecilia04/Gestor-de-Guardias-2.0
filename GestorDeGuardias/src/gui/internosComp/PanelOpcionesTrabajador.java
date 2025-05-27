@@ -180,7 +180,7 @@ public class PanelOpcionesTrabajador extends JPanel {
         panel4 = new JPanel(null);
         panel4.setBackground(getBackground());
         panel4.setPreferredSize(new Dimension(this.getPreferredSize().width, 100));
-        botonAddTrab = new Boton("A�adir Trabajador");
+        botonAddTrab = new Boton("Añadir Trabajador");
 
         botonAddTrab.setNuevoSize(new Dimension(140, 40));
         botonAddTrab.setBordeado(true);
@@ -225,10 +225,6 @@ public class PanelOpcionesTrabajador extends JPanel {
 
     public CustomCheckBox getCheckDisp() {
         return checkDisp;
-    }
-
-    public CustomCheckBox getCheckLicencia() {
-        return checkLicencia;
     }
 
     public CustomCheckBox getCheckBaja() {
@@ -328,16 +324,9 @@ public class PanelOpcionesTrabajador extends JPanel {
         return botonBajaMini;
     }
 
-
     public CustomCalendar getCalendario() {
         return calendario;
     }
-
-
-    public Boton getBotonLic2() {
-        return botonLic2;
-    }
-
 
     public Boton getBotonLicencia() {
         return botonLicencia;
@@ -346,7 +335,6 @@ public class PanelOpcionesTrabajador extends JPanel {
     public Boton getBotonBaja() {
         return botonBaja;
     }
-
 
     public Boton getBotonVolunt() {
         return botonVolunt;

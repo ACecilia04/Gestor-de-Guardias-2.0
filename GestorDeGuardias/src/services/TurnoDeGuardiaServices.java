@@ -20,8 +20,8 @@ public class TurnoDeGuardiaServices {
     }
 
     // CREATE
-    public void insertTurnoDeGuardia(LocalTime horaInicio, LocalTime horaFin, long personaAsignada, Boolean hecho, LocalDate fecha) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_turno_de_guardia(?, ?, ?, ?, ?)", horaInicio, horaFin, personaAsignada, hecho, fecha);
+    public void insertTurnoDeGuardia(Long horarioId, long personaAsignada, Boolean hecho, LocalDate fecha) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_create_turno_de_guardia(?, ?, ?, ?)", horarioId, personaAsignada, hecho, fecha);
     }
 
     // READ all
@@ -36,13 +36,13 @@ public class TurnoDeGuardiaServices {
     }
 
     // UPDATE
-    public void updateTurnoDeGuardia(LocalTime horaInicio, LocalTime horaFin, LocalDate fecha, long personaAsignada, Boolean hecho) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_update_turno_de_guardia(?, ?, ?, ?, ?)", horaInicio, horaFin, fecha, personaAsignada, hecho);
+    public void updateTurnoDeGuardia(Long horarioId, LocalDate fecha, long personaAsignada, Boolean hecho) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_update_turno_de_guardia(?, ?, ?, ?)", horarioId, fecha, personaAsignada, hecho);
     }
 
     // DELETE
-    public void deleteTurnoDeGuardia(LocalTime horaInicio, LocalTime horaFin, LocalDate fecha) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_turno_de_guardia(?, ?, ?)", horaInicio, horaFin, fecha);
+    public void deleteTurnoDeGuardia(Long horarioId, LocalDate fecha) {
+        baseDao.getJdbcTemplate().executeProcedure("sp_delete_turno_de_guardia(?, ?)", horarioId, fecha);
     }
 
     // Internal Mapper

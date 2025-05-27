@@ -342,21 +342,21 @@ public class Gestor {
         }
     }
 
-    /**
-     * Luego de dar la baja via la facultad, asigna un sustituto
-     * adecuado en todas la guardias asignadas a la persona
-     *
-     * @param ci        carnet de identidad de la persona
-     * @param fechaBaja
-     * @throws EntradaInvalidaException
-     * @throws MultiplesErroresException
-     */
-    public void darBaja(String ci, LocalDate fechaBaja) throws EntradaInvalidaException, MultiplesErroresException {
-        Persona persona = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci);
-
-        facultad.darBaja(persona.getCarnet(), fechaBaja);
-        sustituirGuardias(fechaBaja, persona);
-    }
+//    /**
+//     * Luego de dar la baja via la facultad, asigna un sustituto
+//     * adecuado en todas la guardias asignadas a la persona
+//     *
+//     * @param ci        carnet de identidad de la persona
+//     * @param fechaBaja
+//     * @throws EntradaInvalidaException
+//     * @throws MultiplesErroresException
+//     */
+//    public void darBaj(String ci, LocalDate fechaBaja) throws EntradaInvalidaException, MultiplesErroresException {
+//        Persona persona = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci);
+//
+//        facultad.darBaja(persona.getCarnet(), fechaBaja);
+//        sustituirGuardias(fechaBaja, persona);
+//    }
 
 //    /**
 //     * Luego de dar la licencia via la facultad, asigna un sustituto

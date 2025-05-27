@@ -5,6 +5,7 @@ import model.TipoPersona;
 import utils.abstracts.MainBaseDao;
 import utils.abstracts.RowMapper;
 import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -149,6 +150,31 @@ public class PersonaServices {
             errores.add("Sexo no especificado.");
         else if (carneIdentidadValido && ((Integer.parseInt(ci.substring(9, 10)) % 2 == 0 && sexo != 'm') || (Integer.parseInt(ci.substring(9, 10)) % 2 != 0 && sexo != 'f')))
             errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
+
+        return errores;
+    }
+
+    public void darBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException, EntradaInvalidaException {
+        ArrayList<String> errores = validarBaja(ci, fechaBaja);
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Baja con datos erróneos:", errores);
+
+        baseDao.getJdbcTemplate().executeProcedure("sp_dar_baja(?,?)", ci, fechaBaja);
+    }
+    public void darBajaConReincorporacion(String ci, LocalDate fechaBaja, LocalDate fechaReincorporacion) throws MultiplesErroresException, EntradaInvalidaException {
+        darBaja(ci,fechaBaja);
+
+
+    }
+
+    public void darFechaDeReincorporacion(String ci, LocalDate fechaReincorporacion){}
+
+    private ArrayList<String> validarBaja(String ci, LocalDate fechaBaja) {
+        ArrayList<String> errores = new ArrayList<String>();
+        if (!stringEsValido(ci))
+            errores.add("ci de identidad no especificado.");
+        if (fechaBaja == null)
+            errores.add("Fecha de baja no especificada.");
 
         return errores;
     }

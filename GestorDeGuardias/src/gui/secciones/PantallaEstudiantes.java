@@ -40,7 +40,6 @@ public class PantallaEstudiantes extends JPanel {
 
         ArrayList<CustomCheckBox> checks = new ArrayList<>();
         checks.add(tablaOpciones.getCheckBaja());
-        checks.add(tablaOpciones.getCheckLicencia());
         checks.add(tablaOpciones.getCheckDisp());
         checks.add(tablaOpciones.getCheckFem());
         checks.add(tablaOpciones.getCheckMasc());
@@ -78,7 +77,7 @@ public class PantallaEstudiantes extends JPanel {
                         e1.printStackTrace();
                     }
                     ArrayList<Persona> personaUnica = new ArrayList<>();
-                    if (persona != null && persona.getTipo().equals("estudiante")) {
+                    if (persona != null && persona.getTipo().equals("Estudiante")) {
                         personaUnica.add(persona);
                     }
                     revalidarTabla(personaUnica);
@@ -106,7 +105,7 @@ public class PantallaEstudiantes extends JPanel {
                     e1.printStackTrace();
                 }
                 ArrayList<Persona> personaUnica = new ArrayList<>();
-                if (persona != null && persona.getTipo().equals("estudiante")) {
+                if (persona != null && persona.getTipo().equals("Estudiante")) {
                     personaUnica.add(persona);
                 }
                 revalidarTabla(personaUnica);

@@ -36,7 +36,7 @@ public class PanelOpcionesEstudiante extends JPanel {
     private final Boton botonBaja;
     private final String iconoVolver = "/iconos/FlechaAtras.png";
     private final Buscar buscar;
-    private final Boton botonAddTrab;
+    private final Boton botonAddEst;
     private final int separacion = 10;
     private final int x = 20;
     private final Font fuente = new Font("Arial", Font.PLAIN, 17);
@@ -187,16 +187,16 @@ public class PanelOpcionesEstudiante extends JPanel {
         panel4 = new JPanel(null);
         panel4.setBackground(getBackground());
         panel4.setPreferredSize(new Dimension(this.getPreferredSize().width, 100));
-        botonAddTrab = new Boton("A�adir Estudiante");
+        botonAddEst = new Boton("Añadir Estudiante");
 
-        botonAddTrab.setNuevoSize(new Dimension(140, 40));
-        botonAddTrab.setBordeado(true);
-        botonAddTrab.setColorPresionado(paleta.getColorCaracteristico());
+        botonAddEst.setNuevoSize(new Dimension(140, 40));
+        botonAddEst.setBordeado(true);
+        botonAddEst.setColorPresionado(paleta.getColorCaracteristico());
 
-        int x = (panel4.getPreferredSize().width - botonAddTrab.getSize().width) / 2;
-        int y = (panel4.getPreferredSize().height - botonAddTrab.getSize().height) / 2;
-        botonAddTrab.setLocation(x, y);
-        panel4.add(botonAddTrab);
+        int x = (panel4.getPreferredSize().width - botonAddEst.getSize().width) / 2;
+        int y = (panel4.getPreferredSize().height - botonAddEst.getSize().height) / 2;
+        botonAddEst.setLocation(x, y);
+        panel4.add(botonAddEst);
 
         JPanel panelComun = new JPanel(new BorderLayout());
         panelComun.add(panelBotones, BorderLayout.CENTER);
@@ -234,10 +234,6 @@ public class PanelOpcionesEstudiante extends JPanel {
         return checkDisp;
     }
 
-    public CustomCheckBox getCheckLicencia() {
-        return checkLicencia;
-    }
-
     public CustomCheckBox getCheckBaja() {
         return checkBaja;
     }
@@ -256,7 +252,7 @@ public class PanelOpcionesEstudiante extends JPanel {
 
 
     public Boton getBotonAddEstud() {
-        return botonAddTrab;
+        return botonAddEst;
     }
 
     public void inciarPanelBaja() {
@@ -337,7 +333,6 @@ public class PanelOpcionesEstudiante extends JPanel {
     public Boton getBotonLicencia() {
         return botonLicencia;
     }
-
 
     public Boton getBotonBaja() {
         return botonBaja;
