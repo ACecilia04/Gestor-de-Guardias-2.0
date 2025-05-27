@@ -2,7 +2,8 @@ package services;
 
 import model.PeriodoNoPlanificable;
 import utils.abstracts.MainBaseDao;
-import utils.abstracts.RowMapper;
+import utils.abstracts.mappers.IntegerMapper;
+import utils.abstracts.mappers.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,9 +45,9 @@ public class PeriodoNoPlanificableServices {
     public void deletePeriodoNoPlanificable(LocalDate inicio, LocalDate fin) {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_periodo_no_planificable(?, ?)", inicio, fin);
     }
-
+//ver que hace esto"sp_count_periodo_no_planificable(?)"
     public int countPeriodoNoPlanificable(){
-       return baseDao.getJdbcTemplate().executeProcedureWithResult("sp_count_periodo_no_planificable(?)", "total", Types.INTEGER);
+        return baseDao.spQuerySingleObject("sp_count_periodo_no_planificable(?)", new IntegerMapper("total"));
     }
 
     public PeriodoNoPlanificable getPeriodosEnFecha(LocalDate fecha){

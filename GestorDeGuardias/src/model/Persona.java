@@ -32,7 +32,7 @@ public class Persona implements Comparable<Persona> {
         activo = true;
     }
 
-    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) throws EntradaInvalidaException {
+    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) {
         setId(id);
         setCarnet(carnet);
         setNombre(nombre);
@@ -41,7 +41,11 @@ public class Persona implements Comparable<Persona> {
         setTipoPersona(new TipoPersona(tipo));
         guardiasAsignadas = new ArrayList<>();
         guardiasDeRecuperacion = cantGuardiasRecuperacion;
-        setUltimaGuardiaHecha(ultimaGuardiaHecha);
+        try {
+            setUltimaGuardiaHecha(ultimaGuardiaHecha);
+        } catch (EntradaInvalidaException e) {
+            throw new RuntimeException(e);
+        }
         setActivo(activo);
     }
 

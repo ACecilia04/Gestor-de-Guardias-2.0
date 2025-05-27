@@ -1,4 +1,4 @@
-package utils.abstracts;
+package utils.abstracts.mappers;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
