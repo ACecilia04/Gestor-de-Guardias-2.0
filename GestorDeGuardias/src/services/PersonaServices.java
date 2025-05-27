@@ -62,7 +62,7 @@ public class PersonaServices {
     }
 //changed
     public int getPersonaCountByTipo(String tipoPersona){
-        return baseDao.spQuerySingleObject("count_personas(?)", new IntegerMapper("total"),tipoPersona);
+        return baseDao.spQuerySingleObject("sp_count_persona_by_tipo(?)", new IntegerMapper("total"),tipoPersona);
     }
 
     /*

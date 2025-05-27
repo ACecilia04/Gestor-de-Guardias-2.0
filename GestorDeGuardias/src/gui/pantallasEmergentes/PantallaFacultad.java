@@ -184,7 +184,7 @@ public class PantallaFacultad extends JDialog {
         panelSup.setPreferredSize(new Dimension(panelFac.getSize().width, 100));
         panelSup.setBackground(panelFac.getBackground());
 
-        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Informacion de Facultad : " + "INGIENERIA_INFORMATICA");
+        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Informacion de Facultad : " + "INGENIERIA INFORMATICA");
 
         titulo.setLocation(20, 20);
         panelSup.add(titulo);

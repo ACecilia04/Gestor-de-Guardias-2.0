@@ -32,7 +32,7 @@ public class Persona implements Comparable<Persona> {
         activo = true;
     }
 
-    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) throws EntradaInvalidaException {
+    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) {
         setId(id);
         setCarnet(carnet);
         setNombre(nombre);
@@ -99,13 +99,13 @@ public class Persona implements Comparable<Persona> {
 
     public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) {
 //        if (ultimaGuardia == null)
-////            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
+//            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
 //        if (this.ultimaGuardiaHecha != null) {
-            if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
-    ////            throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
-    ////                    + this.getNombre() + " " + this.getApellido() + ".");
-    //        }
-        }
+//            if (ultimaGuardia.isBefore(this.ultimaGuardiaHecha)) {
+//                throw new EntradaInvalidaException("La fecha que desea ingresar precede a la fecha de la última guardia hecha por "
+//                        + this.getNombre() + " " + this.getApellido() + ".");
+//            }
+//        }
         this.ultimaGuardiaHecha = ultimaGuardia;
     }
 
