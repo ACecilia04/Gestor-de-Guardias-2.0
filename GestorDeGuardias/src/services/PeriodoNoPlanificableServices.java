@@ -6,7 +6,9 @@ import utils.abstracts.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PeriodoNoPlanificableServices {
@@ -23,8 +25,8 @@ public class PeriodoNoPlanificableServices {
     }
 
     // READ all
-    public List<PeriodoNoPlanificable> getAllPeriodosNoPlanificables() {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_periodo_no_planificable", new PeriodoNoPlanificableMapper());
+    public ArrayList<PeriodoNoPlanificable> getAllPeriodosNoPlanificables() {
+        return (ArrayList<PeriodoNoPlanificable>) baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_periodo_no_planificable", new PeriodoNoPlanificableMapper());
     }
 
     // READ by primary key
@@ -43,6 +45,15 @@ public class PeriodoNoPlanificableServices {
         baseDao.getJdbcTemplate().executeProcedure("sp_delete_periodo_no_planificable(?, ?)", inicio, fin);
     }
 
+    public int countPeriodoNoPlanificable(){
+       return baseDao.getJdbcTemplate().executeProcedureWithResult("sp_count_periodo_no_planificable(?)", "total", Types.INTEGER);
+    }
+
+    public PeriodoNoPlanificable getPeriodosEnFecha(LocalDate fecha){
+        return baseDao.getJdbcTemplate().executeProcedureWithResults(
+                "sp_periodos_no_planificables_in_date",new PeriodoNoPlanificableMapper(), fecha)
+                .stream().findFirst().orElse(null);
+    }
     // Internal Mapper
     private static class PeriodoNoPlanificableMapper implements RowMapper<PeriodoNoPlanificable> {
         @Override

@@ -7,7 +7,9 @@ import gui.internosComp.PanelOpcionesTrabajador;
 import gui.pantallasEmergentes.Advertencia;
 import gui.pantallasEmergentes.PantallaAddVolunt;
 import model.Persona;
+import model.TipoPersona;
 import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
@@ -47,7 +49,7 @@ public class PantallaTrabajadores extends JPanel {
 
         for (CustomCheckBox e : checks) {
             e.addActionListener(e12 -> {
-                ArrayList<Persona> personaAux = checkFiltros(Gestor.getInstance().getFacultad().getTrabajadores());
+                ArrayList<Persona> personaAux = checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Trabajdor")));
                 revalidarTabla(personaAux);
             });
         }
@@ -110,12 +112,7 @@ public class PantallaTrabajadores extends JPanel {
                     String string = "<html><p>Estas Seguro? <br>Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                     if (!advertencia.getEleccion()) {
-                        try {
-                            Gestor.getInstance().getFacultad().buscarPersona(ID).darBaja(fechaAux);
-                        } catch (EntradaInvalidaException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
+                        ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ID).darBaja(fechaAux);
                         revalidarTabla();
                     }
                 }
@@ -162,21 +159,16 @@ public class PantallaTrabajadores extends JPanel {
             }
         });
 
-        tablaOpciones.getBotonVolunt().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String ID = tabla.getCarnet();
+//        tablaOpciones.getBotonVolunt().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                String ID = tabla.getCarnet();
 //                LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
-                try {
-                    PantallaAddVolunt pantallaVolunt = new PantallaAddVolunt(Gestor.getInstance().getFacultad().buscarPersona(ID));
-                    revalidarTabla();
-                } catch (EntradaInvalidaException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-
-            }
-        });
+//                PantallaAddVolunt pantallaVolunt = new PantallaAddVolunt(ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ID));
+//                revalidarTabla();
+//
+//            }
+//        });
 
 
         tablaOpciones.getBotonEliminar().setSeleccionable(false);
@@ -226,7 +218,7 @@ public class PantallaTrabajadores extends JPanel {
     }
 
     public void revalidarTabla() {
-        this.tabla.revalidarTabla(checkFiltros(Gestor.getInstance().getFacultad().getTrabajadores()));
+        this.tabla.revalidarTabla(checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Trabajador"))));
 
         revalidate();
         repaint();

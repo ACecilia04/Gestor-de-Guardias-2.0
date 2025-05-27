@@ -9,6 +9,7 @@ import gui.internosComp.PanelTurno;
 import gui.secciones.Ventana;
 import model.Persona;
 import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -110,7 +111,7 @@ public class PantallaSelecPersona extends JDialog {
 
                         try {
                             //Gestor.getInstance().asignarPersona(dia,, persona);********************************************************************************************************************
-                            Persona personaAux = Gestor.getInstance().getFacultad().buscarPersona(IDselec);
+                            Persona personaAux = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(IDselec);
                             Gestor.getInstance().asignarPersona(turno.getFecha(), turno.getTurno().getHorario(), personaAux);
                             turno.actualizar();
                         } catch (EntradaInvalidaException e1) {

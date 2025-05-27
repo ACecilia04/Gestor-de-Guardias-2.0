@@ -24,29 +24,11 @@ public class Facultad {
 
     // ************************************************get listas de la facultad**********************************************************
 
-    public ArrayList<Persona> getPersonas() {
-        return personas;
-    }
+//    public ArrayList<Persona> getPersonas() {
+//        return personas;
+//    }
 
-    public ArrayList<Persona> getEstudiante() {
-        ArrayList<Persona> estudiantes = new ArrayList<>();
 
-//        for (Persona e : personas)
-//            if (e instanceof Estudiante)
-//                estudiantes.add(e);
-
-        return estudiantes;
-    }
-
-    public ArrayList<Persona> getTrabajadores() {
-        ArrayList<Persona> trabajadores = new ArrayList<>();
-//
-//        for (Persona e : personas)
-//            if (e instanceof Trabajador)
-//                trabajadores.add(e);
-
-        return trabajadores;
-    }
 
 //    /**!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! la disponibilidad ya no estan en las personas,
 //    como atributo asi que no se que hacer muy bien con esto XD
@@ -125,93 +107,6 @@ public class Facultad {
 //        }
 //        return personas;
 //    }
-
-//    /**
-//     * Devuelve la lista de personas de licencia en un una fecha dada
-//     *
-//     * @param fecha fecha en la que se busca disponibilidad
-//     * @return lista de personas de licencia ordenada alfab�ticamente
-//     * @throws EntradaInvalidaException si la fecha no es especificada
-//     */
-//    public ArrayList<Persona> getPersonasDeLicencia(LocalDate fecha) throws EntradaInvalidaException {
-//        ArrayList<Persona> lista = new ArrayList<Persona>();
-//        if (fecha == null)
-//            throw new EntradaInvalidaException("Fecha no especificada.");
-//        else {
-//            for (Persona p : personas)
-//                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.LICENCIA)
-//                    lista.add(p);
-//        }
-//        return lista;
-//    }
-
-//    /**
-//     * Devuelve de una lista de personas. las que estan de licencia en un una
-//     * fecha dada
-//     *
-//     * @param fecha fecha en la que se busca disponibilidad
-//     * @return lista de personas de licencia ordenada alfab�ticamente
-//     * @throws EntradaInvalidaException si la fecha no es especificada
-//     */
-//    public ArrayList<Persona> getPersonasDeLicencia(LocalDate fecha, ArrayList<Persona> personas) throws EntradaInvalidaException {
-//        if (fecha == null)
-//            throw new EntradaInvalidaException("Fecha no especificada.");
-//        else {
-//            for (Persona p : personas)
-//                if (p.getDisponibilidadParaFecha(fecha) == Disponibilidad.LICENCIA)
-//                    personas.add(p);
-//        }
-//        return personas;
-//
-//    }
-
-    /**
-     * Devuelve lista cronologica de los recesos docentes registrados
-     */
-    public ArrayList<PeriodoNoPlanificable> getRecesosDocentes() {
-        return recesosDocentes;
-    }
-
-    // ************************************************************Buscar**********************************************************************************
-
-    /**
-     * Busca a una persona activa o no activa
-     *
-     * @param ci ci de identidad de persona buscada
-     * @return persona encontrada o null si no la encuentra
-     */
-    public Persona buscarPersona(String ci) throws EntradaInvalidaException {
-        Persona indicada = null;
-        boolean encontrada = false;
-        if (!stringEsValido(ci))
-            throw new EntradaInvalidaException("ci de identidad no especificado.");
-        for (int i = 0; i < personas.size() && !encontrada; i++) {
-            if (personas.get(i).getCarnet().equals(ci)) {
-                indicada = personas.get(i);
-                encontrada = true;
-            }
-        }
-        return indicada;
-    }
-
-    /**
-     * Dado una fecha busca el receso docente correspondiente
-     * * @return
-     */
-    public PeriodoNoPlanificable buscarRecesoDocente(LocalDate fecha) throws EntradaInvalidaException {
-        PeriodoNoPlanificable indicado = null;
-        boolean encontrado = false;
-
-        if (fecha == null)
-            throw new EntradaInvalidaException("Fecha a buscar no especificada.");
-        for (int i = 0; i < recesosDocentes.size() && !encontrado; i++) {
-            if (!fecha.isBefore(recesosDocentes.get(i).getInicio()) && !fecha.isAfter(recesosDocentes.get(i).getFin())) {
-                indicado = recesosDocentes.get(i);
-                encontrado = true;
-            }
-        }
-        return indicado;
-    }
 
     // ***********************************************************Validaciones*********************************************************************
 
@@ -298,7 +193,7 @@ public class Facultad {
         ArrayList<String> errores = validarPersona(ci, nombre, apellidos, sexo);
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Estudiante con datos err�neos: ", errores);
-        if (buscarPersona(ci) != null)
+        if (ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci) != null)
             throw new EntradaInvalidaException("Estudiante ya registrado.");
     }
 
@@ -317,7 +212,7 @@ public class Facultad {
         ArrayList<String> errores = validarPersona(ci, nombre, apellidos, sexo);
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Trabajador con datos err�neos: ", errores);
-        if (buscarPersona(ci) != null)
+        if (ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci) != null)
             throw new EntradaInvalidaException("Trabajador ya registrado.");
     }
 
@@ -427,40 +322,6 @@ public class Facultad {
     // ****************************************************************Hacer cambios a las listas de la Facultad*******************************************************************
 
     /**
-     * A�ade un estudiante a la lista de personas de la facultad tomando en
-     * conscieraci�n su ordenamiento alfab�tico
-     *
-     * @param ci        ci de identidad del estudiante
-     * @param nombre    nombre del estudiante
-     * @param apellidos apellidos del estudiante
-     * @param sexo      sexo del estudiante
-     * @throws MultiplesErroresException
-     * @throws EntradaInvalidaException
-     */
-    public void annadirEstudiante(String ci, String nombre, String apellidos, Character sexo) throws EntradaInvalidaException, MultiplesErroresException {
-        validarEstudiante(ci, nombre, apellidos, sexo);
-        personas.add(new Persona(ci, nombre, apellidos, sexo, "Estudiante"));
-        Collections.sort(personas);
-    }
-
-    /**
-     * A�ade un trabajador a la lista de personas de la facultad tomando en
-     * consideraci�n su ordenamiento alfab�tico
-     *
-     * @param ci        ci de identidad del trabajador
-     * @param nombre    nombre del trabajador
-     * @param apellidos apellidos del trabajador
-     * @param sexo      sexo del trabajador
-     * @throws MultiplesErroresException
-     * @throws EntradaInvalidaException
-     */
-    public void annadirTrabajador(String ci, String nombre, String apellidos, Character sexo) throws EntradaInvalidaException, MultiplesErroresException {
-        validarTrabajador(ci, nombre, apellidos, sexo);
-        personas.add(new Persona(ci, nombre, apellidos, sexo, "Trabajador"));
-        Collections.sort(personas);
-    }
-
-    /**
      * Elimina persona de la facultad si esta existe
      *
      * @param ci ci de identidad de persona buscada
@@ -468,28 +329,12 @@ public class Facultad {
      * @throws EntradaInvalidaException
      */
     public void eliminarPersona(String ci) throws EntradaInvalidaException {
-        Persona p = buscarPersona(ci);
+        Persona p = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci);
         if (p == null)
             throw new EntradaInvalidaException("Persona no registrada.");
         else {
             personas.remove(p);
         }
-    }
-
-    /**
-     * A�ade un receso docente a la facultad
-     *
-     * @param inicio
-     * @param fin
-     * @param nombre
-     * @throws MultiplesErroresException
-     * @throws EntradaInvalidaException
-     */
-    public void annadirRecesoDocente(LocalDate inicio, LocalDate fin, String nombre) throws MultiplesErroresException, EntradaInvalidaException {
-        validarRecesoDocente(inicio, fin);
-        PeriodoNoPlanificable rd = new PeriodoNoPlanificable(inicio, fin);
-        recesosDocentes.add(rd);
-        Collections.sort(recesosDocentes);
     }
 
     /**
@@ -499,7 +344,7 @@ public class Facultad {
      * @throws EntradaInvalidaException
      */
     public void eliminarRecesoDocente(LocalDate inicio) throws EntradaInvalidaException {
-        PeriodoNoPlanificable rd = buscarRecesoDocente(inicio);
+        PeriodoNoPlanificable rd = ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getPeriodosEnFecha(inicio);
         if (rd == null)
             throw new EntradaInvalidaException("Receso docente no registrado.");
         else {
@@ -521,7 +366,7 @@ public class Facultad {
         ArrayList<String> errores = validarBaja(ci, fechaBaja);
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Baja con datos err�neos:", errores);
-        Persona p = buscarPersona(ci);
+        Persona p = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci);
         if (p == null)
             throw new EntradaInvalidaException("Persona no registrada.");
         p.darBaja(fechaBaja);
@@ -597,7 +442,7 @@ public class Facultad {
         if (fecha == null)
             throw new EntradaInvalidaException("Fecha de guardia no espeficicada.");
 
-        Persona persona = buscarPersona(ci);
+        Persona persona = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci);
         persona.annadirGuardiaAsignada(fecha);
     }
 
@@ -644,7 +489,7 @@ public class Facultad {
     }
 
     public int getCantGuardiasAsignadas(String id) throws EntradaInvalidaException {
-        Persona p = buscarPersona(id);
+        Persona p = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(id);
         return p.getCantGuardiasAsignadas();
     }
 

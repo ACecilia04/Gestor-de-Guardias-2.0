@@ -12,10 +12,9 @@ public class ServicesLocator {
     private final TipoPersonaServices tipoPersonaServices;
     private final TurnoDeGuardiaServices turnoDeGuardiaServices;
     private final UsuarioService usuarioService;
-    private final MainBaseDao mbDAO;
 
     private ServicesLocator() {
-        mbDAO = new MainBaseDao();
+        MainBaseDao mbDAO = new MainBaseDao();
         configuracionServices = new ConfiguracionServices(mbDAO);
         esquemaServices = new EsquemaServices(mbDAO);
         horarioServices = new HorarioServices(mbDAO);
@@ -26,7 +25,7 @@ public class ServicesLocator {
         usuarioService = new UsuarioService(mbDAO);
     }
 
-    public static ServicesLocator getServicesLocatorInstance() {
+    public static ServicesLocator getInstance() {
         if (me == null) {
             return new ServicesLocator();
         }

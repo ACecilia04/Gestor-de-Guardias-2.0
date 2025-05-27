@@ -3,6 +3,7 @@ package gui.componentes;
 import gui.auxiliares.Paleta;
 import model.Persona;
 import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 
 import java.awt.*;
@@ -46,8 +47,7 @@ public class Buscar extends CustomTextField {
     }
 
     public Persona buscar() throws EntradaInvalidaException {
-        String ID = this.getText();
-        return Gestor.getInstance().getFacultad().buscarPersona(ID);
+        return ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(getText());
     }
 
     public Boton getBoton() {

@@ -49,4 +49,8 @@ public class PeriodoNoPlanificable implements Comparable<PeriodoNoPlanificable> 
         return inicio.compareTo(receso.getInicio());
     }
 
+    @Override
+    public String toString(){
+        return inicio.isEqual(fin) ? inicio.toString() : inicio + " - " + fin;
+    }
 }

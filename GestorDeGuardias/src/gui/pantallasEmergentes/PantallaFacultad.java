@@ -196,14 +196,14 @@ public class PantallaFacultad extends JDialog {
         int y = 20;
         int sepEtiq = 20;
 
-        String aux = Integer.toString(ServicesLocator.getServicesLocatorInstance().getPersonaServices().
-                getPersonaByTipo(new TipoPersona("Estudiante")).size());
+        String aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().
+                getPersonaCountByTipo(new TipoPersona("Estudiante")));
         Etiqueta cantE = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Estudiantes :  " + aux);
         cantE.setLocation(x, y);
         y += cantE.getHeight() + sepEtiq;
         content.add(cantE);
 
-        aux = Integer.toString(Gestor.getInstance().getFacultad().getTrabajadores().size());
+        aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().getPersonaCountByTipo(new TipoPersona("Trabajador")));
         Etiqueta cantT = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Trabajadores :  " + aux);
         cantT.setLocation(x, y);
         y += cantT.getHeight() + sepEtiq;
@@ -240,7 +240,7 @@ public class PantallaFacultad extends JDialog {
         int sepEtiq = 20;
 
 
-        ArrayList<PeriodoNoPlanificable> recesos = Gestor.getInstance().getFacultad().getRecesosDocentes();
+        ArrayList<PeriodoNoPlanificable> recesos = ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getAllPeriodosNoPlanificables();
         String aux = Integer.toString(recesos.size());
         final Etiqueta cantERec = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Recesos :  " + aux);
         cantERec.setLocation(x, y);
@@ -325,11 +325,8 @@ public class PantallaFacultad extends JDialog {
                         e1.printStackTrace();
                     }
 
-//String[] array = Gestor.getInstance().getFacultad().getRecesosDocentes();
-
-                    cantERec.setText("Cantidad de Recesos :  " + Gestor.getInstance().getFacultad().getRecesosDocentes().size());
-
-                    //                   comboRec.setOpciones(array);
+                    cantERec.setText("Cantidad de periodos no planificables :  " + ServicesLocator.getInstance().getPeriodoNoPlanificableServices().countPeriodoNoPlanificable());
+                    comboRec.setOpciones(new String[]{ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getAllPeriodosNoPlanificables().toString()});
 
                     fechaInicio.setVisible(false);
                     fechaFinal.setVisible(false);
@@ -572,26 +569,25 @@ public class PantallaFacultad extends JDialog {
         annadir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean correcto = true;
-
-                if (nombre.getText().isEmpty()) {
-                    vacio1.setVisible(true);
-
-                    revalidate();
-                    repaint();
-                    correcto = false;
-                }
-                if (correcto) {
-                    vacio1.setVisible(false);
-                    LocalDate fechaInicio = LocalDate.of(Integer.valueOf(agno.getText()), Integer.valueOf(mes.getText()), Integer.valueOf(dia.getText()));
-                    LocalDate fechaFinal = LocalDate.of(Integer.valueOf(agno2.getText()), Integer.valueOf(mes2.getText()), Integer.valueOf(dia2.getText()));
-                    try {
-                        Gestor.getInstance().getFacultad().annadirRecesoDocente(fechaInicio, fechaFinal, nombre.getText());
-                        String string = "<html><p>Receso Guardado Exitosamente<br><br></p></html>";
-//                        String[] array = Gestor.getInstance().getFacultad().getNombresDeRecesosDocentes();
-                        cantERec.setText("Cantidad de Recesos :  " + Gestor.getInstance().getFacultad().getRecesosDocentes().size());
+//                boolean correcto = true;
 //
-//                        comboRec.setOpciones(array);
+//                if (nombre.getText().isEmpty()) {
+//                    vacio1.setVisible(true);
+//
+//                    revalidate();
+//                    repaint();
+//                    correcto = false;
+//                }
+//                if (correcto) {
+                    vacio1.setVisible(false);
+                    LocalDate fechaInicio = LocalDate.of(Integer.parseInt(agno.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
+                    LocalDate fechaFinal = LocalDate.of(Integer.parseInt(agno2.getText()), Integer.parseInt(mes2.getText()), Integer.parseInt(dia2.getText()));
+//                    try {
+                        ServicesLocator.getInstance().getPeriodoNoPlanificableServices().insertPeriodoNoPlanificable(fechaInicio, fechaFinal);
+                        String string = "<html><p>Receso Guardado Exitosamente<br><br></p></html>";
+                        cantERec.setText("Cantidad de periodos no planificables :  " + ServicesLocator.getInstance().getPeriodoNoPlanificableServices().countPeriodoNoPlanificable());
+
+                        comboRec.setOpciones(new String[]{ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getAllPeriodosNoPlanificables().toString()});
                         Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Receso Guardado", string, "Aceptar");
                         CardLayout cardLayout = (CardLayout) contentVacio.getLayout();
                         cardLayout.show(contentVacio, "panelMini1");
@@ -599,27 +595,27 @@ public class PantallaFacultad extends JDialog {
                         nombre.getTextField().setText("");
                         repaint();
                         revalidate();
-                    } catch (EntradaInvalidaException e1) {
-                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + e1.getMessage() + "</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
-                    } catch (MultiplesErroresException e1) {
-                        StringBuilder stringAux = new StringBuilder();
-                        for (String error : e1.getErrores()) {
-                            stringAux.append(error).append("<br>");
-                        }
+//                    } catch (EntradaInvalidaException e1) {
+//                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + e1.getMessage() + "</p></html>";
+//                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
+//                    } catch (MultiplesErroresException e1) {
+//                        StringBuilder stringAux = new StringBuilder();
+//                        for (String error : e1.getErrores()) {
+//                            stringAux.append(error).append("<br>");
+//                        }
 
-                        String string = "<html><p style='text-align: center;'> ERROR <br>" + stringAux + "</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
-                    }
+//                        String string = "<html><p style='text-align: center;'> ERROR <br>" + stringAux + "</p></html>";
+//                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
+//                    }
 
 
-                } else {
-                    String string = "<html><p style='text-align: center;'> ERROR <br><br>Todos los campos deben ser rellenados" + "</p></html>";
-                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
-                }
-                repaint();
-                revalidate();
-            }
+//                } else {
+//                    String string = "<html><p style='text-align: center;'> ERROR <br><br>Todos los campos deben ser rellenados" + "</p></html>";
+//                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
+//                }
+//                repaint();
+//                revalidate();
+           }
         });
         panelCrear.add(annadir);
 

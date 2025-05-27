@@ -41,7 +41,7 @@ public abstract class PantallaAddPersona extends JDialog {
     protected int margenIzquierdo = 40;
 
     public PantallaAddPersona() {
-        super(Ventana.getInstance(), "A�adir Persona", true);
+        super(Ventana.getInstance(), "Añadir Persona", true);
         setResizable(false);
         setSize(dim);
         contentPane = new JPanel();
@@ -195,7 +195,7 @@ public abstract class PantallaAddPersona extends JDialog {
         panelTitulo.setPreferredSize(panelTitulo.getSize());
         panelTitulo.setLayout(null);
 
-        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Rellenar Informaci�n");
+        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Rellenar Información");
 
 
         titulo.setNuevoSizeLetra(20);

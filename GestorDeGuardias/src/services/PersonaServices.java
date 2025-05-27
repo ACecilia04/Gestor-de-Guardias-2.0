@@ -8,6 +8,7 @@ import utils.exceptions.EntradaInvalidaException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +41,8 @@ public class PersonaServices {
     }
 
     // READ
-    public List<Persona> getAllPersonas() {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona", new PersonaMapper());
+    public ArrayList<Persona> getAllPersonas() {
+        return (ArrayList<Persona>) baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona", new PersonaMapper());
     }
 
     public Persona getPersonaByCi(String ci) {
@@ -56,6 +57,11 @@ public class PersonaServices {
 
     public ArrayList<Persona> getPersonaByTipo(TipoPersona tipoPersona) {
         return (ArrayList<Persona>) baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
+    }
+
+    public int getPersonaCountByTipo(TipoPersona tipoPersona){
+        return baseDao.getJdbcTemplate().executeProcedureWithResult("sp_count_personas_by_tipo",
+                "total", Types.INTEGER, tipoPersona.getNombre());
     }
 
     /*

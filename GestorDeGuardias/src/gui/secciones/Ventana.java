@@ -286,7 +286,7 @@ public class Ventana extends JFrame {
         pantallaEstudiantes = new PantallaEstudiantes();
 
         TablaEstudiantes customTabla = new TablaEstudiantes();
-        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros(ServicesLocator.getServicesLocatorInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante"))));
+        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante"))));
         pantallaEstudiantes.addTabla(customTabla);
     }
 
@@ -295,7 +295,7 @@ public class Ventana extends JFrame {
         pantallaTrabajadores = new PantallaTrabajadores();
 
         TablaTrabajadores customTabla = new TablaTrabajadores();
-        customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros(Gestor.getInstance().getFacultad().getTrabajadores()));
+        customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Trabajador"))));
         pantallaTrabajadores.addTabla(customTabla);
     }
 

@@ -24,8 +24,8 @@ public class PersonaTest {
     public static void setUp() {
         // Asegúrate de usar una base de datos de PRUEBAS
         MainBaseDao baseDao = new MainBaseDao();
-        personaServices = ServicesLocator.getServicesLocatorInstance().getPersonaServices();
-        tipoPersonaServices = ServicesLocator.getServicesLocatorInstance().getTipoPersonaServices();
+        personaServices = ServicesLocator.getInstance().getPersonaServices();
+        tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
     }
 
     @Test

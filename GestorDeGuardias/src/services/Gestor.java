@@ -352,7 +352,7 @@ public class Gestor {
      * @throws MultiplesErroresException
      */
     public void darBaja(String ci, LocalDate fechaBaja) throws EntradaInvalidaException, MultiplesErroresException {
-        Persona persona = facultad.buscarPersona(ci);
+        Persona persona = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci);
 
         facultad.darBaja(persona.getCarnet(), fechaBaja);
         sustituirGuardias(fechaBaja, persona);
@@ -479,7 +479,7 @@ public class Gestor {
         // ESPECIFICAMENTE
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Datos incorrectos:, errores");
-        if (facultad.buscarPersona(persona.getCarnet()) == null)
+        if (ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(persona.getCarnet()) == null)
             throw new EntradaInvalidaException("Persona no registrada.");
 
         ArrayList<Esquema> esquemas = getEsquemasDeFecha(fecha);

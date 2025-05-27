@@ -51,7 +51,7 @@ public class PantallaEstudiantes extends JPanel {
             aux.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ArrayList<Persona> personaAux = checkFiltros(ServicesLocator.getServicesLocatorInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante")));
+                    ArrayList<Persona> personaAux = checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante")));
                     revalidarTabla(personaAux);
                 }
             });
@@ -147,15 +147,10 @@ public class PantallaEstudiantes extends JPanel {
                     String string = "<html><p>Estas Seguro? <br>Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                     if (!advertencia.getEleccion()) {
-                        try {
-                            System.out.println(fechaAux);
-                            Gestor.getInstance().getFacultad().buscarPersona(ID).darBaja(fechaAux);
-                            Advertencia advertencia2 = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Baja Exitosa", "Baja Exitosa", "Aceptar");
+                        System.out.println(fechaAux);
+                        ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ID).darBaja(fechaAux);
+                        Advertencia advertencia2 = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Baja Exitosa", "Baja Exitosa", "Aceptar");
 
-                        } catch (EntradaInvalidaException e1) {
-                            String string2 = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-                            Advertencia advertencia3 = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
-                        }
                         revalidarTabla();
                     }
                 }
@@ -223,7 +218,7 @@ public class PantallaEstudiantes extends JPanel {
     }
 
     public void revalidarTabla() {
-        this.tabla.revalidarTabla(checkFiltros(ServicesLocator.getServicesLocatorInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante"))));
+        this.tabla.revalidarTabla(checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante"))));
 
         revalidate();
         repaint();
