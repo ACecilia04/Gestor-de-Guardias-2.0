@@ -32,7 +32,7 @@ public class PeriodoNoPlanificableServices {
 
     // READ by primary key
     public PeriodoNoPlanificable getPeriodoNoPlanificableByPk(LocalDate inicio, LocalDate fin) {
-        return baseDao.spQuerySingleObject("sp_read_periodo_no_planificable_by_pk(?, ?)", new PeriodoNoPlanificableMapper(), inicio, fin)
+        return baseDao.spQuerySingleObject("sp_read_periodo_no_planificable_by_pk(?, ?)", new PeriodoNoPlanificableMapper(), inicio, fin);
     }
 
     // UPDATE

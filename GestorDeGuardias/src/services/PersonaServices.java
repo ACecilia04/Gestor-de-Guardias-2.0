@@ -91,7 +91,7 @@ public class PersonaServices {
     }
 
     public void deletePersonaById(String id) {
-        baseDao.spQuery("sp_delete_persona_by_id(?)", id);
+        baseDao.spQuery("sp_delete_persona_by_id(?)", new PersonaMapper(), id);
     }
 
     private ArrayList<String> validarPersona(String ci, String nombre, String apellidos, Character sexo) {
