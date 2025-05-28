@@ -1,5 +1,6 @@
 package services;
 
+import logica.principal.DiaGuardia;
 import model.Configuracion;
 import model.Esquema;
 import model.Horario;
@@ -8,7 +9,10 @@ import utils.abstracts.mappers.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ConfiguracionServices {
@@ -31,8 +35,24 @@ public class ConfiguracionServices {
 
     // READ by primary key
     public Configuracion getConfiguracionByPk(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
-        return baseDao.spQuery("sp_read_configuracion_by_pk(?, ?, ?, ?)", new ConfiguracionMapper(), horaInicio, horaFin, diaSemana, diaEsReceso)
-                .stream().findFirst().orElse(null);
+        return baseDao.spQuerySingleObject("sp_read_configuracion_by_pk(?, ?, ?, ?)", new ConfiguracionMapper(), horaInicio, horaFin, diaSemana, diaEsReceso);
+    }
+    public ArrayList<Configuracion> crearPLantilla(boolean empezarHoy){
+        ArrayList<Configuracion> dias = new ArrayList<>();
+        LocalDate inicio;
+
+        if (empezarHoy)
+            inicio = LocalDate.now();
+        else {
+            if (this.planDeGuardias.isEmpty()) {
+                inicio = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
+            } else {
+                inicio = this.planDeGuardias.get(planDeGuardias.size() - 1).getFecha().plusDays(1);
+            }
+        }
+        int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
+
+
     }
 
     // UPDATE
@@ -49,13 +69,10 @@ public class ConfiguracionServices {
     private static class ConfiguracionMapper implements RowMapper<Configuracion> {
         @Override
         public Configuracion mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Configuracion(new Horario(
-                    rs.getTime("hora_inicio").toLocalTime(),
-                    rs.getTime("hora_fin").toLocalTime()),
-                    new Esquema(rs.getInt("dia_semana"),
-                            rs.getBoolean("dia_es_receso")),
-                    rs.getBoolean("actual")
-            );
+            Configuracion c = new Configuracion();
+            Esquema e = new Esquema();
+            Horario h = new Horario();
+            return c;
         }
     }
 }

@@ -70,7 +70,7 @@ public class MostrarPlanif extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (getSeleccionado() != null) {
-                    ArrayList<DiaGuardia> diasAux = Gestor.getInstance().getPlanificaciones(getSeleccionado().getFechaInicio());
+                    ArrayList<DiaGuardia> diasAux = Gestor.getInstance().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
                     Ventana.getInstance().editarPlanif(diasAux);
                 }
 
@@ -220,7 +220,7 @@ public class MostrarPlanif extends JPanel {
     public void mostrarTabla() {
         if (getSeleccionado() != null) {
             Ventana.getInstance().getPanel1().removeAll();
-            ArrayList<DiaGuardia> diasAux = Gestor.getInstance().getPlanificaciones(getSeleccionado().getFechaInicio());
+            ArrayList<DiaGuardia> diasAux = Gestor.getInstance().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
             TablaBase tabla = new TablaBase(Ventana.getInstance().getPanelVacio().getSize(), Color.WHITE, diasAux);
             Ventana.getInstance().getPanel1().add(tabla, BorderLayout.CENTER);
         }

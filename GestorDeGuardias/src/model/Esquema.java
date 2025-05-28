@@ -21,6 +21,10 @@ public class Esquema {
         this.diaEsReceso = diaEsReceso;
     }
 
+    public Esquema() {
+
+    }
+
     //Getters
     public int getDiaSemana() {
         return diaSemana;

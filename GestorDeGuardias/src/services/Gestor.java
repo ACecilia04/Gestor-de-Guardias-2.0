@@ -630,7 +630,7 @@ public class Gestor {
      * @param fecha
      * @return arreglo de dias de guardia planificados
      */
-    public ArrayList<DiaGuardia> getPlanificaciones(LocalDate fecha) {
+    public ArrayList<DiaGuardia> getPlanificacionesAPartirDe(LocalDate fecha) {
         int diasEncontrados = 0;
         ArrayList<DiaGuardia> dias = new ArrayList<DiaGuardia>();
         for (int i = 0; i < this.planDeGuardias.size() && diasEncontrados <= 31; i++) {

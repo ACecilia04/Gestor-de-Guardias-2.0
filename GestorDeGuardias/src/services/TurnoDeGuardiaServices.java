@@ -1,5 +1,6 @@
 package services;
 
+import logica.principal.DiaGuardia;
 import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
@@ -27,8 +28,22 @@ public class TurnoDeGuardiaServices {
     }
 
     // READ all
-    public List<TurnoDeGuardia> getAllTurnosDeGuardia() {
-        return baseDao.spQuery("sp_read_turno_de_guardia", new TurnoDeGuardiaMapper());
+    public ArrayList<TurnoDeGuardia> getAllTurnosDeGuardia() {
+        return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_read_turno_de_guardia", new TurnoDeGuardiaMapper());
+    }
+    public ArrayList<TurnoDeGuardia> getTurnosAPartirDe(LocalDate fecha) {
+        int diasEncontrados = 0;
+        ArrayList<TurnoDeGuardia> dias = new ArrayList<>();
+        /*
+
+         */
+//        for (int i = 0; i < this.planDeGuardias.size() && diasEncontrados <= 31; i++) {
+//            if (fecha.getMonth() == this.planDeGuardias.get(i).getFecha().getMonth()) {
+//                dias.add(this.planDeGuardias.get(i));
+//                diasEncontrados++;
+//            }
+//        }
+        return dias;
     }
 
     // READ by primary key

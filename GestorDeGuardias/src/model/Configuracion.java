@@ -3,22 +3,26 @@ package model;
 public class Configuracion {
     private Horario horario;
     private Esquema esquema;
-    private boolean actual;
+    private boolean borrado;
 
-    public Configuracion(Horario horario, Esquema esquema, boolean actual) {
+    public Configuracion(Horario horario, Esquema esquema, boolean borrado) {
         this.horario = horario;
         this.esquema = esquema;
-        this.actual = actual;
+        this.borrado = borrado;
+    }
+
+    public Configuracion() {
+
     }
 
     // Getters
     public boolean isActual() {
-        return actual;
+        return borrado;
     }
 
     // Setters
     public void setActual(boolean actual) {
-        this.actual = actual;
+        this.borrado = actual;
     }
 
     public Horario getHorario() {
@@ -45,7 +49,7 @@ public class Configuracion {
                 ", hora de fin=" + horario.getFin().toString() +
                 ", dia de semana=" + esquema.getDiaSemana() +
                 ", dia es receso=" + esquema.diaEsReceso() +
-                ", actual=" + actual +
+                ", actual=" + borrado +
                 '}';
     }
 }
