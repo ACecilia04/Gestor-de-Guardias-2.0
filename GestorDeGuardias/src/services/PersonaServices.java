@@ -124,7 +124,7 @@ public class PersonaServices {
                             if (dia > 30 || dia == 0) {
                                 diaValido = false;
                             }
-                        } else if (mes == 2) {
+                        } else {
                             if (anno % 4 != 0 && dia > 28) {
                                 diaValido = false;
                             } else if (anno % 4 == 0 && dia > 29) {
@@ -148,8 +148,11 @@ public class PersonaServices {
             errores.add("Apellido no especificado.");
         if (sexo == null)
             errores.add("Sexo no especificado.");
-        else if (carneIdentidadValido && ((Integer.parseInt(ci.substring(9, 10)) % 2 == 0 && sexo != 'm') || (Integer.parseInt(ci.substring(9, 10)) % 2 != 0 && sexo != 'f')))
-            errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
+        else {
+            int paridad = Integer.parseInt(ci.substring(9, 10)) % 2;
+            if (carneIdentidadValido && ((paridad == 0 && sexo != 'm') || (paridad != 0 && sexo != 'f')))
+                errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
+        }
 
         return errores;
     }

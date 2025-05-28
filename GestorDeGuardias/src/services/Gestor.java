@@ -51,6 +51,18 @@ public class Gestor {
      * @throws EntradaInvalidaException
      */
     public ArrayList<DiaGuardia> crearPlantilla(boolean empezarHoy) throws EntradaInvalidaException {
+/*        TODO: crearPlantilla
+        que puede ser:
+        pedirle a la bd la configuracion pasandole la fecha
+        que implica:
+                 getconfiguracionenlabd(es receso, diaSemana)
+                 con esos horarios llenar la tabla en la interfaz
+                 para ver la gente disponible, pasar el horario y la fecha de cada fila de la tabla
+                 asignar persona seria seleccionar <= q la cant max de la config
+                 guardar en lista aux hasta que se le de a guardar
+                 guardar = crear los turnos en la bd con hecho default
+         */
+
         ArrayList<DiaGuardia> dias = new ArrayList<DiaGuardia>();
         LocalDate inicio;
 
@@ -88,6 +100,7 @@ public class Gestor {
      * @throws EntradaInvalidaException
      */
     public ArrayList<Horario> getHorariosDeFecha(LocalDate fecha) throws EntradaInvalidaException {
+//        es lo d getconfig en crearPlantilla, getPersonasDisponible,
         if (fecha == null)
             throw new EntradaInvalidaException("Fecha no especificada.");
         ArrayList<Horario> horarios = new ArrayList<Horario>();
@@ -108,6 +121,7 @@ public class Gestor {
      * @throws EntradaInvalidaException
      */
     private ArrayList<Esquema> getEsquemasDeFecha(LocalDate fecha) throws EntradaInvalidaException {
+        //        es lo d getconfig en crearPlantilla y getPersonasDisponibles
         DayOfWeek diaDeSemana = fecha.getDayOfWeek();
         boolean fechaEnReceso = facultad.fechaEsRecesoDocente(fecha); //para saber si seran solo trabajores o no
         boolean fechaEnSemanaPar = fechaEnSemanaPar(fecha);  // por si es fin de semana saber si seran estudiantes o trabajadores en el horario diurno
