@@ -50,7 +50,7 @@ public class PeriodoNoPlanificable implements Comparable<PeriodoNoPlanificable> 
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return inicio.isEqual(fin) ? inicio.toString() : inicio + " - " + fin;
     }
 }
