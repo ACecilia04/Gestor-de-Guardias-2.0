@@ -32,18 +32,7 @@ public class TurnoDeGuardiaServices {
         return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_read_turno_de_guardia", new TurnoDeGuardiaMapper());
     }
     public ArrayList<TurnoDeGuardia> getTurnosAPartirDe(LocalDate fecha) {
-        int diasEncontrados = 0;
-        ArrayList<TurnoDeGuardia> dias = new ArrayList<>();
-        /*
-
-         */
-//        for (int i = 0; i < this.planDeGuardias.size() && diasEncontrados <= 31; i++) {
-//            if (fecha.getMonth() == this.planDeGuardias.get(i).getFecha().getMonth()) {
-//                dias.add(this.planDeGuardias.get(i));
-//                diasEncontrados++;
-//            }
-//        }
-        return dias;
+        return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_get_turnos_a_partir_de", new TurnoDeGuardiaMapper(), fecha);
     }
 
     // READ by primary key
