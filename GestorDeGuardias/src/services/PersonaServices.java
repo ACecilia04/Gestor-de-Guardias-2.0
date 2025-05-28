@@ -30,7 +30,7 @@ public class PersonaServices {
     public void insertPersona(String nombre, String apellido, char sexo, String carnet,
                               LocalDate ultimaGuardiaHecha, int guardiasDeRecuperacion,
                               LocalDate baja, LocalDate reincorporacion, String tipo, boolean activo) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        baseDao.spUpdate("sp_create_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha, guardiasDeRecuperacion,
                 baja, reincorporacion, tipo, activo);
     }
@@ -38,27 +38,27 @@ public class PersonaServices {
 
     public void insertPersona(String nombre, String apellido, char sexo, String carnet,
                               String tipo) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_persona(?, ?, ?, ?, ?)",
+        baseDao.spUpdate("sp_create_persona(?, ?, ?, ?, ?)",
                 nombre, apellido, String.valueOf(sexo), carnet, tipo);
     }
 
     // READ
     public ArrayList<Persona> getAllPersonas() {
-        return (ArrayList<Persona>) baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona", new PersonaMapper());
+        return (ArrayList<Persona>)  baseDao.spQuery("sp_read_persona", new PersonaMapper());
     }
 
     public Persona getPersonaByCi(String ci) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_ci(?)", new PersonaMapper(), ci)
+        return  baseDao.spQuery("sp_read_persona_by_ci(?)", new PersonaMapper(), ci)
                 .stream().findFirst().orElse(null);
     }
 
     public Persona getPersonaById(Long id) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_id(?)", new PersonaMapper(), id)
+        return  baseDao.spQuery("sp_read_persona_by_id(?)", new PersonaMapper(), id)
                 .stream().findFirst().orElse(null);
     }
 
     public ArrayList<Persona> getPersonaByTipo(TipoPersona tipoPersona) {
-        return (ArrayList<Persona>) baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
+        return (ArrayList<Persona>) baseDao.spQuery("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
     }
 //changed
     public int getPersonaCountByTipo(String tipoPersona){
@@ -73,26 +73,25 @@ public class PersonaServices {
             throw new EntradaInvalidaException("Fecha no especificada.");
         }
 
-        return baseDao.getJdbcTemplate()
-                .executeProcedureWithResults("sp_read_persona_by_baja(?)", new PersonaMapper(), fecha);
+        return  baseDao.spQuery("sp_read_persona_by_baja(?)", new PersonaMapper(), fecha);
     }
 
     // UPDATE
     public void updatePersona(long id, String nombre, String apellido, Character sexo, String carnet,
                               LocalDate ultimaGuardiaHecha, int guardiasDeRecuperacion, LocalDate baja,
                               LocalDate reincorporacion, String tipo, Boolean activo) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_update_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        baseDao.spUpdate("sp_update_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 id, nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha,
                 guardiasDeRecuperacion, baja, reincorporacion, tipo, activo);
     }
 
     // DELETE
     public void deletePersonaByCi(String ci) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_persona_by_ci(?)", ci);
+        baseDao.spUpdate("sp_delete_persona_by_ci(?)", ci);
     }
 
     public void deletePersonaById(String id) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_persona_by_id(?)", id);
+        baseDao.spQuery("sp_delete_persona_by_id(?)", id);
     }
 
     private ArrayList<String> validarPersona(String ci, String nombre, String apellidos, Character sexo) {
@@ -162,7 +161,7 @@ public class PersonaServices {
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Baja con datos erróneos:", errores);
 
-        baseDao.getJdbcTemplate().executeProcedure("sp_dar_baja(?,?)", ci, fechaBaja);
+        baseDao.spUpdate("sp_dar_baja(?,?)", ci, fechaBaja);
     }
     public void darBajaConReincorporacion(String ci, LocalDate fechaBaja, LocalDate fechaReincorporacion) throws MultiplesErroresException, EntradaInvalidaException {
         darBaja(ci,fechaBaja);
@@ -186,21 +185,21 @@ public class PersonaServices {
     private static class PersonaMapper implements RowMapper<Persona> {
         @Override
         public Persona mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Persona(
-                    rs.getLong("id"),
-                    rs.getString("nombre"),
-                    rs.getString("apellido"),
-                    rs.getString("sexo").charAt(0),
-                    rs.getString("carnet"),
-                    rs.getDate("ultima_guardia_hecha") != null ? rs.getDate("ultima_guardia_hecha").toLocalDate() : null,
-                    rs.getInt("guardias_de_recuperacion"),
-                    rs.getDate("baja") != null ? rs.getDate("baja").toLocalDate() : null,
-                    rs.getDate("reincorporacion") != null ? rs.getDate("reincorporacion").toLocalDate() : null,
-                    rs.getString("tipo"),
-                    rs.getBoolean("activo")
-            );
+            Persona p = new Persona();
+
+            p.setId(rs.getLong("id"));
+            p.setNombre(rs.getString("nombre"));
+            p.setApellido(rs.getString("apellido"));
+            p.setSexo(rs.getString("sexo").charAt(0));
+            p.setCarnet(rs.getString("carnet"));
+            p.setTipo(rs.getString("tipo"));
+            p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha").toLocalDate());
+            p.setBaja(rs.getDate("baja").toLocalDate());
+            p.setReincorporacion(rs.getDate("reincorporacion").toLocalDate());
+            p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
+            p.setActivo(!rs.getBoolean("borrado"));
+            return p;
         }
     }
-
 
 }

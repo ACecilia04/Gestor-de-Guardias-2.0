@@ -2,6 +2,7 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TurnoDeGuardia {
     private Horario horario;
@@ -22,6 +23,10 @@ public class TurnoDeGuardia {
         this.horario = horario;
 //        asignarPersona(personaAsignada);
         this.hecho = hecho;
+    }
+
+    public TurnoDeGuardia() {
+
     }
 
     // Getters
@@ -60,6 +65,13 @@ public class TurnoDeGuardia {
 
     public void actualizarCumplimiento(Boolean hecho) {
         this.hecho = hecho;
+    }
+
+    public void setPersonasAsignadas(ArrayList<Persona> personas) {
+     personas.forEach(this::asignarPersona);
+    }
+
+    public void setHecho(Boolean hecho) {
     }
 
 

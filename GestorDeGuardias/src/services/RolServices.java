@@ -18,28 +18,27 @@ public class RolServices {
 
     // CREATE
     public void insertRol(String nombre) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_rol(?)", nombre);
+        baseDao.spUpdate("sp_create_rol(?)", nombre);
     }
 
     // READ all
     public List<Rol> getAllRoles() {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_rol", new RolMapper());
+        return baseDao.spQuery("sp_read_rol", new RolMapper());
     }
 
     // READ by nombre
     public Rol getRolByNombre(String nombre) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_rol_by_nombre(?)", new RolMapper(), nombre)
-                .stream().findFirst().orElse(null);
+        return baseDao.spQuerySingleObject("sp_read_rol_by_nombre(?)", new RolMapper(), nombre);
     }
 
     // UPDATE
     public void updateRol(String nombre, String nuevoNombre) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_update_rol(?, ?)", nombre, nuevoNombre);
+        baseDao.spUpdate("sp_update_rol(?, ?)", nombre, nuevoNombre);
     }
 
     // DELETE
     public void deleteRol(String nombre) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_rol(?)", nombre);
+        baseDao.spUpdate("sp_delete_rol(?)", nombre);
     }
 
     // Internal Mapper

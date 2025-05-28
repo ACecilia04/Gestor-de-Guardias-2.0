@@ -18,29 +18,28 @@ public class EsquemaServices {
 
     // CREATE
     public void insertEsquema(int diaSemana, boolean diaEsReceso, Character tipoPersona, Character sexo, int cantPersonas) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_esquema(?, ?, ?, ?, ?)",
+        baseDao.spUpdate("sp_create_esquema(?, ?, ?, ?, ?)",
                 diaSemana, diaEsReceso, tipoPersona, sexo, cantPersonas);
     }
 
     // READ all
     public List<Esquema> getAllEsquemas() {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_esquema", new EsquemaMapper());
+        return baseDao.spQuery("sp_read_esquema", new EsquemaMapper());
     }
 
     // READ by primary key
     public Esquema getEsquemaByPk(int diaSemana, boolean diaEsReceso) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_esquema_by_pk(?, ?)", new EsquemaMapper(), diaSemana, diaEsReceso)
-                .stream().findFirst().orElse(null);
+        return baseDao.spQuerySingleObject("sp_read_esquema_by_pk(?, ?)", new EsquemaMapper(), diaSemana, diaEsReceso);
     }
 
     // UPDATE
     public void updateEsquema(int diaSemana, boolean diaEsReceso, Character tipoPersona, Character sexo, int cantPersonas) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_update_esquema(?, ?, ?, ?, ?)", diaSemana, diaEsReceso, tipoPersona, sexo, cantPersonas);
+        baseDao.spUpdate("sp_update_esquema(?, ?, ?, ?, ?)", diaSemana, diaEsReceso, tipoPersona, sexo, cantPersonas);
     }
 
     // DELETE
     public void deleteEsquema(int diaSemana, boolean diaEsReceso) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_esquema(?, ?)", diaSemana, diaEsReceso);
+        baseDao.spUpdate("sp_delete_esquema(?, ?)", diaSemana, diaEsReceso);
     }
 
     // Internal Mapper

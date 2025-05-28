@@ -18,28 +18,27 @@ public class UsuarioService {
 
     // CREATE
     public void insertUsuario(String nombre, String email) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_usuario(?, ?)", nombre, email);
+        baseDao.spUpdate("sp_create_usuario(?, ?)", nombre, email);
     }
 
     // READ all
     public List<Usuario> getAllUsuarios() {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_usuario", new UsuarioMapper());
+        return baseDao.spQuery("sp_read_usuario", new UsuarioMapper());
     }
 
     // READ by primary key
     public Usuario getUsuarioByNombre(String nombre) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_usuario_by_pk(?)", new UsuarioMapper(), nombre)
-                .stream().findFirst().orElse(null);
+        return baseDao.spQuerySingleObject("sp_read_usuario_by_pk(?)", new UsuarioMapper(), nombre);
     }
 
     // UPDATE
     public void updateUsuario(int id, String nombre, String email) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_update_usuario(?, ?, ?)", id, nombre, email);
+        baseDao.spUpdate("sp_update_usuario(?, ?, ?)", id, nombre, email);
     }
 
     // DELETE
     public void deleteUsuario(int id) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_usuario(?)", id);
+        baseDao.spUpdate("sp_delete_usuario(?)", id);
     }
 
     // Internal Mapper

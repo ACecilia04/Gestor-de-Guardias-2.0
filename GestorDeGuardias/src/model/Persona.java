@@ -16,7 +16,7 @@ public class Persona implements Comparable<Persona> {
     private int guardiasDeRecuperacion = 0;
     private LocalDate baja;
     private LocalDate reincorporacion;
-    private TipoPersona tipoPersona;
+    private TipoPersona tipo;
     private Boolean activo;
     private ArrayList<LocalDate> guardiasAsignadas;
 
@@ -26,7 +26,7 @@ public class Persona implements Comparable<Persona> {
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
-        setTipoPersona(new TipoPersona(tipo));
+        setTipo(new TipoPersona(tipo));
         guardiasAsignadas = new ArrayList<>();
         ultimaGuardiaHecha = LocalDate.MIN;
         activo = true;
@@ -38,13 +38,17 @@ public class Persona implements Comparable<Persona> {
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
-        setTipoPersona(new TipoPersona(tipo));
+        setTipo(new TipoPersona(tipo));
         setBaja(baja);
         setReincorporacion(reincorporacion);
         guardiasAsignadas = new ArrayList<>();
         guardiasDeRecuperacion = cantGuardiasRecuperacion;
         setUltimaGuardiaHecha(ultimaGuardiaHecha);
         setActivo(activo);
+    }
+
+    public Persona() {
+
     }
 
     // Getters
@@ -82,7 +86,7 @@ public class Persona implements Comparable<Persona> {
     }
 
     public TipoPersona getTipo() {
-        return tipoPersona;
+        return tipo;
     }
 
     public String getCarnet() {
@@ -147,16 +151,12 @@ public class Persona implements Comparable<Persona> {
         this.reincorporacion = reincorporacion;
     }
 
-    public TipoPersona getTipoPersona() {
-        return tipoPersona;
-    }
-
-    public void setTipoPersona(TipoPersona tipoPersona) {
-        this.tipoPersona = tipoPersona;
+    public void setTipo(TipoPersona tipo) {
+        this.tipo = tipo;
     }
 
     public String getTipoPersonaAsString() {
-        return tipoPersona.toString();
+        return tipo.toString();
     }
 
     public ArrayList<LocalDate> getGuardiasAsignadas() {
@@ -276,10 +276,13 @@ public class Persona implements Comparable<Persona> {
                 ", guardiasDeRecuperacion=" + guardiasDeRecuperacion +
                 ", baja=" + baja +
                 ", reincorporacion=" + reincorporacion +
-                ", tipoPersona=" + (tipoPersona != null ? tipoPersona.getNombre() : "N/A") +
+                ", tipoPersona=" + (tipo != null ? tipo.getNombre() : "N/A") +
                 ", activo=" + activo +
                 ", guardiasAsignadas=" + guardiasAsignadas +
                 '}';
     }
 
+    public void setTipo(String tipo) {
+        this.tipo = new TipoPersona(tipo);
+    }
 }

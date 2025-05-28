@@ -47,10 +47,11 @@ public class HorarioServices {
     private static class HorarioMapper implements RowMapper<Horario> {
         @Override
         public Horario mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Horario(
-                    rs.getTime("inicio").toLocalTime(),
-                    rs.getTime("fin").toLocalTime()
-            );
+            Horario horario = new Horario();
+               horario.setId(rs.getLong("id"));
+               horario.setInicio(rs.getTime("inicio").toLocalTime());
+               horario.setFin(rs.getTime("fin").toLocalTime());
+               return horario;
         }
     }
 }

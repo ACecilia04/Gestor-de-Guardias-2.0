@@ -3,13 +3,18 @@ package model;
 import java.time.LocalTime;
 
 public class Horario {
+    private Long id;
     private LocalTime inicio;
     private LocalTime fin;
 
-    public Horario(LocalTime inicio, LocalTime fin) {
+    public Horario(Long id,LocalTime inicio, LocalTime fin) {
         //TODO: check setter use
         this.inicio = inicio;
         this.fin = fin;
+    }
+
+    public Horario() {
+
     }
 
     public LocalTime getFin() {
@@ -31,5 +36,8 @@ public class Horario {
     @Override
     public String toString() {
         return inicio.toString() + " - " + fin.toString();
+    }
+
+    public void setId(long horario) {
     }
 }

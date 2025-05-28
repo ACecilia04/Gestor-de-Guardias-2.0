@@ -18,28 +18,27 @@ public class TipoPersonaServices {
 
     // CREATE
     public void insertTipoPersona(String nombre) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_tipo_persona(?)", nombre);
+        baseDao.spUpdate("sp_create_tipo_persona(?)", nombre);
     }
 
     // READ all
     public List<TipoPersona> getAllTiposPersona() {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_tipo_persona", new TipoPersonaMapper());
+        return baseDao.spQuery("sp_read_tipo_persona", new TipoPersonaMapper());
     }
 
     // READ by nombre
     public TipoPersona getTipoPersonaByNombre(String nombre) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_tipo_persona_by_nombre(?)", new TipoPersonaMapper(), nombre)
-                .stream().findFirst().orElse(null);
+        return baseDao.spQuerySingleObject("sp_read_tipo_persona_by_nombre(?)", new TipoPersonaMapper(), nombre);
     }
 
     // UPDATE
     public void updateTipoPersona(String nombre, String nuevoNombre) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_update_tipo_persona(?, ?)", nombre, nuevoNombre);
+        baseDao.spUpdate("sp_update_tipo_persona(?, ?)", nombre, nuevoNombre);
     }
 
     // DELETE
     public void deleteTipoPersona(String nombre) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_tipo_persona(?)", nombre);
+        baseDao.spUpdate("sp_delete_tipo_persona(?)", nombre);
     }
 
     // Internal Mapper

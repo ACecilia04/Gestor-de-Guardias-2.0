@@ -21,28 +21,28 @@ public class ConfiguracionServices {
 
     // CREATE
     public void insertConfiguracion(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso, boolean actual) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_configuracion(?, ?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso, actual);
+        baseDao.spUpdate("sp_create_configuracion(?, ?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso, actual);
     }
 
     // READ all
     public List<Configuracion> getAllConfiguraciones() {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_configuracion", new ConfiguracionMapper());
+        return baseDao.spQuery("sp_read_configuracion", new ConfiguracionMapper());
     }
 
     // READ by primary key
     public Configuracion getConfiguracionByPk(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_configuracion_by_pk(?, ?, ?, ?)", new ConfiguracionMapper(), horaInicio, horaFin, diaSemana, diaEsReceso)
+        return baseDao.spQuery("sp_read_configuracion_by_pk(?, ?, ?, ?)", new ConfiguracionMapper(), horaInicio, horaFin, diaSemana, diaEsReceso)
                 .stream().findFirst().orElse(null);
     }
 
     // UPDATE
     public void updateConfiguracion(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso, boolean actual) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_update_configuracion(?, ?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso, actual);
+        baseDao.spUpdate("sp_update_configuracion(?, ?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso, actual);
     }
 
     // DELETE
     public void deleteConfiguracion(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_configuracion(?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso);
+        baseDao.spUpdate("sp_delete_configuracion(?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso);
     }
 
     // Internal Mapper
