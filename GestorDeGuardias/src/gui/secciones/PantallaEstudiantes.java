@@ -150,9 +150,7 @@ public class PantallaEstudiantes extends JPanel {
 //                        System.out.println(fechaAux);
                         try {
                             ServicesLocator.getInstance().getPersonaServices().darBaja(ID,fechaAux);
-                        } catch (MultiplesErroresException ex) {
-                            throw new RuntimeException(ex);
-                        } catch (EntradaInvalidaException ex) {
+                        } catch (MultiplesErroresException | EntradaInvalidaException ex) {
                             throw new RuntimeException(ex);
                         }
                         Advertencia advertencia2 = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Baja Exitosa", "Baja Exitosa", "Aceptar");
