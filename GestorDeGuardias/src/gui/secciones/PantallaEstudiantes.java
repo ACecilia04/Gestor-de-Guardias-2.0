@@ -145,7 +145,7 @@ public class PantallaEstudiantes extends JPanel {
 //                        System.out.println(fechaAux);
                         try {
                             ServicesLocator.getInstance().getPersonaServices().darBaja(ID,fechaAux);
-                        } catch (MultiplesErroresException | EntradaInvalidaException ex) {
+                        } catch (MultiplesErroresException ex) {
 //                            TODO: create error pane
 
                             throw new RuntimeException(ex);

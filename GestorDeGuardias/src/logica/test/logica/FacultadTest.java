@@ -1,7 +1,7 @@
 package logica.test.logica;
 
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import logica.principal.Facultad;
 import logica.principal.Sexo;
 import org.junit.Test;

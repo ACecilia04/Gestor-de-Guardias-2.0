@@ -1,6 +1,6 @@
 package logica.principal;
 
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;

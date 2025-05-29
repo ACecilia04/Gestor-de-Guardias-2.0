@@ -1,7 +1,7 @@
 package logica.principal;
 
-import logica.excepciones.EntradaInvalidaException;
-import logica.excepciones.MultiplesErroresException;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 import model.DiaGuardia;
 
 import java.time.Clock;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-import static logica.comunes.Utilitarios.*;
+import static utils.Utilitarios.*;
 
 
 public class Gestor {
@@ -150,8 +150,8 @@ public class Gestor {
      */
     public ArrayList<Persona> getPersonasDisponibles(LocalDate fecha, HorarioGuardia horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
         ArrayList<String> errores = new ArrayList<String>();
-        ArrayList<Persona> personasConDeuda = new ArrayList<Persona>(); // 2 arreglos para poner a los endeudados primero
-        ArrayList<Persona> personasSinDeuda = new ArrayList<Persona>();
+        ArrayList<Persona> personasConDeuda = new ArrayList<>(); // 2 arreglos para poner a los endeudados primero
+        ArrayList<Persona> personasSinDeuda = new ArrayList<>();
 
         if (fecha == null)
             errores.add("Fecha no especificada.");
@@ -215,7 +215,7 @@ public class Gestor {
      * cambiar� una por la otra
      *
      * @param dia
-     * @param turno
+     * @param horario
      * @param persona
      * @throws EntradaInvalidaException
      */
@@ -415,7 +415,8 @@ public class Gestor {
      * Asigna un sustituto adecuado en todas la guardias planificadas
      * asignadas a la persona entre las 2 fechas dadas
      *
-     * @param fecha
+     * @param inicio
+     * @param fin
      * @param persona
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException

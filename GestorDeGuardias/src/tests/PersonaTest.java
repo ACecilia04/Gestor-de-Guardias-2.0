@@ -1,4 +1,4 @@
-package Tests;
+package tests;
 
 import model.Persona;
 import model.TipoPersona;
@@ -6,8 +6,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.PersonaServices;
 import services.ServicesLocator;
-import services.TipoPersonaServices;
-import utils.abstracts.MainBaseDao;
 import utils.exceptions.MultiplesErroresException;
 
 import java.util.List;
@@ -18,30 +16,17 @@ public class PersonaTest {
 
     private static final String TEST_CI = "01010112355";
     private static PersonaServices personaServices;
-    private static TipoPersonaServices tipoPersonaServices;
 
     @BeforeClass
     public static void setup() {
         // Asegúrate de usar una base de datos de PRUEBAS
-        MainBaseDao baseDao = new MainBaseDao();
         personaServices = ServicesLocator.getInstance().getPersonaServices();
-        tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
-    }
-
-    @Test
-    public void insertTipoPersona() {
-        String tipo = "Estudiante";
-        if (tipoPersonaServices.getTipoPersonaByNombre(tipo) == null) {
-            tipoPersonaServices.insertTipoPersona(tipo);
-        }
-        TipoPersona tipoInsertado = tipoPersonaServices.getTipoPersonaByNombre(tipo);
-        assertNotNull(tipoInsertado);
     }
 
     @Test
     public void insertPersona() {
         Persona persona = personaServices.getPersonaByCi(TEST_CI);
-        String tipo = "Estudiante";
+        TipoPersona tipo = new TipoPersona("Estudiante");
         if(persona == null){
             Persona nuevaPersona = new Persona(TEST_CI, "Ana", "Garcia", "f", tipo);
             try {
@@ -105,7 +90,7 @@ public class PersonaTest {
         assertFalse(personas.isEmpty());
 
         if (personas.size() < 2){
-            String tipo = "Estudiante";
+            TipoPersona tipo = new TipoPersona("Estudiante");
             Persona nuevaPersona = new Persona("02010112355", "Ana", "Garcia", "f", tipo);
             try {
                 personaServices.insertPersona(nuevaPersona);
@@ -122,8 +107,8 @@ public class PersonaTest {
 
     @Test
     public void getEstudiantes() {
-        String tipo = "Estudiante";
-        List<Persona> personas = personaServices.getPersonasByTipo(new TipoPersona(tipo));
+        TipoPersona tipo = new TipoPersona("Estudiante");
+        List<Persona> personas = personaServices.getPersonasByTipo(tipo);
         assertNotNull(personas);
         assertTrue(personas.size() == 2);
         assertTrue(personas.stream().anyMatch(p -> p.getCarnet().equals(TEST_CI)));
@@ -131,8 +116,8 @@ public class PersonaTest {
 
     @Test
     public void getTrabajadores() {
-        String tipo = "Trabajador";
-        List<Persona> personas = personaServices.getPersonasByTipo(new TipoPersona(tipo));
+        TipoPersona tipo = new TipoPersona("Trabajador");
+        List<Persona> personas = personaServices.getPersonasByTipo(tipo);
         assertNotNull(personas);
         assertTrue(personas.size() == 0);
         assertFalse(personas.stream().anyMatch(p -> p.getCarnet().equals(TEST_CI)));
@@ -144,7 +129,7 @@ public class PersonaTest {
         Persona deleted = personaServices.getPersonaByCi(TEST_CI);
         assertNull(deleted);
 
-        String tipo = "Estudiante";
+        TipoPersona tipo = new TipoPersona("Estudiante");
         Persona nuevaPersona = new Persona(TEST_CI, "Ana", "Garcia", "f", tipo);
         try {
             personaServices.insertPersona(nuevaPersona);

@@ -2,9 +2,9 @@ package services;
 
 import model.Persona;
 import model.TipoPersona;
-import utils.abstracts.MainBaseDao;
-import utils.abstracts.mappers.IntegerMapper;
-import utils.abstracts.mappers.RowMapper;
+import utils.dao.MainBaseDao;
+import utils.dao.mappers.IntegerMapper;
+import utils.dao.mappers.RowMapper;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -25,15 +25,10 @@ public class PersonaServices {
         this.baseDao = baseDao;
     }
 
-    public void insertPersona(String nombre, String apellido, String sexo, String carnet,
-                              String tipo) {
-        baseDao.spUpdate("sp_create_persona(?, ?, ?, ?, ?)",
-                nombre, apellido, sexo, carnet, tipo);
-    }
-
+    // INSERT
     public void insertPersona(Persona record) throws MultiplesErroresException {
         validarPersona(record);
-        baseDao.spUpdate("sp_create_persona(?, ?, ?, ?, ?)",
+        baseDao.spUpdate("sp_persona_create(?, ?, ?, ?, ?)",
                 record.getNombre(),
                 record.getApellido(),
                 record.getSexo().toLowerCase().substring(0, 1),
@@ -44,36 +39,28 @@ public class PersonaServices {
 
     // READ
     public List<Persona> getAllPersonas() {
-        return baseDao.spQuery("sp_read_persona", new PersonaMapper());
+        return baseDao.spQuery("sp_persona_read", new PersonaMapper());
     }
 
     public Persona getPersonaByCi(String ci) {
-        return baseDao.spQuerySingleObject("sp_read_persona_by_ci(?)", new PersonaMapper(), ci);
+        return baseDao.spQuerySingleObject("sp_persona_read_by_ci(?)", new PersonaMapper(), ci);
     }
 
     public Persona getPersonaById(Long id) {
-        return baseDao.spQuerySingleObject("sp_read_persona_by_id(?)", new PersonaMapper(), id);
+        return baseDao.spQuerySingleObject("sp_persona_read_by_id(?)", new PersonaMapper(), id);
     }
 
     public List<Persona> getPersonasByTipo(TipoPersona tipoPersona) {
-        return baseDao.spQuery("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
+        return baseDao.spQuery("sp_persona_read_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
     }
 
     public int getPersonaCountByTipo(String tipoPersona){
-        return baseDao.spQuerySingleObject("sp_count_persona_by_tipo(?)", new IntegerMapper("total"), tipoPersona);
+        return baseDao.spQuerySingleObject("sp_persona_count_by_tipo(?)", new IntegerMapper("total"), tipoPersona);
     }
 
     // UPDATE
-    public void updatePersona(long id, String nombre, String apellido, String sexo, String carnet,
-                              LocalDate ultimaGuardiaHecha, int guardiasDeRecuperacion, LocalDate baja,
-                              LocalDate reincorporacion, String tipo, Boolean borrado) {
-        baseDao.spUpdate("sp_update_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                id, nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha,
-                guardiasDeRecuperacion, baja, reincorporacion, tipo, borrado);
-    }
-
     public void updatePersona(Persona record) {
-        baseDao.spUpdate("sp_update_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        baseDao.spUpdate("sp_persona_update(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 record.getId(),
                 record.getNombre(),
                 record.getApellido(),
@@ -83,8 +70,7 @@ public class PersonaServices {
                 record.getGuardiasDeRecuperacion(),
                 record.getBaja(),
                 record.getReincorporacion(),
-                record.getTipo().getNombre(),
-                record.isBorrado()
+                record.getTipo().getNombre()
         );
     }
 
@@ -95,12 +81,12 @@ public class PersonaServices {
         if (fecha == null) {
             throw new EntradaInvalidaException("Fecha no especificada.");
         }
-        return baseDao.spQuery("sp_read_persona_by_baja(?)", new PersonaMapper(), fecha);
+        return baseDao.spQuery("sp_persona_read_by_baja(?)", new PersonaMapper(), fecha);
     }
 
     public void darBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException {
         validarBaja(ci, fechaBaja);
-        baseDao.spUpdate("sp_dar_baja(?, ?)", ci, fechaBaja);
+        baseDao.spUpdate("sp_persona_update_baja(?, ?)", ci, fechaBaja);
     }
 
     public void darFechaDeReincorporacion(String ci, LocalDate fechaReincorporacion){
@@ -115,11 +101,11 @@ public class PersonaServices {
 
     // DELETE
     public void deletePersonaByCi(String ci) {
-        baseDao.spUpdate("sp_delete_persona_by_ci(?)", ci);
+        baseDao.spUpdate("sp_persona_delete_by_ci(?)", ci);
     }
 
     public void deletePersonaById(String id) {
-        baseDao.spQuery("sp_delete_persona_by_id(?)", new PersonaMapper(), id);
+        baseDao.spQuery("sp_persona_delete_by_id(?)", new PersonaMapper(), id);
     }
 
 

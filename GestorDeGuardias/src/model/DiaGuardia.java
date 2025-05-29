@@ -1,6 +1,6 @@
 package model;
 
-import logica.excepciones.EntradaInvalidaException;
+import utils.exceptions.EntradaInvalidaException;
 import logica.principal.HorarioGuardia;
 import logica.principal.TurnoGuardia;
 

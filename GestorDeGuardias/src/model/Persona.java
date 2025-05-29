@@ -21,12 +21,12 @@ public class Persona implements Comparable<Persona> {
     private ArrayList<LocalDate> guardiasAsignadas = new ArrayList<>();
 
 
-    public Persona(String carnet, String nombre, String apellido, String sexo, String tipo) {
+    public Persona(String carnet, String nombre, String apellido, String sexo, TipoPersona tipo) {
         setCarnet(carnet);
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
-        setTipo(new TipoPersona(tipo));
+        setTipo(tipo);
     }
 
     public Persona(Long id, String nombre, String apellido, String sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean borrado) {

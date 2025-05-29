@@ -1,6 +1,6 @@
-package utils.abstracts;
+package utils.dao;
 
-import utils.abstracts.mappers.RowMapper;
+import utils.dao.mappers.RowMapper;
 
 import java.util.List;
 

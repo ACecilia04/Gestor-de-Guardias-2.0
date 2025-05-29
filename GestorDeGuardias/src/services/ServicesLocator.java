@@ -1,6 +1,6 @@
 package services;
 
-import utils.abstracts.MainBaseDao;
+import utils.dao.MainBaseDao;
 
 public class ServicesLocator {
     static ServicesLocator me = null;

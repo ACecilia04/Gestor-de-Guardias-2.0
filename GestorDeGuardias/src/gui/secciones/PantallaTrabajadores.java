@@ -113,7 +113,7 @@ public class PantallaTrabajadores extends JPanel {
                     if (!advertencia.getEleccion()) {
                         try {
                             ServicesLocator.getInstance().getPersonaServices().darBaja(ID, fechaAux);
-                        } catch (MultiplesErroresException | EntradaInvalidaException ex) {
+                        } catch (MultiplesErroresException ex) {
                             throw new RuntimeException(ex);
                         }
                         revalidarTabla();

@@ -1,4 +1,4 @@
-package utils.abstracts;
+package utils.dao;
 
 public class MainBaseDao extends BaseService {
 

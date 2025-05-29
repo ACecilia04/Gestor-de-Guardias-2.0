@@ -1,9 +1,9 @@
 package services;
 
 import model.PeriodoNoPlanificable;
-import utils.abstracts.MainBaseDao;
-import utils.abstracts.mappers.IntegerMapper;
-import utils.abstracts.mappers.RowMapper;
+import utils.dao.MainBaseDao;
+import utils.dao.mappers.IntegerMapper;
+import utils.dao.mappers.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

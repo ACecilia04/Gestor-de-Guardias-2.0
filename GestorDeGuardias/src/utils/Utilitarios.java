@@ -1,11 +1,13 @@
 package utils;
 
-import model.Persona;
+import model.DiaGuardia;
+import logica.principal.Persona;
 import utils.exceptions.EntradaInvalidaException;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class Utilitarios {
@@ -49,7 +51,7 @@ public class Utilitarios {
         return numeroDeSemana % 2 == 0;
     }
 
-    private static int division(ArrayList<Persona> personas, int min, int max, LocalDate fecha) throws EntradaInvalidaException {
+    private static int division(List<Persona> personas, int min, int max, LocalDate fecha) throws EntradaInvalidaException {
         int pivot = personas.get(min).getDiasDesdeUltimaGuardiaHecha(fecha);
         int i = min - 1;
         int j = max + 1;
@@ -78,7 +80,7 @@ public class Utilitarios {
         persona2 = temp;
     }
 
-    public static void quickSort(ArrayList<Persona> personas, int min, int max, LocalDate fecha) throws EntradaInvalidaException {
+    public static void quickSort(List<Persona> personas, int min, int max, LocalDate fecha) throws EntradaInvalidaException {
         if (min < max) {
             // di = indice de division
             int di = division(personas, min, max, fecha);
@@ -88,22 +90,22 @@ public class Utilitarios {
         }
     }
 
-//    public static int binaryDateSearch(ArrayList<DiaGuardia> list, LocalDate key, int min, int max) {
-//        int retVal;
-//
-//        if ((max < min) || (key == null) || (list == null) || (list.isEmpty()))
-//            retVal = -1;
-//        else {
-//            int middle = min + (max - min) / 2;
-//            if (key.equals(list.get(middle).getFecha())) {
-//                retVal = middle;
-//            } else if (key.isBefore(list.get(middle).getFecha())) {
-//                retVal = binaryDateSearch(list, key, min, middle - 1);
-//            } else {
-//                retVal = binaryDateSearch(list, key, middle + 1, max);
-//            }
-//        }
-//        return retVal;
-//    }
+    public static int binaryDateSearch(ArrayList<DiaGuardia> list, LocalDate key, int min, int max) {
+        int retVal;
+
+        if ((max < min) || (key == null) || (list == null) || (list.isEmpty()))
+            retVal = -1;
+        else {
+            int middle = min + (max - min) / 2;
+            if (key.equals(list.get(middle).getFecha())) {
+                retVal = middle;
+            } else if (key.isBefore(list.get(middle).getFecha())) {
+                retVal = binaryDateSearch(list, key, min, middle - 1);
+            } else {
+                retVal = binaryDateSearch(list, key, middle + 1, max);
+            }
+        }
+        return retVal;
+    }
 
 }
