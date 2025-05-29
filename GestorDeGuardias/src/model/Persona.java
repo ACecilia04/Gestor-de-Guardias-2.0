@@ -11,28 +11,25 @@ public class Persona implements Comparable<Persona> {
     private Long id;
     private String nombre;
     private String apellido;
-    private Character sexo;
+    private String sexo;
     private String carnet;
     private int guardiasDeRecuperacion = 0;
     private LocalDate baja;
     private LocalDate reincorporacion;
     private TipoPersona tipo;
-    private Boolean activo;
-    private ArrayList<LocalDate> guardiasAsignadas;
+    private Boolean borrado;
+    private ArrayList<LocalDate> guardiasAsignadas = new ArrayList<>();
 
 
-    public Persona(String id, String nombre, String apellido, char sexo, String tipo) {
-        setCarnet(id);
+    public Persona(String carnet, String nombre, String apellido, String sexo, String tipo) {
+        setCarnet(carnet);
         setNombre(nombre);
         setApellido(apellido);
         setSexo(sexo);
         setTipo(new TipoPersona(tipo));
-        guardiasAsignadas = new ArrayList<>();
-        ultimaGuardiaHecha = LocalDate.MIN;
-        activo = true;
     }
 
-    public Persona(Long id, String nombre, String apellido, char sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean activo) {
+    public Persona(Long id, String nombre, String apellido, String sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean borrado) {
         setId(id);
         setCarnet(carnet);
         setNombre(nombre);
@@ -41,10 +38,9 @@ public class Persona implements Comparable<Persona> {
         setTipo(new TipoPersona(tipo));
         setBaja(baja);
         setReincorporacion(reincorporacion);
-        guardiasAsignadas = new ArrayList<>();
         guardiasDeRecuperacion = cantGuardiasRecuperacion;
         setUltimaGuardiaHecha(ultimaGuardiaHecha);
-        setActivo(activo);
+        setBorrado(borrado);
     }
 
     public Persona() {
@@ -78,10 +74,10 @@ public class Persona implements Comparable<Persona> {
     }
 
     public String getSexo() {
-        return (sexo == 'f') ? "Femenino" : "Masculino";
+        return sexo != null && sexo.equals("f") ? "Femenino" : "Masculino";
     }
 
-    public void setSexo(Character sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
@@ -179,7 +175,7 @@ public class Persona implements Comparable<Persona> {
          return disponible ? "Disponible" : "Baja";
     }
 
-    public int getCantGuardiasAsignadas() {
+    public Integer getCantGuardiasAsignadas() {
         int cant = 0;
         if(guardiasAsignadas != null && !guardiasAsignadas.isEmpty()){
             int i = this.guardiasAsignadas.size() - 1;
@@ -192,12 +188,12 @@ public class Persona implements Comparable<Persona> {
         return cant;
     }
 
-    public Boolean isActivo() {
-        return activo;
+    public Boolean isBorrado() {
+        return borrado;
     }
 
-    public void setActivo(Boolean activo) {
-        this.activo = activo;
+    public void setBorrado(Boolean borrado) {
+        this.borrado = borrado;
     }
 
     /**
@@ -275,7 +271,7 @@ public class Persona implements Comparable<Persona> {
                 ", baja=" + baja +
                 ", reincorporacion=" + reincorporacion +
                 ", tipoPersona=" + (tipo != null ? tipo.getNombre() : "N/A") +
-                ", activo=" + activo +
+                ", borrado=" + borrado +
                 ", guardiasAsignadas=" + guardiasAsignadas +
                 '}';
     }

@@ -50,7 +50,7 @@ public class PantallaEstudiantes extends JPanel {
             aux.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ArrayList<Persona> personaAux = checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante")));
+                    ArrayList<Persona> personaAux = checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante")));
                     revalidarTabla(personaAux);
                 }
             });
@@ -217,7 +217,7 @@ public class PantallaEstudiantes extends JPanel {
     }
 
     public void revalidarTabla() {
-        this.tabla.revalidarTabla(checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante"))));
+        this.tabla.revalidarTabla(checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
 
         revalidate();
         repaint();

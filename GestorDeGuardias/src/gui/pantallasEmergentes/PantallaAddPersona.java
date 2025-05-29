@@ -33,7 +33,7 @@ public abstract class PantallaAddPersona extends JDialog {
     protected CustomTextField boxID;
     protected int maxCharID = 11;
 
-    protected char sexo;
+    protected String sexo;
 
     protected CustomRadioButton radioFemenino;
     protected CustomRadioButton radioMasculino;
@@ -100,10 +100,10 @@ public abstract class PantallaAddPersona extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (radioFemenino.isSelected()) {
-                    sexo = 'f';
+                    sexo = "f";
                 }
                 if (radioMasculino.isSelected()) {
-                    sexo = 'm';
+                    sexo = "m";
                 }
 
                 realizarAccion();

@@ -263,6 +263,7 @@ public class JdbcTemplate {
         if(value.getClass() == Boolean.class){
             statement.setBoolean(columnNr, (Boolean)value);
         }
+
     }
 
 }

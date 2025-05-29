@@ -25,64 +25,93 @@ public class PersonaServices {
         this.baseDao = baseDao;
     }
 
-    // CREATE
-    public void insertPersona(String nombre, String apellido, char sexo, String carnet,
-                              LocalDate ultimaGuardiaHecha, int guardiasDeRecuperacion,
-                              LocalDate baja, LocalDate reincorporacion, String tipo, boolean activo) {
-        baseDao.spUpdate("sp_create_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha, guardiasDeRecuperacion,
-                baja, reincorporacion, tipo, activo);
-    }
-    //TODO: manejar validacion de tipo
-
-    public void insertPersona(String nombre, String apellido, char sexo, String carnet,
+    public void insertPersona(String nombre, String apellido, String sexo, String carnet,
                               String tipo) {
         baseDao.spUpdate("sp_create_persona(?, ?, ?, ?, ?)",
-                nombre, apellido, String.valueOf(sexo), carnet, tipo);
+                nombre, apellido, sexo, carnet, tipo);
+    }
+
+    public void insertPersona(Persona record) throws MultiplesErroresException {
+        validarPersona(record);
+        baseDao.spUpdate("sp_create_persona(?, ?, ?, ?, ?)",
+                record.getNombre(),
+                record.getApellido(),
+                record.getSexo().toLowerCase().substring(0, 1),
+                record.getCarnet(),
+                record.getTipo().getNombre()
+        );
     }
 
     // READ
-    public ArrayList<Persona> getAllPersonas() {
-        return (ArrayList<Persona>)  baseDao.spQuery("sp_read_persona", new PersonaMapper());
+    public List<Persona> getAllPersonas() {
+        return baseDao.spQuery("sp_read_persona", new PersonaMapper());
     }
 
     public Persona getPersonaByCi(String ci) {
-        return  baseDao.spQuery("sp_read_persona_by_ci(?)", new PersonaMapper(), ci)
-                .stream().findFirst().orElse(null);
+        return baseDao.spQuerySingleObject("sp_read_persona_by_ci(?)", new PersonaMapper(), ci);
     }
 
     public Persona getPersonaById(Long id) {
-        return  baseDao.spQuery("sp_read_persona_by_id(?)", new PersonaMapper(), id)
-                .stream().findFirst().orElse(null);
+        return baseDao.spQuerySingleObject("sp_read_persona_by_id(?)", new PersonaMapper(), id);
     }
 
-    public ArrayList<Persona> getPersonaByTipo(TipoPersona tipoPersona) {
-        return (ArrayList<Persona>) baseDao.spQuery("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
+    public List<Persona> getPersonasByTipo(TipoPersona tipoPersona) {
+        return baseDao.spQuery("sp_read_persona_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
     }
-//changed
+
     public int getPersonaCountByTipo(String tipoPersona){
-        return baseDao.spQuerySingleObject("sp_count_persona_by_tipo(?)", new IntegerMapper("total"),tipoPersona);
+        return baseDao.spQuerySingleObject("sp_count_persona_by_tipo(?)", new IntegerMapper("total"), tipoPersona);
+    }
+
+    // UPDATE
+    public void updatePersona(long id, String nombre, String apellido, String sexo, String carnet,
+                              LocalDate ultimaGuardiaHecha, int guardiasDeRecuperacion, LocalDate baja,
+                              LocalDate reincorporacion, String tipo, Boolean borrado) {
+        baseDao.spUpdate("sp_update_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                id, nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha,
+                guardiasDeRecuperacion, baja, reincorporacion, tipo, borrado);
+    }
+
+    public void updatePersona(Persona record) {
+        baseDao.spUpdate("sp_update_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                record.getId(),
+                record.getNombre(),
+                record.getApellido(),
+                record.getSexo().toLowerCase().substring(0, 1),
+                record.getCarnet(),
+                record.getUltimaGuardiaHecha(),
+                record.getGuardiasDeRecuperacion(),
+                record.getBaja(),
+                record.getReincorporacion(),
+                record.getTipo().getNombre(),
+                record.isBorrado()
+        );
     }
 
     /*
-     * no estoy segura de si validar eso pero como asi es como estaba en facultad, igual se puede editar
+     * no estoy segura de si validar eso, pero como asi es como estaba en facultad, igual se puede editar
      */
     public List<Persona> getPersonasDeBaja(LocalDate fecha) throws EntradaInvalidaException {
         if (fecha == null) {
             throw new EntradaInvalidaException("Fecha no especificada.");
         }
-
-        return  baseDao.spQuery("sp_read_persona_by_baja(?)", new PersonaMapper(), fecha);
+        return baseDao.spQuery("sp_read_persona_by_baja(?)", new PersonaMapper(), fecha);
     }
 
-    // UPDATE
-    public void updatePersona(long id, String nombre, String apellido, Character sexo, String carnet,
-                              LocalDate ultimaGuardiaHecha, int guardiasDeRecuperacion, LocalDate baja,
-                              LocalDate reincorporacion, String tipo, Boolean activo) {
-        baseDao.spUpdate("sp_update_persona(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                id, nombre, apellido, String.valueOf(sexo), carnet, ultimaGuardiaHecha,
-                guardiasDeRecuperacion, baja, reincorporacion, tipo, activo);
+    public void darBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException {
+        validarBaja(ci, fechaBaja);
+        baseDao.spUpdate("sp_dar_baja(?, ?)", ci, fechaBaja);
     }
+
+    public void darFechaDeReincorporacion(String ci, LocalDate fechaReincorporacion){
+
+    }
+
+    public void darBajaConReincorporacion(String ci, LocalDate fechaBaja, LocalDate fechaReincorporacion) throws MultiplesErroresException, EntradaInvalidaException {
+        darBaja(ci, fechaBaja);
+        darFechaDeReincorporacion(ci, fechaReincorporacion);
+    }
+
 
     // DELETE
     public void deletePersonaByCi(String ci) {
@@ -93,92 +122,7 @@ public class PersonaServices {
         baseDao.spQuery("sp_delete_persona_by_id(?)", new PersonaMapper(), id);
     }
 
-    private ArrayList<String> validarPersona(String ci, String nombre, String apellidos, Character sexo) {
-        ArrayList<String> errores = new ArrayList<String>();
-        boolean carneIdentidadValido = true;
-        if (!stringEsValido(ci)) {
-            errores.add("Carnet de identidad no especificado.");
-            carneIdentidadValido = false;
-        } else {
-            if (ci.length() != 11) {
-                errores.add("Carnet de identidad no válido: Longitud incorrecta.");
-                carneIdentidadValido = false;
-            } else {
-                if (!stringSoloNumeros(ci)) {
-                    errores.add("Carnet de identidad no válido: Caracteres no numéricos.");
-                    carneIdentidadValido = false;
-                } else {
-                    int dia = Integer.parseInt(ci.substring(4, 6));
-                    int mes = Integer.parseInt(ci.substring(2, 4));
-                    int anno = Integer.parseInt(ci.substring(0, 2));
 
-                    if (mes > 0 && mes <= 12) {
-                        boolean diaValido = true;
-                        if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
-                            if (dia > 31 || dia == 0) {
-                                diaValido = false;
-                            }
-                        } else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
-                            if (dia > 30 || dia == 0) {
-                                diaValido = false;
-                            }
-                        } else {
-                            if (anno % 4 != 0 && dia > 28) {
-                                diaValido = false;
-                            } else if (anno % 4 == 0 && dia > 29) {
-                                diaValido = false;
-                            }
-                        }
-                        if (!diaValido) {
-                            errores.add("Carnet de identidad no válido: Dia incorrecto.");
-                            carneIdentidadValido = false;
-                        }
-                    } else {
-                        errores.add("Carnet de identidad no válido: Mes incorrecto.");
-                        carneIdentidadValido = false;
-                    }
-                }
-            }
-        }
-        if (!stringEsValido(nombre))
-            errores.add("Nombre no especificado.");
-        if (!stringEsValido(apellidos))
-            errores.add("Apellido no especificado.");
-        if (sexo == null)
-            errores.add("Sexo no especificado.");
-        else {
-            int paridad = Integer.parseInt(ci.substring(9, 10)) % 2;
-            if (carneIdentidadValido && ((paridad == 0 && sexo != 'm') || (paridad != 0 && sexo != 'f')))
-                errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
-        }
-
-        return errores;
-    }
-
-    public void darBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException, EntradaInvalidaException {
-        ArrayList<String> errores = validarBaja(ci, fechaBaja);
-        if (!errores.isEmpty())
-            throw new MultiplesErroresException("Baja con datos erróneos:", errores);
-
-        baseDao.spUpdate("sp_dar_baja(?,?)", ci, fechaBaja);
-    }
-    public void darBajaConReincorporacion(String ci, LocalDate fechaBaja, LocalDate fechaReincorporacion) throws MultiplesErroresException, EntradaInvalidaException {
-        darBaja(ci,fechaBaja);
-
-
-    }
-
-    public void darFechaDeReincorporacion(String ci, LocalDate fechaReincorporacion){}
-
-    private ArrayList<String> validarBaja(String ci, LocalDate fechaBaja) {
-        ArrayList<String> errores = new ArrayList<String>();
-        if (!stringEsValido(ci))
-            errores.add("ci de identidad no especificado.");
-        if (fechaBaja == null)
-            errores.add("Fecha de baja no especificada.");
-
-        return errores;
-    }
 
     // Internal Mapper
     private static class PersonaMapper implements RowMapper<Persona> {
@@ -189,16 +133,104 @@ public class PersonaServices {
             p.setId(rs.getLong("id"));
             p.setNombre(rs.getString("nombre"));
             p.setApellido(rs.getString("apellido"));
-            p.setSexo(rs.getString("sexo").charAt(0));
+            p.setSexo(rs.getString("sexo"));
             p.setCarnet(rs.getString("carnet"));
             p.setTipo(rs.getString("tipo"));
             p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
             p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
             p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
             p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
-            p.setActivo(!rs.getBoolean("borrado"));
+            p.setBorrado(!rs.getBoolean("borrado"));
             return p;
         }
     }
+
+
+    // VALIDACIONES
+    private void validarBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        if (!stringEsValido(ci))
+            errores.add("ci de identidad no especificado.");
+
+        if (fechaBaja == null)
+            errores.add("Fecha de baja no especificada.");
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Baja con datos erróneos:", errores);
+    }
+
+    private void validarPersona(Persona record) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        String errorValidarCarneIdentidad = validarCarnet(record.getCarnet());
+        if (stringEsValido(errorValidarCarneIdentidad)) {
+            errores.add(errorValidarCarneIdentidad);
+        }
+        if (!stringEsValido(record.getNombre()))
+            errores.add("Nombre no especificado.");
+        if (!stringEsValido(record.getApellido()))
+            errores.add("Apellido no especificado.");
+        if (record.getSexo() == null)
+            errores.add("Sexo no especificado.");
+
+        if (record.getSexo() != null && record.getCarnet() != null) {
+            int paridad = Integer.parseInt(record.getCarnet().substring(9, 10)) % 2;
+            if (((paridad == 0 && record.getSexo().toLowerCase().charAt(0) != 'm') || (paridad != 0 && record.getSexo().toLowerCase().charAt(0) != 'f')))
+                errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
+        }
+
+        if (record.getCarnet() != null && getPersonaByCi(record.getCarnet()) != null) {
+            errores.add("La persona ya existe.");
+        }
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Persona con datos erróneos:", errores);
+    }
+
+    private String validarCarnet(String ci){
+        if (!stringEsValido(ci)) {
+            return "Carnet de identidad no especificado.";
+        }
+
+        if (ci.length() != 11) {
+            return "Carnet de identidad no válido: Longitud incorrecta.";
+        }
+
+        if (!stringSoloNumeros(ci)) {
+            return "Carnet de identidad no válido: Caracteres no numéricos.";
+        }
+
+        int dia = Integer.parseInt(ci.substring(4, 6));
+        int mes = Integer.parseInt(ci.substring(2, 4));
+        int anno = Integer.parseInt(ci.substring(0, 2));
+
+        if (!(mes > 0 && mes <= 12)) {
+            return "Carnet de identidad no válido: Mes incorrecto.";
+        }
+
+        boolean diaValido = true;
+        if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
+            if (dia > 31 || dia == 0) {
+                diaValido = false;
+            }
+        } else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+            if (dia > 30 || dia == 0) {
+                diaValido = false;
+            }
+        } else {
+            if (anno % 4 != 0 && dia > 28) {
+                diaValido = false;
+            } else if (anno % 4 == 0 && dia > 29) {
+                diaValido = false;
+            }
+        }
+        if (!diaValido) {
+            return  "Carnet de identidad no válido: Dia incorrecto.";
+        }
+
+        return null;
+    }
+
 
 }

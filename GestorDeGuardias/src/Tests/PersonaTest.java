@@ -8,20 +8,20 @@ import services.PersonaServices;
 import services.ServicesLocator;
 import services.TipoPersonaServices;
 import utils.abstracts.MainBaseDao;
+import utils.exceptions.MultiplesErroresException;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 public class PersonaTest {
 
-    private static final String TEST_CI = "01010112345";
+    private static final String TEST_CI = "01010112355";
     private static PersonaServices personaServices;
     private static TipoPersonaServices tipoPersonaServices;
 
     @BeforeClass
-    public static void setUp() {
+    public static void setup() {
         // Asegúrate de usar una base de datos de PRUEBAS
         MainBaseDao baseDao = new MainBaseDao();
         personaServices = ServicesLocator.getInstance().getPersonaServices();
@@ -29,70 +29,128 @@ public class PersonaTest {
     }
 
     @Test
-    public void testInsertPersona() {
-//  tipoPersonaServices.insertTipoPersona("Estudiante");
-//        personaServices.insertPersona("Ana", "García", 'f', TEST_CI, "Estudiante");
+    public void insertTipoPersona() {
+        String tipo = "Estudiante";
+        if (tipoPersonaServices.getTipoPersonaByNombre(tipo) == null) {
+            tipoPersonaServices.insertTipoPersona(tipo);
+        }
+        TipoPersona tipoInsertado = tipoPersonaServices.getTipoPersonaByNombre(tipo);
+        assertNotNull(tipoInsertado);
+    }
 
+    @Test
+    public void insertPersona() {
+        Persona persona = personaServices.getPersonaByCi(TEST_CI);
+        String tipo = "Estudiante";
+        if(persona == null){
+            Persona nuevaPersona = new Persona(TEST_CI, "Ana", "Garcia", "f", tipo);
+            try {
+                personaServices.insertPersona(nuevaPersona);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            }
+            persona = personaServices.getPersonaByCi(TEST_CI);
+        }
+        assertNotNull(persona);
+        Persona nuevaPersona = new Persona(TEST_CI, "Ana2", "Garcia2", "f", tipo);
+        try {
+            personaServices.insertPersona(nuevaPersona);
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getErrores());
+        }
+    }
+
+
+    @Test
+    public void getPersona() {
+        String tipo = "Estudiante";
         Persona persona = personaServices.getPersonaByCi(TEST_CI);
         assertNotNull(persona);
         assertEquals("Ana", persona.getNombre());
-        assertEquals("García", persona.getApellido());
-        assertEquals('f', persona.getSexo().toLowerCase().charAt(0));
+        assertEquals("Garcia", persona.getApellido());
+        assertEquals("f", persona.getSexo().toLowerCase().substring(0, 1));
         assertEquals(TEST_CI, persona.getCarnet());
-        assertEquals("Estudiante", persona.getTipo().toString());
-        assertTrue((boolean)persona.isActivo());
+        assertEquals(tipo, persona.getTipo().getNombre());
+        assertFalse(persona.isBorrado());
     }
 
     @Test
-    public void testUpdatePersona() {
-        Persona p = personaServices.getPersonaByCi(TEST_CI);
-        assertNotNull(p);
+    public void updatePersona() {
+        Persona p1 = personaServices.getPersonaByCi(TEST_CI);
+        assertNotNull(p1);
 
-        personaServices.updatePersona(
-                p.getId(),
-                "Ana María", "García", 'f', TEST_CI,
-                LocalDate.now(), 2, null, null,
-                "Estudiante", true
-        );
-//  personaServices.updatePersona(
-//          p.getId(),
-//          "Ana María", null, null, null,
-//          LocalDate.now(), 2, null, null,
-//          null, true
-//  );
+        Persona p2 = personaServices.getPersonaByCi(TEST_CI);
+        p2.setNombre("Ana María");
+        p2.setGuardiasDeRecuperacion(2);
 
-        Persona updated = personaServices.getPersonaByCi(TEST_CI);
-        assertEquals("Ana María", updated.getNombre());
-        assertEquals(2, updated.getGuardiasDeRecuperacion());
+        personaServices.updatePersona(p2);
+
+        Persona updated2 = personaServices.getPersonaByCi(TEST_CI);
+        assertEquals("Ana María", updated2.getNombre());
+        assertEquals(2, updated2.getGuardiasDeRecuperacion());
+
+        personaServices.updatePersona(p1);
+
+        Persona updated1 = personaServices.getPersonaByCi(TEST_CI);
+        assertEquals("Ana", updated1.getNombre());
+        assertEquals(0, updated1.getGuardiasDeRecuperacion());
     }
 
     @Test
-    public void testGetAllPersonas() {
+    public void getAllPersonas() {
         List<Persona> personas = personaServices.getAllPersonas();
         assertNotNull(personas);
         assertFalse(personas.isEmpty());
+
+        if (personas.size() < 2){
+            String tipo = "Estudiante";
+            Persona nuevaPersona = new Persona("02010112355", "Ana", "Garcia", "f", tipo);
+            try {
+                personaServices.insertPersona(nuevaPersona);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            }
+
+            personas = personaServices.getAllPersonas();
+            assertNotNull(personas);
+            assertFalse(personas.isEmpty());
+        }
     }
 
     @Test
-    public void testGetPersonaByTipo() {
-        List<Persona> estudiantes = personaServices.getPersonaByTipo(new TipoPersona("Estudiante")
-//  {
-//
-//   public String obtenerTipo() {
-//    return "Estudiante";
-//   }
-//  }
-        ); // Se usa clase anónima en lugar de lambda
-
-        assertNotNull(estudiantes);
-        assertTrue(estudiantes.stream().anyMatch(p -> p.getCarnet().equals(TEST_CI)));
-        estudiantes.forEach(System.out::println);
+    public void getEstudiantes() {
+        String tipo = "Estudiante";
+        List<Persona> personas = personaServices.getPersonasByTipo(new TipoPersona(tipo));
+        assertNotNull(personas);
+        assertTrue(personas.size() == 2);
+        assertTrue(personas.stream().anyMatch(p -> p.getCarnet().equals(TEST_CI)));
     }
 
     @Test
-    public void testDeletePersona() {
+    public void getTrabajadores() {
+        String tipo = "Trabajador";
+        List<Persona> personas = personaServices.getPersonasByTipo(new TipoPersona(tipo));
+        assertNotNull(personas);
+        assertTrue(personas.size() == 0);
+        assertFalse(personas.stream().anyMatch(p -> p.getCarnet().equals(TEST_CI)));
+    }
+
+    @Test
+    public void deletePersona() {
         personaServices.deletePersonaByCi(TEST_CI);
         Persona deleted = personaServices.getPersonaByCi(TEST_CI);
         assertNull(deleted);
+
+        String tipo = "Estudiante";
+        Persona nuevaPersona = new Persona(TEST_CI, "Ana", "Garcia", "f", tipo);
+        try {
+            personaServices.insertPersona(nuevaPersona);
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getErrores());
+        }
     }
 }

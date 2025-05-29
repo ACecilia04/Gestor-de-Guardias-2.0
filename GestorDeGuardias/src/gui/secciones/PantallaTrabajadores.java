@@ -47,7 +47,7 @@ public class PantallaTrabajadores extends JPanel {
 
         for (CustomCheckBox e : checks) {
             e.addActionListener(e12 -> {
-                ArrayList<Persona> personaAux = checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Trabajdor")));
+                ArrayList<Persona> personaAux = checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador")));
                 revalidarTabla(personaAux);
             });
         }
@@ -216,7 +216,7 @@ public class PantallaTrabajadores extends JPanel {
     }
 
     public void revalidarTabla() {
-        this.tabla.revalidarTabla(checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Trabajador"))));
+        this.tabla.revalidarTabla(checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador"))));
 
         revalidate();
         repaint();

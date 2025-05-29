@@ -4,10 +4,7 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.internosComp.*;
 import gui.pantallasEmergentes.*;
-import model.DiaGuardia;
-import model.Horario;
-import model.TipoPersona;
-import model.TurnoDeGuardia;
+import model.*;
 import services.Gestor;
 import services.ServicesLocator;
 import services.TurnoDeGuardiaServices;
@@ -292,7 +289,7 @@ public class Ventana extends JFrame {
         pantallaEstudiantes = new PantallaEstudiantes();
 
         TablaEstudiantes customTabla = new TablaEstudiantes();
-        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Estudiante"))));
+        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
         pantallaEstudiantes.addTabla(customTabla);
     }
 
@@ -301,7 +298,7 @@ public class Ventana extends JFrame {
         pantallaTrabajadores = new PantallaTrabajadores();
 
         TablaTrabajadores customTabla = new TablaTrabajadores();
-        customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros(ServicesLocator.getInstance().getPersonaServices().getPersonaByTipo(new TipoPersona("Trabajador"))));
+        customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador"))));
         pantallaTrabajadores.addTabla(customTabla);
     }
 

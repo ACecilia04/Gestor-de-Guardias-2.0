@@ -1,6 +1,5 @@
 package services;
 
-import model.DiaGuardia;
 import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
@@ -10,7 +9,6 @@ import utils.abstracts.mappers.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
 public class TurnoDeGuardiaServices {
@@ -91,14 +89,14 @@ public class TurnoDeGuardiaServices {
                 p.setId(rs.getLong("id"));
                 p.setNombre(rs.getString("nombre"));
                 p.setApellido(rs.getString("apellido"));
-                p.setSexo(rs.getString("sexo").charAt(0));
+                p.setSexo(rs.getString("sexo"));
                 p.setCarnet(rs.getString("carnet"));
                 p.setTipo(rs.getString("tipo"));
                 p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha").toLocalDate());
                 p.setBaja(rs.getDate("baja").toLocalDate());
                 p.setReincorporacion(rs.getDate("reincorporacion").toLocalDate());
                 p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
-                p.setActivo(!rs.getBoolean("borrado"));
+                p.setBorrado(!rs.getBoolean("borrado"));
                 personas.add(p);
             } while (rs.next());
 
