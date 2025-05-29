@@ -50,22 +50,22 @@ public class TurnoDeGuardiaServices {
         baseDao.spUpdate("sp_delete_turno_de_guardia(?, ?)", horarioId, fecha);
     }
 
-    public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy){
-        LocalDate inicio = null;
-        ArrayList<TurnoDeGuardia> turnosActuales = getAllTurnosDeGuardia();
-        if (empezarHoy)
-            inicio = LocalDate.now();
-        else {
-            if (turnosActuales.isEmpty()) {
-                inicio = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
-            } else {
-                inicio = turnosActuales.getLast().getFecha().plusDays(1);
-            }
-        }
-        int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
-
-
-    }
+//    public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy){
+//        LocalDate inicio = null;
+//        ArrayList<TurnoDeGuardia> turnosActuales = getAllTurnosDeGuardia();
+//        if (empezarHoy)
+//            inicio = LocalDate.now();
+//        else {
+//            if (turnosActuales.isEmpty()) {
+//                inicio = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
+//            } else {
+//                inicio = turnosActuales.getLast().getFecha().plusDays(1);
+//            }
+//        }
+//        int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
+//
+//
+//    }
 
 
     // Internal Mapper
