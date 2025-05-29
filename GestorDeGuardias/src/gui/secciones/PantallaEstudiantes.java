@@ -10,6 +10,7 @@ import model.TipoPersona;
 import services.Gestor;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -146,8 +147,13 @@ public class PantallaEstudiantes extends JPanel {
                     String string = "<html><p>Estas Seguro? <br>Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                     if (!advertencia.getEleccion()) {
-                        System.out.println(fechaAux);
-                        ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ID).darBaja(fechaAux);
+//                        System.out.println(fechaAux);
+                        try {
+                            ServicesLocator.getInstance().getPersonaServices().darBaja(ID,fechaAux);
+                        } catch (MultiplesErroresException | EntradaInvalidaException ex) {
+//                            TODO: create error pane
+                            throw new RuntimeException(ex);
+                        }
                         Advertencia advertencia2 = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Baja Exitosa", "Baja Exitosa", "Aceptar");
 
                         revalidarTabla();
