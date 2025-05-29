@@ -10,6 +10,7 @@ import model.TipoPersona;
 import services.Gestor;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -110,7 +111,11 @@ public class PantallaTrabajadores extends JPanel {
                     String string = "<html><p>Estas Seguro? <br>Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                     if (!advertencia.getEleccion()) {
-                        ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ID).darBaja(fechaAux);
+                        try {
+                            ServicesLocator.getInstance().getPersonaServices().darBaja(ID, fechaAux);
+                        } catch (MultiplesErroresException | EntradaInvalidaException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         revalidarTabla();
                     }
                 }
@@ -123,19 +128,14 @@ public class PantallaTrabajadores extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String ID = tabla.getCarnet();
                 if (ID != null) {
-                    try {
-                        String string = "<html><p>Estas a punto de eliminar a un Estudiante del <br>registro. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
-                        if (!advertencia.getEleccion()) {
-                            Gestor.getInstance().getFacultad().eliminarPersona(ID);
-                            revalidarTabla();
-                        }
-
-
-                    } catch (EntradaInvalidaException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
+                    String string = "<html><p>Estas a punto de eliminar a un Trabajador del <br>registro. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
+                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
+                    if (!advertencia.getEleccion()) {
+                        ServicesLocator.getInstance().getPersonaServices().deletePersonaByCi(ID);
+                        revalidarTabla();
                     }
+
+
                 }
                 tablaOpciones.mostrarPanel("panel1");
             }
