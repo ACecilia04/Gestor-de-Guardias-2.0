@@ -17,10 +17,10 @@ import java.io.Serial;
 public class AddPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-    private static final Dimension tablaDim = new Dimension(1200, 745);
+    private static Dimension tablaDim = new Dimension(1200, 745);
     private final JPanel contentPane;
     int x;
-    private final TablaOpcionesPlanif tablaOpciones;
+    private TablaOpcionesPlanif tablaOpciones;
     private Tabla tabla;
 
 
@@ -73,9 +73,9 @@ public class AddPlanif extends JPanel {
         return tablaDim;
     }
 
-//    public static void setTablaDim(Dimension tablaDim) {
-//        AddPlanif.tablaDim = tablaDim;
-//    }
+    public static void setTablaDim(Dimension tablaDim) {
+        AddPlanif.tablaDim = tablaDim;
+    }
 
     public void addTabla(Tabla tabla) {
         if (this.tabla != null) {
@@ -93,7 +93,7 @@ public class AddPlanif extends JPanel {
         return tablaOpciones;
     }
 
-//    public void setTablaOpciones(TablaOpcionesPlanif tablaOpciones) {
-//        this.tablaOpciones = tablaOpciones;
-//    }
+    public void setTablaOpciones(TablaOpcionesPlanif tablaOpciones) {
+        this.tablaOpciones = tablaOpciones;
+    }
 }

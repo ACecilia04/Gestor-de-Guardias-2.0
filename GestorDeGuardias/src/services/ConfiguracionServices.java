@@ -36,22 +36,6 @@ public class ConfiguracionServices {
     public Configuracion getConfiguracionByPk(Long horario, int diaSemana, boolean diaEsReceso) {
         return baseDao.spQuerySingleObject("sp_read_configuracion_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario, diaSemana, diaEsReceso);
     }
-//    public ArrayList<Configuracion> crearPLantilla(boolean empezarHoy){
-//        LocalDate inicio = null;
-//
-//        if (empezarHoy)
-//            inicio = LocalDate.now();
-//        else {
-////            if (this.planDeGuardias.isEmpty()) {
-////                inicio = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
-////            } else {
-////                inicio = this.planDeGuardias.get(planDeGuardias.size() - 1).getFecha().plusDays(1);
-////            }
-//        }
-//        int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
-//
-//
-//    }
 
     // UPDATE
     public void updateConfiguracion(Long horario, int diaSemana, boolean diaEsReceso, boolean actual) {

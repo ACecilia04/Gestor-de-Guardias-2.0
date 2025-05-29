@@ -206,7 +206,7 @@ public class Ventana extends JFrame {
         }
         if (pantallaPlanif != null) {
             pantallaPlanif.mostrarTabla();
-            if (pantallaActual == "panel7") {
+            if (Objects.equals(pantallaActual, "panel7")) {
                 ArrayList<DiaGuardia> dias = this.getPantallaCump().getTabla().getDias();
                 getPantallaCump().setTabla(dias);
             }

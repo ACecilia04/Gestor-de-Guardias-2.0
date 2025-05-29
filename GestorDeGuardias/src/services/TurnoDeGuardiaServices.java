@@ -1,5 +1,6 @@
 package services;
 
+import model.DiaGuardia;
 import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
@@ -9,6 +10,7 @@ import utils.abstracts.mappers.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 
 public class TurnoDeGuardiaServices {
@@ -47,6 +49,24 @@ public class TurnoDeGuardiaServices {
     public void deleteTurnoDeGuardia(Long horarioId, LocalDate fecha) {
         baseDao.spUpdate("sp_delete_turno_de_guardia(?, ?)", horarioId, fecha);
     }
+
+    public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy){
+        LocalDate inicio = null;
+        ArrayList<TurnoDeGuardia> turnosActuales = getAllTurnosDeGuardia();
+        if (empezarHoy)
+            inicio = LocalDate.now();
+        else {
+            if (turnosActuales.isEmpty()) {
+                inicio = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
+            } else {
+                inicio = turnosActuales.getLast().getFecha().plusDays(1);
+            }
+        }
+        int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
+
+
+    }
+
 
     // Internal Mapper
     public static class TurnoDeGuardiaMapper implements RowMapper<TurnoDeGuardia> {
