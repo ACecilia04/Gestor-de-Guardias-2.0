@@ -6,7 +6,7 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.CustomPopupMenu;
 import gui.componentes.Etiqueta;
-import logica.principal.DiaGuardia;
+import model.DiaGuardia;
 
 import javax.swing.*;
 import java.awt.*;

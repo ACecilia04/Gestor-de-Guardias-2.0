@@ -4,7 +4,7 @@ import gui.auxiliares.Paleta;
 import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
-import logica.principal.DiaGuardia;
+import model.DiaGuardia;
 import services.Gestor;
 import utils.exceptions.EntradaInvalidaException;
 

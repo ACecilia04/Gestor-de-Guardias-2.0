@@ -5,11 +5,10 @@ import gui.auxiliares.Paleta;
 import gui.componentes.*;
 import gui.secciones.Ventana;
 import model.PeriodoNoPlanificable;
-import model.TipoPersona;
 import services.Gestor;
+import services.PeriodoNoPlanificableServices;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
-import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -259,7 +258,7 @@ public class PantallaFacultad extends JDialog {
 
         Dimension dimCombo = new Dimension(300, 50);
         final CustomComboBox comboRec = new CustomComboBox(recesosNombre, "Recesos", dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
-        comboRec.setTextoNulo("No hay recesos Recgistrados");
+        comboRec.setTextoNulo("No hay recesos registrados");
         comboRec.setLocation(x, y);
         content.add(comboRec);
 
@@ -276,7 +275,7 @@ public class PantallaFacultad extends JDialog {
         });
 
 
-        Boton botonAddRec = new Boton("Anadir Receso");
+        Boton botonAddRec = new Boton("Añadir Receso");
         botonAddRec.setColorFondo(paleta.getColorCasillaTabla());
         botonAddRec.setColorPresionado(paleta.getColorCaracteristico());
         botonAddRec.setColorLetra(paleta.getColorLetraMenu());
@@ -317,6 +316,7 @@ public class PantallaFacultad extends JDialog {
                 Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Receso Guardado", string, "Cancelar", "Aceptar");
 
                 if (!advertencia.getEleccion()) {
+                    PeriodoNoPlanificableServices pnpService = ServicesLocator.getInstance().getPeriodoNoPlanificableServices();
                     LocalDate fechaAux2 = Gestor.getInstance().getFacultad().buscarRecesoDocente(comboRec.getEleccion()).getInicio();
                     try {
                         Gestor.getInstance().getFacultad().eliminarRecesoDocente(fechaAux2);
@@ -325,8 +325,8 @@ public class PantallaFacultad extends JDialog {
                         e1.printStackTrace();
                     }
 
-                    cantERec.setText("Cantidad de periodos no planificables :  " + ServicesLocator.getInstance().getPeriodoNoPlanificableServices().countPeriodoNoPlanificable());
-                    comboRec.setOpciones(new String[]{ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getAllPeriodosNoPlanificables().toString()});
+                    cantERec.setText("Cantidad de periodos no planificables :  " + pnpService.countPeriodoNoPlanificable());
+                    comboRec.setOpciones(new String[]{pnpService.getAllPeriodosNoPlanificables().toString()});
 
                     fechaInicio.setVisible(false);
                     fechaFinal.setVisible(false);

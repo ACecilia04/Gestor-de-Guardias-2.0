@@ -2,6 +2,7 @@ package logica.principal;
 
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
+import model.DiaGuardia;
 
 import java.time.Clock;
 import java.time.DayOfWeek;

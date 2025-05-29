@@ -1,10 +1,7 @@
 package gui.pantallasEmergentes;
 
 import gui.secciones.Ventana;
-import services.Gestor;
 import services.ServicesLocator;
-import utils.exceptions.EntradaInvalidaException;
-import utils.exceptions.MultiplesErroresException;
 
 public class PantallaAddEstudiante extends PantallaAddPersona {
 

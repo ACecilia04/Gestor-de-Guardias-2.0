@@ -181,9 +181,7 @@ public class Persona implements Comparable<Persona> {
 
     public int getCantGuardiasAsignadas() {
         int cant = 0;
-        if (guardiasAsignadas.isEmpty())
-            cant = 0;
-        else {
+        if(guardiasAsignadas != null && !guardiasAsignadas.isEmpty()){
             int i = this.guardiasAsignadas.size() - 1;
             LocalDate now = LocalDate.now();
             while (!this.guardiasAsignadas.get(i).isBefore(now)) {

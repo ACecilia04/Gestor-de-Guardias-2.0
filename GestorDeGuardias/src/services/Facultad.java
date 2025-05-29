@@ -7,7 +7,6 @@ import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static utils.Utilitarios.stringEsValido;
 import static utils.Utilitarios.stringSoloNumeros;

@@ -4,11 +4,13 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.internosComp.*;
 import gui.pantallasEmergentes.*;
-import logica.principal.DiaGuardia;
+import model.DiaGuardia;
 import model.Horario;
 import model.TipoPersona;
+import model.TurnoDeGuardia;
 import services.Gestor;
 import services.ServicesLocator;
+import services.TurnoDeGuardiaServices;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -21,11 +23,12 @@ import java.awt.event.ComponentEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Ventana extends JFrame {
 
     public static final Dimension SIZE_ADVERTENCIA = new Dimension(530, 300);
-    public static final Dimension SIZE_VENTANA = new Dimension(1792, 932);
+    public static final Dimension SIZE_VENTANA = Toolkit.getDefaultToolkit().getScreenSize();
     private static final long serialVersionUID = 1L;
     private static Ventana ventana;
     //Demora en aparecer el panel de inicio
@@ -217,7 +220,7 @@ public class Ventana extends JFrame {
     public void mostrarPanel(String nombrePanel) {
         CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
         boolean cambiar = true;
-        if (pantallaActual == "panel4" && nombrePanel != "panel4") {
+        if (Objects.equals(pantallaActual, "panel4") && !Objects.equals(nombrePanel, "panel4")) {
             String string = "<html><p>Estas seguro de que quieres cambiar? <br> <br><br>Perderas la planifcacion no guardada</p><html>";
             Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Advertencia", string, "Cancelar", "Aceptar");
 
@@ -227,33 +230,33 @@ public class Ventana extends JFrame {
         }
 
         if (cambiar) {
-            if (nombrePanel == "panel1" && pantallaActual != "panel1") {
+            if (Objects.equals(nombrePanel, "panel1") && !Objects.equals(pantallaActual, "panel1")) {
                 pantallaPlanif.actualizarPlanif();
             }
 
 
-            if (nombrePanel == "panel3" && pantallaActual != "panel3") {
+            if (Objects.equals(nombrePanel, "panel3") && !Objects.equals(pantallaActual, "panel3")) {
                 pantallaTrabajadores.revalidarTabla();
             }
 
-            if (nombrePanel == "panel5" && pantallaActual != "panel5") {
+            if (Objects.equals(nombrePanel, "panel5") && !Objects.equals(pantallaActual, "panel5")) {
 
                 pantallaArchivar.actualizarPlanif();
 
             }
 
 
-            if (nombrePanel == "panel4") {
+            if (Objects.equals(nombrePanel, "panel4")) {
                 //barraSup.mostrarPanel("panelEd2");
                 ArrayList<DiaGuardia> dias = new ArrayList<>();
                 boolean opcion = false;
-                /* Sustitucion
-                ServicesLocator slAux = ServicesLocator.getInstance();
-                ArrayList<TurnoDeGuardia> plan = slAux.getTurnoDeGuardiaServices().getAllTurnosDeGuardia();
-                */
-                Gestor gestorAux = Gestor.getInstance();
-                ArrayList<DiaGuardia> plan = Gestor.getInstance().getPlanDeGuardias();
-                if (plan.isEmpty() || (gestorAux.getPlanificacionesAPartirDe(LocalDate.now()).isEmpty() && !plan.getLast().getFecha().isAfter(LocalDate.now()))) {
+
+                TurnoDeGuardiaServices tgServ = ServicesLocator.getInstance().getTurnoDeGuardiaServices();
+                ArrayList<TurnoDeGuardia> plan = tgServ.getAllTurnosDeGuardia();
+
+//                Gestor gestorAux = Gestor.getInstance();
+//                ArrayList<DiaGuardia> plan = Gestor.getInstance().getPlanDeGuardias();
+                if (plan.isEmpty() || (tgServ.getTurnosAPartirDe(LocalDate.now()).isEmpty() && !plan.getLast().getFecha().isAfter(LocalDate.now()))) {
                     String string = "<html><p>No se encuentran registradas planificaciones <br> para el mes actual <br><br>Desea generar las planificaciones del resto del mes o del pr�ximo?</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Mes Actual", "Próximo Mes");
                     opcion = advertencia.getEleccion();

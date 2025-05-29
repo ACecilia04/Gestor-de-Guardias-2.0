@@ -4,7 +4,7 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.CustomSplitPane;
 import gui.componentes.CustomTabla;
-import logica.principal.DiaGuardia;
+import model.DiaGuardia;
 
 import javax.swing.*;
 import javax.swing.border.Border;

@@ -8,7 +8,7 @@ import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.Ventana;
-import logica.principal.DiaGuardia;
+import model.DiaGuardia;
 import services.Gestor;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
@@ -235,7 +235,7 @@ public class Tabla extends Cuadro implements IsTabla {
         panelTitulo.add(apellidos);
         panelTitulo.add(nombre);
 
-        int auxAgno = dias.get(0).getFecha().getYear();
+        int auxAgno = dias.getFirst().getFecha().getYear();
         Etiqueta planificacion = new Etiqueta(fuente, colorLetraTitulo, traducDiaMes(dias.get(0).getFecha()) + "  " + auxAgno);
         planificacion.setLocation(15, 10);
 

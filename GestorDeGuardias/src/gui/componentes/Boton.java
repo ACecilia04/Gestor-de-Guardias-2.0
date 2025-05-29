@@ -23,8 +23,8 @@ public class Boton extends JPanel implements Actualizable {
     private final Color colorLetraBlock = Color.GRAY;
     private final String textoLabel;
     //Aux
-    private final int distanciaX = 2;
-    private final int distanciaY = 2;
+    private int distanciaX = 2;
+    private int distanciaY = 2;
     //Accion
     private ActionListener actionListener;
     private MouseAdapter adaptador;
@@ -167,21 +167,27 @@ public class Boton extends JPanel implements Actualizable {
         setFondoContenedor();
     }
 
-//    public void setRedondez(int red) {
-//        this.redondez = red;
-//    }
-//
-//    public void setDistancias(int x, int y) {
-//        this.distanciaX = x;
-//        this.distanciaY = y;
-//        etiqueta.setLocation(distanciaX, distanciaY);
-//        this.setPreferredSize(new Dimension(etiqueta.getSize().width + distanciaX * 2, etiqueta.getHeight() + distanciaY * 2));
-//        this.setSize(getPreferredSize());
-//    }
+    public void setRedondez(int red) {
+        this.redondez = red;
+    }
+
+    public void setDistancias(int x, int y) {
+        this.distanciaX = x;
+        this.distanciaY = y;
+        etiqueta.setLocation(distanciaX, distanciaY);
+        this.setPreferredSize(new Dimension(etiqueta.getSize().width + distanciaX * 2, etiqueta.getHeight() + distanciaY * 2));
+        this.setSize(getPreferredSize());
+    }
 
     public void setText(String texto) {
         etiqueta.setText(texto);
         etiqueta.setSize(etiqueta.getPreferredSize());
+
+        int newWidth = etiqueta.getPreferredSize().width + distanciaX * 2;
+        int newHeight = etiqueta.getPreferredSize().height + distanciaY * 2;
+
+        this.setPreferredSize(new Dimension(newWidth, newHeight));
+        this.setSize(getPreferredSize());
     }
 
     protected void paintComponent(Graphics g) {

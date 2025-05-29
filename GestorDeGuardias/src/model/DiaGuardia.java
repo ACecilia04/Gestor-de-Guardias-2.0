@@ -1,6 +1,8 @@
-package logica.principal;
+package model;
 
 import logica.excepciones.EntradaInvalidaException;
+import logica.principal.HorarioGuardia;
+import logica.principal.TurnoGuardia;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package services;
 
-import logica.principal.DiaGuardia;
-import model.Esquema;
+import logica.principal.EsquemaGuardia;
+import model.DiaGuardia;
 import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
@@ -92,7 +92,7 @@ public class Gestor {
     }
 
     /**
-     * Dado una fecha busca los esquemas correspondientes a esa fecha y con esto
+     * Dado una fecha busca los EsquemaGuardias correspondientes a esa fecha y con esto
      * devuelve lo horarios de esa fecha
      *
      * @param fecha
@@ -104,12 +104,12 @@ public class Gestor {
         if (fecha == null)
             throw new EntradaInvalidaException("Fecha no especificada.");
         ArrayList<Horario> horarios = new ArrayList<Horario>();
-        ArrayList<Esquema> esquemas = getEsquemasDeFecha(fecha);
+        ArrayList<EsquemaGuardia> EsquemaGuardias = getEsquemaGuardiasDeFecha(fecha);
 
-        if (esquemas != null && !esquemas.isEmpty()) {
-            for (Esquema esquema : esquemas) { // recorrer la lista dada	if (!horarios.contains(esquema.getHorario()))
-                //si la lista a retornar no tiene ya el horario de ese esquema
-//                horarios.add(esquema.getHorario()); // a�adirlo
+        if (EsquemaGuardias != null && !EsquemaGuardias.isEmpty()) {
+            for (EsquemaGuardia EsquemaGuardia : EsquemaGuardias) { // recorrer la lista dada	if (!horarios.contains(EsquemaGuardia.getHorario()))
+                //si la lista a retornar no tiene ya el horario de ese EsquemaGuardia
+//                horarios.add(EsquemaGuardia.getHorario()); // a�adirlo
             }
         }
         return horarios;
@@ -117,28 +117,28 @@ public class Gestor {
 
     /**
      * @param fecha
-     * @return lista de esquemas de guardia que le corresponden a la fecha dada
+     * @return lista de EsquemaGuardias de guardia que le corresponden a la fecha dada
      * @throws EntradaInvalidaException
      */
-    private ArrayList<Esquema> getEsquemasDeFecha(LocalDate fecha) throws EntradaInvalidaException {
+    private ArrayList<EsquemaGuardia> getEsquemaGuardiasDeFecha(LocalDate fecha) throws EntradaInvalidaException {
         //        es lo d getconfig en crearPlantilla y getPersonasDisponibles
         DayOfWeek diaDeSemana = fecha.getDayOfWeek();
         boolean fechaEnReceso = facultad.fechaEsRecesoDocente(fecha); //para saber si seran solo trabajores o no
         boolean fechaEnSemanaPar = fechaEnSemanaPar(fecha);  // por si es fin de semana saber si seran estudiantes o trabajadores en el horario diurno
 
-        ArrayList<Esquema> retVal = new ArrayList<Esquema>(); //lista a return
-//        for (Esquema esquema : EnumSet.allOf(Esquema.class)) {  //recorrer los valores del enum esquema
-//            if ((esquema.getDiaSemana() == null || esquema.getDiaSemana().equals(diaDeSemana)) &&          //si el dia de la semana no importa o es igual al de la fecha
-//                    (esquema.getEsReceso() == null || esquema.getEsReceso().equals(fechaEnReceso)) &&          //y no importa si es receso o coincide con la fecha
-//                    (esquema.getEsSemanaPar() == null || esquema.getEsSemanaPar().equals(fechaEnSemanaPar))) { // si la paridad de la semana no importa p coincide con la de la fecha
-//                retVal.add(esquema);
+        ArrayList<EsquemaGuardia> retVal = new ArrayList<EsquemaGuardia>(); //lista a return
+//        for (EsquemaGuardia EsquemaGuardia : EnumSet.allOf(EsquemaGuardia.class)) {  //recorrer los valores del enum EsquemaGuardia
+//            if ((EsquemaGuardia.getDiaSemana() == null || EsquemaGuardia.getDiaSemana().equals(diaDeSemana)) &&          //si el dia de la semana no importa o es igual al de la fecha
+//                    (EsquemaGuardia.getEsReceso() == null || EsquemaGuardia.getEsReceso().equals(fechaEnReceso)) &&          //y no importa si es receso o coincide con la fecha
+//                    (EsquemaGuardia.getEsSemanaPar() == null || EsquemaGuardia.getEsSemanaPar().equals(fechaEnSemanaPar))) { // si la paridad de la semana no importa p coincide con la de la fecha
+//                retVal.add(EsquemaGuardia);
 //
 //            }
         /* lo mismo pero con ifs anidados
-         * if(esquema.getDiaSemana() == null || esquema.getDiaSemana().equals(diaDeSemana))
-         * 	if(esquema.getEsReceso() == null || esquema.getEsReceso().equals(fechaEnReceso))
-         * 		if(esquema.getEsSemanaPar() == null || esquema.getEsSemanaPar().equals(fechaEnSemanaPar))
-         * 			retVal.add(esquema);
+         * if(EsquemaGuardia.getDiaSemana() == null || EsquemaGuardia.getDiaSemana().equals(diaDeSemana))
+         * 	if(EsquemaGuardia.getEsReceso() == null || EsquemaGuardia.getEsReceso().equals(fechaEnReceso))
+         * 		if(EsquemaGuardia.getEsSemanaPar() == null || EsquemaGuardia.getEsSemanaPar().equals(fechaEnSemanaPar))
+         * 			retVal.add(EsquemaGuardia);
 
          */
 //        }
@@ -148,8 +148,8 @@ public class Gestor {
     //*******************************************************Para llenar la plantilla*****************************************************************
 
     /**
-     * Busca los esquemas de esa fecha y recorre ese arreglo. Cuando el horario
-     * de uno de esos esquemas sea igual al dado, recorre la lista de personas
+     * Busca los EsquemaGuardias de esa fecha y recorre ese arreglo. Cuando el horario
+     * de uno de esos EsquemaGuardias sea igual al dado, recorre la lista de personas
      * de la facultad buscando a los que encajen segun su tipo, sexo y
      * disponibilidad
      *
@@ -171,15 +171,15 @@ public class Gestor {
             errores.add("Horario no especificado.");
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Datos incorrectos:, errores");
-        ArrayList<Esquema> esquemas = getEsquemasDeFecha(fecha);  //esta lanza la EntradaInvalidaException y poor eso es parte de la declaracion pero en realidad no tendr� oportunidad de lanzarla aqui
+        ArrayList<EsquemaGuardia> EsquemaGuardias = getEsquemaGuardiasDeFecha(fecha);  //esta lanza la EntradaInvalidaException y poor eso es parte de la declaracion pero en realidad no tendr� oportunidad de lanzarla aqui
         ArrayList<Persona> personasEnPantalla = getPersonasEnPantalla(diasEnPantalla);
         boolean fechaEsReceso = facultad.fechaEsRecesoDocente(fecha);
-        for (Esquema esquema : esquemas) {
-//            if (esquema.getHorario() == horario) {
+        for (EsquemaGuardia EsquemaGuardia : EsquemaGuardias) {
+//            if (EsquemaGuardia.getHorario() == horario) {
 //                for (Persona persona : facultad.getPersonas()) {
 //                    if ( //si las clases y  sexos coinciden y la persona esta disponible
-//                            (esquema.getClase().equals(persona.getClass())) &&
-//                                    (esquema.getSexo() == null || esquema.getSexo().equals(persona.getSexo())) &&
+//                            (EsquemaGuardia.getClase().equals(persona.getClass())) &&
+//                                    (EsquemaGuardia.getSexo() == null || EsquemaGuardia.getSexo().equals(persona.getSexo())) &&
 //                                    (persona.getDisponibilidadParaFecha(fecha) == Disponibilidad.DISPONIBLE)
 //                    ) {
 //                        //asegurando no tener alguien haciendo 2 guardias en 1 mes
@@ -496,13 +496,13 @@ public class Gestor {
         if (ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(persona.getCarnet()) == null)
             throw new EntradaInvalidaException("Persona no registrada.");
 
-        ArrayList<Esquema> esquemas = getEsquemasDeFecha(fecha);
+        ArrayList<EsquemaGuardia> EsquemaGuardias = getEsquemaGuardiasDeFecha(fecha);
         // esta lanza la EntradaInvalidaException y poor eso es partede la declaracion pero en
         // realidad no tendr� oportunidad de lanzarla aqui
         boolean disponible = false;
-        for (int i = 0; i < esquemas.size() && !disponible; i++) {
-//            if (esquemas.get(i).getHorario() == horario) {
-//                disponible = ((esquemas.get(i).getClase().equals(persona.getClass())) && (esquemas.get(i).getSexo() == null || esquemas.get(i).getSexo().equals(persona.getSexo())) && (persona.getDisponibilidadParaFecha(fecha) == Disponibilidad.DISPONIBLE));
+        for (int i = 0; i < EsquemaGuardias.size() && !disponible; i++) {
+//            if (EsquemaGuardias.get(i).getHorario() == horario) {
+//                disponible = ((EsquemaGuardias.get(i).getClase().equals(persona.getClass())) && (EsquemaGuardias.get(i).getSexo() == null || EsquemaGuardias.get(i).getSexo().equals(persona.getSexo())) && (persona.getDisponibilidadParaFecha(fecha) == Disponibilidad.DISPONIBLE));
 //            }
         }
         return disponible;
@@ -558,8 +558,8 @@ public class Gestor {
     // *********************************************************************Filtros y otros**********************************************************************************
 
     /**
-     * Busca los esquemas de esa fecha y recorre ese arreglo. Cuando el horario
-     * de uno de esos esquemas sea igual al dado, recorre la lista de personas
+     * Busca los EsquemaGuardias de esa fecha y recorre ese arreglo. Cuando el horario
+     * de uno de esos EsquemaGuardias sea igual al dado, recorre la lista de personas
      * de la facultad buscando a los que encajen segun su tipo, sexo y
      * disponibilidad
      *
@@ -583,8 +583,8 @@ public class Gestor {
     }
 
     /**
-     * Busca los esquemas de esa fecha y recorre ese arreglo. Cuando el horario
-     * de uno de esos esquemas sea igual al dado, recorre la lista de personas
+     * Busca los EsquemaGuardias de esa fecha y recorre ese arreglo. Cuando el horario
+     * de uno de esos EsquemaGuardias sea igual al dado, recorre la lista de personas
      * de la facultad buscando a los que encajen segun su tipo, sexo y
      * disponibilidad
      *

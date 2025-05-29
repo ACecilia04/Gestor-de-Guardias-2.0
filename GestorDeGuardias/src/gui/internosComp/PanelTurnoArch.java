@@ -2,7 +2,7 @@ package gui.internosComp;
 
 import gui.auxiliares.Actualizable;
 import gui.componentes.CustomRadioButton;
-import logica.principal.DiaGuardia;
+import model.DiaGuardia;
 import model.TurnoDeGuardia;
 
 import javax.swing.*;

@@ -10,7 +10,6 @@ import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -193,9 +192,9 @@ public class PersonaServices {
             p.setSexo(rs.getString("sexo").charAt(0));
             p.setCarnet(rs.getString("carnet"));
             p.setTipo(rs.getString("tipo"));
-            p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha").toLocalDate());
-            p.setBaja(rs.getDate("baja").toLocalDate());
-            p.setReincorporacion(rs.getDate("reincorporacion").toLocalDate());
+            p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
+            p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
+            p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
             p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
             p.setActivo(!rs.getBoolean("borrado"));
             return p;

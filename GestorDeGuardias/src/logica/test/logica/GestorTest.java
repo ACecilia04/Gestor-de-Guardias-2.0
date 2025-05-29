@@ -3,6 +3,7 @@ package logica.test.logica;
 import logica.excepciones.EntradaInvalidaException;
 import logica.excepciones.MultiplesErroresException;
 import logica.principal.*;
+import model.DiaGuardia;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

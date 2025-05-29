@@ -1,18 +1,14 @@
 package services;
 
-import logica.principal.DiaGuardia;
 import model.Configuracion;
-import model.Esquema;
 import model.Horario;
+import model.TipoPersona;
 import utils.abstracts.MainBaseDao;
 import utils.abstracts.mappers.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ConfiguracionServices {
@@ -24,8 +20,8 @@ public class ConfiguracionServices {
     }
 
     // CREATE
-    public void insertConfiguracion(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso, boolean actual) {
-        baseDao.spUpdate("sp_create_configuracion(?, ?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso, actual);
+    public void insertConfiguracion(int diaSemana, boolean diaEsReceso, Long horario, String tipoPersona, Character sexo, int cantPersonas) {
+        baseDao.spUpdate("sp_create_configuracion(?, ?, ?, ?, ?, ?)", diaSemana, diaEsReceso, horario, tipoPersona, sexo, cantPersonas);
     }
 
     // READ all
@@ -37,42 +33,57 @@ public class ConfiguracionServices {
     public Configuracion getConfiguracionByPk(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
         return baseDao.spQuerySingleObject("sp_read_configuracion_by_pk(?, ?, ?, ?)", new ConfiguracionMapper(), horaInicio, horaFin, diaSemana, diaEsReceso);
     }
-    public ArrayList<Configuracion> crearPLantilla(boolean empezarHoy){
-        ArrayList<Configuracion> dias = new ArrayList<>();
-        LocalDate inicio;
-
-        if (empezarHoy)
-            inicio = LocalDate.now();
-        else {
-            if (this.planDeGuardias.isEmpty()) {
-                inicio = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
-            } else {
-                inicio = this.planDeGuardias.get(planDeGuardias.size() - 1).getFecha().plusDays(1);
-            }
-        }
-        int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
-
-
+    public Configuracion getConfiguracionByPk(Long horario, int diaSemana, boolean diaEsReceso) {
+        return baseDao.spQuerySingleObject("sp_read_configuracion_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario, diaSemana, diaEsReceso);
     }
+//    public ArrayList<Configuracion> crearPLantilla(boolean empezarHoy){
+//        LocalDate inicio = null;
+//
+//        if (empezarHoy)
+//            inicio = LocalDate.now();
+//        else {
+////            if (this.planDeGuardias.isEmpty()) {
+////                inicio = LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth());
+////            } else {
+////                inicio = this.planDeGuardias.get(planDeGuardias.size() - 1).getFecha().plusDays(1);
+////            }
+//        }
+//        int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
+//
+//
+//    }
 
     // UPDATE
-    public void updateConfiguracion(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso, boolean actual) {
-        baseDao.spUpdate("sp_update_configuracion(?, ?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso, actual);
+    public void updateConfiguracion(Long horario, int diaSemana, boolean diaEsReceso, boolean actual) {
+        baseDao.spUpdate("sp_update_configuracion(?, ?, ?, ?)", horario, diaSemana, diaEsReceso, actual);
     }
 
     // DELETE
-    public void deleteConfiguracion(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
-        baseDao.spUpdate("sp_delete_configuracion(?, ?, ?, ?)", horaInicio, horaFin, diaSemana, diaEsReceso);
+    public void deleteConfiguracion(Long horario, int diaSemana, boolean diaEsReceso) {
+        baseDao.spUpdate("sp_delete_configuracion(?, ?, ?)", horario, diaSemana, diaEsReceso);
     }
 
     // Internal Mapper
     private static class ConfiguracionMapper implements RowMapper<Configuracion> {
         @Override
         public Configuracion mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Configuracion c = new Configuracion();
-            Esquema e = new Esquema();
             Horario h = new Horario();
-            return c;
+            Configuracion config = new Configuracion();
+
+            config.setDiaSemana(rs.getInt("dia_semana"));
+            config.setDiaEsReceso(rs.getBoolean("dia_es_receso"));
+            config.setTipoPersona(new TipoPersona(rs.getString("tipo_persona")));
+            config.setSexo(rs.getString("sexo").charAt(0));
+            config.setCantPersonas(rs.getInt("cant_personas"));
+            config.setBorrado(rs.getBoolean("borrado"));
+
+            h.setId(rs.getLong("horario_id"));
+            h.setInicio(rs.getTime("inicio").toLocalTime());
+            h.setFin(rs.getTime("fin").toLocalTime());
+
+            config.setHorario(h);
+
+            return config;
         }
     }
 }

@@ -7,10 +7,8 @@ import utils.abstracts.mappers.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PeriodoNoPlanificableServices {
 
@@ -44,13 +42,12 @@ public class PeriodoNoPlanificableServices {
     public void deletePeriodoNoPlanificable(LocalDate inicio, LocalDate fin) {
         baseDao.spUpdate("sp_delete_periodo_no_planificable(?, ?)", inicio, fin);
     }
-//ver que hace esto"sp_count_periodo_no_planificable(?)"
     public int countPeriodoNoPlanificable(){
-        return baseDao.spQuerySingleObject("sp_count_periodo_no_planificable(?)", new IntegerMapper("total"));
+        return baseDao.spQuerySingleObject("sp_count_periodo_no_planificable", new IntegerMapper("total"));
     }
 
     public PeriodoNoPlanificable getPeriodosEnFecha(LocalDate fecha){
-        return baseDao.spQuerySingleObject("sp_periodos_no_planificables_in_date",new PeriodoNoPlanificableMapper(), fecha);
+        return baseDao.spQuerySingleObject("sp_periodos_no_planificables_in_date(?)",new PeriodoNoPlanificableMapper(), fecha);
     }
     // Internal Mapper
     private static class PeriodoNoPlanificableMapper implements RowMapper<PeriodoNoPlanificable> {

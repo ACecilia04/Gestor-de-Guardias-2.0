@@ -2,7 +2,7 @@ package gui.secciones;
 
 import gui.internosComp.PanelOpcionesArchivar;
 import gui.internosComp.TablaArchivar;
-import logica.principal.DiaGuardia;
+import model.DiaGuardia;
 
 import javax.swing.*;
 import java.awt.*;
