@@ -11,6 +11,7 @@ public class ServicesLocator {
     private final TipoPersonaServices tipoPersonaServices;
     private final TurnoDeGuardiaServices turnoDeGuardiaServices;
     private final UsuarioService usuarioService;
+    private final RolServices rolServices;
 
     private ServicesLocator() {
         MainBaseDao mbDAO = new MainBaseDao();
@@ -21,6 +22,7 @@ public class ServicesLocator {
         tipoPersonaServices = new TipoPersonaServices(mbDAO);
         turnoDeGuardiaServices = new TurnoDeGuardiaServices(mbDAO);
         usuarioService = new UsuarioService(mbDAO);
+        rolServices = new RolServices(mbDAO);
     }
 
     public static ServicesLocator getInstance() {
@@ -58,4 +60,7 @@ public class ServicesLocator {
         return usuarioService;
     }
 
+    public RolServices getRolServices() {
+        return rolServices;
+    }
 }

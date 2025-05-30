@@ -2,7 +2,9 @@ package services;
 
 import model.Rol;
 import utils.dao.MainBaseDao;
+import utils.dao.mappers.IntegerMapper;
 import utils.dao.mappers.RowMapper;
+import utils.exceptions.EntradaInvalidaException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +29,7 @@ public class RolServices {
     }
 
     // READ by nombre
-    public Rol getRolByNombre(String nombre) {
+    public Rol getRol(String nombre) {
         return baseDao.spQuerySingleObject("sp_rol_read_by_nombre(?)", new RolMapper(), nombre);
     }
 
@@ -37,8 +39,14 @@ public class RolServices {
     }
 
     // DELETE
-    public void deleteRol(String nombre) {
+    public void deleteRol(String nombre) throws EntradaInvalidaException {
+        if (rolExists(nombre))
+            throw new EntradaInvalidaException("El rol no se puede borrar porque está en uso");
         baseDao.spUpdate("sp_rol_delete(?)", nombre);
+    }
+
+    public boolean rolExists(String nombre) {
+        return baseDao.spQuerySingleObject("sp_rol_check_existence(?)", new IntegerMapper("Total"), nombre) > 0;
     }
 
     // Internal Mapper
