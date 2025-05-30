@@ -1,6 +1,7 @@
 package tests;
 
 import model.Horario;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.HorarioServices;
@@ -18,6 +19,31 @@ public class HorarioTest {
     @BeforeClass
     public static void setup() {
         horarioServices = ServicesLocator.getInstance().getHorarioServices();
+    }
+
+    @AfterClass
+    public static void initialize() {
+        LocalTime inicio = LocalTime.of(8, 0, 0);
+        LocalTime fin = LocalTime.of(20, 0, 0);
+        if (horarioServices.getHorarioByPk(inicio, fin) == null) {
+            Horario record1 = new Horario(inicio, fin);
+            horarioServices.insertHorario(record1);
+
+            inicio = LocalTime.of(20, 0, 0);
+            fin = LocalTime.of(8, 0, 0);
+            Horario record2 = new Horario(inicio, fin);
+            horarioServices.insertHorario(record2);
+
+            inicio = LocalTime.of(7, 0, 0);
+            fin = LocalTime.of(14, 0, 0);
+            Horario record3 = new Horario(inicio, fin);
+            horarioServices.insertHorario(record3);
+
+            inicio = LocalTime.of(14, 0, 0);
+            fin = LocalTime.of(19, 0, 0);
+            Horario record4 = new Horario(inicio, fin);
+            horarioServices.insertHorario(record4);
+        }
     }
 
     @Test

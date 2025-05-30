@@ -14,6 +14,7 @@ import java.util.List;
 public class ConfiguracionServices {
 
     private final MainBaseDao baseDao;
+    private static HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
 
     public ConfiguracionServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -24,8 +25,8 @@ public class ConfiguracionServices {
         baseDao.spUpdate("sp_configuracion_create(?, ?, ?, ?, ?, ?)",
                 record.getDiaSemana(),
                 record.isDiaEsReceso(),
-                record.getHorario(),
-                record.getTipoPersona(),
+                record.getHorario().getId(),
+                record.getTipoPersona().getNombre(),
                 record.getSexo(),
                 record.getCantPersonas()
         );
@@ -46,35 +47,35 @@ public class ConfiguracionServices {
         return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario, diaSemana, diaEsReceso);
     }
 
+    public Configuracion getConfiguracionById(Long id) {
+        return baseDao.spQuerySingleObject("sp_configuracion_read_by_id(?)", new ConfiguracionMapper(), id);
+    }
+
     // UPDATE
     public void updateConfiguracion(Configuracion record){
         baseDao.spUpdate("sp_configuracion_update(?, ?, ?, ?, ?, ?, ?)",
                 record.getId(),
-                record.getHorario(),
                 record.getDiaSemana(),
                 record.isDiaEsReceso(),
-                record.getTipoPersona(),
+                record.getHorario().getId(),
+                record.getTipoPersona().getNombre(),
                 record.getSexo(),
                 record.getCantPersonas()
         );
     }
 
     // DELETE
-    public void deleteConfiguracion(Configuracion record) {
-        baseDao.spUpdate("sp_configuracion_delete(?, ?, ?)",
-                record.getHorario(),
-                record.getDiaSemana(),
-                record.isDiaEsReceso()
-        );
+    public void deleteConfiguracion(Long id) {
+        baseDao.spUpdate("sp_configuracion_delete(?)", id);
     }
 
     // Internal Mapper
     private static class ConfiguracionMapper implements RowMapper<Configuracion> {
         @Override
         public Configuracion mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Horario h = new Horario();
             Configuracion config = new Configuracion();
 
+            config.setId(rs.getLong("id"));
             config.setDiaSemana(rs.getInt("dia_semana"));
             config.setDiaEsReceso(rs.getBoolean("dia_es_receso"));
             config.setTipoPersona(new TipoPersona(rs.getString("tipo_persona")));
@@ -82,10 +83,7 @@ public class ConfiguracionServices {
             config.setCantPersonas(rs.getInt("cant_personas"));
             config.setBorrado(rs.getBoolean("borrado"));
 
-            h.setId(rs.getLong("horario_id"));
-            h.setInicio(rs.getTime("inicio").toLocalTime());
-            h.setFin(rs.getTime("fin").toLocalTime());
-
+            Horario h = horarioServices.getHorarioById((rs.getLong("horario")));
             config.setHorario(h);
 
             return config;
