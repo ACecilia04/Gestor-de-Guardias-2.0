@@ -17,35 +17,47 @@ public class UsuarioService {
     }
 
     // CREATE
-    public void insertUsuario(String nombre, String email) {
-        baseDao.spUpdate("sp_create_usuario(?, ?)", nombre, email);
+    public void insertUsuario(Usuario record) {
+        baseDao.spUpdate("sp_usuario_create(?, ?, ?)",
+                record.getNombre(),
+                record.getContrasenna(),
+                record.getRol().getNombre()
+        );
     }
 
     // READ all
     public List<Usuario> getAllUsuarios() {
-        return baseDao.spQuery("sp_read_usuario", new UsuarioMapper());
+        return baseDao.spQuery("sp_usuario_read", new UsuarioMapper());
     }
 
     // READ by primary key
-    public Usuario getUsuarioByNombre(String nombre) {
-        return baseDao.spQuerySingleObject("sp_read_usuario_by_pk(?)", new UsuarioMapper(), nombre);
+    public Usuario getUsuarioByNombre(Long id) {
+        return baseDao.spQuerySingleObject("sp_usuario_read_by_id(?)", new UsuarioMapper(), id);
     }
 
     // UPDATE
-    public void updateUsuario(int id, String nombre, String email) {
-        baseDao.spUpdate("sp_update_usuario(?, ?, ?)", id, nombre, email);
+    public void updateUsuario(Usuario record) {
+        baseDao.spUpdate("sp_usuario_update(?, ?, ?, ?)",
+                record.getId(),
+                record.getNombre(),
+                record.getContrasenna(),
+                record.getRol().getNombre()
+        );
     }
 
     // DELETE
-    public void deleteUsuario(int id) {
-        baseDao.spUpdate("sp_delete_usuario(?)", id);
+    public void deleteUsuario(Long id) {
+        baseDao.spUpdate("sp_usuario_delete(?)", id);
     }
 
     // Internal Mapper
     private static class UsuarioMapper implements RowMapper<Usuario> {
         @Override
         public Usuario mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Usuario(rs.getString("nombre"), rs.getString("email"), new Rol(rs.getString("rol")));
+            return new Usuario(
+                    rs.getString("nombre"),
+                    rs.getString("contrasenna"),
+                    new Rol(rs.getString("rol")));
         }
     }
 }
