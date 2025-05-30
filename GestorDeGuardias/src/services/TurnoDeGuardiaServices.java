@@ -96,7 +96,7 @@ public class TurnoDeGuardiaServices {
                 p.setBaja(rs.getDate("baja").toLocalDate());
                 p.setReincorporacion(rs.getDate("reincorporacion").toLocalDate());
                 p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
-                p.setBorrado(!rs.getBoolean("borrado"));
+                p.setBorrado(rs.getBoolean("borrado"));
                 personas.add(p);
             } while (rs.next());
 

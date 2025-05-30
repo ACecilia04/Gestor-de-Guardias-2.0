@@ -1,8 +1,8 @@
 package logica.principal;
 
+import model.DiaGuardia;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
-import model.DiaGuardia;
 
 import java.time.Clock;
 import java.time.DayOfWeek;
@@ -13,7 +13,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-import static utils.Utilitarios.*;
+import static logica.comunes.Utilitarios.*;
 
 
 public class Gestor {

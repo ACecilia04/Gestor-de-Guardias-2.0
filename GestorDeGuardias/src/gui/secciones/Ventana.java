@@ -308,7 +308,7 @@ public class Ventana extends JFrame {
             DiaGuardia fechaAux = turno.getFecha();
             Horario horarioAux = turno.getTurno().getHorario();
 
-            nuevaPantalla = new PantallaSelecPersona(tablaP, Gestor.getInstance().getPersonasDisponibles(fechaAux.getFecha(), horarioAux, diasEnPantalla), turno);
+            nuevaPantalla = new PantallaSelecPersona(tablaP, (ArrayList<Persona>) Gestor.getInstance().getPersonasDisponibles(fechaAux.getFecha(), horarioAux, diasEnPantalla), turno);
         } catch (MultiplesErroresException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

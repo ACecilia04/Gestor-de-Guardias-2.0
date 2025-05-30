@@ -91,7 +91,7 @@ public class PersonaTest {
 
         if (personas.size() < 2){
             TipoPersona tipo = new TipoPersona("Estudiante");
-            Persona nuevaPersona = new Persona("02010112355", "Ana", "Garcia", "f", tipo);
+            Persona nuevaPersona = new Persona("02010112355", "Ana Maria", "Benitez", "f", tipo);
             try {
                 personaServices.insertPersona(nuevaPersona);
             } catch (MultiplesErroresException e) {

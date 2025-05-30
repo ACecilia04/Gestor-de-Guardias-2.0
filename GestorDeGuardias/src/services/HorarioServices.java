@@ -18,29 +18,40 @@ public class HorarioServices {
     }
 
     // CREATE
-    public void insertHorario(LocalTime inicio, LocalTime fin) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_create_horario(?, ?)", inicio, fin);
+    public void insertHorario(Horario record) {
+        baseDao.spUpdate("sp_horario_create(?, ?)",
+                record.getInicio(),
+                record.getFin()
+        );
     }
 
     // READ all
     public List<Horario> getAllHorarios() {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_horario", new HorarioMapper());
+        return baseDao.spQuery("sp_horario_read", new HorarioMapper());
     }
 
     // READ by primary key
     public Horario getHorarioByPk(LocalTime inicio, LocalTime fin) {
-        return baseDao.getJdbcTemplate().executeProcedureWithResults("sp_read_horario_by_pk(?, ?)", new HorarioMapper(), inicio, fin)
-                .stream().findFirst().orElse(null);
+        return baseDao.spQuerySingleObject("sp_horario_read_by_pk(?, ?)", new HorarioMapper(), inicio, fin);
+    }
+
+    // READ by id
+    public Horario getHorarioById(Long id) {
+        return baseDao.spQuerySingleObject("sp_horario_read_by_id(?)", new HorarioMapper(), id);
     }
 
     // UPDATE
-    public void updateHorario(LocalTime inicio, LocalTime fin, LocalTime nuevoInicio, LocalTime nuevoFin) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_update_horario(?, ?, ?, ?)", inicio, fin, nuevoInicio, nuevoFin);
+    public void updateHorario(Horario record) {
+        baseDao.spUpdate("sp_horario_update(?, ?, ?)",
+            record.getId(),
+            record.getInicio(),
+            record.getFin()
+        );
     }
 
     // DELETE
-    public void deleteHorario(LocalTime inicio, LocalTime fin) {
-        baseDao.getJdbcTemplate().executeProcedure("sp_delete_horario(?, ?)", inicio, fin);
+    public void deleteHorario(Long id) {
+        baseDao.spUpdate("sp_horario_delete(?)", id);
     }
 
     // Internal Mapper

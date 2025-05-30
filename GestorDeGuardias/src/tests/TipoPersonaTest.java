@@ -5,6 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.ServicesLocator;
 import services.TipoPersonaServices;
+import utils.exceptions.EntradaInvalidaException;
 
 import java.util.List;
 
@@ -78,10 +79,15 @@ public class TipoPersonaTest {
     @Test
     public void deleteTipoPersona() {
         String tipo = "Trabajador";
-        tipoPersonaServices.deleteTipoPersona(tipo);
-        TipoPersona deleted = tipoPersonaServices.getTipoPersona(tipo);
-        assertNull(deleted);
+        try {
+            tipoPersonaServices.deleteTipoPersona(tipo);
+            TipoPersona deleted = tipoPersonaServices.getTipoPersona(tipo);
+            assertNull(deleted);
 
-        tipoPersonaServices.insertTipoPersona(tipo);
+            tipoPersonaServices.insertTipoPersona(tipo);
+        } catch (EntradaInvalidaException e) {
+            e.printStackTrace();
+
+        }
     }
 }

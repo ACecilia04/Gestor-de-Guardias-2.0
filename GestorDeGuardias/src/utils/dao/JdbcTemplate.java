@@ -5,6 +5,7 @@ import utils.dao.mappers.RowMapper;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -248,6 +249,12 @@ public class JdbcTemplate {
             java.util.Date date = java.util.Date.from(((LocalDate)value).atStartOfDay(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             statement.setDate(columnNr, sqlDate);
+            return;
+        }
+
+        if(value.getClass() == LocalTime.class){
+            java.sql.Time sqlTime = Time.valueOf((LocalTime)value);
+            statement.setTime(columnNr, sqlTime);
             return;
         }
 

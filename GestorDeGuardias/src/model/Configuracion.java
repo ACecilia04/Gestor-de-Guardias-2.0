@@ -1,43 +1,47 @@
 package model;
 
 public class Configuracion {
-    private int diaSemana;
-    private boolean diaEsReceso;
+    private Long id;
+    private Integer diaSemana;
+    private Boolean diaEsReceso;
     private Horario horario;
     private TipoPersona tipoPersona;
-    private Character sexo;
-    private int cantPersonas;
-    private boolean borrado;
+    private String sexo;
+    private Integer cantPersonas;
+    private Boolean borrado;
 
-    public Configuracion(int diaSemana, boolean diaEsReceso, Horario horario, String tipoPersona, Character sexo, int cantPersonas, boolean borrado) {
+    public Configuracion(Integer diaSemana, Boolean diaEsReceso, Horario horario, String tipoPersona, String sexo, Integer cantPersonas) {
         this.diaSemana = diaSemana;
         this.diaEsReceso = diaEsReceso;
         this.tipoPersona = new TipoPersona(tipoPersona);
         this.sexo = sexo;
         this.cantPersonas = cantPersonas;
         this.horario = horario;
-        this.borrado = borrado;
     }
 
     public Configuracion() {
 
     }
 
-    public int getDiaSemana() { return diaSemana; }
-    public boolean isDiaEsReceso() { return diaEsReceso; }
+
+
+    public Long getId() { return id;}
+    public Integer getDiaSemana() { return diaSemana; }
+    public Boolean isDiaEsReceso() { return diaEsReceso; }
     public Horario getHorario() { return horario; }
     public TipoPersona getTipoPersona() { return tipoPersona; }
-    public Character getSexo() { return sexo; }
-    public int getCantPersonas() { return cantPersonas; }
-    public boolean isBorrado() { return borrado; }
+    public String getSexo() { return sexo; }
+    public Integer getCantPersonas() { return cantPersonas; }
+    public Boolean isBorrado() { return borrado; }
 
-    public void setDiaSemana(int diaSemana) { this.diaSemana = diaSemana; }
+    public void setId(Long id) {this.id = id;}
+    public void setDiaSemana(Integer diaSemana) { this.diaSemana = diaSemana; }
     public void setDiaEsReceso(Boolean diaEsReceso) { this.diaEsReceso = diaEsReceso; }
     public void setHorario(Horario horario) { this.horario = horario; }
     public void setTipoPersona(TipoPersona tipoPersona) { this.tipoPersona = tipoPersona; }
-    public void setSexo(Character sexo) { this.sexo = sexo; }
-    public void setCantPersonas(int cantPersonas) { this.cantPersonas = cantPersonas; }
-    public void setBorrado(boolean borrado) { this.borrado = borrado; }
+    public void setSexo(String sexo) { this.sexo = sexo; }
+    public void setCantPersonas(Integer cantPersonas) { this.cantPersonas = cantPersonas; }
+    public void setBorrado(Boolean borrado) { this.borrado = borrado; }
 
     // Display
     @Override

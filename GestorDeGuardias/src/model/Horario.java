@@ -7,7 +7,7 @@ public class Horario {
     private LocalTime inicio;
     private LocalTime fin;
 
-    public Horario(Long id,LocalTime inicio, LocalTime fin) {
+    public Horario(LocalTime inicio, LocalTime fin) {
         //TODO: check setter use
         this.inicio = inicio;
         this.fin = fin;
@@ -15,6 +15,14 @@ public class Horario {
 
     public Horario() {
 
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public LocalTime getFin() {
@@ -38,6 +46,4 @@ public class Horario {
         return inicio.toString() + " - " + fin.toString();
     }
 
-    public void setId(long horario) {
-    }
 }

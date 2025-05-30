@@ -2,7 +2,9 @@ package services;
 
 import model.TipoPersona;
 import utils.dao.MainBaseDao;
+import utils.dao.mappers.IntegerMapper;
 import utils.dao.mappers.RowMapper;
+import utils.exceptions.EntradaInvalidaException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,8 +39,14 @@ public class TipoPersonaServices {
     }
 
     // DELETE
-    public void deleteTipoPersona(String nombre) {
+    public void deleteTipoPersona(String nombre) throws EntradaInvalidaException {
+        if (tipoPersonaExists(nombre))
+            throw new EntradaInvalidaException("El tipo de persona no se puede borrar porque está en uso");
         baseDao.spUpdate("sp_tipo_persona_delete(?)", nombre);
+    }
+
+    public boolean tipoPersonaExists(String nombre) {
+        return baseDao.spQuerySingleObject("sp_tipo_persona_check_existence(?)", new IntegerMapper("Total"), nombre) > 0;
     }
 
     // Internal Mapper

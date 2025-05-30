@@ -20,31 +20,52 @@ public class ConfiguracionServices {
     }
 
     // CREATE
-    public void insertConfiguracion(int diaSemana, boolean diaEsReceso, Long horario, String tipoPersona, Character sexo, int cantPersonas) {
-        baseDao.spUpdate("sp_create_configuracion(?, ?, ?, ?, ?, ?)", diaSemana, diaEsReceso, horario, tipoPersona, sexo, cantPersonas);
+    public void insertConfiguracion(Configuracion record){
+        baseDao.spUpdate("sp_configuracion_create(?, ?, ?, ?, ?, ?)",
+                record.getDiaSemana(),
+                record.isDiaEsReceso(),
+                record.getHorario(),
+                record.getTipoPersona(),
+                record.getSexo(),
+                record.getCantPersonas()
+        );
     }
 
     // READ all
     public List<Configuracion> getAllConfiguraciones() {
-        return baseDao.spQuery("sp_read_configuracion", new ConfiguracionMapper());
+        return baseDao.spQuery("sp_configuracion_read", new ConfiguracionMapper());
     }
 
     // READ by primary key
     public Configuracion getConfiguracionByPk(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
-        return baseDao.spQuerySingleObject("sp_read_configuracion_by_pk(?, ?, ?, ?)", new ConfiguracionMapper(), horaInicio, horaFin, diaSemana, diaEsReceso);
+        Horario horario = ServicesLocator.getInstance().getHorarioServices().getHorarioByPk(horaInicio, horaFin);
+        return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario, diaSemana, diaEsReceso);
     }
+
     public Configuracion getConfiguracionByPk(Long horario, int diaSemana, boolean diaEsReceso) {
-        return baseDao.spQuerySingleObject("sp_read_configuracion_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario, diaSemana, diaEsReceso);
+        return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario, diaSemana, diaEsReceso);
     }
 
     // UPDATE
-    public void updateConfiguracion(Long horario, int diaSemana, boolean diaEsReceso, boolean actual) {
-        baseDao.spUpdate("sp_update_configuracion(?, ?, ?, ?)", horario, diaSemana, diaEsReceso, actual);
+    public void updateConfiguracion(Configuracion record){
+        baseDao.spUpdate("sp_configuracion_update(?, ?, ?, ?, ?, ?, ?)",
+                record.getId(),
+                record.getHorario(),
+                record.getDiaSemana(),
+                record.isDiaEsReceso(),
+                record.getTipoPersona(),
+                record.getSexo(),
+                record.getCantPersonas()
+        );
     }
 
     // DELETE
-    public void deleteConfiguracion(Long horario, int diaSemana, boolean diaEsReceso) {
-        baseDao.spUpdate("sp_delete_configuracion(?, ?, ?)", horario, diaSemana, diaEsReceso);
+    public void deleteConfiguracion(Configuracion record) {
+        baseDao.spUpdate("sp_configuracion_delete(?, ?, ?)",
+                record.getHorario(),
+                record.getDiaSemana(),
+                record.isDiaEsReceso()
+        );
     }
 
     // Internal Mapper
@@ -57,7 +78,7 @@ public class ConfiguracionServices {
             config.setDiaSemana(rs.getInt("dia_semana"));
             config.setDiaEsReceso(rs.getBoolean("dia_es_receso"));
             config.setTipoPersona(new TipoPersona(rs.getString("tipo_persona")));
-            config.setSexo(rs.getString("sexo").charAt(0));
+            config.setSexo(rs.getString("sexo"));
             config.setCantPersonas(rs.getInt("cant_personas"));
             config.setBorrado(rs.getBoolean("borrado"));
 

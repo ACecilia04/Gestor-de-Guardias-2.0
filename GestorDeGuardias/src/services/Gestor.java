@@ -14,6 +14,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 
 import static utils.Utilitarios.fechaEnSemanaPar;
 import static utils.Utilitarios.quickSort;
@@ -160,10 +161,10 @@ public class Gestor {
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    public ArrayList<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
-        ArrayList<String> errores = new ArrayList<String>();
-        ArrayList<Persona> personasConDeuda = new ArrayList<Persona>(); // 2 arreglos para poner a los endeudados primero
-        ArrayList<Persona> personasSinDeuda = new ArrayList<Persona>();
+    public List<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
+        List<String> errores = new ArrayList<>();
+        List<Persona> personasConDeuda = new ArrayList<>(); // 2 arreglos para poner a los endeudados primero
+        List<Persona> personasSinDeuda = new ArrayList<>();
 
         if (fecha == null)
             errores.add("Fecha no especificada.");
@@ -571,8 +572,8 @@ public class Gestor {
      * @throws EntradaInvalidaException
      */
     public ArrayList<Persona> getPersonasDisponiblesConGuardiasDeRecuperacion(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
-        ArrayList<Persona> personasDisponibles = getPersonasDisponibles(fecha, horario, diasEnPantalla);
-        ArrayList<Persona> personasConDeudas = new ArrayList<Persona>();
+        List<Persona> personasDisponibles = getPersonasDisponibles(fecha, horario, diasEnPantalla);
+        ArrayList<Persona> personasConDeudas = new ArrayList<>();
         int i = 0;
 
         while (personasDisponibles.get(i).getGuardiasDeRecuperacion() > 0) {
@@ -596,7 +597,7 @@ public class Gestor {
      * @throws EntradaInvalidaException
      */
     public ArrayList<Persona> getPersonasDisponiblesSinGuardiasDeRecuperacion(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
-        ArrayList<Persona> personasDisponibles = getPersonasDisponibles(fecha, horario, diasEnPantalla);
+        List<Persona> personasDisponibles = getPersonasDisponibles(fecha, horario, diasEnPantalla);
         ArrayList<Persona> personasSinDeudas = new ArrayList<Persona>();
         int i = personasDisponibles.size() - 1;
 
