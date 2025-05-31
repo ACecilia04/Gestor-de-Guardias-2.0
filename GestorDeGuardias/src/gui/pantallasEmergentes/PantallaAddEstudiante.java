@@ -6,6 +6,8 @@ import model.TipoPersona;
 import services.ServicesLocator;
 import utils.exceptions.MultiplesErroresException;
 
+import javax.swing.*;
+
 public class PantallaAddEstudiante extends PantallaAddPersona {
 
     @Override
@@ -15,15 +17,12 @@ public class PantallaAddEstudiante extends PantallaAddPersona {
             ServicesLocator.getInstance().getPersonaServices().insertPersona(nuevaPersona);
             Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "A�adido Exitosamente", "Estudiante a�adido Exitosamente", "Aceptar");
             this.dispose();
-        } catch (MultiplesErroresException e) {
-            e.printStackTrace();
-//            StringBuilder stringAux = new StringBuilder();
-//            for (String error : e1.getErrores()) {
-//                stringAux.append(error).append("<br>");
-//            }
-
-//            String string = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
-//            Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
+        }catch (MultiplesErroresException e) {
+            StringBuilder errores = new StringBuilder();
+            for (String error : e.getErrores()) {
+                errores.append(error).append("\n");
+            }
+            JOptionPane.showMessageDialog(this, errores.toString(), "Errores de validación", JOptionPane.ERROR_MESSAGE);
         }
     }
 
