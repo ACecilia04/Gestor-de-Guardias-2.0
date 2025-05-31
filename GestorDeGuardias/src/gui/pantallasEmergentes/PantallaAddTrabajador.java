@@ -4,6 +4,7 @@ import gui.secciones.Ventana;
 import model.Persona;
 import model.TipoPersona;
 import services.ServicesLocator;
+import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
 public class PantallaAddTrabajador extends PantallaAddPersona {
@@ -15,7 +16,7 @@ public class PantallaAddTrabajador extends PantallaAddPersona {
             ServicesLocator.getInstance().getPersonaServices().insertPersona(nuevaPersona);
             Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "A�adido Exitosamente", "Trabajador a�adido Exitosamente", "Aceptar");
             this.dispose();
-        } catch (MultiplesErroresException e1) {
+        } catch (MultiplesErroresException | EntradaInvalidaException e1) {
             e1.printStackTrace();
 //            StringBuilder stringAux = new StringBuilder();
 //            for (String error : e1.getErrores()) {

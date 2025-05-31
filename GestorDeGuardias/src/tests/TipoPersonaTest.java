@@ -6,6 +6,7 @@ import org.junit.Test;
 import services.ServicesLocator;
 import services.TipoPersonaServices;
 import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.util.List;
 
@@ -24,7 +25,14 @@ public class TipoPersonaTest {
     public void insertTipoPersona() {
         String tipo = "Estudiante";
         if (tipoPersonaServices.getTipoPersona(tipo) == null) {
-            tipoPersonaServices.insertTipoPersona(tipo);
+            try {
+                tipoPersonaServices.insertTipoPersona(tipo);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
         TipoPersona tipoInsertado = tipoPersonaServices.getTipoPersona(tipo);
         assertNotNull(tipoInsertado);
@@ -65,7 +73,14 @@ public class TipoPersonaTest {
         if (tiposPersona.size() < 2){
             String tipo = "Trabajador";
             if (tipoPersonaServices.getTipoPersona(tipo) == null) {
-                tipoPersonaServices.insertTipoPersona(tipo);
+                try {
+                    tipoPersonaServices.insertTipoPersona(tipo);
+                } catch (MultiplesErroresException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println(e.getErrores());
+                } catch (EntradaInvalidaException e) {
+                    System.out.println(e.getMessage());
+                }
             }
             TipoPersona tipoInsertado = tipoPersonaServices.getTipoPersona(tipo);
             assertNotNull(tipoInsertado);
@@ -84,7 +99,14 @@ public class TipoPersonaTest {
             TipoPersona deleted = tipoPersonaServices.getTipoPersona(tipo);
             assertNull(deleted);
 
-            tipoPersonaServices.insertTipoPersona(tipo);
+            try {
+                tipoPersonaServices.insertTipoPersona(tipo);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         } catch (EntradaInvalidaException e) {
             e.printStackTrace();
 

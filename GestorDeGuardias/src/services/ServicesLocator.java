@@ -10,7 +10,7 @@ public class ServicesLocator {
     private final PersonaServices personaServices;
     private final TipoPersonaServices tipoPersonaServices;
     private final TurnoDeGuardiaServices turnoDeGuardiaServices;
-    private final UsuarioService usuarioService;
+    private final UsuarioServices usuarioServices;
     private final RolServices rolServices;
 
     private ServicesLocator() {
@@ -21,7 +21,7 @@ public class ServicesLocator {
         personaServices = new PersonaServices(mbDAO);
         tipoPersonaServices = new TipoPersonaServices(mbDAO);
         turnoDeGuardiaServices = new TurnoDeGuardiaServices(mbDAO);
-        usuarioService = new UsuarioService(mbDAO);
+        usuarioServices = new UsuarioServices(mbDAO);
         rolServices = new RolServices(mbDAO);
     }
 
@@ -56,8 +56,8 @@ public class ServicesLocator {
         return turnoDeGuardiaServices;
     }
 
-    public UsuarioService getUsuarioService() {
-        return usuarioService;
+    public UsuarioServices getUsuarioServices() {
+        return usuarioServices;
     }
 
     public RolServices getRolServices() {

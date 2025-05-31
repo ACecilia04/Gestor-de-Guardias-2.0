@@ -7,6 +7,8 @@ import org.junit.Test;
 import services.ConfiguracionServices;
 import services.HorarioServices;
 import services.ServicesLocator;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -31,7 +33,14 @@ public class ConfigurationTest {
         Horario horario = horarioServices.getHorarioByPk(inicio, fin);
         Configuracion record = new Configuracion(1, false, horario, "Estudiante", "M", 1);
         if (configuracionServices.getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso()) == null) {
-            configuracionServices.insertConfiguracion(record);
+            try {
+                configuracionServices.insertConfiguracion(record);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
         Configuracion recordInsertado = configuracionServices.getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso());
         assertNotNull(recordInsertado);
@@ -45,13 +54,24 @@ public class ConfigurationTest {
         Horario horario = horarioServices.getHorarioByPk(inicio, fin);
         Configuracion record = new Configuracion(1, false, horario, "Estudiante", "M", 1);
         if (configuracionServices.getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso()) == null) {
-            configuracionServices.insertConfiguracion(record);
+            try {
+                configuracionServices.insertConfiguracion(record);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         Configuracion configuracion = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
         assertNotNull(configuracion);
         assertEquals("Estudiante", configuracion.getTipoPersona().getNombre());
-        configuracionServices.deleteConfiguracion(configuracion.getId());
+        try {
+            configuracionServices.deleteConfiguracion(configuracion.getId());
+        } catch (EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -61,14 +81,25 @@ public class ConfigurationTest {
         Horario horario = horarioServices.getHorarioByPk(inicio, fin);
         Configuracion record = new Configuracion(1, false, horario, "Estudiante", "M", 1);
         if (configuracionServices.getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso()) == null) {
-            configuracionServices.insertConfiguracion(record);
+            try {
+                configuracionServices.insertConfiguracion(record);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         Configuracion configuracion = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
         Configuracion configuracion2 = configuracionServices.getConfiguracionById(configuracion.getId());
         assertNotNull(configuracion);
         assertEquals("Estudiante", configuracion.getTipoPersona().getNombre());
-        configuracionServices.deleteConfiguracion(configuracion2.getId());
+        try {
+            configuracionServices.deleteConfiguracion(configuracion2.getId());
+        } catch (EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -78,7 +109,11 @@ public class ConfigurationTest {
         Horario horario = horarioServices.getHorarioByPk(inicio, fin);
         Configuracion configuracion = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
         assertNotNull(configuracion);
-        configuracionServices.deleteConfiguracion(configuracion.getId());
+        try {
+            configuracionServices.deleteConfiguracion(configuracion.getId());
+        } catch (EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
 
         Configuracion deleted = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
         assertNull(deleted);
@@ -92,19 +127,37 @@ public class ConfigurationTest {
             LocalTime fin = LocalTime.of(20, 0, 0);
             Horario horario = horarioServices.getHorarioByPk(inicio, fin);
             Configuracion newRecord = new Configuracion(1, false, horario, "Estudiante", "M", 1);
-            configuracionServices.insertConfiguracion(newRecord);
+            try {
+                configuracionServices.insertConfiguracion(newRecord);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
             Configuracion insertedRecord1 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
 
             Configuracion newRecord2 = new Configuracion(1, true, horario, "Trabajador", "F", 1);
-            configuracionServices.insertConfiguracion(newRecord2);
+            try {
+                configuracionServices.insertConfiguracion(newRecord2);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
             Configuracion insertedRecord2 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
 
             configuraciones = configuracionServices.getAllConfiguraciones();
             assertNotNull(configuraciones);
             assertFalse(configuraciones.isEmpty());
 
-            horarioServices.deleteHorario(insertedRecord1.getId());
-            horarioServices.deleteHorario(insertedRecord2.getId());
+            try {
+                horarioServices.deleteHorario(insertedRecord1.getId());
+                horarioServices.deleteHorario(insertedRecord2.getId());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -115,7 +168,14 @@ public class ConfigurationTest {
         Horario horario = horarioServices.getHorarioByPk(inicio, fin);
         Configuracion configuracion1 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
         if (configuracion1 == null){
-            configuracionServices.insertConfiguracion(configuracion1);
+            try {
+                configuracionServices.insertConfiguracion(configuracion1);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
         configuracion1 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
         assertNotNull(configuracion1);

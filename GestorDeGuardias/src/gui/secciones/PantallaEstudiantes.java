@@ -7,7 +7,6 @@ import gui.internosComp.PanelOpcionesEstudiante;
 import gui.pantallasEmergentes.Advertencia;
 import model.Persona;
 import model.TipoPersona;
-import services.Gestor;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
@@ -121,7 +120,11 @@ public class PantallaEstudiantes extends JPanel {
                     String string = "<html><p>Estas a punto de eliminar a un Estudiante del <br>registro. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                     if (!advertencia.getEleccion()) {
-                        ServicesLocator.getInstance().getPersonaServices().deletePersonaByCi(ID);
+                        try {
+                            ServicesLocator.getInstance().getPersonaServices().deletePersonaByCi(ID);
+                        } catch (EntradaInvalidaException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         revalidarTabla();
                     }
 
@@ -145,7 +148,7 @@ public class PantallaEstudiantes extends JPanel {
 //                        System.out.println(fechaAux);
                         try {
                             ServicesLocator.getInstance().getPersonaServices().darBaja(ID,fechaAux);
-                        } catch (MultiplesErroresException ex) {
+                        } catch (MultiplesErroresException | EntradaInvalidaException ex) {
 //                            TODO: create error pane
 
                             throw new RuntimeException(ex);

@@ -6,6 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.HorarioServices;
 import services.ServicesLocator;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -27,22 +29,50 @@ public class HorarioTest {
         LocalTime fin = LocalTime.of(20, 0, 0);
         if (horarioServices.getHorarioByPk(inicio, fin) == null) {
             Horario record1 = new Horario(inicio, fin);
-            horarioServices.insertHorario(record1);
+            try {
+                horarioServices.insertHorario(record1);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
 
             inicio = LocalTime.of(20, 0, 0);
             fin = LocalTime.of(8, 0, 0);
             Horario record2 = new Horario(inicio, fin);
-            horarioServices.insertHorario(record2);
+            try {
+                horarioServices.insertHorario(record2);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
 
             inicio = LocalTime.of(7, 0, 0);
             fin = LocalTime.of(14, 0, 0);
             Horario record3 = new Horario(inicio, fin);
-            horarioServices.insertHorario(record3);
+            try {
+                horarioServices.insertHorario(record3);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
 
             inicio = LocalTime.of(14, 0, 0);
             fin = LocalTime.of(19, 0, 0);
             Horario record4 = new Horario(inicio, fin);
-            horarioServices.insertHorario(record4);
+            try {
+                horarioServices.insertHorario(record4);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -52,11 +82,22 @@ public class HorarioTest {
         LocalTime fin = LocalTime.of(20, 0, 0);
         Horario newRecord = new Horario(inicio, fin);
         if (horarioServices.getHorarioByPk(inicio, fin) == null) {
-            horarioServices.insertHorario(newRecord);
+            try {
+                horarioServices.insertHorario(newRecord);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
         Horario recordInsertado = horarioServices.getHorarioByPk(inicio, fin);
         assertNotNull(recordInsertado);
-        horarioServices.deleteHorario(recordInsertado.getId());
+        try {
+            horarioServices.deleteHorario(recordInsertado.getId());
+        } catch (EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Test
@@ -65,7 +106,14 @@ public class HorarioTest {
         LocalTime fin = LocalTime.of(20, 0, 0);
         Horario newRecord = new Horario(inicio, fin);
         if (horarioServices.getHorarioByPk(inicio, fin) == null) {
-            horarioServices.insertHorario(newRecord);
+            try {
+                horarioServices.insertHorario(newRecord);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
         Horario record = horarioServices.getHorarioByPk(inicio, fin);
         if ( record != null) {
@@ -78,7 +126,11 @@ public class HorarioTest {
             record.setInicio(inicio);
             horarioServices.updateHorario(record);
 
-            horarioServices.deleteHorario(record.getId());
+            try {
+                horarioServices.deleteHorario(record.getId());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -89,21 +141,39 @@ public class HorarioTest {
             LocalTime inicio = LocalTime.of(20, 0, 0);
             LocalTime fin = LocalTime.of(8, 0, 0);
             Horario newRecord = new Horario(inicio, fin);
-            horarioServices.insertHorario(newRecord);
+            try {
+                horarioServices.insertHorario(newRecord);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
             Horario insertedRecord1 = horarioServices.getHorarioByPk(inicio, fin);
 
             inicio = LocalTime.of(8, 0, 0);
             fin = LocalTime.of(20, 0, 0);
             Horario newRecord2 = new Horario(inicio, fin);
-            horarioServices.insertHorario(newRecord2);
+            try {
+                horarioServices.insertHorario(newRecord2);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
             Horario insertedRecord2 = horarioServices.getHorarioByPk(inicio, fin);
 
             horarios = horarioServices.getAllHorarios();
             assertNotNull(horarios);
             assertFalse(horarios.isEmpty());
 
-            horarioServices.deleteHorario(insertedRecord1.getId());
-            horarioServices.deleteHorario(insertedRecord2.getId());
+            try {
+                horarioServices.deleteHorario(insertedRecord1.getId());
+                horarioServices.deleteHorario(insertedRecord2.getId());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -114,12 +184,23 @@ public class HorarioTest {
         Horario record = horarioServices.getHorarioByPk(inicio, fin);
         if (record == null){
             Horario newRecord2 = new Horario(inicio, fin);
-            horarioServices.insertHorario(newRecord2);
+            try {
+                horarioServices.insertHorario(newRecord2);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
             Horario insertedRecord2 = horarioServices.getHorarioByPk(inicio, fin);
             assertNotNull(insertedRecord2);
             assertEquals(LocalTime.of(20, 0, 0), insertedRecord2.getFin());
 
-            horarioServices.deleteHorario(insertedRecord2.getId());
+            try {
+                horarioServices.deleteHorario(insertedRecord2.getId());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             assertEquals(LocalTime.of(20, 0, 0), record.getFin());
         }
@@ -131,12 +212,23 @@ public class HorarioTest {
         LocalTime fin = LocalTime.of(20, 0, 0);
         Horario newRecord = new Horario(inicio, fin);
         if (horarioServices.getHorarioByPk(inicio, fin) == null) {
-            horarioServices.insertHorario(newRecord);
+            try {
+                horarioServices.insertHorario(newRecord);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
         Horario record = horarioServices.getHorarioByPk(inicio, fin);
         assertNotNull(record);
 
-        horarioServices.deleteHorario(record.getId());
+        try {
+            horarioServices.deleteHorario(record.getId());
+        } catch (EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
         Horario record2 = horarioServices.getHorarioById(record.getId());
         assertNull(record2);
     }

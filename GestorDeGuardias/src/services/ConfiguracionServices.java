@@ -5,23 +5,35 @@ import model.Horario;
 import model.TipoPersona;
 import utils.dao.MainBaseDao;
 import utils.dao.mappers.RowMapper;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static utils.Utilitarios.integerEsValido;
 
 public class ConfiguracionServices {
 
     private final MainBaseDao baseDao;
     private static HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
+    private static TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
 
     public ConfiguracionServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
     }
 
     // CREATE
-    public void insertConfiguracion(Configuracion record){
+    public void insertConfiguracion(Configuracion record) throws EntradaInvalidaException, MultiplesErroresException {
+        validarConfiguracion(record);
+
+        if (getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso()) != null){
+            throw new EntradaInvalidaException("Configuración existente");
+        }
+
         baseDao.spUpdate("sp_configuracion_create(?, ?, ?, ?, ?, ?)",
                 record.getDiaSemana(),
                 record.isDiaEsReceso(),
@@ -65,7 +77,11 @@ public class ConfiguracionServices {
     }
 
     // DELETE
-    public void deleteConfiguracion(Long id) {
+    public void deleteConfiguracion(Long id) throws EntradaInvalidaException {
+        if (getConfiguracionById(id) == null){
+            throw new EntradaInvalidaException("Configuración inexistente");
+        }
+
         baseDao.spUpdate("sp_configuracion_delete(?)", id);
     }
 
@@ -78,16 +94,34 @@ public class ConfiguracionServices {
             config.setId(rs.getLong("id"));
             config.setDiaSemana(rs.getInt("dia_semana"));
             config.setDiaEsReceso(rs.getBoolean("dia_es_receso"));
-            config.setTipoPersona(new TipoPersona(rs.getString("tipo_persona")));
             config.setSexo(rs.getString("sexo"));
             config.setCantPersonas(rs.getInt("cant_personas"));
-            config.setBorrado(rs.getBoolean("borrado"));
 
             Horario h = horarioServices.getHorarioById((rs.getLong("horario")));
             config.setHorario(h);
 
+            TipoPersona tp = tipoPersonaServices.getTipoPersona(rs.getString("tipo_persona"));
+            config.setTipoPersona(tp);
+
             return config;
         }
+    }
+
+
+
+    // ==============   VALIDACIONES   ==========================================
+    private void validarConfiguracion(Configuracion record) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        if (!integerEsValido(record.getDiaSemana()))
+            errores.add("Dia de semana no especificado.");
+        if (record.isDiaEsReceso() == null)
+            errores.add("Dia de receso no especificado.");
+        if (record.getHorario() == null)
+            errores.add("Horario no especificado.");
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Configuración con datos erróneos:", errores);
     }
 }
 

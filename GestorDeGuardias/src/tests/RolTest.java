@@ -6,6 +6,7 @@ import org.junit.Test;
 import services.RolServices;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.util.List;
 
@@ -24,7 +25,14 @@ public class RolTest {
     public void insertRol() {
         String tipo = "Administrador1";
         if (rolServices.getRol(tipo) == null) {
-            rolServices.insertRol(tipo);
+            try {
+                rolServices.insertRol(tipo);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         }
         Rol tipoInsertado = rolServices.getRol(tipo);
         assertNotNull(tipoInsertado);
@@ -65,7 +73,14 @@ public class RolTest {
         if (tiposPersona.size() < 2){
             String tipo = "Usuario1";
             if (rolServices.getRol(tipo) == null) {
-                rolServices.insertRol(tipo);
+                try {
+                    rolServices.insertRol(tipo);
+                } catch (MultiplesErroresException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println(e.getErrores());
+                } catch (EntradaInvalidaException e) {
+                    System.out.println(e.getMessage());
+                }
             }
             Rol tipoInsertado = rolServices.getRol(tipo);
             assertNotNull(tipoInsertado);
@@ -84,7 +99,14 @@ public class RolTest {
             Rol deleted = rolServices.getRol(tipo);
             assertNull(deleted);
 
-            rolServices.insertRol(tipo);
+            try {
+                rolServices.insertRol(tipo);
+            } catch (MultiplesErroresException e) {
+                System.out.println(e.getMessage());
+                System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
+            }
         } catch (EntradaInvalidaException e) {
             e.printStackTrace();
 

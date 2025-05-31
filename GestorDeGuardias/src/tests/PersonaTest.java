@@ -6,6 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.PersonaServices;
 import services.ServicesLocator;
+import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.util.List;
@@ -34,6 +35,8 @@ public class PersonaTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
             }
             persona = personaServices.getPersonaByCi(TEST_CI);
         }
@@ -44,6 +47,8 @@ public class PersonaTest {
         } catch (MultiplesErroresException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getErrores());
+        } catch (EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -97,6 +102,8 @@ public class PersonaTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
+            } catch (EntradaInvalidaException e) {
+                System.out.println(e.getMessage());
             }
 
             personas = personaServices.getAllPersonas();
@@ -125,7 +132,11 @@ public class PersonaTest {
 
     @Test
     public void deletePersona() {
-        personaServices.deletePersonaByCi(TEST_CI);
+        try {
+            personaServices.deletePersonaByCi(TEST_CI);
+        } catch (EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
         Persona deleted = personaServices.getPersonaByCi(TEST_CI);
         assertNull(deleted);
 
@@ -136,6 +147,8 @@ public class PersonaTest {
         } catch (MultiplesErroresException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getErrores());
+        } catch (EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

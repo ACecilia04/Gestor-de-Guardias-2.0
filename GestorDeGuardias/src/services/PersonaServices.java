@@ -26,8 +26,13 @@ public class PersonaServices {
     }
 
     // INSERT
-    public void insertPersona(Persona record) throws MultiplesErroresException {
+    public void insertPersona(Persona record) throws MultiplesErroresException, EntradaInvalidaException {
         validarPersona(record);
+
+        if (getPersonaByCi(record.getCarnet()) != null){
+            throw new EntradaInvalidaException("Persona existente");
+        }
+
         baseDao.spUpdate("sp_persona_create(?, ?, ?, ?, ?)",
                 record.getNombre(),
                 record.getApellido(),
@@ -84,8 +89,12 @@ public class PersonaServices {
         return baseDao.spQuery("sp_persona_read_by_baja(?)", new PersonaMapper(), fecha);
     }
 
-    public void darBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException {
+    public void darBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException, EntradaInvalidaException {
         validarBaja(ci, fechaBaja);
+        if (getPersonaByCi(ci) == null){
+            throw new EntradaInvalidaException("Persona inexistente");
+        }
+
         baseDao.spUpdate("sp_persona_update_baja(?, ?)", ci, fechaBaja);
     }
 
@@ -100,11 +109,19 @@ public class PersonaServices {
 
 
     // DELETE
-    public void deletePersonaByCi(String ci) {
+    public void deletePersonaByCi(String ci) throws EntradaInvalidaException {
+        if (getPersonaByCi(ci) == null){
+            throw new EntradaInvalidaException("Persona inexistente");
+        }
+
         baseDao.spUpdate("sp_persona_delete_by_ci(?)", ci);
     }
 
-    public void deletePersonaById(String id) {
+    public void deletePersonaById(Long id) throws EntradaInvalidaException {
+        if (getPersonaById(id) == null){
+            throw new EntradaInvalidaException("Persona inexistente");
+        }
+
         baseDao.spQuery("sp_persona_delete_by_id(?)", new PersonaMapper(), id);
     }
 
@@ -126,7 +143,7 @@ public class PersonaServices {
             p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
             p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
             p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
-            p.setBorrado(rs.getBoolean("borrado"));
+
             return p;
         }
     }
