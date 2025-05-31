@@ -1,5 +1,6 @@
 package utils.dao;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import utils.dao.mappers.RowMapper;
 
 import java.sql.*;
@@ -179,7 +180,7 @@ public class JdbcTemplate {
         }
     }
 
-    public void executeProcedure(String procedureName, Object... parameters) {
+    public void executeProcedure(String procedureName, Object... parameters) throws SqlServerCustomException {
         Connection connection;
         try {
             connection = DriverManager.getConnection(connUrl, connUsername, connPassword);
@@ -196,7 +197,14 @@ public class JdbcTemplate {
             }
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            if (e instanceof SQLServerException){
+                if (((SQLServerException)e).getSQLServerError().getErrorNumber() == 51000)
+                    throw new SqlServerCustomException(((SQLServerException)e).getSQLServerError().getErrorMessage());
+                else
+                    throw new RuntimeException(e);
+            } else {
+                throw new RuntimeException(e);
+            }
         } finally {
             try {
                 connection.close();

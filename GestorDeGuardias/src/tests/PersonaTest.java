@@ -6,6 +6,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.PersonaServices;
 import services.ServicesLocator;
+import utils.dao.SqlServerCustomException;
+import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.util.List;
@@ -34,6 +36,8 @@ public class PersonaTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
+            } catch (SqlServerCustomException e) {
+                System.out.println(e.getMessage());
             }
             persona = personaServices.getPersonaByCi(TEST_CI);
         }
@@ -44,6 +48,8 @@ public class PersonaTest {
         } catch (MultiplesErroresException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getErrores());
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -70,13 +76,21 @@ public class PersonaTest {
         p2.setNombre("Ana María");
         p2.setGuardiasDeRecuperacion(2);
 
-        personaServices.updatePersona(p2);
+        try {
+            personaServices.updatePersona(p2);
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
         Persona updated2 = personaServices.getPersonaByCi(TEST_CI);
         assertEquals("Ana María", updated2.getNombre());
         assertEquals(2, updated2.getGuardiasDeRecuperacion());
 
-        personaServices.updatePersona(p1);
+        try {
+            personaServices.updatePersona(p1);
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
         Persona updated1 = personaServices.getPersonaByCi(TEST_CI);
         assertEquals("Ana", updated1.getNombre());
@@ -97,6 +111,8 @@ public class PersonaTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
+            } catch (SqlServerCustomException e) {
+                System.out.println(e.getMessage());
             }
 
             personas = personaServices.getAllPersonas();
@@ -125,7 +141,11 @@ public class PersonaTest {
 
     @Test
     public void deletePersona() {
-        personaServices.deletePersonaByCi(TEST_CI);
+        try {
+            personaServices.deletePersonaByCi(TEST_CI);
+        } catch (SqlServerCustomException | EntradaInvalidaException e) {
+            System.out.println(e.getMessage());
+        }
         Persona deleted = personaServices.getPersonaByCi(TEST_CI);
         assertNull(deleted);
 
@@ -136,6 +156,8 @@ public class PersonaTest {
         } catch (MultiplesErroresException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getErrores());
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

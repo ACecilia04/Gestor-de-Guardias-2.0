@@ -2,13 +2,16 @@ package services;
 
 import model.TipoPersona;
 import utils.dao.MainBaseDao;
-import utils.dao.mappers.IntegerMapper;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
-import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+
+import static utils.Utilitarios.stringEsValido;
 
 public class TipoPersonaServices {
 
@@ -19,8 +22,10 @@ public class TipoPersonaServices {
     }
 
     // CREATE
-    public void insertTipoPersona(String nombre) {
-        baseDao.spUpdate("sp_tipo_persona_create(?)", nombre);
+    public void insertTipoPersona(String nombre) throws MultiplesErroresException, SqlServerCustomException {
+        validarTipoPersona(nombre);
+
+       baseDao.spUpdate("sp_tipo_persona_create(?)", nombre);
     }
 
     // READ all
@@ -34,20 +39,15 @@ public class TipoPersonaServices {
     }
 
     // UPDATE
-    public void updateTipoPersona(String nombre, String nuevoNombre) {
+    public void updateTipoPersona(String nombre, String nuevoNombre) throws SqlServerCustomException {
         baseDao.spUpdate("sp_tipo_persona_update(?, ?)", nombre, nuevoNombre);
     }
 
     // DELETE
-    public void deleteTipoPersona(String nombre) throws EntradaInvalidaException {
-        if (tipoPersonaExists(nombre))
-            throw new EntradaInvalidaException("El tipo de persona no se puede borrar porque está en uso");
+    public void deleteTipoPersona(String nombre) throws SqlServerCustomException {
         baseDao.spUpdate("sp_tipo_persona_delete(?)", nombre);
     }
 
-    public boolean tipoPersonaExists(String nombre) {
-        return baseDao.spQuerySingleObject("sp_tipo_persona_check_existence(?)", new IntegerMapper("Total"), nombre) > 0;
-    }
 
     // Internal Mapper
     private static class TipoPersonaMapper implements RowMapper<TipoPersona> {
@@ -57,5 +57,17 @@ public class TipoPersonaServices {
                     rs.getString("nombre")
             );
         }
+    }
+
+
+    // ==============   VALIDACIONES   ==========================================
+    private void validarTipoPersona(String nombre) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        if (!stringEsValido(nombre))
+            errores.add("Nombre no especificado.");
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Tipo de persona con datos erróneos:", errores);
     }
 }

@@ -2,11 +2,14 @@ package services;
 
 import model.Horario;
 import utils.dao.MainBaseDao;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
+import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HorarioServices {
@@ -18,7 +21,9 @@ public class HorarioServices {
     }
 
     // CREATE
-    public void insertHorario(Horario record) {
+    public void insertHorario(Horario record) throws SqlServerCustomException, MultiplesErroresException {
+        validarHorario(record);
+
         baseDao.spUpdate("sp_horario_create(?, ?)",
                 record.getInicio(),
                 record.getFin()
@@ -41,16 +46,16 @@ public class HorarioServices {
     }
 
     // UPDATE
-    public void updateHorario(Horario record) {
+    public void updateHorario(Horario record) throws SqlServerCustomException {
         baseDao.spUpdate("sp_horario_update(?, ?, ?)",
-            record.getId(),
-            record.getInicio(),
-            record.getFin()
+                record.getId(),
+                record.getInicio(),
+                record.getFin()
         );
     }
 
     // DELETE
-    public void deleteHorario(Long id) {
+    public void deleteHorario(Long id) throws SqlServerCustomException {
         baseDao.spUpdate("sp_horario_delete(?)", id);
     }
 
@@ -59,10 +64,26 @@ public class HorarioServices {
         @Override
         public Horario mapRow(ResultSet rs, int rowNum) throws SQLException {
             Horario horario = new Horario();
-               horario.setId(rs.getLong("id"));
-               horario.setInicio(rs.getTime("inicio").toLocalTime());
-               horario.setFin(rs.getTime("fin").toLocalTime());
-               return horario;
+
+           horario.setId(rs.getLong("id"));
+           horario.setInicio(rs.getTime("inicio").toLocalTime());
+           horario.setFin(rs.getTime("fin").toLocalTime());
+
+           return horario;
         }
+    }
+
+
+    // ==============   VALIDACIONES   ==========================================
+    private void validarHorario(Horario record) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        if (record.getInicio() == null)
+            errores.add("Hora inicial no especificada.");
+        if (record.getFin() == null)
+            errores.add("Hora final no especificada.");
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Horario con datos erróneos:", errores);
     }
 }

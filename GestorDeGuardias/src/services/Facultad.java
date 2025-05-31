@@ -8,9 +8,6 @@ import utils.exceptions.MultiplesErroresException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import static utils.Utilitarios.stringEsValido;
-import static utils.Utilitarios.stringSoloNumeros;
-
 
 public class Facultad {
     private final ArrayList<Persona> personas;
@@ -108,128 +105,6 @@ public class Facultad {
 //    }
 
     // ***********************************************************Validaciones*********************************************************************
-
-    /**
-     * Colecciona lista de errores de datos de una persona
-     *
-     * @param ci        ci de cientidad de la persona
-     * @param nombre    nombre de la persona
-     * @param apellidos apellidos de la persona
-     * @param sexo      sexo de la persona
-     * @return lista de errores
-     */
-    private ArrayList<String> validarPersona(String ci, String nombre, String apellidos, Character sexo) {
-        ArrayList<String> errores = new ArrayList<String>();
-        boolean carneIdentidadValido = true;
-        if (!stringEsValido(ci)) {
-            errores.add("ci de identidad no especificado.");
-            carneIdentidadValido = false;
-        } else {
-            if (ci.length() != 11) {
-                errores.add("ci de identidad no v�lido: Longitud incorrecta.");
-                carneIdentidadValido = false;
-            } else {
-                if (!stringSoloNumeros(ci)) {
-                    errores.add("ci de identidad no v�lido: Caracteres no num�ricos.");
-                    carneIdentidadValido = false;
-                } else {
-                    int dia = Integer.parseInt(ci.substring(4, 6));
-                    int mes = Integer.parseInt(ci.substring(2, 4));
-                    int anno = Integer.parseInt(ci.substring(0, 2));
-
-                    if (mes > 0 && mes <= 12) {
-                        boolean diaValido = true;
-                        if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
-                            if (dia > 31 || dia == 0) {
-                                diaValido = false;
-                            }
-                        } else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
-                            if (dia > 30 || dia == 0) {
-                                diaValido = false;
-                            }
-                        } else if (mes == 2) {
-                            if (anno % 4 != 0 && dia > 28) {
-                                diaValido = false;
-                            } else if (anno % 4 == 0 && dia > 29) {
-                                diaValido = false;
-                            }
-                        }
-                        if (!diaValido) {
-                            errores.add("ci de identidad no v�lido: Dia incorrecto.");
-                            carneIdentidadValido = false;
-                        }
-                    } else {
-                        errores.add("ci de identidad no v�lido: Mes incorrecto.");
-                        carneIdentidadValido = false;
-                    }
-                }
-            }
-        }
-        if (!stringEsValido(nombre))
-            errores.add("Nombre no especificado.");
-        if (!stringEsValido(apellidos))
-            errores.add("Apellido no especificado.");
-        if (sexo == null)
-            errores.add("Sexo no especificado.");
-        else if (carneIdentidadValido && ((Integer.parseInt(ci.substring(9, 10)) % 2 == 0 && sexo != 'm') || (Integer.parseInt(ci.substring(9, 10)) % 2 != 0 && sexo != 'f')))
-            errores.add("Sexo seleccionado no coincide con la informaci�n del ci de identidad.");
-
-        return errores;
-    }
-
-    /**
-     * Valida datos de un estudiante con ayuda de validarPersona(String, String,
-     * String, Sexo)
-     *
-     * @param ci        ci de identidad del estudiante
-     * @param nombre    nombre del estudiante
-     * @param apellidos apellidos del estudiante
-     * @param sexo      sexo del estudiante
-     * @throws MultiplesErroresException
-     * @throws EntradaInvalidaException
-     */
-    private void validarEstudiante(String ci, String nombre, String apellidos, Character sexo) throws EntradaInvalidaException, MultiplesErroresException {
-        ArrayList<String> errores = validarPersona(ci, nombre, apellidos, sexo);
-        if (!errores.isEmpty())
-            throw new MultiplesErroresException("Estudiante con datos err�neos: ", errores);
-        if (ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci) != null)
-            throw new EntradaInvalidaException("Estudiante ya registrado.");
-    }
-
-    /**
-     * Valida datos de un trabajador con ayuda de validarPersona(String, String,
-     * String, Sexo)
-     *
-     * @param ci        ci de identidad del trabajador
-     * @param nombre    nombre del trabajador
-     * @param apellidos apellidos del trabajador
-     * @param sexo      sexo del trabajador
-     * @throws MultiplesErroresException
-     * @throws EntradaInvalidaException
-     */
-    private void validarTrabajador(String ci, String nombre, String apellidos, Character sexo) throws EntradaInvalidaException, MultiplesErroresException {
-        ArrayList<String> errores = validarPersona(ci, nombre, apellidos, sexo);
-        if (!errores.isEmpty())
-            throw new MultiplesErroresException("Trabajador con datos err�neos: ", errores);
-        if (ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ci) != null)
-            throw new EntradaInvalidaException("Trabajador ya registrado.");
-    }
-
-    /**
-     * * Colecciona lista de errores en datos al momento de dar baja a una
-     * persona
-     *
-     * @return lista de errores
-     */
-    private ArrayList<String> validarBaja(String ci, LocalDate fechaBaja) {
-        ArrayList<String> errores = new ArrayList<String>();
-        if (!stringEsValido(ci))
-            errores.add("ci de identidad no especificado.");
-        if (fechaBaja == null)
-            errores.add("Fecha de baja no especificada.");
-
-        return errores;
-    }
 
 //    /**
 //     * Colecciona lista de errores en datos al momento de dar licencia a un

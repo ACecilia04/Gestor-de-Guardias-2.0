@@ -3,6 +3,7 @@ package services;
 import model.Persona;
 import model.TipoPersona;
 import utils.dao.MainBaseDao;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.IntegerMapper;
 import utils.dao.mappers.RowMapper;
 import utils.exceptions.EntradaInvalidaException;
@@ -26,8 +27,9 @@ public class PersonaServices {
     }
 
     // INSERT
-    public void insertPersona(Persona record) throws MultiplesErroresException {
+    public void insertPersona(Persona record) throws MultiplesErroresException, SqlServerCustomException {
         validarPersona(record);
+
         baseDao.spUpdate("sp_persona_create(?, ?, ?, ?, ?)",
                 record.getNombre(),
                 record.getApellido(),
@@ -59,7 +61,7 @@ public class PersonaServices {
     }
 
     // UPDATE
-    public void updatePersona(Persona record) {
+    public void updatePersona(Persona record) throws SqlServerCustomException {
         baseDao.spUpdate("sp_persona_update(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 record.getId(),
                 record.getNombre(),
@@ -84,8 +86,9 @@ public class PersonaServices {
         return baseDao.spQuery("sp_persona_read_by_baja(?)", new PersonaMapper(), fecha);
     }
 
-    public void darBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException {
+    public void darBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException, SqlServerCustomException {
         validarBaja(ci, fechaBaja);
+
         baseDao.spUpdate("sp_persona_update_baja(?, ?)", ci, fechaBaja);
     }
 
@@ -93,19 +96,22 @@ public class PersonaServices {
 
     }
 
-    public void darBajaConReincorporacion(String ci, LocalDate fechaBaja, LocalDate fechaReincorporacion) throws MultiplesErroresException, EntradaInvalidaException {
+    public void darBajaConReincorporacion(String ci, LocalDate fechaBaja, LocalDate fechaReincorporacion) throws MultiplesErroresException, SqlServerCustomException {
         darBaja(ci, fechaBaja);
         darFechaDeReincorporacion(ci, fechaReincorporacion);
     }
 
 
     // DELETE
-    public void deletePersonaByCi(String ci) {
+    public void deletePersonaByCi(String ci) throws SqlServerCustomException, EntradaInvalidaException {
+        if (!stringEsValido(ci))
+            throw new EntradaInvalidaException("ci de identidad no especificado.");
+
         baseDao.spUpdate("sp_persona_delete_by_ci(?)", ci);
     }
 
-    public void deletePersonaById(String id) {
-        baseDao.spQuery("sp_persona_delete_by_id(?)", new PersonaMapper(), id);
+    public void deletePersonaById(Long id) throws SqlServerCustomException {
+        baseDao.spUpdate("sp_persona_delete_by_id(?)", new PersonaMapper(), id);
     }
 
 
@@ -126,7 +132,7 @@ public class PersonaServices {
             p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
             p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
             p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
-            p.setBorrado(rs.getBoolean("borrado"));
+
             return p;
         }
     }

@@ -7,8 +7,8 @@ import gui.internosComp.PanelOpcionesTrabajador;
 import gui.pantallasEmergentes.Advertencia;
 import model.Persona;
 import model.TipoPersona;
-import services.Gestor;
 import services.ServicesLocator;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -113,7 +113,7 @@ public class PantallaTrabajadores extends JPanel {
                     if (!advertencia.getEleccion()) {
                         try {
                             ServicesLocator.getInstance().getPersonaServices().darBaja(ID, fechaAux);
-                        } catch (MultiplesErroresException ex) {
+                        } catch (MultiplesErroresException | SqlServerCustomException ex) {
                             throw new RuntimeException(ex);
                         }
                         revalidarTabla();
@@ -131,7 +131,11 @@ public class PantallaTrabajadores extends JPanel {
                     String string = "<html><p>Estas a punto de eliminar a un Trabajador del <br>registro. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                     if (!advertencia.getEleccion()) {
-                        ServicesLocator.getInstance().getPersonaServices().deletePersonaByCi(ID);
+                        try {
+                            ServicesLocator.getInstance().getPersonaServices().deletePersonaByCi(ID);
+                        } catch (SqlServerCustomException | EntradaInvalidaException ex) {
+                            throw new RuntimeException(ex);
+                        }
                         revalidarTabla();
                     }
 

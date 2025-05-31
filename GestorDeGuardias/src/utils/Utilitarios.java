@@ -28,11 +28,15 @@ public class Utilitarios {
     public static final String NICE_DATE_TIME_FORMAT_2 = "dd-MMM-yyyy HH:mm:ss";
 
     /**
-     * @param string
+     * @param value
      * @return true si el string no es nulo ni vacio
      */
-    public static boolean stringEsValido(String string) {
-        return string != null && !string.trim().isEmpty();
+    public static boolean stringEsValido(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
+
+    public static boolean integerEsValido(Integer value) {
+        return value != null && value > 0;
     }
 
     public static boolean stringSoloNumeros(String string) {

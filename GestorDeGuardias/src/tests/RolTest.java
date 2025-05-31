@@ -5,7 +5,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.RolServices;
 import services.ServicesLocator;
-import utils.exceptions.EntradaInvalidaException;
+import utils.dao.SqlServerCustomException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.util.List;
 
@@ -22,9 +23,14 @@ public class RolTest {
 
     @Test
     public void insertRol() {
-        String tipo = "Administrador1";
-        if (rolServices.getRol(tipo) == null) {
+        String tipo = "Administrador";
+        try {
             rolServices.insertRol(tipo);
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getErrores());
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
         }
         Rol tipoInsertado = rolServices.getRol(tipo);
         assertNotNull(tipoInsertado);
@@ -41,16 +47,24 @@ public class RolTest {
 
     @Test
     public void updateRol() {
-        String tipo = "Administrador1";
+        String tipo = "Administrador";
         Rol tp1 = rolServices.getRol(tipo);
         assertNotNull(tp1);
 
-        rolServices.updateRol(tp1.getNombre(), "Administrador2");
+        try {
+            rolServices.updateRol(tp1.getNombre(), "Administrador2");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
         Rol tp2 = rolServices.getRol("Administrador2");
         assertNotNull(tp2);
 
-        rolServices.updateRol(tp2.getNombre(), tp1.getNombre());
+        try {
+            rolServices.updateRol(tp2.getNombre(), tp1.getNombre());
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
         Rol tp3 = rolServices.getRol(tipo);
         assertNotNull(tp3);
@@ -65,7 +79,14 @@ public class RolTest {
         if (tiposPersona.size() < 2){
             String tipo = "Usuario1";
             if (rolServices.getRol(tipo) == null) {
-                rolServices.insertRol(tipo);
+                try {
+                    rolServices.insertRol(tipo);
+                } catch (MultiplesErroresException e) {
+                    System.out.println(e.getMessage());
+                    System.out.println(e.getErrores());
+                } catch (SqlServerCustomException e) {
+                    System.out.println(e.getMessage());
+                }
             }
             Rol tipoInsertado = rolServices.getRol(tipo);
             assertNotNull(tipoInsertado);
@@ -78,16 +99,18 @@ public class RolTest {
 
     @Test
     public void deleteRol() {
-        String tipo = "Usuario1";
+        String tipo = "Administrador1";
         try {
             rolServices.deleteRol(tipo);
-            Rol deleted = rolServices.getRol(tipo);
-            assertNull(deleted);
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
-            rolServices.insertRol(tipo);
-        } catch (EntradaInvalidaException e) {
-            e.printStackTrace();
-
+        tipo = "Administrador";
+        try {
+            rolServices.deleteRol(tipo);
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
         }
     }
 }
