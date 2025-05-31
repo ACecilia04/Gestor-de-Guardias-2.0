@@ -21,12 +21,12 @@ public class TurnoDeGuardiaServices {
 
     // CREATE
     public void insertTurnoDeGuardia(Long horarioId, long personaAsignada, Boolean hecho, LocalDate fecha) {
-        baseDao.spUpdate("sp_create_turno_de_guardia(?, ?, ?, ?)", horarioId, personaAsignada, hecho, fecha);
+        baseDao.spUpdate("sp_turno_de_guardia_create(?, ?, ?, ?)", horarioId, personaAsignada, hecho, fecha);
     }
 
     // READ all
     public ArrayList<TurnoDeGuardia> getAllTurnosDeGuardia() {
-        return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_read_turno_de_guardia", new TurnoDeGuardiaMapper());
+        return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_turno_de_guardia_read", new TurnoDeGuardiaMapper());
     }
     public ArrayList<TurnoDeGuardia> getTurnosAPartirDe(LocalDate fecha) {
         return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_get_turnos_a_partir_de", new TurnoDeGuardiaMapper(), fecha);
@@ -34,18 +34,18 @@ public class TurnoDeGuardiaServices {
 
     // READ by primary key
     public TurnoDeGuardia getTurnoDeGuardiaByPk(Long horarioId, LocalDate fecha) {
-        return baseDao.spQuery("sp_read_turno_de_guardia_by_pk( ?, ?)", new TurnoDeGuardiaMapper(),horarioId, fecha)
+        return baseDao.spQuery("sp_turno_de_guardia_read_by_pk( ?, ?)", new TurnoDeGuardiaMapper(),horarioId, fecha)
                 .stream().findFirst().orElse(null);
     }
 
     // UPDATE
     public void updateTurnoDeGuardia(Long horarioId, LocalDate fecha, long personaAsignada, Boolean hecho) {
-        baseDao.spUpdate("sp_update_turno_de_guardia(?, ?, ?, ?)", horarioId, fecha, personaAsignada, hecho);
+        baseDao.spUpdate("sp_turno_de_guardia_update(?, ?, ?, ?)", horarioId, fecha, personaAsignada, hecho);
     }
 
     // DELETE
     public void deleteTurnoDeGuardia(Long horarioId, LocalDate fecha) {
-        baseDao.spUpdate("sp_delete_turno_de_guardia(?, ?)", horarioId, fecha);
+        baseDao.spUpdate("sp_turno_de_guardia_delete(?, ?)", horarioId, fecha);
     }
 
 //    public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy){
