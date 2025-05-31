@@ -37,7 +37,7 @@ public class MostrarPlanif extends JPanel {
     private final PanelOpcionesMostrarP panelOpciones;
     private final int opcionesAncho = 300;
 
-    private final Font fuente = new Font("Arial", Font.PLAIN, 22);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 20);
 
     private final LayoutManager layout = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
     private final LayoutManager layout2 = new FlowLayout(FlowLayout.CENTER, 0, 100);
@@ -80,7 +80,7 @@ public class MostrarPlanif extends JPanel {
         panelOpciones.getBotonBorrarPlanif().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String string = "<html><p>Si borras una planificacion las posteriores <br>tambien se perderan. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
+                String string = "<html><p>Si borras una planificación las posteriores <br>tambien se perderan. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
                 Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                 if (!advertencia.getEleccion()) {
                     Gestor.getInstance().borrarPlanificacion(getSeleccionado().getFechaInicio());

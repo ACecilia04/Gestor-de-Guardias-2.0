@@ -26,7 +26,7 @@ public class PanelTurno extends Cuadro implements Actualizable {
     protected Etiqueta apellido;
     protected Etiqueta ID;
 
-    protected Font fuente = new Font("Arial", Font.PLAIN, 16);
+    protected Font fuente = new Font("Arial", Font.PLAIN, 14);
 
     protected int espacioID = 0;
     protected int espacioNombre = 0;

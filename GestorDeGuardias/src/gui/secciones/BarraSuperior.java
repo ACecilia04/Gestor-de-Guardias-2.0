@@ -19,7 +19,7 @@ public class BarraSuperior extends JPanel {
     private final JPanel panelEdicion1;
     private final PanelEdicion2 panelEd2;
 
-    private final Font fuente = new Font("Arial", Font.PLAIN, 20);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 18);
 
     public BarraSuperior(JPanel contenedor) {
         Dimension dim = new Dimension(contenedor.getSize().width, 85);
@@ -29,15 +29,16 @@ public class BarraSuperior extends JPanel {
         setLayout(new BorderLayout());
 
         //panelOpciones
+// TODO: login and exit options
         panelOpciones = new JPanel(null);
         panelOpciones.setBackground(this.getBackground());
         Border bordeMargen = BorderFactory.createEmptyBorder(0, 10, 0, 0);
         panelOpciones.setPreferredSize(new Dimension(247, this.getPreferredSize().height));
 
-        Etiqueta nombre = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Gestor de Guardias");
-        nombre.setLocation(20, 15);
-        panelOpciones.add(nombre);
-        add(panelOpciones, BorderLayout.WEST);
+//        Etiqueta nombre = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Gestor de Guardias");
+//        nombre.setLocation(20, 15);
+//        panelOpciones.add(nombre);
+//        add(panelOpciones, BorderLayout.WEST);
 
 
         //panelEdicion

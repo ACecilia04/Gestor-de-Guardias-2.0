@@ -77,7 +77,7 @@ public class Login extends JDialog {
 
         add(panel2, BorderLayout.SOUTH);
 
-        //Panel1 Todo lo demas
+        //panel1 Todo lo demas
         panel1 = new JPanel(null);
         panel1.setBackground(contentPane.getBackground());
         Cuadro logo = new Cuadro(new Dimension(60, 60), Cuadro.redBAJA, paleta.getColorCaracteristico());

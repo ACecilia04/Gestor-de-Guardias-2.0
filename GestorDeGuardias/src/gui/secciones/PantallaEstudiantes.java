@@ -155,7 +155,7 @@ public class PantallaEstudiantes extends JPanel {
                         revalidarTabla();
                     }
                 }
-                tablaOpciones.mostrarPanel("panel1");
+                tablaOpciones.mostrarPanel("panelFiltros");
             }
         });
 

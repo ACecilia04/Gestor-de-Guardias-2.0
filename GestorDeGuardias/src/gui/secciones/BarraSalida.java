@@ -21,26 +21,32 @@ public class BarraSalida extends JPanel {
 
         setBackground(ventana.getBackground());
         this.setSize(ventana.getSize().width, 50);
-        this.setPreferredSize(new Dimension(1159, 50));
+        this.setPreferredSize(new Dimension(1159, 40));
         setLayout(new BorderLayout());
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        
         JPanel apoyoDerecha = new JPanel();
-        apoyoDerecha.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 10));
+        apoyoDerecha.setLayout(new FlowLayout());
         apoyoDerecha.setBackground(getBackground());
-
 
         Boton botonSalir2 = new Boton();
         botonSalir2.setColorFondo(getBackground());
+
         Boton maximizar = new Boton();
         maximizar.setColorFondo(getBackground());
         maximizar.setSelectLetra(true);
         maximizar.setColorIcono(Color.GRAY);
         maximizar.setColorIconoPres(Color.BLACK);
+
         Boton minimizar = new Boton();
         minimizar.setSelectLetra(true);
         minimizar.setColorIcono(Color.GRAY);
         minimizar.setColorIconoPres(Color.BLACK);
-
         minimizar.setColorFondo(getBackground());
 
         botonSalir2.addIcono("/iconos/XRoja.png");
@@ -51,7 +57,18 @@ public class BarraSalida extends JPanel {
         apoyoDerecha.add(maximizar);
         apoyoDerecha.add(botonSalir2);
 
-        add(apoyoDerecha);
+        JPanel apoyoIzquierda = new JPanel();
+        apoyoIzquierda.setLayout(new GridBagLayout());
+        apoyoIzquierda.setBackground(getBackground());
+
+        JLabel titulo = new JLabel("Gestor de guardias");
+        titulo.setFont(new Font("Arial", Font.PLAIN, 16));
+        titulo.setForeground(Color.GRAY);
+
+        apoyoIzquierda.add(titulo, gbc);
+
+        add(apoyoIzquierda, BorderLayout.WEST);
+        add(apoyoDerecha,  BorderLayout.EAST);
 
         botonSalir2.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

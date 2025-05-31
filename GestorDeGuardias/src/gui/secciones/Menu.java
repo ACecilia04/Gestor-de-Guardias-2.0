@@ -97,7 +97,7 @@ public class Menu extends JPanel {
 
 
         //Panel2
-        Boton boton4 = new Boton("A�adir Planificacion");
+        Boton boton4 = new Boton("Añadir Planificación");
         boton4.addIcono("/iconos/Estrella.png");
         boton4.setSelectLetra(true);
 

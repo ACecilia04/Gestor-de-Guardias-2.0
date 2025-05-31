@@ -26,7 +26,7 @@ public class PanelOpcionesMostrarP extends JPanel {
     private final int separacion = 10;
     private final int x = 20;
     private final int y = separacion + 10;
-    private final Font fuente = new Font("Arial", Font.PLAIN, 17);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 15);
     private Buscar buscar;
     private Dimension dimBoton = new Dimension(200, 35);
 
@@ -41,7 +41,7 @@ public class PanelOpcionesMostrarP extends JPanel {
         superior.setPreferredSize(new Dimension(this.getPreferredSize().width, 50));
         superior.setBackground(getBackground());
 
-        //Panel1
+        //panel1
         panel1 = new JPanel(null);
 
 
@@ -60,7 +60,7 @@ public class PanelOpcionesMostrarP extends JPanel {
         int x = (panel4.getPreferredSize().width - dimBoton.getSize().width) / 2;
         int y = botonSep;
 
-        botonVerPlanif = new Boton("Ver Planificacion");
+        botonVerPlanif = new Boton("Ver Planificación");
 
 //        botoaddEstud.setBordeado(true);
         botonVerPlanif.setColorPresionado(paleta.getColorCaracteristico());
