@@ -21,30 +21,30 @@ public class PeriodoNoPlanificableServices {
 
     // CREATE
     public void insertPeriodoNoPlanificable(LocalDate inicio, LocalDate fin) throws SqlServerCustomException {
-        baseDao.spUpdate("sp_create_periodo_no_planificable(?, ?)", inicio, fin);
+        baseDao.spUpdate("sp_periodo_no_planificable_create(?, ?)", inicio, fin);
     }
 
     // READ all
     public ArrayList<PeriodoNoPlanificable> getAllPeriodosNoPlanificables() {
-        return (ArrayList<PeriodoNoPlanificable>) baseDao.spQuery("sp_read_periodo_no_planificable", new PeriodoNoPlanificableMapper());
+        return (ArrayList<PeriodoNoPlanificable>) baseDao.spQuery("sp_periodo_no_planificable_read", new PeriodoNoPlanificableMapper());
     }
 
     // READ by primary key
     public PeriodoNoPlanificable getPeriodoNoPlanificableByPk(LocalDate inicio, LocalDate fin) {
-        return baseDao.spQuerySingleObject("sp_read_periodo_no_planificable_by_pk(?, ?)", new PeriodoNoPlanificableMapper(), inicio, fin);
+        return baseDao.spQuerySingleObject("sp_periodo_no_planificable_read_by_pk(?, ?)", new PeriodoNoPlanificableMapper(), inicio, fin);
     }
 
     // UPDATE
     public void updatePeriodoNoPlanificable(LocalDate inicio, LocalDate fin, LocalDate nuevoInicio, LocalDate nuevoFin) throws SqlServerCustomException {
-        baseDao.spUpdate("sp_update_periodo_no_planificable(?, ?, ?, ?)", inicio, fin, nuevoInicio, nuevoFin);
+        baseDao.spUpdate("sp_periodo_no_planificable_update(?, ?, ?, ?)", inicio, fin, nuevoInicio, nuevoFin);
     }
 
     // DELETE
     public void deletePeriodoNoPlanificable(LocalDate inicio, LocalDate fin) throws SqlServerCustomException {
-        baseDao.spUpdate("sp_delete_periodo_no_planificable(?, ?)", inicio, fin);
+        baseDao.spUpdate("sp_periodo_no_planificable_delete(?, ?)", inicio, fin);
     }
     public int countPeriodoNoPlanificable(){
-        return baseDao.spQuerySingleObject("sp_count_periodo_no_planificable", new IntegerMapper("total"));
+        return baseDao.spQuerySingleObject("sp_periodo_no_planificable_count", new IntegerMapper("total"));
     }
 
     public PeriodoNoPlanificable getPeriodosEnFecha(LocalDate fecha){
