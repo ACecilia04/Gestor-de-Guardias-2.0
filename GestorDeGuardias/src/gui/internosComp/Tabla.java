@@ -10,6 +10,7 @@ import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.Ventana;
 import model.DiaGuardia;
 import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -64,11 +65,11 @@ public class Tabla extends Cuadro implements IsTabla {
                 try {
                     Gestor.getInstance().guardar(dias);
                     String string = "<html><p>Guardado Exitoso<br><br></p><html>";
-                    @SuppressWarnings("unused")
+
                     Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Guardado Exitoso", string, "Aceptar");
                 } catch (EntradaInvalidaException e1) {
                     String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-                    @SuppressWarnings("unused")
+
                     Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Advertencia", string, "Aceptar");
                 }
             }
