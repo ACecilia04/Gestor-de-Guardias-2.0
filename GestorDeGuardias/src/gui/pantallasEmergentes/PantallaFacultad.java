@@ -8,6 +8,7 @@ import model.PeriodoNoPlanificable;
 import services.Gestor;
 import services.PeriodoNoPlanificableServices;
 import services.ServicesLocator;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
@@ -582,7 +583,7 @@ public class PantallaFacultad extends JDialog {
                     vacio1.setVisible(false);
                     LocalDate fechaInicio = LocalDate.of(Integer.parseInt(agno.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
                     LocalDate fechaFinal = LocalDate.of(Integer.parseInt(agno2.getText()), Integer.parseInt(mes2.getText()), Integer.parseInt(dia2.getText()));
-//                    try {
+                    try {
                         ServicesLocator.getInstance().getPeriodoNoPlanificableServices().insertPeriodoNoPlanificable(fechaInicio, fechaFinal);
                         String string = "<html><p>Receso Guardado Exitosamente<br><br></p></html>";
                         cantERec.setText("Cantidad de periodos no planificables :  " + ServicesLocator.getInstance().getPeriodoNoPlanificableServices().countPeriodoNoPlanificable());
@@ -595,14 +596,14 @@ public class PantallaFacultad extends JDialog {
                         nombre.getTextField().setText("");
                         repaint();
                         revalidate();
-//                    } catch (EntradaInvalidaException e1) {
-//                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + e1.getMessage() + "</p></html>";
-//                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
+                    } catch (SqlServerCustomException e1) {
+                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + e1.getMessage() + "</p></html>";
+                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
 //                    } catch (MultiplesErroresException e1) {
 //                        StringBuilder stringAux = new StringBuilder();
 //                        for (String error : e1.getErrores()) {
 //                            stringAux.append(error).append("<br>");
-//                        }
+                    }
 
 //                        String string = "<html><p style='text-align: center;'> ERROR <br>" + stringAux + "</p></html>";
 //                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");

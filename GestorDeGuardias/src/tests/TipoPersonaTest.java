@@ -5,7 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.ServicesLocator;
 import services.TipoPersonaServices;
-import utils.exceptions.EntradaInvalidaException;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.util.List;
@@ -30,7 +30,7 @@ public class TipoPersonaTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -53,12 +53,20 @@ public class TipoPersonaTest {
         TipoPersona tp1 = tipoPersonaServices.getTipoPersona(tipo);
         assertNotNull(tp1);
 
-        tipoPersonaServices.updateTipoPersona(tp1.getNombre(), "Estudiantil");
+        try {
+            tipoPersonaServices.updateTipoPersona(tp1.getNombre(), "Estudiantil");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
         TipoPersona tp2 = tipoPersonaServices.getTipoPersona("Estudiantil");
         assertNotNull(tp2);
 
-        tipoPersonaServices.updateTipoPersona(tp2.getNombre(), tp1.getNombre());
+        try {
+            tipoPersonaServices.updateTipoPersona(tp2.getNombre(), tp1.getNombre());
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
         TipoPersona tp3 = tipoPersonaServices.getTipoPersona(tipo);
         assertNotNull(tp3);
@@ -78,7 +86,7 @@ public class TipoPersonaTest {
                 } catch (MultiplesErroresException e) {
                     System.out.println(e.getMessage());
                     System.out.println(e.getErrores());
-                } catch (EntradaInvalidaException e) {
+                } catch (SqlServerCustomException e) {
                     System.out.println(e.getMessage());
                 }
             }
@@ -96,20 +104,19 @@ public class TipoPersonaTest {
         String tipo = "Trabajador";
         try {
             tipoPersonaServices.deleteTipoPersona(tipo);
-            TipoPersona deleted = tipoPersonaServices.getTipoPersona(tipo);
-            assertNull(deleted);
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        TipoPersona deleted = tipoPersonaServices.getTipoPersona(tipo);
+        assertNull(deleted);
 
-            try {
-                tipoPersonaServices.insertTipoPersona(tipo);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
-                System.out.println(e.getMessage());
-            }
-        } catch (EntradaInvalidaException e) {
-            e.printStackTrace();
-
+        try {
+            tipoPersonaServices.insertTipoPersona(tipo);
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+            System.out.println(e.getErrores());
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
         }
     }
 }

@@ -8,6 +8,7 @@ import gui.pantallasEmergentes.Advertencia;
 import model.Persona;
 import model.TipoPersona;
 import services.ServicesLocator;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -122,7 +123,7 @@ public class PantallaEstudiantes extends JPanel {
                     if (!advertencia.getEleccion()) {
                         try {
                             ServicesLocator.getInstance().getPersonaServices().deletePersonaByCi(ID);
-                        } catch (EntradaInvalidaException ex) {
+                        } catch (SqlServerCustomException | EntradaInvalidaException ex) {
                             throw new RuntimeException(ex);
                         }
                         revalidarTabla();
@@ -148,7 +149,7 @@ public class PantallaEstudiantes extends JPanel {
 //                        System.out.println(fechaAux);
                         try {
                             ServicesLocator.getInstance().getPersonaServices().darBaja(ID,fechaAux);
-                        } catch (MultiplesErroresException | EntradaInvalidaException ex) {
+                        } catch (MultiplesErroresException | SqlServerCustomException ex) {
 //                            TODO: create error pane
 
                             throw new RuntimeException(ex);

@@ -7,7 +7,7 @@ import org.junit.Test;
 import services.ConfiguracionServices;
 import services.HorarioServices;
 import services.ServicesLocator;
-import utils.exceptions.EntradaInvalidaException;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalTime;
@@ -38,7 +38,7 @@ public class ConfigurationTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -59,7 +59,7 @@ public class ConfigurationTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -69,7 +69,7 @@ public class ConfigurationTest {
         assertEquals("Estudiante", configuracion.getTipoPersona().getNombre());
         try {
             configuracionServices.deleteConfiguracion(configuracion.getId());
-        } catch (EntradaInvalidaException e) {
+        } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -86,7 +86,7 @@ public class ConfigurationTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -97,7 +97,7 @@ public class ConfigurationTest {
         assertEquals("Estudiante", configuracion.getTipoPersona().getNombre());
         try {
             configuracionServices.deleteConfiguracion(configuracion2.getId());
-        } catch (EntradaInvalidaException e) {
+        } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -111,7 +111,7 @@ public class ConfigurationTest {
         assertNotNull(configuracion);
         try {
             configuracionServices.deleteConfiguracion(configuracion.getId());
-        } catch (EntradaInvalidaException e) {
+        } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
 
@@ -132,7 +132,7 @@ public class ConfigurationTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
             Configuracion insertedRecord1 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
@@ -143,7 +143,7 @@ public class ConfigurationTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
             Configuracion insertedRecord2 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
@@ -155,7 +155,7 @@ public class ConfigurationTest {
             try {
                 horarioServices.deleteHorario(insertedRecord1.getId());
                 horarioServices.deleteHorario(insertedRecord2.getId());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -173,7 +173,7 @@ public class ConfigurationTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -181,13 +181,21 @@ public class ConfigurationTest {
         assertNotNull(configuracion1);
 
         configuracion1.setDiaSemana(2);
-        configuracionServices.updateConfiguracion(configuracion1);
+        try {
+            configuracionServices.updateConfiguracion(configuracion1);
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
         Configuracion configuracion2 = configuracionServices.getConfiguracionByPk(horario.getId(), 2, true);
         assertNotNull(configuracion2);
 
         configuracion2.setDiaSemana(1);
-        configuracionServices.updateConfiguracion(configuracion2);
+        try {
+            configuracionServices.updateConfiguracion(configuracion2);
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
 
         Configuracion configuracion3 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
         assertNotNull(configuracion3);

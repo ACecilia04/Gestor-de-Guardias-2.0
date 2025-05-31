@@ -3,8 +3,8 @@ package services;
 import model.Rol;
 import model.Usuario;
 import utils.dao.MainBaseDao;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
-import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
@@ -23,12 +23,8 @@ public class UsuarioServices {
     }
 
     // CREATE
-    public void insertUsuario(Usuario record) throws MultiplesErroresException, EntradaInvalidaException {
+    public void insertUsuario(Usuario record) throws MultiplesErroresException, SqlServerCustomException {
         validarUsuario(record);
-
-        if (getUsuarioByNombre(record.getNombre()) != null){
-            throw new EntradaInvalidaException("Usuario existente");
-        }
 
         baseDao.spUpdate("sp_usuario_create(?, ?, ?)",
                 record.getNombre(),
@@ -53,7 +49,7 @@ public class UsuarioServices {
     }
 
     // UPDATE
-    public void updateUsuario(Usuario record) {
+    public void updateUsuario(Usuario record) throws SqlServerCustomException {
         baseDao.spUpdate("sp_usuario_update(?, ?, ?, ?)",
                 record.getId(),
                 record.getNombre(),
@@ -63,11 +59,7 @@ public class UsuarioServices {
     }
 
     // DELETE
-    public void deleteUsuario(Long id) throws EntradaInvalidaException {
-        if (getUsuarioById(id) == null){
-            throw new EntradaInvalidaException("Usuario inexistente");
-        }
-
+    public void deleteUsuario(Long id) throws SqlServerCustomException {
         baseDao.spUpdate("sp_usuario_delete(?)", id);
     }
 

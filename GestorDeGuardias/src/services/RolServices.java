@@ -2,9 +2,8 @@ package services;
 
 import model.Rol;
 import utils.dao.MainBaseDao;
-import utils.dao.mappers.IntegerMapper;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
-import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
@@ -23,12 +22,8 @@ public class RolServices {
     }
 
     // CREATE
-    public void insertRol(String nombre) throws EntradaInvalidaException, MultiplesErroresException {
+    public void insertRol(String nombre) throws MultiplesErroresException, SqlServerCustomException {
         validarRol(nombre);
-
-        if (getRol(nombre) != null){
-            throw new EntradaInvalidaException("Rol existente");
-        }
 
         baseDao.spUpdate("sp_rol_create(?)", nombre);
     }
@@ -44,24 +39,13 @@ public class RolServices {
     }
 
     // UPDATE
-    public void updateRol(String nombre, String nuevoNombre) {
+    public void updateRol(String nombre, String nuevoNombre) throws SqlServerCustomException {
         baseDao.spUpdate("sp_rol_update(?, ?)", nombre, nuevoNombre);
     }
 
     // DELETE
-    public void deleteRol(String nombre) throws EntradaInvalidaException {
-        if (getRol(nombre) == null){
-            throw new EntradaInvalidaException("Rol inexistente");
-        }
-
-        if (rolExists(nombre))
-            throw new EntradaInvalidaException("El rol no se puede borrar porque está en uso");
-
+    public void deleteRol(String nombre) throws SqlServerCustomException {
         baseDao.spUpdate("sp_rol_delete(?)", nombre);
-    }
-
-    public boolean rolExists(String nombre) {
-        return baseDao.spQuerySingleObject("sp_rol_check_existence(?)", new IntegerMapper("Total"), nombre) > 0;
     }
 
     // Internal Mapper

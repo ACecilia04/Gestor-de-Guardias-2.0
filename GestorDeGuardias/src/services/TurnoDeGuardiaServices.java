@@ -4,6 +4,7 @@ import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
 import utils.dao.MainBaseDao;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
 
 import java.sql.ResultSet;
@@ -20,7 +21,7 @@ public class TurnoDeGuardiaServices {
     }
 
     // CREATE
-    public void insertTurnoDeGuardia(Long horarioId, long personaAsignada, Boolean hecho, LocalDate fecha) {
+    public void insertTurnoDeGuardia(Long horarioId, long personaAsignada, Boolean hecho, LocalDate fecha) throws SqlServerCustomException {
         baseDao.spUpdate("sp_create_turno_de_guardia(?, ?, ?, ?)", horarioId, personaAsignada, hecho, fecha);
     }
 
@@ -39,12 +40,12 @@ public class TurnoDeGuardiaServices {
     }
 
     // UPDATE
-    public void updateTurnoDeGuardia(Long horarioId, LocalDate fecha, long personaAsignada, Boolean hecho) {
+    public void updateTurnoDeGuardia(Long horarioId, LocalDate fecha, long personaAsignada, Boolean hecho) throws SqlServerCustomException {
         baseDao.spUpdate("sp_update_turno_de_guardia(?, ?, ?, ?)", horarioId, fecha, personaAsignada, hecho);
     }
 
     // DELETE
-    public void deleteTurnoDeGuardia(Long horarioId, LocalDate fecha) {
+    public void deleteTurnoDeGuardia(Long horarioId, LocalDate fecha) throws SqlServerCustomException {
         baseDao.spUpdate("sp_delete_turno_de_guardia(?, ?)", horarioId, fecha);
     }
 

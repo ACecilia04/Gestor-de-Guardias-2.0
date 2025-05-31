@@ -2,6 +2,7 @@ package services;
 
 import model.PeriodoNoPlanificable;
 import utils.dao.MainBaseDao;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.IntegerMapper;
 import utils.dao.mappers.RowMapper;
 
@@ -19,7 +20,7 @@ public class PeriodoNoPlanificableServices {
     }
 
     // CREATE
-    public void insertPeriodoNoPlanificable(LocalDate inicio, LocalDate fin) {
+    public void insertPeriodoNoPlanificable(LocalDate inicio, LocalDate fin) throws SqlServerCustomException {
         baseDao.spUpdate("sp_create_periodo_no_planificable(?, ?)", inicio, fin);
     }
 
@@ -34,12 +35,12 @@ public class PeriodoNoPlanificableServices {
     }
 
     // UPDATE
-    public void updatePeriodoNoPlanificable(LocalDate inicio, LocalDate fin, LocalDate nuevoInicio, LocalDate nuevoFin) {
+    public void updatePeriodoNoPlanificable(LocalDate inicio, LocalDate fin, LocalDate nuevoInicio, LocalDate nuevoFin) throws SqlServerCustomException {
         baseDao.spUpdate("sp_update_periodo_no_planificable(?, ?, ?, ?)", inicio, fin, nuevoInicio, nuevoFin);
     }
 
     // DELETE
-    public void deletePeriodoNoPlanificable(LocalDate inicio, LocalDate fin) {
+    public void deletePeriodoNoPlanificable(LocalDate inicio, LocalDate fin) throws SqlServerCustomException {
         baseDao.spUpdate("sp_delete_periodo_no_planificable(?, ?)", inicio, fin);
     }
     public int countPeriodoNoPlanificable(){

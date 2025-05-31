@@ -4,8 +4,8 @@ import model.Configuracion;
 import model.Horario;
 import model.TipoPersona;
 import utils.dao.MainBaseDao;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
-import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
@@ -27,12 +27,8 @@ public class ConfiguracionServices {
     }
 
     // CREATE
-    public void insertConfiguracion(Configuracion record) throws EntradaInvalidaException, MultiplesErroresException {
+    public void insertConfiguracion(Configuracion record) throws SqlServerCustomException, MultiplesErroresException {
         validarConfiguracion(record);
-
-        if (getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso()) != null){
-            throw new EntradaInvalidaException("Configuración existente");
-        }
 
         baseDao.spUpdate("sp_configuracion_create(?, ?, ?, ?, ?, ?)",
                 record.getDiaSemana(),
@@ -64,7 +60,7 @@ public class ConfiguracionServices {
     }
 
     // UPDATE
-    public void updateConfiguracion(Configuracion record){
+    public void updateConfiguracion(Configuracion record) throws SqlServerCustomException {
         baseDao.spUpdate("sp_configuracion_update(?, ?, ?, ?, ?, ?, ?)",
                 record.getId(),
                 record.getDiaSemana(),
@@ -77,11 +73,7 @@ public class ConfiguracionServices {
     }
 
     // DELETE
-    public void deleteConfiguracion(Long id) throws EntradaInvalidaException {
-        if (getConfiguracionById(id) == null){
-            throw new EntradaInvalidaException("Configuración inexistente");
-        }
-
+    public void deleteConfiguracion(Long id) throws SqlServerCustomException {
         baseDao.spUpdate("sp_configuracion_delete(?)", id);
     }
 

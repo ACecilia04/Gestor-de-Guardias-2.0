@@ -4,7 +4,7 @@ import gui.secciones.Ventana;
 import model.Persona;
 import model.TipoPersona;
 import services.ServicesLocator;
-import utils.exceptions.EntradaInvalidaException;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
@@ -24,7 +24,7 @@ public class PantallaAddEstudiante extends PantallaAddPersona {
                 errores.append(error).append("\n");
             }
             JOptionPane.showMessageDialog(this, errores.toString(), "Errores de validación", JOptionPane.ERROR_MESSAGE);
-        }catch (EntradaInvalidaException e){
+        }catch (SqlServerCustomException e){
             JOptionPane.showMessageDialog(this, e.getMessage(), "Errores de validación", JOptionPane.ERROR_MESSAGE);
         }
     }

@@ -6,7 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.HorarioServices;
 import services.ServicesLocator;
-import utils.exceptions.EntradaInvalidaException;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalTime;
@@ -34,7 +34,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -46,7 +46,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -58,7 +58,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -70,7 +70,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -87,7 +87,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -95,13 +95,13 @@ public class HorarioTest {
         assertNotNull(recordInsertado);
         try {
             horarioServices.deleteHorario(recordInsertado.getId());
-        } catch (EntradaInvalidaException e) {
+        } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
     }
 
     @Test
-    public void updateHorario() {
+    public void updateHorario(){
         LocalTime inicio = LocalTime.of(8, 0, 0);
         LocalTime fin = LocalTime.of(20, 0, 0);
         Horario newRecord = new Horario(inicio, fin);
@@ -111,24 +111,32 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
         Horario record = horarioServices.getHorarioByPk(inicio, fin);
         if ( record != null) {
             record.setInicio(LocalTime.of(12, 0, 0));
-            horarioServices.updateHorario(record);
+            try {
+                horarioServices.updateHorario(record);
+            } catch (SqlServerCustomException e) {
+                System.out.println(e.getMessage());
+            }
 
             Horario record2 = horarioServices.getHorarioById(record.getId());
             assertEquals(LocalTime.of(12, 0, 0), record2.getInicio());
 
             record.setInicio(inicio);
-            horarioServices.updateHorario(record);
+            try {
+                horarioServices.updateHorario(record);
+            } catch (SqlServerCustomException e) {
+                System.out.println(e.getMessage());
+            }
 
             try {
                 horarioServices.deleteHorario(record.getId());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -146,7 +154,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
             Horario insertedRecord1 = horarioServices.getHorarioByPk(inicio, fin);
@@ -159,7 +167,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
             Horario insertedRecord2 = horarioServices.getHorarioByPk(inicio, fin);
@@ -171,7 +179,7 @@ public class HorarioTest {
             try {
                 horarioServices.deleteHorario(insertedRecord1.getId());
                 horarioServices.deleteHorario(insertedRecord2.getId());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -189,7 +197,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
             Horario insertedRecord2 = horarioServices.getHorarioByPk(inicio, fin);
@@ -198,7 +206,7 @@ public class HorarioTest {
 
             try {
                 horarioServices.deleteHorario(insertedRecord2.getId());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         } else {
@@ -217,7 +225,7 @@ public class HorarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -226,7 +234,7 @@ public class HorarioTest {
 
         try {
             horarioServices.deleteHorario(record.getId());
-        } catch (EntradaInvalidaException e) {
+        } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
         Horario record2 = horarioServices.getHorarioById(record.getId());

@@ -2,8 +2,8 @@ package services;
 
 import model.Horario;
 import utils.dao.MainBaseDao;
+import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
-import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
@@ -21,12 +21,8 @@ public class HorarioServices {
     }
 
     // CREATE
-    public void insertHorario(Horario record) throws EntradaInvalidaException, MultiplesErroresException {
+    public void insertHorario(Horario record) throws SqlServerCustomException, MultiplesErroresException {
         validarHorario(record);
-
-        if (getHorarioByPk(record.getInicio(), record.getFin()) != null){
-            throw new EntradaInvalidaException("Horario existente");
-        }
 
         baseDao.spUpdate("sp_horario_create(?, ?)",
                 record.getInicio(),
@@ -50,20 +46,16 @@ public class HorarioServices {
     }
 
     // UPDATE
-    public void updateHorario(Horario record) {
+    public void updateHorario(Horario record) throws SqlServerCustomException {
         baseDao.spUpdate("sp_horario_update(?, ?, ?)",
-            record.getId(),
-            record.getInicio(),
-            record.getFin()
+                record.getId(),
+                record.getInicio(),
+                record.getFin()
         );
     }
 
     // DELETE
-    public void deleteHorario(Long id) throws EntradaInvalidaException {
-        if (getHorarioById(id) == null){
-            throw new EntradaInvalidaException("Horario inexistente");
-        }
-
+    public void deleteHorario(Long id) throws SqlServerCustomException {
         baseDao.spUpdate("sp_horario_delete(?)", id);
     }
 

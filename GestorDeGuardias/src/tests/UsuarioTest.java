@@ -6,7 +6,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import services.ServicesLocator;
 import services.UsuarioServices;
-import utils.exceptions.EntradaInvalidaException;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class UsuarioTest {
         } catch (MultiplesErroresException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getErrores());
-        } catch (EntradaInvalidaException e) {
+        } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
         Usuario insertado = usuarioServices.getUsuarioByNombre("Usuario");
@@ -57,15 +57,23 @@ public class UsuarioTest {
         p2.setNombre("Ana María");
         p2.setContrasenna("password");
 
-        usuarioServices.updateUsuario(p2);
+       try {
+           usuarioServices.updateUsuario(p2);
+       } catch (SqlServerCustomException e) {
+           System.out.println(e.getMessage());
+       }
 
-        Usuario updated2 = usuarioServices.getUsuarioByNombre("Ana María");
+       Usuario updated2 = usuarioServices.getUsuarioByNombre("Ana María");
         assertEquals("Ana María", updated2.getNombre());
         assertEquals("password", updated2.getContrasenna());
 
-        usuarioServices.updateUsuario(p1);
+       try {
+           usuarioServices.updateUsuario(p1);
+       } catch (SqlServerCustomException e) {
+           System.out.println(e.getMessage());
+       }
 
-        Usuario updated1 = usuarioServices.getUsuarioByNombre(nombre);
+       Usuario updated1 = usuarioServices.getUsuarioByNombre(nombre);
         assertEquals("Usuario", updated1.getNombre());
         assertEquals("usuario", updated1.getContrasenna());
     }
@@ -83,7 +91,7 @@ public class UsuarioTest {
             } catch (MultiplesErroresException e) {
                 System.out.println(e.getMessage());
                 System.out.println(e.getErrores());
-            } catch (EntradaInvalidaException e) {
+            } catch (SqlServerCustomException e) {
                 System.out.println(e.getMessage());
             }
 
@@ -98,7 +106,7 @@ public class UsuarioTest {
         Usuario record = usuarioServices.getUsuarioByNombre("Usuario");
         try {
             usuarioServices.deleteUsuario(record.getId());
-        } catch (EntradaInvalidaException e) {
+        } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
         Usuario deleted = usuarioServices.getUsuarioById(record.getId());
@@ -110,7 +118,7 @@ public class UsuarioTest {
         } catch (MultiplesErroresException e) {
             System.out.println(e.getMessage());
             System.out.println(e.getErrores());
-        } catch (EntradaInvalidaException e) {
+        } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
         Usuario insertado = usuarioServices.getUsuarioByNombre("Usuario");

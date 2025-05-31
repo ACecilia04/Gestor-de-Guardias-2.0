@@ -15,21 +15,14 @@ public abstract class BaseService {
         return getJdbcTemplate().query(query, mapper);
     }
 
-
     public <T> T querySingleObject(String query, RowMapper<T> mapper, Object... parameters) {
-        List<T> list = null;
-        if (isArrayValid(parameters)) {
-            list = getJdbcTemplate().query(query, mapper, parameters);
-        } else {
-            list = getJdbcTemplate().query(query, mapper);
-        }
+        List<T> list = query(query, mapper, parameters);
 
         if (isListValid(list)) {
             return list.getFirst();
         }
         return null;
     }
-
 
     public void update(String query, Object... parameters) {
         if (isArrayValid(parameters)) {
@@ -48,12 +41,7 @@ public abstract class BaseService {
     }
 
     public <T> T spQuerySingleObject(String procedureName, RowMapper<T> mapper, Object... parameters) {
-        List<T> list;
-        if (isArrayValid(parameters)) {
-            list = getJdbcTemplate().executeProcedureWithResults(procedureName, mapper, parameters);
-        } else {
-            list = getJdbcTemplate().executeProcedureWithResults(procedureName, mapper);
-        }
+        List<T> list = spQuery(procedureName, mapper, parameters);
 
         if (isListValid(list)) {
             return list.getFirst();
@@ -61,7 +49,7 @@ public abstract class BaseService {
         return null;
     }
 
-    public void spUpdate(String query, Object... parameters) {
+    public void spUpdate(String query, Object... parameters) throws SqlServerCustomException {
         if (isArrayValid(parameters)) {
             getJdbcTemplate().executeProcedure(query, parameters);
         } else {
