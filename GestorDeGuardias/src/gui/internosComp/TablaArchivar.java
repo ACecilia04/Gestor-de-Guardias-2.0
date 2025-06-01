@@ -87,7 +87,7 @@ public class TablaArchivar extends Cuadro implements IsTabla {
         panelTitulo.setSize(titulo.getWidth(), 20);
         panelTitulo.setLocation(0, titulo.getHeight() - panelTitulo.getHeight() - 10);
 
-        Etiqueta ID = new Etiqueta(fuente, colorLetraTitulo, "ID");
+        Etiqueta ID = new Etiqueta(fuente, colorLetraTitulo, "Carnet");
 
         Etiqueta diaT = new Etiqueta(fuente, colorLetraTitulo, "Dia");
         diaT.setPreferredSize(diaT.getSize());

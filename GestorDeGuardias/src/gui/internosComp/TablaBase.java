@@ -104,7 +104,7 @@ public class TablaBase extends Cuadro implements IsTabla {
         });
 
 
-        Etiqueta ID = new Etiqueta(fuente, colorLetraTitulo, "ID");
+        Etiqueta ID = new Etiqueta(fuente, colorLetraTitulo, "Carnet");
         int auxY = (panelTitulo.getSize().height - ID.getSize().height) / 2;
 
         Etiqueta diaT = new Etiqueta(fuente, colorLetraTitulo, "Dia");

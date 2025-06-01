@@ -47,51 +47,51 @@ public class Menu extends JPanel {
         //PanelSplit
 
         //Panel1
-        Boton boton1 = new Boton("Planificaciones");
-        boton1.addIcono("/iconos/Calendar.png");
-        boton1.setSelectLetra(true);
+        Boton botonPlanifs = new Boton("Planificaciones");
+        botonPlanifs.addIcono("/iconos/Calendar.png");
+        botonPlanifs.setSelectLetra(true);
 
-        Boton boton2 = new Boton("Estudiantes");
-        boton2.addIcono("/iconos/Estudiante.png");
-        boton2.setSelectLetra(true);
+        Boton botonEstudiantes = new Boton("Estudiantes");
+        botonEstudiantes.addIcono("/iconos/Estudiante.png");
+        botonEstudiantes.setSelectLetra(true);
 
-        Boton boton3 = new Boton("Trabajadores");
-        boton3.addIcono("/iconos/Profesor.png");
-        boton3.setSelectLetra(true);
+        Boton botonTrabajadores = new Boton("Trabajadores");
+        botonTrabajadores.addIcono("/iconos/Profesor.png");
+        botonTrabajadores.setSelectLetra(true);
 
-        boton1.addActionListener(new ActionListener() {
+        botonPlanifs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.mostrarPanel("panel1");
             }
         });
 
-        boton2.addActionListener(new ActionListener() {
+        botonEstudiantes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.mostrarPanel("panel2");
             }
         });
 
-        boton3.addActionListener(new ActionListener() {
+        botonTrabajadores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.mostrarPanel("panel3");
             }
         });
 
-        boton1.setLocation(x, y);
-        y += boton1.getSize().height + separacion;
-        boton2.setLocation(x, y);
-        y += boton2.getSize().height + separacion;
-        boton3.setLocation(x, y);
-        y += boton3.getSize().height + separacion * 2;
+        botonPlanifs.setLocation(x, y);
+        y += botonPlanifs.getSize().height + separacion;
+        botonEstudiantes.setLocation(x, y);
+        y += botonEstudiantes.getSize().height + separacion;
+        botonTrabajadores.setLocation(x, y);
+        y += botonTrabajadores.getSize().height + separacion * 2;
 
         panel1 = new JPanel(null);
         panel1.setBackground(getBackground());
-        panel1.add(boton1);
-        panel1.add(boton2);
-        panel1.add(boton3);
+        panel1.add(botonPlanifs);
+        panel1.add(botonEstudiantes);
+        panel1.add(botonTrabajadores);
 
         panel1.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
 

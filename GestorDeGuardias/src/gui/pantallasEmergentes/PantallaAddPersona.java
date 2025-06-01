@@ -21,7 +21,7 @@ public abstract class PantallaAddPersona extends JDialog {
     protected Paleta paleta = new Paleta();
 
     protected Dimension dim = new Dimension(500, 700);
-    protected Dimension dimTextField = new Dimension(300, 40);
+    protected Dimension dimTextField = new Dimension(360, 40);
     protected Dimension dimBoton = new Dimension(120, 40);
 
     protected Font fuente = new Font("Arial", Font.PLAIN, 14);
@@ -78,7 +78,7 @@ public abstract class PantallaAddPersona extends JDialog {
         panelBotones = new JPanel();
         panelBotones.setBackground(contentPane.getBackground());
         panelBotones.setPreferredSize(new Dimension(this.getSize().width, 100));
-        panelBotones.setLayout(new FlowLayout(FlowLayout.RIGHT, margenIzquierdo, 28));
+        panelBotones.setLayout(new FlowLayout(FlowLayout.CENTER, 60, 28));
 
         Boton botonCancelar = new Boton("Cancelar");
         botonCancelar.setNuevoSize(dimBoton);
@@ -126,7 +126,7 @@ public abstract class PantallaAddPersona extends JDialog {
 
         boxNombre = new CustomTextField(dimTextField, "Nombre", maxCharNombre, paleta.getColorCasillaTabla());
         boxApellidos = new CustomTextField(dimTextField, "Apellidos", maxCharApellido, paleta.getColorCasillaTabla());
-        boxID = new CustomTextField(dimTextField, "ID", maxCharID, paleta.getColorCasillaTabla());
+        boxID = new CustomTextField(dimTextField, "Carnet", maxCharID, paleta.getColorCasillaTabla());
 
         int separacion = 40;
         int y3 = separacion + 15;
@@ -192,16 +192,15 @@ public abstract class PantallaAddPersona extends JDialog {
     private void inicializarTitulo() {
         panelTitulo = new JPanel();
         panelTitulo.setBackground(contentPane.getBackground());
-        panelTitulo.setSize(this.getSize().width, 80);
+        panelTitulo.setSize(this.getSize().width, 50);
         panelTitulo.setPreferredSize(panelTitulo.getSize());
-        panelTitulo.setLayout(null);
+        panelTitulo.setLayout(new BorderLayout());
 
         Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Rellenar Información");
 
 
-        titulo.setNuevoSizeLetra(20);
         titulo.setBold(true);
-        titulo.setLocation((this.getSize().width - titulo.getSize().width) / 2, 30);
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
         panelTitulo.add(titulo);
     }
 

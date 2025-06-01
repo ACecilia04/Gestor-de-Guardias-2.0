@@ -44,8 +44,9 @@ public class Ventana extends JFrame {
     //Fondo negro
     private Cuadro overlayPanel;
     //Paneles de cambio
-    private JPanel panel1, panel5;
-    private JPanel panel2;
+    private JPanel panel1;
+//    private JPanel panel5;
+//    private JPanel panel2;
     private AddPlanif panelAddPlanif;
     private PantallaEstudiantes pantallaEstudiantes;
     private PantallaTrabajadores pantallaTrabajadores;
@@ -62,11 +63,12 @@ public class Ventana extends JFrame {
     private int distX;
     private int distY;
     private String pantallaActual = "panel1";
-    @SuppressWarnings("unused")
     private PantallaSelecPersona nuevaPantalla;
+    private ServicesLocator servicesLocator;
 
     private Ventana() {
         paleta = new Paleta();
+        servicesLocator = ServicesLocator.getInstance();
 
         //Caracteristicas de la ventana
         inicializarCaractVentana();
@@ -138,7 +140,6 @@ public class Ventana extends JFrame {
     private void inicializarCaractVentana() {
         //Caracteristicas de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        setUndecorated(true);
         setVisible(true);
         setSize(Ventana.SIZE_VENTANA);
         setLocation(0, 0);
@@ -166,7 +167,7 @@ public class Ventana extends JFrame {
 
         distX = menu.getSize().width;
         distY = barraSup.getPreferredSize().height;
-        //Crear paneles que cambiar [BORRAR MIENTRAS SE CREEN LOS REALES]
+        //Crear paneles que cambian [BORRAR MIENTRAS SE CREEN LOS REALES]
         inicializarEstudiantes();
         inicializarTrabajadores();
         pantallaPlanif = new MostrarPlanif();
@@ -177,8 +178,8 @@ public class Ventana extends JFrame {
         //Paneles Auxiliares
         panel1 = new JPanel();
         panel1.setLayout(new BorderLayout());
-        panel5 = new JPanel();
-        panel5.setBackground(Color.MAGENTA);
+//        panel5 = new JPanel();
+//        panel5.setBackground(Color.MAGENTA);
 
         panelVacio.add(pantallaPlanif, "panel1");
         panelVacio.add(pantallaEstudiantes, "panel2");
@@ -244,22 +245,21 @@ public class Ventana extends JFrame {
 
 
             if (Objects.equals(nombrePanel, "panel4")) {
-                //barraSup.mostrarPanel("panelEd2");
+//                barraSup.mostrarPanel("panelEd2");
                 ArrayList<DiaGuardia> dias = new ArrayList<>();
                 boolean opcion = false;
 
-                TurnoDeGuardiaServices tgServ = ServicesLocator.getInstance().getTurnoDeGuardiaServices();
+                TurnoDeGuardiaServices tgServ = servicesLocator.getTurnoDeGuardiaServices();
                 ArrayList<TurnoDeGuardia> plan = tgServ.getAllTurnosDeGuardia();
 
-//                Gestor gestorAux = Gestor.getInstance();
-//                ArrayList<DiaGuardia> plan = Gestor.getInstance().getPlanDeGuardias();
+
                 if (plan.isEmpty() || (tgServ.getTurnosAPartirDe(LocalDate.now()).isEmpty() && !plan.getLast().getFecha().isAfter(LocalDate.now()))) {
                     String string = "<html><p>No se encuentran registradas planificaciones <br> para el mes actual <br><br>Desea generar las planificaciones del resto del mes o del próximo?</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Mes Actual", "Próximo Mes");
                     opcion = advertencia.getEleccion();
                 }
 
-                dias = ServicesLocator.getInstance().getPlantillaServices().crearPLantilla(opcion);
+                dias = servicesLocator.getPlantillaServices().crearPLantilla(opcion);
 
                 Tabla tabla = new Tabla(AddPlanif.getTablaDim(), paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
 
@@ -284,7 +284,7 @@ public class Ventana extends JFrame {
         pantallaEstudiantes = new PantallaEstudiantes();
 
         TablaEstudiantes customTabla = new TablaEstudiantes();
-        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
+        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros((ArrayList<Persona>)servicesLocator.getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
         pantallaEstudiantes.addTabla(customTabla);
     }
 
@@ -293,7 +293,7 @@ public class Ventana extends JFrame {
         pantallaTrabajadores = new PantallaTrabajadores();
 
         TablaTrabajadores customTabla = new TablaTrabajadores();
-        customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador"))));
+        customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros((ArrayList<Persona>)servicesLocator.getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador"))));
         pantallaTrabajadores.addTabla(customTabla);
     }
 
@@ -341,9 +341,9 @@ public class Ventana extends JFrame {
         panelAddPlanif.addTabla(tabla);
     }
 
-    public JPanel getPanel2() {
-        return panel2;
-    }
+//    public JPanel getPanel2() {
+//        return panel2;
+//    }
 
     public PantallaCump getPantallaCump() {
         return pantallaCump;

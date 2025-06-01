@@ -114,10 +114,7 @@ public class PantallaSelecPersona extends JDialog {
                             Persona personaAux = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(IDselec);
                             Gestor.getInstance().asignarPersona(turno.getFecha(), turno.getTurno().getHorario(), personaAux);
                             turno.actualizar();
-                        } catch (EntradaInvalidaException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        } catch (MultiplesErroresException e1) {
+                        } catch (EntradaInvalidaException | MultiplesErroresException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }

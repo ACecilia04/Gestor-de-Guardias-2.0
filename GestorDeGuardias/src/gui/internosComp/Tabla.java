@@ -10,7 +10,6 @@ import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.Ventana;
 import model.DiaGuardia;
 import services.Gestor;
-import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -39,7 +38,7 @@ public class Tabla extends Cuadro implements IsTabla {
     private final int distX;
     private final int distY;
     private final JPanel anchoTotal;
-    private final TablaOpcionesPlanif tablaOpciones;
+    private final PanelOpcionesPlanif tablaOpciones;
     //Secciones
     CuadroRectoAbajo titulo;
     JPanel panelCasillas;
@@ -47,7 +46,7 @@ public class Tabla extends Cuadro implements IsTabla {
     ArrayList<DiaGuardia> dias;
     private int mouseX, mouseY;
 
-    public Tabla(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, final TablaOpcionesPlanif tablaOpciones, final int distX, final int distY, final JPanel anchoTotal) {
+    public Tabla(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, final PanelOpcionesPlanif tablaOpciones, final int distX, final int distY, final JPanel anchoTotal) {
         super(dimension, redondez, color);
         PanelDia.setCasillaLargo(dimension.width - sepIzquierda * 2);
         this.setLayout(null);
@@ -206,7 +205,7 @@ public class Tabla extends Cuadro implements IsTabla {
         });
 
 
-        Etiqueta ID = new Etiqueta(fuente, colorLetraTitulo, "ID");
+        Etiqueta ID = new Etiqueta(fuente, colorLetraTitulo, "Carnet");
         int auxY = (panelTitulo.getSize().height - ID.getSize().height) / 2;
 
         Etiqueta diaT = new Etiqueta(fuente, colorLetraTitulo, "Dia");

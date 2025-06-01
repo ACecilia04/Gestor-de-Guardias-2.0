@@ -84,7 +84,7 @@ public abstract class CustomTablaComplex extends JPanel {
 
         titlePanel.add(titleLabel);
 
-        ponerMinimo(150);
+        ponerMinimo(75);
 
 
         tabla.getTableHeader().setDefaultRenderer(new CustomHeaderRenderer());

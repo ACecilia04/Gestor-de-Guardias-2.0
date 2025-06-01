@@ -4,7 +4,7 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.internosComp.PanelTurno;
 import gui.internosComp.Tabla;
-import gui.internosComp.TablaOpcionesPlanif;
+import gui.internosComp.PanelOpcionesPlanif;
 import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
@@ -20,7 +20,7 @@ public class AddPlanif extends JPanel {
     private static Dimension tablaDim = new Dimension(1200, 745);
     private final JPanel contentPane;
     int x;
-    private TablaOpcionesPlanif tablaOpciones;
+    private PanelOpcionesPlanif tablaOpciones;
     private Tabla tabla;
 
 
@@ -38,7 +38,7 @@ public class AddPlanif extends JPanel {
         contentPane.setBackground(paleta.getColorFondo());
 
 
-        tablaOpciones = new TablaOpcionesPlanif(dimTablaOpciones);
+        tablaOpciones = new PanelOpcionesPlanif(dimTablaOpciones);
 
         final Boton aux1 = tablaOpciones.getBotonAddPersona();
         aux1.addActionListener(new ActionListener() {
@@ -83,17 +83,17 @@ public class AddPlanif extends JPanel {
         }
         tabla.setSize(tablaDim);
         this.tabla = tabla;
-        tabla.setLocation(x, 20);
+        tabla.setLocation(SwingConstants.CENTER, 20);
         contentPane.add(tabla);//Hacer singleton
         repaint();
         revalidate();
     }
 
-    public TablaOpcionesPlanif getTablaOpciones() {
+    public PanelOpcionesPlanif getTablaOpciones() {
         return tablaOpciones;
     }
 
-    public void setTablaOpciones(TablaOpcionesPlanif tablaOpciones) {
+    public void setTablaOpciones(PanelOpcionesPlanif tablaOpciones) {
         this.tablaOpciones = tablaOpciones;
     }
 }
