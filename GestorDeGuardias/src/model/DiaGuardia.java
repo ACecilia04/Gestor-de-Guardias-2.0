@@ -2,16 +2,15 @@ package model;
 
 import utils.exceptions.EntradaInvalidaException;
 import logica.principal.HorarioGuardia;
-import logica.principal.TurnoGuardia;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class DiaGuardia implements Comparable<DiaGuardia> {
     private LocalDate fecha;
-    private ArrayList<TurnoGuardia> turnos;
+    private ArrayList<TurnoDeGuardia> turnos;
 
-    public DiaGuardia(LocalDate fecha, ArrayList<TurnoGuardia> turnos) {
+    public DiaGuardia(LocalDate fecha, ArrayList<TurnoDeGuardia> turnos) {
         setFecha(fecha);
         setTurnos(turnos);
     }
@@ -24,11 +23,11 @@ public class DiaGuardia implements Comparable<DiaGuardia> {
         this.fecha = fecha;
     }
 
-    public ArrayList<TurnoGuardia> getTurnos() {
+    public ArrayList<TurnoDeGuardia> getTurnos() {
         return turnos;
     }
 
-    private void setTurnos(ArrayList<TurnoGuardia> arreglo) {
+    private void setTurnos(ArrayList<TurnoDeGuardia> arreglo) {
 
         this.turnos = arreglo;
     }
@@ -38,8 +37,8 @@ public class DiaGuardia implements Comparable<DiaGuardia> {
         return this.getFecha().compareTo(dia.getFecha());
     }
 
-    public TurnoGuardia buscarTurno(HorarioGuardia horario) throws EntradaInvalidaException {
-        TurnoGuardia indicado = null;
+    public TurnoDeGuardia buscarTurno(HorarioGuardia horario) throws EntradaInvalidaException {
+        TurnoDeGuardia indicado = null;
         boolean encontrado = false;
         if (horario == null)
             throw new EntradaInvalidaException("Horario no especificado.");
@@ -53,10 +52,10 @@ public class DiaGuardia implements Comparable<DiaGuardia> {
         return indicado;
     }
 
-    public ArrayList<TurnoGuardia> getTurnosPorActualizar() {
-        ArrayList<TurnoGuardia> turnosPorActualizar = new ArrayList<TurnoGuardia>();
+    public ArrayList<TurnoDeGuardia> getTurnosPorActualizar() {
+        ArrayList<TurnoDeGuardia> turnosPorActualizar = new ArrayList<TurnoDeGuardia>();
 
-        for (TurnoGuardia t : turnos)
+        for (TurnoDeGuardia t : turnos)
             if (t.getCumplimiento() == null)
                 turnosPorActualizar.add(t);
         return turnosPorActualizar;

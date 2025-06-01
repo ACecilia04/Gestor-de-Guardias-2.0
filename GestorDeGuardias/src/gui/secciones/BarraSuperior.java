@@ -19,7 +19,7 @@ public class BarraSuperior extends JPanel {
     private final JPanel panelEdicion1;
     private final PanelEdicion2 panelEd2;
 
-    private final Font fuente = new Font("Arial", Font.PLAIN, 18);
+//    private final Font fuente = new Font("Arial", Font.PLAIN, 18);
 
     public BarraSuperior(JPanel contenedor) {
         Dimension dim = new Dimension(contenedor.getSize().width, 85);

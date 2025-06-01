@@ -20,7 +20,7 @@ public class CustomPasswordField extends Cuadro {
     private final Cuadro myself;
     private final JPasswordField textField;
     private final Boton toggleButton;
-    private final Font fuente = new Font("Arial", Font.PLAIN, 15);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 14);
     //Iconos
     private final String iconoVisible = "/iconos/Invisible.png";
     private final String iconoInvisible = "/iconos/Visible.png";

@@ -58,7 +58,7 @@ public class CustomTabla extends JPanel {
 
         // Crear una etiqueta para el t�tulo
         JLabel titleLabel = new JLabel(texto);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 19)); // Fuente en negrita y tama�o 20
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 14)); // Fuente en negrita y tama�o 20
         titleLabel.setForeground(paleta.getColorLetraMenu()); // Color del texto en azul
 
         // Agregar la etiqueta al panel del t�tulo

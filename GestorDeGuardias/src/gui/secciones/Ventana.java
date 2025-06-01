@@ -25,7 +25,7 @@ import java.util.Objects;
 public class Ventana extends JFrame {
 
     public static final Dimension SIZE_ADVERTENCIA = new Dimension(530, 300);
-    public static final Dimension SIZE_VENTANA = Toolkit.getDefaultToolkit().getScreenSize();
+    public static final Dimension SIZE_VENTANA = new Dimension(1200, 700);
     private static final long serialVersionUID = 1L;
     private static Ventana ventana;
     //Demora en aparecer el panel de inicio
@@ -35,7 +35,7 @@ public class Ventana extends JFrame {
     private final JPanel contReal;
     private final JPanel zonaInferior; //Inferior
     //Pedazos de informacion
-    private final BarraSalida barraSalida;
+//    private final BarraSalida barraSalida = null;
     private final BarraSuperior barraSup;
     private final Menu menu;
     //Auxiliar
@@ -50,7 +50,7 @@ public class Ventana extends JFrame {
     private PantallaEstudiantes pantallaEstudiantes;
     private PantallaTrabajadores pantallaTrabajadores;
     private MostrarPlanif pantallaPlanif;
-    private ArchivarPlanif pantallaArchivar;
+    private AsistenciaPlanif pantallaArchivar;
     private PantallaCump pantallaCump;
 
     private PantallaFacultad pantallaFacultad;
@@ -70,7 +70,6 @@ public class Ventana extends JFrame {
 
         //Caracteristicas de la ventana
         inicializarCaractVentana();
-
         // Crear un temporizador para mostrar el JDialog despu�s de un retraso
         Timer timer = new Timer(delayInSeconds * 500, new ActionListener() {
             @Override
@@ -91,13 +90,13 @@ public class Ventana extends JFrame {
 
 
         //BarraSalida
-        barraSalida = new BarraSalida(this);
-        contentPane.add(barraSalida, BorderLayout.NORTH);
+//        barraSalida = new BarraSalida(this);
+//        contentPane.add(barraSalida, BorderLayout.NORTH);
 
         //ContentPane real
         contReal = new JPanel(new BorderLayout());
 
-        Dimension auxContReal = new Dimension(this.getSize().width, this.getSize().height - barraSalida.getSize().height);
+        Dimension auxContReal = new Dimension(this.getSize().width, this.getSize().height);
         contReal.setSize(auxContReal);
         contReal.setBackground(getBackground());
 
@@ -139,12 +138,14 @@ public class Ventana extends JFrame {
     private void inicializarCaractVentana() {
         //Caracteristicas de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setUndecorated(true);
+//        setUndecorated(true);
         setVisible(true);
         setSize(Ventana.SIZE_VENTANA);
         setLocation(0, 0);
         setBackground(paleta.getColorFondo());
-        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), Cuadro.redMED, Cuadro.redMED));
+//        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), Cuadro.redMED, Cuadro.redMED));
+        setMinimumSize(new Dimension(800, 600));
+        setTitle("Gestor de Guardias");
 
         // Crear el panel de superposici�n
         overlayPanel = new Cuadro(this.getSize(), 0, Color.BLACK);
@@ -164,14 +165,13 @@ public class Ventana extends JFrame {
         panelVacio.setSize(zonaInferior.getWidth() - menu.getWidth(), zonaInferior.getHeight());
 
         distX = menu.getSize().width;
-        distY = barraSup.getPreferredSize().height + barraSalida.getSize().height;
-
+        distY = barraSup.getPreferredSize().height;
         //Crear paneles que cambiar [BORRAR MIENTRAS SE CREEN LOS REALES]
         inicializarEstudiantes();
         inicializarTrabajadores();
         pantallaPlanif = new MostrarPlanif();
         panelAddPlanif = new AddPlanif(panelVacio);
-        pantallaArchivar = new ArchivarPlanif();
+        pantallaArchivar = new AsistenciaPlanif();
         pantallaCump = new PantallaCump();
 
         //Paneles Auxiliares
@@ -192,9 +192,9 @@ public class Ventana extends JFrame {
     private void redimensionar() {
         Dimension frameSize = this.getSize();
 
-        contReal.setSize(frameSize.width, frameSize.height - barraSalida.getSize().height);
-        zonaInferior.setPreferredSize(new Dimension(frameSize.width, frameSize.height - barraSup.getPreferredSize().height - barraSalida.getSize().height));
-        zonaInferior.setSize(new Dimension(frameSize.width, frameSize.height - barraSup.getPreferredSize().height - barraSalida.getSize().height));
+        contReal.setSize(frameSize.width, frameSize.height);
+        zonaInferior.setPreferredSize(new Dimension(frameSize.width, frameSize.height - barraSup.getPreferredSize().height));
+        zonaInferior.setSize(new Dimension(frameSize.width, frameSize.height - barraSup.getPreferredSize().height));
         panelVacio.setSize(zonaInferior.getWidth() - menu.getWidth(), zonaInferior.getHeight());
         for (Component comp1 : panelVacio.getComponents()) {
             if (comp1 instanceof JPanel) {
@@ -259,12 +259,7 @@ public class Ventana extends JFrame {
                     opcion = advertencia.getEleccion();
                 }
 
-                try {
-                    dias = Gestor.getInstance().crearPlantilla(opcion);
-                } catch (EntradaInvalidaException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                dias = ServicesLocator.getInstance().getPlantillaServices().crearPLantilla(opcion);
 
                 Tabla tabla = new Tabla(AddPlanif.getTablaDim(), paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
 
@@ -352,10 +347,6 @@ public class Ventana extends JFrame {
 
     public PantallaCump getPantallaCump() {
         return pantallaCump;
-    }
-
-    public boolean isMaximized() {
-        return barraSalida.isMaximized();
     }
 
 

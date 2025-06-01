@@ -22,9 +22,9 @@ public class PanelDia extends PanelDiaBase implements Actualizable {
             panelTurnos.setBorder(BorderFactory.createEmptyBorder(8, 0, 0, 0));
 
             for (int i = 0; i < dia.getTurnos().size(); i++) {
-//                PanelTurno nuevo = new PanelTurno(casillaLargo - anchoFecha, getBackground(), dia.getTurnos().get(i), this.dia, this);
-//                panelTurnos.add(nuevo);
-//                panelesTurno.add(nuevo);
+                PanelTurno nuevo = new PanelTurno(casillaLargo - anchoFecha, getBackground(), dia.getTurnos().get(i), this.dia, this);
+                panelTurnos.add(nuevo);
+                panelesTurno.add(nuevo);
                 panelTurnos.add(Box.createRigidArea(new Dimension(0, 5)));
             }
         }

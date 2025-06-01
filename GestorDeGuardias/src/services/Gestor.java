@@ -52,17 +52,6 @@ public class Gestor {
      * @throws EntradaInvalidaException
      */
     public ArrayList<DiaGuardia> crearPlantilla(boolean empezarHoy) throws EntradaInvalidaException {
-/*        TODO: crearPlantilla
-        que puede ser:
-        pedirle a la bd la configuracion pasandole la fecha
-        que implica:
-                 getconfiguracionenlabd(es receso, diaSemana)
-                 con esos horarios llenar la tabla en la interfaz
-                 para ver la gente disponible, pasar el horario y la fecha de cada fila de la tabla
-                 asignar persona seria seleccionar <= q la cant max de la config
-                 guardar en lista aux hasta que se le de a guardar
-                 guardar = crear los turnos en la bd con hecho default
-         */
 
         ArrayList<DiaGuardia> dias = new ArrayList<DiaGuardia>();
         LocalDate inicio;
@@ -268,9 +257,9 @@ public class Gestor {
             throw new EntradaInvalidaException("No hay d�as para guardar.");
 
         for (int i = 0; i < nuevosDias.size() && !vacio; i++) {
-            if (!facultad.fechaEsRecesoDocente(nuevosDias.get(i).getFecha())) // xq	si es receso docente puede estar vacia ya q parte de voluntariedad
-                for (int ii = 0; ii < nuevosDias.get(i).getTurnos().size() && !vacio; ii++)
-                    vacio = nuevosDias.get(i).getTurnos().get(ii).getPersonaAsignada() == null;
+//            if (!facultad.fechaEsRecesoDocente(nuevosDias.get(i).getFecha())) // xq	si es receso docente puede estar vacia ya q parte de voluntariedad
+//                for (int ii = 0; ii < nuevosDias.get(i).getTurnos().size() && !vacio; ii++)
+////                    vacio = nuevosDias.get(i).getTurnos().get(ii).getPersonaAsignada() == null;
         }
         if (vacio) {
             throw new EntradaInvalidaException("Todo d�a lectivo debe tener una persona asignada.");
@@ -324,7 +313,7 @@ public class Gestor {
         DiaGuardia dia = buscarDiaGuardia(fecha);
 
         if (dia == null)
-            throw new EntradaInvalidaException("No hay planificaci�n para esta fecha.");
+            throw new EntradaInvalidaException("No hay planificación para esta fecha.");
 //        TurnoDeGuardia turno = dia.buscarTurno(horario);
 
 //        if (turno == null)
@@ -336,7 +325,7 @@ public class Gestor {
         DiaGuardia dia = buscarDiaGuardia(fecha);
 
         if (dia == null)
-            throw new EntradaInvalidaException("No hay planificaci�n para esta fecha.");
+            throw new EntradaInvalidaException("No hay planificación para esta fecha.");
 //        for (TurnoDeGuardia turno : dia.getTurnos())
 //            turno.borrarPersonaAsignada();
     }
@@ -539,7 +528,7 @@ public class Gestor {
 //			throw new MultiplesErroresException("Datos incorrectos:, errores");
 //
 //		DiaGuardia dia = buscarDiaGuardia(fecha);
-//		TurnoGuardia turno = dia.buscarTurno(horario);
+//		TurnoDeGuardia turno = dia.buscarTurno(horario);
 //		if (turno.getCumplimiento() == null){
 //			turno.actualizarCumplimiento(hecho);
 //		} else

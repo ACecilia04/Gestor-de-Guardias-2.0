@@ -35,7 +35,7 @@ public class Tabla extends Cuadro implements IsTabla {
     private final ArrayList<PanelDiaBase> panelesCasillas = new ArrayList<>();
     private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
-    private final Font fuente = new Font("Arial", Font.BOLD, 16);
+    private final Font fuente = new Font("Arial", Font.BOLD, 14);
     private final int distX;
     private final int distY;
     private final JPanel anchoTotal;

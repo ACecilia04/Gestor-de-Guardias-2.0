@@ -26,7 +26,7 @@ public class PanelOpcionesMostrarP extends JPanel {
     private final int separacion = 10;
     private final int x = 20;
     private final int y = separacion + 10;
-    private final Font fuente = new Font("Arial", Font.PLAIN, 15);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 14);
     private Buscar buscar;
     private Dimension dimBoton = new Dimension(200, 35);
 

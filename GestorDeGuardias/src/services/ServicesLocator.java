@@ -12,6 +12,7 @@ public class ServicesLocator {
     private final TurnoDeGuardiaServices turnoDeGuardiaServices;
     private final UsuarioServices usuarioServices;
     private final RolServices rolServices;
+    private final PlantillaServices plantillaServices;
 
     private ServicesLocator() {
         MainBaseDao mbDAO = new MainBaseDao();
@@ -23,6 +24,7 @@ public class ServicesLocator {
         usuarioServices = new UsuarioServices(mbDAO);
         rolServices = new RolServices(mbDAO);
         configuracionServices = new ConfiguracionServices(mbDAO);
+        plantillaServices = new PlantillaServices(this);
     }
 
     public static ServicesLocator getInstance() {
@@ -63,4 +65,6 @@ public class ServicesLocator {
     public RolServices getRolServices() {
         return rolServices;
     }
+
+    public PlantillaServices getPlantillaServices(){ return plantillaServices;}
 }
