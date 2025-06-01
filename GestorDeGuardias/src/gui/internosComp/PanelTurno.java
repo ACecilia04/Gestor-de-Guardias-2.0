@@ -61,7 +61,6 @@ public class PanelTurno extends Cuadro implements Actualizable {
         colorFondo = color;
         colorPasada = colorFondo.darker();
         colorSelec = paleta.getColorCaracteristico();
-//TODO: aqui habia un getHorario.getText
         String horarioText = this.turno.getHorario().toString();
         horario = new Etiqueta(fuente, colorLetra, horarioText);
         horarioPanel = new JPanel();

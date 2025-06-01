@@ -50,7 +50,7 @@ public class Ventana extends JFrame {
     private PantallaEstudiantes pantallaEstudiantes;
     private PantallaTrabajadores pantallaTrabajadores;
     private MostrarPlanif pantallaPlanif;
-    private ArchivarPlanif pantallaArchivar;
+    private AsistenciaPlanif pantallaArchivar;
     private PantallaCump pantallaCump;
 
     private PantallaFacultad pantallaFacultad;
@@ -171,7 +171,7 @@ public class Ventana extends JFrame {
         inicializarTrabajadores();
         pantallaPlanif = new MostrarPlanif();
         panelAddPlanif = new AddPlanif(panelVacio);
-        pantallaArchivar = new ArchivarPlanif();
+        pantallaArchivar = new AsistenciaPlanif();
         pantallaCump = new PantallaCump();
 
         //Paneles Auxiliares
@@ -259,12 +259,7 @@ public class Ventana extends JFrame {
                     opcion = advertencia.getEleccion();
                 }
 
-                try {
-                    dias = Gestor.getInstance().crearPlantilla(opcion);
-                } catch (EntradaInvalidaException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                dias = ServicesLocator.getInstance().getPlantillaServices().crearPLantilla(opcion);
 
                 Tabla tabla = new Tabla(AddPlanif.getTablaDim(), paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
 

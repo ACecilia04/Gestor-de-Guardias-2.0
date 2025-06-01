@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class ArchivarPlanif extends JPanel {
+public class AsistenciaPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
     private static final int PANEL_WIDTH = 300;
@@ -33,7 +33,7 @@ public class ArchivarPlanif extends JPanel {
     private PanelInterno panelSelec;
 
 
-    public ArchivarPlanif() {
+    public AsistenciaPlanif() {
 
         setLayout(new BorderLayout());
         setBackground(Color.GREEN);
@@ -93,7 +93,7 @@ public class ArchivarPlanif extends JPanel {
             }
             if (paneles.isEmpty()) {
                 panelInterior.setLayout(layout2);
-                Etiqueta error = new Etiqueta(fuente, Color.GRAY, "No hay planificaciones para Archivar");
+                Etiqueta error = new Etiqueta(fuente, Color.GRAY, "No hay planificación cuya asistencia pueda ser actualizada.");
                 panelInterior.add(error);
             }
         } catch (EntradaInvalidaException e1) {

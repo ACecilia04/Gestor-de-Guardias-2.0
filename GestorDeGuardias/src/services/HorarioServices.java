@@ -8,6 +8,7 @@ import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,9 @@ public class HorarioServices {
         baseDao.spUpdate("sp_horario_delete(?)", id);
     }
 
+    public List<Horario> getHorariosDeFecha(LocalDate fecha){
+        return baseDao.spQuery("sp_horarios_de_fecha(?)", new HorarioMapper(), fecha);
+    }
     // Internal Mapper
     private static class HorarioMapper implements RowMapper<Horario> {
         @Override

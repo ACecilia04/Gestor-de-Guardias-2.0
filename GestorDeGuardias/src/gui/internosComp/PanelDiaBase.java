@@ -23,8 +23,8 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
     //Casillas
     protected static int casillaLargo = 954;
     protected static int largoComun = 54;
-    protected static int largoDoble = 80;
-    protected static int largoTriple = 110;
+//    protected static int largoDoble = 80;
+//    protected static int largoTriple = 110;
     protected Paleta paleta = new Paleta();
     protected DiaGuardia dia;
     protected Cuadro myself;
@@ -159,8 +159,8 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
 
     public void inicializarTurnos() {
         int cantTurnos = dia.getTurnos().size();
+        iniciarCasilla();
         if (cantTurnos == 1) {
-            iniciarCasilla();
             Component nuevo = panelTurnos.getComponent(0);
             MouseListener[] listeners = this.getMouseListeners();
 
@@ -173,8 +173,6 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
             }
             nuevo.setLocation(0, (this.getHeight() - 10 - nuevo.getHeight()) / 2);
 
-        } else {
-            iniciarCasilla();
         }
 
     }
@@ -201,11 +199,9 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
 
     protected int getAncho() {
         int ancho = largoComun;
-        if (dia.getTurnos().size() == 2) {
-            ancho = largoDoble;
-        } else if (dia.getTurnos().size() == 3) {
-            ancho = largoTriple;
-        }
+      for (int i = 0; i < dia.getTurnos().size(); i++)
+            ancho = (int) (ancho * 1.5);
+
         return ancho;
     }
 

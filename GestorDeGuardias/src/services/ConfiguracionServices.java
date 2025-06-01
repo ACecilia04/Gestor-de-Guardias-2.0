@@ -3,13 +3,16 @@ package services;
 import model.Configuracion;
 import model.Horario;
 import model.TipoPersona;
+import model.TurnoDeGuardia;
 import utils.dao.MainBaseDao;
 import utils.dao.SqlServerCustomException;
+import utils.dao.mappers.IntegerMapper;
 import utils.dao.mappers.RowMapper;
 import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +80,17 @@ public class ConfiguracionServices {
         baseDao.spUpdate("sp_configuracion_delete(?)", id);
     }
 
+    public Configuracion getConfiguracionDeFecha(LocalDate fecha){
+        /* FROM configuracion
+        SELECT
+
+         */
+        return baseDao.spQuerySingleObject("sp_configuracion_de_fecha(?)", new ConfiguracionMapper(), fecha.getDayOfWeek().getValue());
+    }
+
+    public int getCantPersonasAsignables(Long horario, LocalDate fecha){
+        return baseDao.spQuerySingleObject("sp_configuracion_get_cant_personas_asignables(?, ?)", new IntegerMapper(), horario, fecha);
+    }
     // Internal Mapper
     private static class ConfiguracionMapper implements RowMapper<Configuracion> {
         @Override

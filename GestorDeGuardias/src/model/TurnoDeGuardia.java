@@ -6,7 +6,8 @@ import java.util.ArrayList;
 public class TurnoDeGuardia {
     private Horario horario;
     private ArrayList<Persona> personasAsignadas;
-    private boolean hecho;
+    private
+    Boolean hecho;
     private LocalDate fecha;
 
 
@@ -17,15 +18,20 @@ public class TurnoDeGuardia {
         this.hecho = false;
     }
 
-    public TurnoDeGuardia(Horario horario, Long personaAsignada, boolean hecho, LocalDate fecha) {
-        this.fecha = fecha;
-        this.horario = horario;
+//    public TurnoDeGuardia(Horario horario, Long personaAsignada, Boolean hecho, LocalDate fecha) {
+//        this.fecha = fecha;
+//        this.horario = horario;
 //        asignarPersona(personaAsignada);
-        this.hecho = hecho;
-    }
+//        this.hecho = hecho;
+//    }
 
     public TurnoDeGuardia() {
+        personasAsignadas = new ArrayList<>();
+    }
 
+    public TurnoDeGuardia(Horario horario) {
+        this.horario = horario;
+        personasAsignadas = new ArrayList<>();
     }
 
     // Getters

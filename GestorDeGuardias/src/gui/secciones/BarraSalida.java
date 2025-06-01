@@ -29,7 +29,7 @@ public class BarraSalida extends JPanel {
         gbc.gridy = 0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.CENTER;
-        
+
         JPanel apoyoDerecha = new JPanel();
         apoyoDerecha.setLayout(new FlowLayout());
         apoyoDerecha.setBackground(getBackground());
