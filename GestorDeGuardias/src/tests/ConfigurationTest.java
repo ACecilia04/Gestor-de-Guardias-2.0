@@ -2,6 +2,7 @@ package tests;
 
 import model.Configuracion;
 import model.Horario;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.ConfiguracionServices;
@@ -24,181 +25,388 @@ public class ConfigurationTest {
     public static void setup() {
         configuracionServices = ServicesLocator.getInstance().getConfiguracionServices();
         horarioServices = ServicesLocator.getInstance().getHorarioServices();
-    }
 
-    @Test
-    public void insertConfiguracion() {
-        LocalTime inicio = LocalTime.of(8, 0, 0);
-        LocalTime fin = LocalTime.of(20, 0, 0);
-        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
-        Configuracion record = new Configuracion(1, false, horario, "Estudiante", "M", 1);
-        if (configuracionServices.getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso()) == null) {
-            try {
-                configuracionServices.insertConfiguracion(record);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        Configuracion recordInsertado = configuracionServices.getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso());
-        assertNotNull(recordInsertado);
-    }
-
-
-    @Test
-    public void getConfiguracionByPk() {
-        LocalTime inicio = LocalTime.of(8, 0, 0);
-        LocalTime fin = LocalTime.of(20, 0, 0);
-        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
-        Configuracion record = new Configuracion(1, false, horario, "Estudiante", "M", 1);
-        if (configuracionServices.getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso()) == null) {
-            try {
-                configuracionServices.insertConfiguracion(record);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        Configuracion configuracion = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
-        assertNotNull(configuracion);
-        assertEquals("Estudiante", configuracion.getTipoPersona().getNombre());
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Horario horario1 = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion nuevoRecord = new Configuracion(1, false, horario1, "Estudiante", "M", 3);
         try {
-            configuracionServices.deleteConfiguracion(configuracion.getId());
+            configuracionServices.insertConfiguracion(nuevoRecord);
+        } catch (MultiplesErroresException | SqlServerCustomException e) {
+            throw new RuntimeException(e);
+        }
+
+        inicio = LocalTime.of(14, 0, 0);
+        fin = LocalTime.of(19, 0, 0);
+        Horario horario2 = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion nuevoRecord2 = new Configuracion(1, false, horario2, "Estudiante", "F", 1);
+        try {
+            configuracionServices.insertConfiguracion(nuevoRecord2);
+        } catch (MultiplesErroresException | SqlServerCustomException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @AfterClass
+    public static void done() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        try {
+            configuracionServices.deleteConfiguracion(record.getId());
+        } catch (SqlServerCustomException e) {
+            throw new RuntimeException(e);
+        }
+
+        inicio = LocalTime.of(14, 0, 0);
+        fin = LocalTime.of(19, 0, 0);
+        Configuracion record2 = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        try {
+            configuracionServices.deleteConfiguracion(record2.getId());
+        } catch (SqlServerCustomException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Test
+    public void insertDiaSemanaEmpty_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion nuevoRecord = new Configuracion(0, false, horario, "Estudiante", "M", 3);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.insertConfiguracion(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Dia de semana no especificado.");
         } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void getConfiguracionById() {
-        LocalTime inicio = LocalTime.of(8, 0, 0);
-        LocalTime fin = LocalTime.of(20, 0, 0);
+    public void insertDiaSemanaIllegal_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
         Horario horario = horarioServices.getHorarioByPk(inicio, fin);
-        Configuracion record = new Configuracion(1, false, horario, "Estudiante", "M", 1);
-        if (configuracionServices.getConfiguracionByPk(record.getHorario().getId(), record.getDiaSemana(), record.isDiaEsReceso()) == null) {
-            try {
-                configuracionServices.insertConfiguracion(record);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-        Configuracion configuracion = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
-        Configuracion configuracion2 = configuracionServices.getConfiguracionById(configuracion.getId());
-        assertNotNull(configuracion);
-        assertEquals("Estudiante", configuracion.getTipoPersona().getNombre());
+        Configuracion nuevoRecord = new Configuracion(9, false, horario, "Estudiante", "M", 3);
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            configuracionServices.deleteConfiguracion(configuracion2.getId());
+            configuracionServices.insertConfiguracion(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Dia de semana no válido (1-7).");
         } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void deleteConfiguracion() {
-        LocalTime inicio = LocalTime.of(8, 0, 0);
-        LocalTime fin = LocalTime.of(20, 0, 0);
+    public void insertEsRecesoEmpty_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
         Horario horario = horarioServices.getHorarioByPk(inicio, fin);
-        Configuracion configuracion = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
-        assertNotNull(configuracion);
+        Configuracion nuevoRecord = new Configuracion(1, null, horario, "Estudiante", "M", 3);
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            configuracionServices.deleteConfiguracion(configuracion.getId());
+            configuracionServices.insertConfiguracion(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Dia de receso no especificado.");
         } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
-
-        Configuracion deleted = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
-        assertNull(deleted);
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void getAllTiposPersona() {
-        List<Configuracion> configuraciones = configuracionServices.getAllConfiguraciones();
-        if (configuraciones.isEmpty()){
-            LocalTime inicio = LocalTime.of(8, 0, 0);
-            LocalTime fin = LocalTime.of(20, 0, 0);
-            Horario horario = horarioServices.getHorarioByPk(inicio, fin);
-            Configuracion newRecord = new Configuracion(1, false, horario, "Estudiante", "M", 1);
-            try {
-                configuracionServices.insertConfiguracion(newRecord);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-            Configuracion insertedRecord1 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, false);
-
-            Configuracion newRecord2 = new Configuracion(1, true, horario, "Trabajador", "F", 1);
-            try {
-                configuracionServices.insertConfiguracion(newRecord2);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-            Configuracion insertedRecord2 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
-
-            configuraciones = configuracionServices.getAllConfiguraciones();
-            assertNotNull(configuraciones);
-            assertFalse(configuraciones.isEmpty());
-
-            try {
-                horarioServices.deleteHorario(insertedRecord1.getId());
-                horarioServices.deleteHorario(insertedRecord2.getId());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
+    public void insertHorarioNull_throwException() {
+        Configuracion nuevoRecord = new Configuracion(1, false, null, "Estudiante", "M", 3);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.insertConfiguracion(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Horario no especificado.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
         }
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void updateConfiguracion() {
-        LocalTime inicio = LocalTime.of(8, 0, 0);
-        LocalTime fin = LocalTime.of(20, 0, 0);
+    public void insertExisting_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
         Horario horario = horarioServices.getHorarioByPk(inicio, fin);
-        Configuracion configuracion1 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
-        if (configuracion1 == null){
-            try {
-                configuracionServices.insertConfiguracion(configuracion1);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        configuracion1 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
-        assertNotNull(configuracion1);
-
-        configuracion1.setDiaSemana(2);
+        Configuracion nuevoRecord = new Configuracion(1, false, horario, "Estudiante", "M", 3);
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            configuracionServices.updateConfiguracion(configuracion1);
+            configuracionServices.insertConfiguracion(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Configuracion existente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void updateDiaSemanaEmpty_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        assertNotNull(record);
+        record.setDiaSemana(null);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.updateConfiguracion(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Dia de semana no especificado.");
         } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
 
-        Configuracion configuracion2 = configuracionServices.getConfiguracionByPk(horario.getId(), 2, true);
-        assertNotNull(configuracion2);
-
-        configuracion2.setDiaSemana(1);
+    @Test
+    public void updateDiaSemanaIllegal_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        assertNotNull(record);
+        record.setDiaSemana(9);
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            configuracionServices.updateConfiguracion(configuracion2);
+            configuracionServices.updateConfiguracion(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Dia de semana no válido (1-7).");
         } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
 
-        Configuracion configuracion3 = configuracionServices.getConfiguracionByPk(horario.getId(), 1, true);
-        assertNotNull(configuracion3);
+    @Test
+    public void updateEsRecesoEmpty_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        assertNotNull(record);
+        record.setDiaEsReceso(null);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.updateConfiguracion(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Dia de receso no especificado.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updateHorarioNull_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        assertNotNull(record);
+        record.setHorario(null);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.updateConfiguracion(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Horario no especificado.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updateNonExisting_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = new Configuracion(2, false, horario, "Estudiante", "M", 3);
+        record.setId(99L);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.updateConfiguracion(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Configuracion inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updateExisting_throwException() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+
+        inicio = LocalTime.of(14, 0, 0);
+        fin = LocalTime.of(19, 0, 0);
+        Horario horario2 = horarioServices.getHorarioByPk(inicio, fin);
+        record.setHorario(horario2);
+
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.updateConfiguracion(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Configuracion existente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void deleteIdEmpty_throwException() {
+        Long id = 0L;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.deleteConfiguracion(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Configuracion inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void deleteIdNull_throwException() {
+        Long id = null;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.deleteConfiguracion(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Configuracion inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void deleteIdNonExisting_throwException() {
+        Long id = 1000L;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            configuracionServices.deleteConfiguracion(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Configuracion inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void getNonExistingId_returnNull() {
+        Long id = 1000L;
+        Configuracion record = configuracionServices.getConfiguracionById(id);
+        assertNull(record);
+    }
+
+    @Test
+    public void getNonExistingPk_returnNull() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 2, false);
+        assertNull(record);
+    }
+
+    @Test
+    public void getExistingPk_success() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        assertNotNull(record);
+        Configuracion record2 = configuracionServices.getConfiguracionById(record.getId());
+        assertNotNull(record2);
+    }
+
+    @Test
+    public void getAll_success() {
+        List<Configuracion> records = configuracionServices.getAllConfiguraciones();
+        assertNotNull(records);
+        assertTrue(records.size() > 0);
+    }
+
+    @Test
+    public void insert_get_update_delete_success() {
+        LocalTime inicio = LocalTime.of(9, 0, 0);
+        LocalTime fin = LocalTime.of(14, 0, 0);
+        Horario horario1 = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion nuevoRecord = new Configuracion(2, false, horario1, "Estudiante", "M", 3);
+        try {
+            configuracionServices.insertConfiguracion(nuevoRecord);
+        } catch (MultiplesErroresException | SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 2, false);
+        assertNotNull(record);
+
+        Integer nuevoDiaSemana = 3;
+        record.setDiaSemana(3);
+        try {
+            configuracionServices.updateConfiguracion(record);
+        } catch (SqlServerCustomException | MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        }
+        record = configuracionServices.getConfiguracionById(record.getId());
+        assertEquals(nuevoDiaSemana, record.getDiaSemana());
+
+        try {
+            configuracionServices.deleteConfiguracion(record.getId());
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        record = configuracionServices.getConfiguracionById(record.getId());
+        assertNull(record);
     }
 
 }

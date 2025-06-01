@@ -61,7 +61,7 @@ public abstract class SqlServerBaseDao {
             }
         } catch (SQLException e) {
             if (e instanceof SQLServerException){
-                if (((SQLServerException)e).getSQLServerError().getErrorNumber() == 51000)
+                if (((SQLServerException)e).getSQLServerError() != null && ((SQLServerException)e).getSQLServerError().getErrorNumber() == 51000)
                     throw new SqlServerCustomException(((SQLServerException)e).getSQLServerError().getErrorMessage());
                 else
                     throw new RuntimeException(e);

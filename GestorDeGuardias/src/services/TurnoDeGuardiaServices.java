@@ -2,6 +2,7 @@ package services;
 
 import model.Horario;
 import model.Persona;
+import model.TipoPersona;
 import model.TurnoDeGuardia;
 import utils.dao.MainBaseDao;
 import utils.dao.SqlServerCustomException;
@@ -92,12 +93,11 @@ public class TurnoDeGuardiaServices {
                 p.setApellido(rs.getString("apellido"));
                 p.setSexo(rs.getString("sexo"));
                 p.setCarnet(rs.getString("carnet"));
-                p.setTipo(rs.getString("tipo"));
+                p.setTipo(new TipoPersona(rs.getString("tipo")));
                 p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha").toLocalDate());
                 p.setBaja(rs.getDate("baja").toLocalDate());
                 p.setReincorporacion(rs.getDate("reincorporacion").toLocalDate());
                 p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
-                p.setBorrado(rs.getBoolean("borrado"));
                 personas.add(p);
             } while (rs.next());
 

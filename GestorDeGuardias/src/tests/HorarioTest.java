@@ -1,7 +1,6 @@
 package tests;
 
 import model.Horario;
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.HorarioServices;
@@ -23,221 +22,263 @@ public class HorarioTest {
         horarioServices = ServicesLocator.getInstance().getHorarioServices();
     }
 
-    @AfterClass
-    public static void initialize() {
-        LocalTime inicio = LocalTime.of(8, 0, 0);
-        LocalTime fin = LocalTime.of(20, 0, 0);
-        if (horarioServices.getHorarioByPk(inicio, fin) == null) {
-            Horario record1 = new Horario(inicio, fin);
-            try {
-                horarioServices.insertHorario(record1);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-
-            inicio = LocalTime.of(20, 0, 0);
-            fin = LocalTime.of(8, 0, 0);
-            Horario record2 = new Horario(inicio, fin);
-            try {
-                horarioServices.insertHorario(record2);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-
-            inicio = LocalTime.of(7, 0, 0);
-            fin = LocalTime.of(14, 0, 0);
-            Horario record3 = new Horario(inicio, fin);
-            try {
-                horarioServices.insertHorario(record3);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-
-            inicio = LocalTime.of(14, 0, 0);
-            fin = LocalTime.of(19, 0, 0);
-            Horario record4 = new Horario(inicio, fin);
-            try {
-                horarioServices.insertHorario(record4);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
 
     @Test
-    public void insertHorario() {
-        LocalTime inicio = LocalTime.of(8, 0, 0);
+    public void insertHoraInicialNull_throwException() {
+        LocalTime inicio = null;
         LocalTime fin = LocalTime.of(20, 0, 0);
-        Horario newRecord = new Horario(inicio, fin);
-        if (horarioServices.getHorarioByPk(inicio, fin) == null) {
-            try {
-                horarioServices.insertHorario(newRecord);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        Horario recordInsertado = horarioServices.getHorarioByPk(inicio, fin);
-        assertNotNull(recordInsertado);
+        Horario nuevoRecord = new Horario(inicio, fin);
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            horarioServices.deleteHorario(recordInsertado.getId());
+            horarioServices.insertHorario(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Hora inicial no especificada.");
         } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void updateHorario(){
+    public void insertHoraFinallNull_throwException() {
+        LocalTime inicio = LocalTime.of(8, 0, 0);
+        LocalTime fin = null;
+        Horario nuevoRecord = new Horario(inicio, fin);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.insertHorario(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Hora final no especificada.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void insertExisting_throwException() {
         LocalTime inicio = LocalTime.of(8, 0, 0);
         LocalTime fin = LocalTime.of(20, 0, 0);
-        Horario newRecord = new Horario(inicio, fin);
-        if (horarioServices.getHorarioByPk(inicio, fin) == null) {
-            try {
-                horarioServices.insertHorario(newRecord);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
+        Horario nuevoRecord = new Horario(inicio, fin);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.insertHorario(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Horario existente");
         }
-        Horario record = horarioServices.getHorarioByPk(inicio, fin);
-        if ( record != null) {
-            record.setInicio(LocalTime.of(12, 0, 0));
-            try {
-                horarioServices.updateHorario(record);
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-
-            Horario record2 = horarioServices.getHorarioById(record.getId());
-            assertEquals(LocalTime.of(12, 0, 0), record2.getInicio());
-
-            record.setInicio(inicio);
-            try {
-                horarioServices.updateHorario(record);
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-
-            try {
-                horarioServices.deleteHorario(record.getId());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        }
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
-    @Test
-    public void getAllHorarios() {
-        List<Horario> horarios = horarioServices.getAllHorarios();
-        if (horarios.isEmpty()){
-            LocalTime inicio = LocalTime.of(20, 0, 0);
-            LocalTime fin = LocalTime.of(8, 0, 0);
-            Horario newRecord = new Horario(inicio, fin);
-            try {
-                horarioServices.insertHorario(newRecord);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-            Horario insertedRecord1 = horarioServices.getHorarioByPk(inicio, fin);
-
-            inicio = LocalTime.of(8, 0, 0);
-            fin = LocalTime.of(20, 0, 0);
-            Horario newRecord2 = new Horario(inicio, fin);
-            try {
-                horarioServices.insertHorario(newRecord2);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-            Horario insertedRecord2 = horarioServices.getHorarioByPk(inicio, fin);
-
-            horarios = horarioServices.getAllHorarios();
-            assertNotNull(horarios);
-            assertFalse(horarios.isEmpty());
-
-            try {
-                horarioServices.deleteHorario(insertedRecord1.getId());
-                horarioServices.deleteHorario(insertedRecord2.getId());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
 
     @Test
-    public void getHorario() {
+    public void updateHoraInicialNull_throwException() {
         LocalTime inicio = LocalTime.of(8, 0, 0);
         LocalTime fin = LocalTime.of(20, 0, 0);
         Horario record = horarioServices.getHorarioByPk(inicio, fin);
-        if (record == null){
-            Horario newRecord2 = new Horario(inicio, fin);
-            try {
-                horarioServices.insertHorario(newRecord2);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-            Horario insertedRecord2 = horarioServices.getHorarioByPk(inicio, fin);
-            assertNotNull(insertedRecord2);
-            assertEquals(LocalTime.of(20, 0, 0), insertedRecord2.getFin());
-
-            try {
-                horarioServices.deleteHorario(insertedRecord2.getId());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
-        } else {
-            assertEquals(LocalTime.of(20, 0, 0), record.getFin());
+        record.setInicio(null);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.updateHorario(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Hora inicial no especificada.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
         }
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void deleteHorario() {
+    public void updateHoraFinalNull_throwException() {
         LocalTime inicio = LocalTime.of(8, 0, 0);
         LocalTime fin = LocalTime.of(20, 0, 0);
-        Horario newRecord = new Horario(inicio, fin);
-        if (horarioServices.getHorarioByPk(inicio, fin) == null) {
-            try {
-                horarioServices.insertHorario(newRecord);
-            } catch (MultiplesErroresException e) {
-                System.out.println(e.getMessage());
-                System.out.println(e.getErrores());
-            } catch (SqlServerCustomException e) {
-                System.out.println(e.getMessage());
-            }
+        Horario record = horarioServices.getHorarioByPk(inicio, fin);
+        record.setFin(null);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.updateHorario(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Hora final no especificada.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updateNonExisting_throwException() {
+        LocalTime inicio = LocalTime.of(8, 0, 0);
+        LocalTime fin = LocalTime.of(20, 0, 0);
+        Horario record = new Horario(inicio, fin);
+        record.setId(100L);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.updateHorario(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Horario inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updateExisting_throwException() {
+        LocalTime inicio = LocalTime.of(8, 0, 0);
+        LocalTime fin = LocalTime.of(20, 0, 0);
+        Horario record = horarioServices.getHorarioByPk(inicio, fin);
+        record.setInicio(LocalTime.of(20, 0, 0));
+        record.setFin(LocalTime.of(8, 0, 0));
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.updateHorario(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Horario existente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void deleteIdEmpty_throwException() {
+        Long id = 0L;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.deleteHorario(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Horario inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void deleteIdNull_throwException() {
+        Long id = null;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.deleteHorario(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Horario inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void deleteIdNonExisting_throwException() {
+        Long id = 1000L;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            horarioServices.deleteHorario(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Horario inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void getNonExistingId_returnNull() {
+        Long id = 1000L;
+        Horario record = horarioServices.getHorarioById(id);
+        assertNull(record);
+    }
+
+    @Test
+    public void getHoraInicialNull_returnNull() {
+        LocalTime inicio = null;
+        LocalTime fin = LocalTime.of(20, 0, 0);
+        Horario record = horarioServices.getHorarioByPk(inicio, fin);
+        assertNull(record);
+    }
+
+    @Test
+    public void getHoraFinalNull_returnNull() {
+        LocalTime inicio = LocalTime.of(8, 0, 0);
+        LocalTime fin = null;
+        Horario record = horarioServices.getHorarioByPk(inicio, fin);
+        assertNull(record);
+    }
+
+    @Test
+    public void getExistingHorario_success() {
+        LocalTime inicio = LocalTime.of(8, 0, 0);
+        LocalTime fin = LocalTime.of(20, 0, 0);
+        Horario record = horarioServices.getHorarioByPk(inicio, fin);
+        assertNotNull(record);
+        Horario record2 = horarioServices.getHorarioById(record.getId());
+        assertNotNull(record2);
+    }
+
+
+    @Test
+    public void insert_get_delete_success() {
+        LocalTime inicio = LocalTime.of(10, 0, 0);
+        LocalTime fin = LocalTime.of(22, 0, 0);
+        Horario nuevoRecord = new Horario(inicio, fin);
+        try {
+            horarioServices.insertHorario(nuevoRecord);
+        } catch (MultiplesErroresException | SqlServerCustomException e) {
+            System.out.println(e.getMessage());
         }
         Horario record = horarioServices.getHorarioByPk(inicio, fin);
         assertNotNull(record);
+
+        LocalTime nuevoInicio = LocalTime.of(12, 0, 0);
+        record.setInicio(nuevoInicio);
+        try {
+            horarioServices.updateHorario(record);
+        } catch (SqlServerCustomException | MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        }
+        record = horarioServices.getHorarioById(record.getId());
+        assertEquals(nuevoInicio, record.getInicio());
 
         try {
             horarioServices.deleteHorario(record.getId());
         } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
-        Horario record2 = horarioServices.getHorarioById(record.getId());
-        assertNull(record2);
+        record = horarioServices.getHorarioById(record.getId());
+        assertNull(record);
+    }
+
+    @Test
+    public void getAll_success() {
+        List<Horario> records = horarioServices.getAllHorarios();
+        assertNotNull(records);
+        assertFalse(records.isEmpty());
     }
 }

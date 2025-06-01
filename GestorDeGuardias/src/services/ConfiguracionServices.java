@@ -14,13 +14,9 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static utils.Utilitarios.integerEsValido;
-
 public class ConfiguracionServices {
 
     private final MainBaseDao baseDao;
-    private static HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
-    private static TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
 
     public ConfiguracionServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -48,11 +44,11 @@ public class ConfiguracionServices {
     // READ by primary key
     public Configuracion getConfiguracionByPk(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
         Horario horario = ServicesLocator.getInstance().getHorarioServices().getHorarioByPk(horaInicio, horaFin);
-        return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario, diaSemana, diaEsReceso);
+        return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario.getId(), diaSemana, diaEsReceso);
     }
 
-    public Configuracion getConfiguracionByPk(Long horario, int diaSemana, boolean diaEsReceso) {
-        return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario, diaSemana, diaEsReceso);
+    public Configuracion getConfiguracionByPk(Long horarioId, int diaSemana, boolean diaEsReceso) {
+        return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horarioId, diaSemana, diaEsReceso);
     }
 
     public Configuracion getConfiguracionById(Long id) {
@@ -60,7 +56,9 @@ public class ConfiguracionServices {
     }
 
     // UPDATE
-    public void updateConfiguracion(Configuracion record) throws SqlServerCustomException {
+    public void updateConfiguracion(Configuracion record) throws SqlServerCustomException, MultiplesErroresException {
+        validarConfiguracion(record);
+
         baseDao.spUpdate("sp_configuracion_update(?, ?, ?, ?, ?, ?, ?)",
                 record.getId(),
                 record.getDiaSemana(),
@@ -79,8 +77,13 @@ public class ConfiguracionServices {
 
     // Internal Mapper
     private static class ConfiguracionMapper implements RowMapper<Configuracion> {
+
+        private static HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
+        private static TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
+
         @Override
         public Configuracion mapRow(ResultSet rs, int rowNum) throws SQLException {
+
             Configuracion config = new Configuracion();
 
             config.setId(rs.getLong("id"));
@@ -105,8 +108,10 @@ public class ConfiguracionServices {
     private void validarConfiguracion(Configuracion record) throws MultiplesErroresException {
         List<String> errores = new ArrayList<>();
 
-        if (!integerEsValido(record.getDiaSemana()))
+        if ((record.getDiaSemana() == null) || record.getDiaSemana() == 0)
             errores.add("Dia de semana no especificado.");
+        if (record.getDiaSemana() != null && (record.getDiaSemana() < 1 || record.getDiaSemana() > 7))
+            errores.add("Dia de semana no válido (1-7).");
         if (record.isDiaEsReceso() == null)
             errores.add("Dia de receso no especificado.");
         if (record.getHorario() == null)

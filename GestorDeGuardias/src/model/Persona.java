@@ -29,7 +29,7 @@ public class Persona implements Comparable<Persona> {
         setTipo(tipo);
     }
 
-    public Persona(Long id, String nombre, String apellido, String sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo, Boolean borrado) {
+    public Persona(Long id, String nombre, String apellido, String sexo, String carnet, LocalDate ultimaGuardiaHecha, int cantGuardiasRecuperacion, LocalDate baja, LocalDate reincorporacion, String tipo) {
         setId(id);
         setCarnet(carnet);
         setNombre(nombre);
@@ -40,7 +40,6 @@ public class Persona implements Comparable<Persona> {
         setReincorporacion(reincorporacion);
         guardiasDeRecuperacion = cantGuardiasRecuperacion;
         setUltimaGuardiaHecha(ultimaGuardiaHecha);
-        setBorrado(borrado);
     }
 
     public Persona() {
@@ -74,7 +73,8 @@ public class Persona implements Comparable<Persona> {
     }
 
     public String getSexo() {
-        return sexo != null && sexo.equals("f") ? "Femenino" : "Masculino";
+        return sexo != null && sexo.equals("f") ? "Femenino" :
+                (sexo != null && sexo.equals("m") ? "Masculino" : sexo);
     }
 
     public void setSexo(String sexo) {
@@ -188,14 +188,6 @@ public class Persona implements Comparable<Persona> {
         return cant;
     }
 
-    public Boolean isBorrado() {
-        return borrado;
-    }
-
-    public void setBorrado(Boolean borrado) {
-        this.borrado = borrado;
-    }
-
     /**
      * @param persona persona a comparar
      * @return comparacion entre carnets de identidad
@@ -271,12 +263,7 @@ public class Persona implements Comparable<Persona> {
                 ", baja=" + baja +
                 ", reincorporacion=" + reincorporacion +
                 ", tipoPersona=" + (tipo != null ? tipo.getNombre() : "N/A") +
-                ", borrado=" + borrado +
                 ", guardiasAsignadas=" + guardiasAsignadas +
                 '}';
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = new TipoPersona(tipo);
     }
 }

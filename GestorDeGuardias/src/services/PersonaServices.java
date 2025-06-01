@@ -21,6 +21,7 @@ import static utils.Utilitarios.stringSoloNumeros;
 public class PersonaServices {
 
     private final MainBaseDao baseDao;
+    private static TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
 
     public PersonaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -61,7 +62,9 @@ public class PersonaServices {
     }
 
     // UPDATE
-    public void updatePersona(Persona record) throws SqlServerCustomException {
+    public void updatePersona(Persona record) throws SqlServerCustomException, MultiplesErroresException {
+        validarPersona(record);
+
         baseDao.spUpdate("sp_persona_update(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 record.getId(),
                 record.getNombre(),
@@ -105,13 +108,13 @@ public class PersonaServices {
     // DELETE
     public void deletePersonaByCi(String ci) throws SqlServerCustomException, EntradaInvalidaException {
         if (!stringEsValido(ci))
-            throw new EntradaInvalidaException("ci de identidad no especificado.");
+            throw new EntradaInvalidaException("Carnet de identidad no especificado.");
 
         baseDao.spUpdate("sp_persona_delete_by_ci(?)", ci);
     }
 
     public void deletePersonaById(Long id) throws SqlServerCustomException {
-        baseDao.spUpdate("sp_persona_delete_by_id(?)", new PersonaMapper(), id);
+        baseDao.spUpdate("sp_persona_delete_by_id(?)", id);
     }
 
 
@@ -127,7 +130,7 @@ public class PersonaServices {
             p.setApellido(rs.getString("apellido"));
             p.setSexo(rs.getString("sexo"));
             p.setCarnet(rs.getString("carnet"));
-            p.setTipo(rs.getString("tipo"));
+            p.setTipo(new TipoPersona(rs.getString("tipo")));
             p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
             p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
             p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
@@ -143,7 +146,7 @@ public class PersonaServices {
         List<String> errores = new ArrayList<>();
 
         if (!stringEsValido(ci))
-            errores.add("ci de identidad no especificado.");
+            errores.add("Carnet de identidad no especificado.");
 
         if (fechaBaja == null)
             errores.add("Fecha de baja no especificada.");
@@ -155,25 +158,36 @@ public class PersonaServices {
     private void validarPersona(Persona record) throws MultiplesErroresException {
         List<String> errores = new ArrayList<>();
 
+        Boolean carnetValido = true;
         String errorValidarCarneIdentidad = validarCarnet(record.getCarnet());
         if (stringEsValido(errorValidarCarneIdentidad)) {
             errores.add(errorValidarCarneIdentidad);
+            carnetValido = false;
         }
         if (!stringEsValido(record.getNombre()))
             errores.add("Nombre no especificado.");
         if (!stringEsValido(record.getApellido()))
             errores.add("Apellido no especificado.");
-        if (record.getSexo() == null)
+        Boolean sexoValido = true;
+        if ((record.getSexo() == null) ||
+                (record.getSexo().length() == 0) ||
+                (record.getSexo().toLowerCase().charAt(0) != 'm' && record.getSexo().toLowerCase().charAt(0) != 'f')) {
             errores.add("Sexo no especificado.");
+            sexoValido = false;
+        }
 
-        if (record.getSexo() != null && record.getCarnet() != null) {
+        if (sexoValido && carnetValido) {
             int paridad = Integer.parseInt(record.getCarnet().substring(9, 10)) % 2;
             if (((paridad == 0 && record.getSexo().toLowerCase().charAt(0) != 'm') || (paridad != 0 && record.getSexo().toLowerCase().charAt(0) != 'f')))
                 errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
         }
 
-        if (record.getCarnet() != null && getPersonaByCi(record.getCarnet()) != null) {
-            errores.add("La persona ya existe.");
+        if (record.getTipo() == null){
+            errores.add("Tipo de persona no especificado.");
+        }
+
+        if (record.getTipo() != null && tipoPersonaServices.getTipoPersona(record.getTipo().getNombre()) == null){
+            errores.add("Tipo de persona desconocido.");
         }
 
         if (!errores.isEmpty())

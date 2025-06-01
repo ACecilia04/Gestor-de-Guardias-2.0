@@ -16,7 +16,6 @@ import static utils.Utilitarios.stringEsValido;
 
 public class UsuarioServices {
     private final MainBaseDao baseDao;
-    private static RolServices rolServices = ServicesLocator.getInstance().getRolServices();
 
     public UsuarioServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -49,7 +48,8 @@ public class UsuarioServices {
     }
 
     // UPDATE
-    public void updateUsuario(Usuario record) throws SqlServerCustomException {
+    public void updateUsuario(Usuario record) throws SqlServerCustomException, MultiplesErroresException {
+        validarUsuario(record);
         baseDao.spUpdate("sp_usuario_update(?, ?, ?, ?)",
                 record.getId(),
                 record.getNombre(),
@@ -65,6 +65,8 @@ public class UsuarioServices {
 
     // Internal Mapper
     private static class UsuarioMapper implements RowMapper<Usuario> {
+        private static RolServices rolServices = ServicesLocator.getInstance().getRolServices();
+
         @Override
         public Usuario mapRow(ResultSet rs, int rowNum) throws SQLException {
             Usuario retVal = new Usuario();

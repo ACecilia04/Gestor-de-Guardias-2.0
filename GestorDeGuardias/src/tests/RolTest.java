@@ -21,96 +21,233 @@ public class RolTest {
         rolServices = ServicesLocator.getInstance().getRolServices();
     }
 
+
     @Test
-    public void insertRol() {
-        String tipo = "Administrador";
+    public void insertNameEmpty_throwException() {
+        String rol = "";
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            rolServices.insertRol(tipo);
+            rolServices.insertRol(rol);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Nombre no especificado.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void insertNameNull_throwException() {
+        String rol = null;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            rolServices.insertRol(rol);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Nombre no especificado.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void insertNameExisting_throwException() {
+        String rol = "Administrador";
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            rolServices.insertRol(rol);
+            performed = true;
         } catch (MultiplesErroresException e) {
             System.out.println(e.getMessage());
-            System.out.println(e.getErrores());
         } catch (SqlServerCustomException e) {
-            System.out.println(e.getMessage());
+            validaError = e.getMessage().equals("Rol existente");
         }
-        Rol tipoInsertado = rolServices.getRol(tipo);
-        assertNotNull(tipoInsertado);
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
 
     @Test
-    public void getRol() {
-        String tipo = "Administrador1";
-        Rol rol = rolServices.getRol(tipo);
-        assertNotNull(rol);
-        assertEquals("Administrador1", rol.getNombre());
+    public void updateNameEmpty_throwException() {
+        String rol = "";
+        String nuevoRol = "Administrator2";
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            rolServices.updateRol(rol, nuevoRol);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Rol inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void updateRol() {
-        String tipo = "Administrador";
-        Rol tp1 = rolServices.getRol(tipo);
-        assertNotNull(tp1);
-
+    public void updateNameNull_throwException() {
+        String rol = null;
+        String nuevoRol = "Administrator2";
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            rolServices.updateRol(tp1.getNombre(), "Administrador2");
+            rolServices.updateRol(rol, nuevoRol);
+            performed = true;
         } catch (SqlServerCustomException e) {
-            System.out.println(e.getMessage());
+            validaError = e.getMessage().equals("Rol inexistente");
         }
-
-        Rol tp2 = rolServices.getRol("Administrador2");
-        assertNotNull(tp2);
-
-        try {
-            rolServices.updateRol(tp2.getNombre(), tp1.getNombre());
-        } catch (SqlServerCustomException e) {
-            System.out.println(e.getMessage());
-        }
-
-        Rol tp3 = rolServices.getRol(tipo);
-        assertNotNull(tp3);
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void getAllRoles() {
-        List<Rol> tiposPersona = rolServices.getAllRoles();
-        assertNotNull(tiposPersona);
-        assertFalse(tiposPersona.isEmpty());
-
-        if (tiposPersona.size() < 2){
-            String tipo = "Usuario1";
-            if (rolServices.getRol(tipo) == null) {
-                try {
-                    rolServices.insertRol(tipo);
-                } catch (MultiplesErroresException e) {
-                    System.out.println(e.getMessage());
-                    System.out.println(e.getErrores());
-                } catch (SqlServerCustomException e) {
-                    System.out.println(e.getMessage());
-                }
-            }
-            Rol tipoInsertado = rolServices.getRol(tipo);
-            assertNotNull(tipoInsertado);
-
-            tiposPersona = rolServices.getAllRoles();
-            assertNotNull(tiposPersona);
-            assertFalse(tiposPersona.isEmpty());
+    public void updateNameNonExisting_throwException() {
+        String rol = "Administrator";
+        String nuevoRol = "Administrator2";
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            rolServices.updateRol(rol, nuevoRol);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Rol inexistente");
         }
+        assertTrue(validaError);
+        assertFalse(performed);
     }
 
     @Test
-    public void deleteRol() {
-        String tipo = "Administrador1";
+    public void updateNameExisting_throwException() {
+        String rol = "Usuario";
+        String nuevoRol = "Administrador";
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            rolServices.deleteRol(tipo);
+            rolServices.updateRol(rol, nuevoRol);
+            performed = true;
         } catch (SqlServerCustomException e) {
-            System.out.println(e.getMessage());
+            validaError = e.getMessage().equals("Rol existente");
         }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
 
-        tipo = "Administrador";
+
+    @Test
+    public void deleteNameEmpty_throwException() {
+        String rol = "";
+        boolean validaError = false;
+        boolean performed = false;
         try {
-            rolServices.deleteRol(tipo);
+            rolServices.deleteRol(rol);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Rol inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void deleteNameNull_throwException() {
+        String rol = "";
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            rolServices.deleteRol(rol);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Rol inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void deleteNameNonExisting_throwException() {
+        String rol = "Administrator";
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            rolServices.deleteRol(rol);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Rol inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+//    @Test
+    public void deleteRecordInUse_throwException() {
+        String rol = "Usuario";
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            rolServices.deleteRol(rol);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("El rol no se puede eliminar porque está siendo utilizado");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void getNonExisting_returnNull() {
+        String rol = "Administrator";
+        Rol record = rolServices.getRol(rol);
+        assertNull(record);
+    }
+
+    @Test
+    public void getExistingName_success() {
+        String nombre = "Usuario";
+        Rol record = rolServices.getRol(nombre);
+        assertNotNull(record);
+    }
+
+
+    @Test
+    public void insert_get_update_delete_success() {
+        String rol = "Administrator";
+        try {
+            rolServices.insertRol(rol);
+        } catch (MultiplesErroresException | SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        Rol record = rolServices.getRol(rol);
+        assertNotNull(record);
+
+        String nuevoRol = "Administrator2";
+        try {
+            rolServices.updateRol(rol, nuevoRol);
         } catch (SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
+        record = rolServices.getRol(nuevoRol);
+        assertEquals(nuevoRol.toLowerCase(), record.getNombre().toLowerCase());
+
+        try {
+            rolServices.deleteRol(nuevoRol);
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        record = rolServices.getRol(nuevoRol);
+        assertNull(record);
+    }
+
+    @Test
+    public void getAll_success() {
+        List<Rol> records = rolServices.getAllRoles();
+        assertNotNull(records);
+        assertFalse(records.isEmpty());
     }
 }

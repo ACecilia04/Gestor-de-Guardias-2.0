@@ -46,7 +46,9 @@ public class HorarioServices {
     }
 
     // UPDATE
-    public void updateHorario(Horario record) throws SqlServerCustomException {
+    public void updateHorario(Horario record) throws SqlServerCustomException, MultiplesErroresException {
+        validarHorario(record);
+
         baseDao.spUpdate("sp_horario_update(?, ?, ?)",
                 record.getId(),
                 record.getInicio(),

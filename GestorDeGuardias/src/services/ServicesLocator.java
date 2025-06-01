@@ -15,7 +15,6 @@ public class ServicesLocator {
 
     private ServicesLocator() {
         MainBaseDao mbDAO = new MainBaseDao();
-        configuracionServices = new ConfiguracionServices(mbDAO);
         horarioServices = new HorarioServices(mbDAO);
         periodoNoPlanificableServices = new PeriodoNoPlanificableServices(mbDAO);
         personaServices = new PersonaServices(mbDAO);
@@ -23,6 +22,7 @@ public class ServicesLocator {
         turnoDeGuardiaServices = new TurnoDeGuardiaServices(mbDAO);
         usuarioServices = new UsuarioServices(mbDAO);
         rolServices = new RolServices(mbDAO);
+        configuracionServices = new ConfiguracionServices(mbDAO);
     }
 
     public static ServicesLocator getInstance() {
