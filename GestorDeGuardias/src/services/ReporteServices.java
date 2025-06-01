@@ -3,12 +3,18 @@ package services;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.FontFactory;
+import model.DiaGuardia;
+import model.Horario;
 import model.Persona;
+import model.TurnoDeGuardia;
+
 import java.awt.*;
 import java.awt.Image;
 import java.io.FileOutputStream;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReporteServices {
 
@@ -69,8 +75,8 @@ public class ReporteServices {
             tabla.setWidthPercentage(95);
 
             String[] encabezados = {
-                    "Nombre", "Apellido", "Sexo", "Carnet", "Tipo",
-                    "Última Guardia", "Guardias Recuperación", "Baja", "Reincorporación"
+                    "Tipo", "Nombre", "Apellido", "Sexo", "Carnet",
+                    "Últ. Guardia", "Guardias Rec.", "Baja", "Reincorporación"
             };
             for (String encabezado : encabezados) {
                 PdfPCell celda = new PdfPCell(new Phrase(encabezado, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11)));
@@ -83,15 +89,81 @@ public class ReporteServices {
             DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
             for (Persona p : personas) {
+                tabla.addCell(p.getTipo() != null ? p.getTipo().getNombre() : "");
                 tabla.addCell(p.getNombre() != null ? p.getNombre() : "");
                 tabla.addCell(p.getApellido() != null ? p.getApellido() : "");
-                tabla.addCell(p.getSexo() != null ? p.getSexo() : "");
+                tabla.addCell(p.getSexo() != null ? String.valueOf(p.getSexo().charAt(0)) : "");
                 tabla.addCell(p.getCarnet() != null ? p.getCarnet() : "");
-                tabla.addCell(p.getTipo() != null ? p.getTipo().getNombre() : "");
                 tabla.addCell(p.getUltimaGuardiaHecha() != null ? p.getUltimaGuardiaHecha().format(formatoFecha) : "");
                 tabla.addCell(String.valueOf(p.getGuardiasDeRecuperacion()));
                 tabla.addCell(p.getBaja() != null ? p.getBaja().format(formatoFecha) : "");
                 tabla.addCell(p.getReincorporacion() != null ? p.getReincorporacion().format(formatoFecha) : "");
+            }
+
+            documento.add(tabla);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            documento.close();
+        }
+    }
+
+    public void generarReportePlantilla(ArrayList<DiaGuardia> plantilla, String nombreArchivo) {
+        Document documento = new Document(PageSize.A4.rotate());
+        try {
+            PdfWriter.getInstance(documento, new FileOutputStream(nombreArchivo));
+            documento.open();
+
+            // Título
+            Paragraph titulo = new Paragraph("Reporte de Plantilla de Guardias",
+                    FontFactory.getFont(FontFactory.HELVETICA_BOLD, 20));
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            documento.add(titulo);
+            documento.add(Chunk.NEWLINE);
+
+            // Tabla
+            float[] widths = {2f, 2f, 6f, 2f};
+            PdfPTable tabla = new PdfPTable(widths);
+            tabla.setWidthPercentage(98);
+
+            String[] encabezados = {"Fecha", "Horario", "Personas Asignadas", "Cumplido"};
+            for (String encabezado : encabezados) {
+                PdfPCell celda = new PdfPCell(new Phrase(encabezado, FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12)));
+                celda.setBackgroundColor(Color.LIGHT_GRAY);
+                celda.setHorizontalAlignment(Element.ALIGN_CENTER);
+                celda.setVerticalAlignment(Element.ALIGN_MIDDLE);
+                tabla.addCell(celda);
+            }
+
+            DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
+            for (DiaGuardia dia : plantilla) {
+                String fechaStr = dia.getFecha().format(formatoFecha);
+                for (TurnoDeGuardia turno : dia.getTurnos()) {
+                    Horario horario = turno.getHorario();
+                    String horarioStr = horario.getInicio().format(formatoHora) + " - " + horario.getFin().format(formatoHora);
+
+                    // Personas asignadas
+                    ArrayList<Persona> personas = turno.getpersonasAsignadas();
+                    String personasStr = personas.isEmpty()
+                            ? "-"
+                            : personas.stream()
+                            .map(p -> (p.getNombre() != null ? p.getNombre() : "") +
+                                    (p.getApellido() != null ? " " + p.getApellido() : ""))
+                            .collect(Collectors.joining(", "));
+
+                    // Cumplido
+                    Boolean hecho = turno.getCumplimiento();
+                    String cumplidoStr = (hecho != null && hecho) ? "Sí" : "No";
+
+                    // Agregar celdas
+                    tabla.addCell(fechaStr);
+                    tabla.addCell(horarioStr);
+                    tabla.addCell(personasStr);
+                    tabla.addCell(cumplidoStr);
+                }
             }
 
             documento.add(tabla);
