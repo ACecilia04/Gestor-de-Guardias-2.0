@@ -38,7 +38,7 @@ public class PantallaSelecPersona extends JDialog {
     private final Dimension dimOpc = new Dimension(280, 100);
 
     private final CustomTablaComplex tabla;
-    private final Font fuente = new Font("Arial", Font.PLAIN, 15);
+//    private final Font fuente = new Font("Arial", Font.PLAIN, 14);
     private final ArrayList<Persona> personas;
     private final Boton boton1;
     private final ArrayList<Actualizable> actualizables;

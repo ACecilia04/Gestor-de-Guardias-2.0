@@ -45,16 +45,16 @@ public class PanelInterno extends Cuadro {
         this.setColorFondo(colorFondo);
         this.setBackground(colorFondo);
 
-        String string = fechaInicial.getMonth().name() + "  " + fechaInicial.getYear();
-        Font fuente = new Font("Arial", Font.BOLD, 16);
-        titulo = new Etiqueta(fuente, colorLetra, string);
+        String stringMesYAnno = fechaInicial.getMonth().name() + "  " + fechaInicial.getYear();
+        Font fuente = new Font("Arial", Font.BOLD, 14);
+        titulo = new Etiqueta(fuente, colorLetra, stringMesYAnno);
         int espacioX = 20;
         int espacioY = 20;
         titulo.setLocation(espacioX, espacioY);
 
 
-        String string2 = "INICIO: " + fechaInicial.getDayOfMonth() + "  " + fechaInicial.getMonth().name() + "  " + fechaInicial.getYear();
-        titulo2 = new Etiqueta(fuente, colorLetra, string2);
+        String stringFechaInicio = "INICIO: " + fechaInicial.getDayOfMonth() + "  " + fechaInicial.getMonth().name() + "  " + fechaInicial.getYear();
+        titulo2 = new Etiqueta(fuente, colorLetra, stringFechaInicio);
         titulo2.setLocation(espacioX, espacioY * 2 + titulo.getSize().height);
 
         this.add(titulo);
@@ -65,7 +65,7 @@ public class PanelInterno extends Cuadro {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                // Cambiar el color y el cursor cuando el rat�n entra en el panel
+                // Cambiar el color y el cursor cuando el raton entra en el panel
                 setBackground(colorFondo.darker());
                 setColorFondo(colorFondo.darker());
                 titulo.setColorFondo(colorFondo.darker());
@@ -76,7 +76,7 @@ public class PanelInterno extends Cuadro {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                // Restaurar el color y el cursor cuando el rat�n sale del panel
+                // Restaurar el color y el cursor cuando el raton sale del panel
                 setBackground(colorFondo);
                 setColorFondo(colorFondo);
                 titulo.setColorFondo(colorFondo);

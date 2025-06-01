@@ -25,7 +25,7 @@ public class TablaArchivar extends Cuadro implements IsTabla {
     private final ArrayList<DiaGuardia> dias;
     private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
-    private final Font fuente = new Font("Arial", Font.BOLD, 16);
+    private final Font fuente = new Font("Arial", Font.BOLD, 14);
     //Secciones
     private CuadroRectoAbajo titulo;
 

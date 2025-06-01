@@ -24,8 +24,8 @@ public abstract class PantallaAddPersona extends JDialog {
     protected Dimension dimTextField = new Dimension(300, 40);
     protected Dimension dimBoton = new Dimension(120, 40);
 
-    protected Font fuente = new Font("Arial", Font.PLAIN, 15);
-    protected Font fuenteRadio = new Font("Arial", Font.BOLD, 16);
+    protected Font fuente = new Font("Arial", Font.PLAIN, 14);
+    protected Font fuenteRadio = new Font("Arial", Font.BOLD, 14);
 
     protected CustomTextField boxNombre;
     protected int maxCharNombre = 30;

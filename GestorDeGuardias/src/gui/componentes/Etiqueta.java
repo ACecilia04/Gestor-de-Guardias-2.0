@@ -10,7 +10,7 @@ import java.awt.*;
 public class Etiqueta extends JLabel {
     protected boolean isBold = false;
     Paleta paleta = new Paleta();
-    private Font fuente = new Font("Arial", Font.PLAIN, 18);
+    private Font fuente = new Font("Arial", Font.PLAIN, 14);
     private Color colorLetra = paleta.getLetraOscura();
     private Color ColorFondo;
 

@@ -37,7 +37,7 @@ public class MostrarPlanif extends JPanel {
     private final PanelOpcionesMostrarP panelOpciones;
     private final int opcionesAncho = 300;
 
-    private final Font fuente = new Font("Arial", Font.PLAIN, 20);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 14);
 
     private final LayoutManager layout = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
     private final LayoutManager layout2 = new FlowLayout(FlowLayout.CENTER, 0, 100);

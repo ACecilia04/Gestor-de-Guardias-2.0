@@ -313,7 +313,7 @@ public class Gestor {
         DiaGuardia dia = buscarDiaGuardia(fecha);
 
         if (dia == null)
-            throw new EntradaInvalidaException("No hay planificaci�n para esta fecha.");
+            throw new EntradaInvalidaException("No hay planificación para esta fecha.");
 //        TurnoDeGuardia turno = dia.buscarTurno(horario);
 
 //        if (turno == null)
@@ -325,7 +325,7 @@ public class Gestor {
         DiaGuardia dia = buscarDiaGuardia(fecha);
 
         if (dia == null)
-            throw new EntradaInvalidaException("No hay planificaci�n para esta fecha.");
+            throw new EntradaInvalidaException("No hay planificación para esta fecha.");
 //        for (TurnoDeGuardia turno : dia.getTurnos())
 //            turno.borrarPersonaAsignada();
     }

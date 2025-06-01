@@ -35,7 +35,7 @@ public class PantallaFacultad extends JDialog {
     private final JPanel panelVacio;
     private final JPanel panelRec;
     private final JPanel panelFac;
-    private final Font fuente = new Font("Arial", Font.PLAIN, 15);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 14);
     private final Font fuenteE = new Font("Arial", Font.PLAIN, 13);
     private final Font fuente2 = new Font("Arial", Font.PLAIN, 13);
     private final Boton boton1;

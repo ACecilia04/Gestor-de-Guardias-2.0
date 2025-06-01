@@ -21,7 +21,7 @@ public abstract class CustomTablaComplex extends JPanel {
     protected JTable tabla;
     protected ArrayList<Component> componentes;
     protected DefaultTableModel modelo;
-    protected Font fuenteHeather = new Font("Arial", Font.PLAIN, 16);
+    protected Font fuenteHeather = new Font("Arial", Font.PLAIN, 14);
     protected Color casilla1 = Color.WHITE;
     protected Color casilla2 = paleta.getColorCasillaTabla();
     protected int columnaSelec = -1;
@@ -78,7 +78,7 @@ public abstract class CustomTablaComplex extends JPanel {
 
         // Crear una etiqueta para el t�tulo
         JLabel titleLabel = new JLabel(getTitulo());
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 19));
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
         titleLabel.setForeground(paleta.getColorLetraMenu());
 
 
@@ -152,7 +152,7 @@ public abstract class CustomTablaComplex extends JPanel {
     private class CustomCellRenderer extends DefaultTableCellRenderer {
         @Serial
         private static final long serialVersionUID = 1L;
-        private final Font font = new Font("Arial", Font.PLAIN, 15);
+        private final Font font = new Font("Arial", Font.PLAIN, 14);
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
