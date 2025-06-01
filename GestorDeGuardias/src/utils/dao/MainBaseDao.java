@@ -1,6 +1,6 @@
 package utils.dao;
 
-public class MainBaseDao extends BaseService {
+public class MainBaseDao extends SqlServerBaseDao {
 
     public JdbcTemplate getJdbcTemplate(){
         String connUrl = "jdbc:sqlserver://localhost:1433;databaseName=Gestor_de_Guardias;integratedSecurity=false;encrypt=false;trustServerCertificate=true";
@@ -9,6 +9,7 @@ public class MainBaseDao extends BaseService {
 
         return new JdbcTemplate(connUrl, connUsername, connPassword);
     }
+
     public MainBaseDao(){
         super();
     }

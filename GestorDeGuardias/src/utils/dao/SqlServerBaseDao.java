@@ -1,12 +1,15 @@
 package utils.dao;
 
+import com.microsoft.sqlserver.jdbc.SQLServerException;
 import utils.dao.mappers.RowMapper;
 
+import java.sql.SQLException;
 import java.util.List;
 
-public abstract class BaseService {
+public abstract class SqlServerBaseDao {
 
     public abstract JdbcTemplate getJdbcTemplate();
+
 
     public <T> List<T> query(String query, RowMapper<T> mapper, Object... parameters) {
         if (isArrayValid(parameters)) {
@@ -50,10 +53,21 @@ public abstract class BaseService {
     }
 
     public void spUpdate(String query, Object... parameters) throws SqlServerCustomException {
-        if (isArrayValid(parameters)) {
-            getJdbcTemplate().executeProcedure(query, parameters);
-        } else {
-            getJdbcTemplate().executeProcedure(query);
+        try {
+            if (isArrayValid(parameters)) {
+                getJdbcTemplate().executeProcedure(query, parameters);
+            } else {
+                getJdbcTemplate().executeProcedure(query);
+            }
+        } catch (SQLException e) {
+            if (e instanceof SQLServerException){
+                if (((SQLServerException)e).getSQLServerError().getErrorNumber() == 51000)
+                    throw new SqlServerCustomException(((SQLServerException)e).getSQLServerError().getErrorMessage());
+                else
+                    throw new RuntimeException(e);
+            } else {
+                throw new RuntimeException(e);
+            }
         }
     }
 
