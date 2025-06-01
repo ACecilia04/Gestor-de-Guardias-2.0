@@ -22,8 +22,8 @@ public class PantallaAddVolunt extends JDialog {
     private final Paleta paleta = new Paleta();
     private final JPanel contentPane;
 
-    private final Font fuente = new Font("Arial", Font.PLAIN, 17);
-    private final Font fuente2 = new Font("Arial", Font.PLAIN, 15);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 15);
+    private final Font fuente2 = new Font("Arial", Font.PLAIN, 13);
 
     private final JPanel panel1;
     private final JPanel panelVolunt;

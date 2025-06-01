@@ -11,7 +11,7 @@ import java.awt.event.*;
 public class CustomTextField extends Cuadro {
     private static final int redondez = Cuadro.redBAJA;
     private final String textoPorDefecto;
-    private final Font fuente = new Font("Arial", Font.PLAIN, 17);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 15);
     private final Cuadro myself;
     private final int maxCaracteres;
     protected JTextField textField;

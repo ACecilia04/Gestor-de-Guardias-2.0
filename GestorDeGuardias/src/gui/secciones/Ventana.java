@@ -254,7 +254,7 @@ public class Ventana extends JFrame {
 //                Gestor gestorAux = Gestor.getInstance();
 //                ArrayList<DiaGuardia> plan = Gestor.getInstance().getPlanDeGuardias();
                 if (plan.isEmpty() || (tgServ.getTurnosAPartirDe(LocalDate.now()).isEmpty() && !plan.getLast().getFecha().isAfter(LocalDate.now()))) {
-                    String string = "<html><p>No se encuentran registradas planificaciones <br> para el mes actual <br><br>Desea generar las planificaciones del resto del mes o del pr�ximo?</p></html>";
+                    String string = "<html><p>No se encuentran registradas planificaciones <br> para el mes actual <br><br>Desea generar las planificaciones del resto del mes o del próximo?</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Mes Actual", "Próximo Mes");
                     opcion = advertencia.getEleccion();
                 }

@@ -52,7 +52,7 @@ public class Boton extends JPanel implements Actualizable {
         textoLabel = texto;
         inicializar();
 
-        Font fuente = new Font("Arial", Font.PLAIN, 17);
+        Font fuente = new Font("Arial", Font.PLAIN, 14);
         etiqueta.setFont(fuente);
 
         etiqueta.setSize(etiqueta.getPreferredSize());

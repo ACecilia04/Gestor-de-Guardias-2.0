@@ -30,7 +30,7 @@ public class TablaOpcionesPlanif extends JPanel {
     Paleta paleta = new Paleta();
 
 
-    //   private final Font fuente = new Font("Arial", Font.PLAIN, 17);
+    //   private final Font fuente = new Font("Arial", Font.PLAIN, 15);
 
     public TablaOpcionesPlanif(Dimension dimension) {
         setPreferredSize(dimension);

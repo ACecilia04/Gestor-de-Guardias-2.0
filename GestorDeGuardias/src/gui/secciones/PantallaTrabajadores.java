@@ -201,7 +201,7 @@ public class PantallaTrabajadores extends JPanel {
                     tablaOpciones.getBotonEliminar().setSeleccionable(hasSelection);
                     tablaOpciones.getBotonBaja().setSeleccionable(hasSelection);
                     tablaOpciones.getBotonLicencia().setSeleccionable(hasSelection);
-                    tablaOpciones.getBotonVolunt().setSeleccionable(hasSelection);
+//                    tablaOpciones.getBotonVolunt().setSeleccionable(hasSelection);
                     revalidate();
                     repaint();
                 }

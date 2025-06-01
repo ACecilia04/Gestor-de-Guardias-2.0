@@ -16,8 +16,8 @@ public class PanelOpcionesEstudiante extends JPanel {
     private final Paleta paleta = new Paleta();
 
     private final JPanel superior;
-    private final JPanel panel1;
-    private final JPanel panel4;
+    private final JPanel panelFiltros;
+    private final JPanel panelAddEstudiante;
     private final JPanel panelBotones;
     private final JPanel panelCentral;
     private final JPanel panelVacio;
@@ -39,8 +39,8 @@ public class PanelOpcionesEstudiante extends JPanel {
     private final Boton botonAddEst;
     private final int separacion = 10;
     private final int x = 20;
-    private final Font fuente = new Font("Arial", Font.PLAIN, 17);
-    private final Font fuente2 = new Font("Arial", Font.BOLD, 17);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 14);
+//    private final Font fuente2 = new Font("Arial", Font.BOLD, 17);
     private Boton botonBajaMini;
     private JPanel panelCalendar;
     private CustomCalendar calendario;
@@ -58,20 +58,20 @@ public class PanelOpcionesEstudiante extends JPanel {
         superior.setBackground(getBackground());
 
         //Panel1
-        panel1 = new JPanel(null);
+        panelFiltros = new JPanel(null);
 
         Etiqueta filtrar = new Etiqueta("Filtrar");
         filtrar.setBold(true);
         filtrar.setLocation(x, y);
 
         Etiqueta disponibilidad = new Etiqueta("Disponibilidad");
-        disponibilidad.setNuevoSizeLetra(18);
+        disponibilidad.setNuevoSizeLetra(16);
 
         y += filtrar.getSize().height + separacion;
         disponibilidad.setLocation(x, y);
 
         Etiqueta sexoEt = new Etiqueta("Sexo");
-        sexoEt.setNuevoSizeLetra(18);
+        sexoEt.setNuevoSizeLetra(16);
 
         int x2 = x + disponibilidad.getSize().width + separacion * 3;
         sexoEt.setLocation(x2, y);
@@ -107,23 +107,23 @@ public class PanelOpcionesEstudiante extends JPanel {
         y += checkBaja.getPreferredSize().height + separacion;
 
 
-        disponibilidad.setNuevoSizeLetra(18);
+//        disponibilidad.setNuevoSizeLetra(18);
 
         y += separacion;
 
-        panel1.add(filtrar);
-        panel1.add(disponibilidad);
-        panel1.add(sexoEt);
+        panelFiltros.add(filtrar);
+        panelFiltros.add(disponibilidad);
+        panelFiltros.add(sexoEt);
 
 
-        panel1.add(checkDisp);
-        panel1.add(checkLicencia);
-        panel1.add(checkBaja);
-        panel1.add(checkMasc);
-        panel1.add(checkFem);
+        panelFiltros.add(checkDisp);
+        panelFiltros.add(checkLicencia);
+        panelFiltros.add(checkBaja);
+        panelFiltros.add(checkMasc);
+        panelFiltros.add(checkFem);
 
 
-        panel1.setPreferredSize(new Dimension(this.getSize().width, y));
+        panelFiltros.setPreferredSize(new Dimension(this.getSize().width, y));
 
         int xBoton = (this.getSize().width - dimBoton.width) / 2;
         int sepBotones = 20;
@@ -171,7 +171,7 @@ public class PanelOpcionesEstudiante extends JPanel {
                 panelCalendar.add(calendario);
                 calendario.mostrarMesActual();
 
-                mostrarPanel("panel2");
+                mostrarPanel("panelBaja");
             }
         });
 
@@ -184,34 +184,34 @@ public class PanelOpcionesEstudiante extends JPanel {
         inciarPanelBaja();
 
         //Panel4 Guardar
-        panel4 = new JPanel(null);
-        panel4.setBackground(getBackground());
-        panel4.setPreferredSize(new Dimension(this.getPreferredSize().width, 100));
+        panelAddEstudiante = new JPanel(null);
+        panelAddEstudiante.setBackground(getBackground());
+        panelAddEstudiante.setPreferredSize(new Dimension(this.getPreferredSize().width, 100));
         botonAddEst = new Boton("Añadir Estudiante");
 
         botonAddEst.setNuevoSize(new Dimension(140, 40));
         botonAddEst.setBordeado(true);
         botonAddEst.setColorPresionado(paleta.getColorCaracteristico());
 
-        int x = (panel4.getPreferredSize().width - botonAddEst.getSize().width) / 2;
-        int y = (panel4.getPreferredSize().height - botonAddEst.getSize().height) / 2;
+        int x = (panelAddEstudiante.getPreferredSize().width - botonAddEst.getSize().width) / 2;
+        int y = (panelAddEstudiante.getPreferredSize().height - botonAddEst.getSize().height) / 2;
         botonAddEst.setLocation(x, y);
-        panel4.add(botonAddEst);
+        panelAddEstudiante.add(botonAddEst);
 
         JPanel panelComun = new JPanel(new BorderLayout());
         panelComun.add(panelBotones, BorderLayout.CENTER);
-        panelComun.add(panel4, BorderLayout.SOUTH);
+        panelComun.add(panelAddEstudiante, BorderLayout.SOUTH);
 
         panelVacio = new JPanel(new CardLayout());
-        panelVacio.add(panelComun, "panel1");
-        panelVacio.add(panelBaja, "panel2");
+        panelVacio.add(panelComun, "panelFiltros");
+        panelVacio.add(panelBaja, "panelBaja");
 
         panelVacio.setBackground(getBackground());
 
         panelBotones.setBackground(getBackground());
-        panel1.setBackground(getBackground());
+        panelFiltros.setBackground(getBackground());
 
-        panelCentral.add(panel1, BorderLayout.NORTH);
+        panelCentral.add(panelFiltros, BorderLayout.NORTH);
         panelCentral.add(panelVacio, BorderLayout.CENTER);
 
 
@@ -271,7 +271,7 @@ public class PanelOpcionesEstudiante extends JPanel {
         atras.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mostrarPanel("panel1");
+                mostrarPanel("panelFiltros");
             }
         });
 
@@ -289,7 +289,7 @@ public class PanelOpcionesEstudiante extends JPanel {
         JPanel panelBoton = new JPanel(null);
         panelBoton.setBackground(getBackground());
         panelBoton.setPreferredSize(new Dimension(this.getPreferredSize().width, 80));
-        botonBajaMini = new Boton("Selec Fecha");
+        botonBajaMini = new Boton("Seleccionar Fecha");
 
         botonBajaMini.setNuevoSize(new Dimension(140, 40));
         botonBajaMini.setColorFondo(paleta.getColorCasillaTabla());
