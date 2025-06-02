@@ -26,13 +26,13 @@ public class PanelOpcionesEstudiante extends JPanel {
     private final Dimension dimBoton = new Dimension(180, 35);
 
     private final CustomCheckBox checkDisp;
-    private final CustomCheckBox checkLicencia;
+//    private final CustomCheckBox checkLicencia;
     private final CustomCheckBox checkBaja;
 
     private final CustomCheckBox checkMasc;
     private final CustomCheckBox checkFem;
     private final Boton botonEliminar;
-    private final Boton botonLicencia;
+    private final Boton botonExport;
     private final Boton botonBaja;
     private final String iconoVolver = "/iconos/FlechaAtras.png";
     private final Buscar buscar;
@@ -78,21 +78,18 @@ public class PanelOpcionesEstudiante extends JPanel {
 
         y += disponibilidad.getSize().height + separacion;
 
-        checkDisp = new CustomCheckBox("Disponible");
-        checkLicencia = new CustomCheckBox("Licencia");
-        checkBaja = new CustomCheckBox("Baja");
+        checkDisp = new CustomCheckBox("Disponible    ");
+        checkBaja = new CustomCheckBox("Baja    ");
 
-        checkMasc = new CustomCheckBox("Masculino");
+        checkMasc = new CustomCheckBox("Masculino     ");
         checkFem = new CustomCheckBox("Femenino");
 
 
         checkDisp.setSelected(true);
-        checkLicencia.setSelected(true);
         checkMasc.setSelected(true);
         checkFem.setSelected(true);
 
         checkDisp.setNuevaFuente(fuente);
-        checkLicencia.setNuevaFuente(fuente);
         checkBaja.setNuevaFuente(fuente);
         checkMasc.setNuevaFuente(fuente);
         checkFem.setNuevaFuente(fuente);
@@ -100,10 +97,8 @@ public class PanelOpcionesEstudiante extends JPanel {
         checkDisp.setLocation(x, y);
         checkMasc.setLocation(x2, y);
         y += checkDisp.getPreferredSize().height + separacion;
-        checkLicencia.setLocation(x, y);
-        checkFem.setLocation(x2, y);
-        y += checkLicencia.getPreferredSize().height + separacion;
         checkBaja.setLocation(x, y);
+        checkFem.setLocation(x2, y);
         y += checkBaja.getPreferredSize().height + separacion;
 
 
@@ -117,7 +112,6 @@ public class PanelOpcionesEstudiante extends JPanel {
 
 
         panelFiltros.add(checkDisp);
-        panelFiltros.add(checkLicencia);
         panelFiltros.add(checkBaja);
         panelFiltros.add(checkMasc);
         panelFiltros.add(checkFem);
@@ -132,13 +126,13 @@ public class PanelOpcionesEstudiante extends JPanel {
         panelBotones = new JPanel();
         panelBotones.setLayout(null);
 
-        botonBaja = new Boton("Dar Baja");
-        botonLicencia = new Boton("Licencias");
-        botonEliminar = new Boton("Eliminar Estudiante");
+        botonBaja = new Boton("Dar Baja     ");
+        botonExport = new Boton("Exportar PDF    ");
+        botonEliminar = new Boton("Eliminar Estudiante      ");
 
         ArrayList<Boton> botones = new ArrayList<>();
         botones.add(botonBaja);
-        botones.add(botonLicencia);
+        botones.add(botonExport);
         botones.add(botonEliminar);
 
         int y2 = sepBotones;
@@ -187,7 +181,7 @@ public class PanelOpcionesEstudiante extends JPanel {
         panelAddEstudiante = new JPanel(null);
         panelAddEstudiante.setBackground(getBackground());
         panelAddEstudiante.setPreferredSize(new Dimension(this.getPreferredSize().width, 100));
-        botonAddEst = new Boton("Añadir Estudiante");
+        botonAddEst = new Boton("Añadir Estudiante    ");
 
         botonAddEst.setNuevoSize(new Dimension(140, 40));
         botonAddEst.setBordeado(true);
@@ -330,8 +324,8 @@ public class PanelOpcionesEstudiante extends JPanel {
         return calendario;
     }
 
-    public Boton getBotonLicencia() {
-        return botonLicencia;
+    public Boton getBotonExport() {
+        return botonExport;
     }
 
     public Boton getBotonBaja() {

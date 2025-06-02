@@ -50,24 +50,24 @@ public class ReporteServices {
             documento.add(titulo);
             documento.add(Chunk.NEWLINE);
 
-//            // Estadísticas simples
-//            int total = personas.size();
-//            int activos = 0;
-//            int bajas = 0;
-//            for (Persona p : personas) {
-//                if (p.isActivo()) activos++;
-//                if (p.isDeBaja()) bajas++;
-//            }
-//            Paragraph resumen = new Paragraph(
-//                    String.format("Total personas: %d\nActivos: %d (%.2f%%)\nDe baja: %d (%.2f%%)\n",
-//                            total,
-//                            activos, total > 0 ? (activos * 100.0 / total) : 0,
-//                            bajas, total > 0 ? (bajas * 100.0 / total) : 0
-//                    ),
-//                    FontFactory.getFont(FontFactory.HELVETICA, 14)
-//            );
-//            documento.add(resumen);
-//            documento.add(Chunk.NEWLINE);
+            // Estadísticas simples cant est cant trab
+            int total = personas.size();
+            int est = 0;
+            int trab = 0;
+            for (Persona p : personas) {
+                if (p.getTipo().equals("Estudiante")) est++;
+                if (p.getTipo().equals("Trabajador")) trab++;
+            }
+            Paragraph resumen = new Paragraph(
+                    String.format("Total de Personas: %d\nEstudiantes: %d (%.2f%%)\nTrabajadores: %d (%.2f%%)\n",
+                            total,
+                            est, total > 0 ? (est * 100.0 / total) : 0,
+                            trab, total > 0 ? (trab * 100.0 / total) : 0
+                    ),
+                    FontFactory.getFont(FontFactory.HELVETICA, 14)
+            );
+            documento.add(resumen);
+            documento.add(Chunk.NEWLINE);
 
             // Tabla de datos
             float[] widths = {2.5f, 4.5f, 3f, 2f, 2.5f, 2f, 2.5f, 2.5f};

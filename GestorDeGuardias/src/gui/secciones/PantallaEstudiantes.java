@@ -7,6 +7,7 @@ import gui.internosComp.PanelOpcionesEstudiante;
 import gui.pantallasEmergentes.Advertencia;
 import model.Persona;
 import model.TipoPersona;
+import services.ReporteServices;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
 import utils.exceptions.EntradaInvalidaException;
@@ -53,6 +54,8 @@ public class PantallaEstudiantes extends JPanel {
                 public void actionPerformed(ActionEvent e) {
                     ArrayList<Persona> personaAux = checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante")));
                     revalidarTabla(personaAux);
+                    ReporteServices reporte = new ReporteServices();
+                    reporte.generarReporteTodasLasPersonas(ServicesLocator.getInstance().getPersonaServices().getAllPersonas(), "reporte_todas.pdf");
                 }
             });
         }
@@ -163,7 +166,7 @@ public class PantallaEstudiantes extends JPanel {
             }
         });
 
-        tablaOpciones.getBotonLicencia().addActionListener(new ActionListener() {
+        tablaOpciones.getBotonExport().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String ID = tabla.getCarnet();
@@ -180,7 +183,7 @@ public class PantallaEstudiantes extends JPanel {
 
         tablaOpciones.getBotonEliminar().setSeleccionable(false);
         tablaOpciones.getBotonBaja().setSeleccionable(false);
-        tablaOpciones.getBotonLicencia().setSeleccionable(false);
+        tablaOpciones.getBotonExport().setSeleccionable(false);
 
         contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
@@ -203,7 +206,7 @@ public class PantallaEstudiantes extends JPanel {
                     boolean hasSelection = tabla.getTabla().getSelectedRowCount() > 0;
                     tablaOpciones.getBotonEliminar().setSeleccionable(hasSelection);
                     tablaOpciones.getBotonBaja().setSeleccionable(hasSelection);
-                    tablaOpciones.getBotonLicencia().setSeleccionable(hasSelection);
+                    tablaOpciones.getBotonExport().setSeleccionable(hasSelection);
                     revalidate();
                     repaint();
                 }

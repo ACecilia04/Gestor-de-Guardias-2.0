@@ -145,39 +145,9 @@ public class PantallaTrabajadores extends JPanel {
             }
         });
 
-        tablaOpciones.getBotonLicencia().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String ID = tabla.getCarnet();
-//                LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
-//                try {
-////                    PantallaLicenciasTrabajador pantallaLic = new PantallaLicenciasTrabajador(Gestor.getInstance().getFacultad().buscarPersona(ID));
-//                    revalidarTabla();
-//                } catch (EntradaInvalidaException e1) {
-//                    // TODO Auto-generated catch block
-//                    e1.printStackTrace();
-//                }
-
-            }
-        });
-
-//        tablaOpciones.getBotonVolunt().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                String ID = tabla.getCarnet();
-//                LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
-//                PantallaAddVolunt pantallaVolunt = new PantallaAddVolunt(ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(ID));
-//                revalidarTabla();
-//
-//            }
-//        });
-
 
         tablaOpciones.getBotonEliminar().setSeleccionable(false);
         tablaOpciones.getBotonBaja().setSeleccionable(false);
-//        tablaOpciones.getBotonVolunt().setSeleccionable(false);
-        tablaOpciones.getBotonLicencia().setSeleccionable(false);
-
         contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
 
@@ -200,8 +170,6 @@ public class PantallaTrabajadores extends JPanel {
                     boolean hasSelection = tabla.getTabla().getSelectedRowCount() > 0;
                     tablaOpciones.getBotonEliminar().setSeleccionable(hasSelection);
                     tablaOpciones.getBotonBaja().setSeleccionable(hasSelection);
-                    tablaOpciones.getBotonLicencia().setSeleccionable(hasSelection);
-//                    tablaOpciones.getBotonVolunt().setSeleccionable(hasSelection);
                     revalidate();
                     repaint();
                 }
