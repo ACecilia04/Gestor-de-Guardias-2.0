@@ -3,7 +3,6 @@ package services;
 import model.Configuracion;
 import model.Horario;
 import model.TipoPersona;
-import model.TurnoDeGuardia;
 import utils.dao.MainBaseDao;
 import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.IntegerMapper;
@@ -50,8 +49,8 @@ public class ConfiguracionServices {
         return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario.getId(), diaSemana, diaEsReceso);
     }
 
-    public Configuracion getConfiguracionByPk(Long horarioId, int diaSemana, boolean diaEsReceso) {
-        return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horarioId, diaSemana, diaEsReceso);
+    public Configuracion getConfiguracionByPk(Long horarioId, LocalDate fecha, boolean diaEsReceso) {
+        return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horarioId, fecha, diaEsReceso);
     }
 
     public Configuracion getConfiguracionById(Long id) {
@@ -78,12 +77,9 @@ public class ConfiguracionServices {
         baseDao.spUpdate("sp_configuracion_delete(?)", id);
     }
 
-    public Configuracion getConfiguracionDeFecha(LocalDate fecha){
-        /* FROM configuracion
-        SELECT
+    public List<Configuracion> getConfiguracionesDeFecha(LocalDate fecha){
 
-         */
-        return baseDao.spQuerySingleObject("sp_configuracion_de_fecha(?)", new ConfiguracionMapper(), fecha.getDayOfWeek().getValue());
+        return baseDao.spQuery("sp_configuraciones_de_fecha(?)", new ConfiguracionMapper(), fecha.getDayOfWeek().getValue());
     }
 
     public int getCantPersonasAsignables(Long horario, LocalDate fecha){

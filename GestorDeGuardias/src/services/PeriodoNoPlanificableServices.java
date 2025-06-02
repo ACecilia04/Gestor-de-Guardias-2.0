@@ -3,6 +3,7 @@ package services;
 import model.PeriodoNoPlanificable;
 import utils.dao.MainBaseDao;
 import utils.dao.SqlServerCustomException;
+import utils.dao.mappers.BooleanMapper;
 import utils.dao.mappers.IntegerMapper;
 import utils.dao.mappers.RowMapper;
 
@@ -47,8 +48,12 @@ public class PeriodoNoPlanificableServices {
         return baseDao.spQuerySingleObject("sp_periodo_no_planificable_count", new IntegerMapper("total"));
     }
 
-    public PeriodoNoPlanificable getPeriodosEnFecha(LocalDate fecha){
-        return baseDao.spQuerySingleObject("sp_periodos_no_planificables_in_date(?)",new PeriodoNoPlanificableMapper(), fecha);
+    public PeriodoNoPlanificable getPeriodoEnFecha(LocalDate fecha){
+        return baseDao.spQuerySingleObject("sp_periodo_no_planificable_in_date(?)", new PeriodoNoPlanificableMapper(), fecha);
+    }
+
+    public Boolean fechaEsNoPlanificable(LocalDate fecha){
+            return baseDao.spQuerySingleObject("sp_periodo_no_planificable_has_date(?)", new BooleanMapper("existe"), fecha);
     }
     // Internal Mapper
     private static class PeriodoNoPlanificableMapper implements RowMapper<PeriodoNoPlanificable> {

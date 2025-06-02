@@ -144,7 +144,7 @@ public class ReporteServices {
                     String horarioStr = horario.getInicio().format(formatoHora) + " - " + horario.getFin().format(formatoHora);
 
                     // Personas asignadas
-                    ArrayList<Persona> personas = turno.getpersonasAsignadas();
+                    ArrayList<Persona> personas = turno.getPersonasAsignadas();
                     String personasStr = personas.isEmpty()
                             ? "-"
                             : personas.stream()

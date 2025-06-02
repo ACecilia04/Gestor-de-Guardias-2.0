@@ -52,7 +52,7 @@ public class TurnoDeGuardia {
         this.horario = horario;
     }
 
-    public ArrayList<Persona> getpersonasAsignadas() {
+    public ArrayList<Persona> getPersonasAsignadas() {
         return personasAsignadas;
     }
 

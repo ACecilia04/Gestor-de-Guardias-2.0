@@ -218,7 +218,7 @@ public class Facultad {
      * @throws EntradaInvalidaException
      */
     public void eliminarRecesoDocente(LocalDate inicio) throws EntradaInvalidaException {
-        PeriodoNoPlanificable rd = ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getPeriodosEnFecha(inicio);
+        PeriodoNoPlanificable rd = ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getPeriodoEnFecha(inicio);
         if (rd == null)
             throw new EntradaInvalidaException("Receso docente no registrado.");
         else {
