@@ -70,12 +70,12 @@ public class ReporteServices {
 //            documento.add(Chunk.NEWLINE);
 
             // Tabla de datos
-            float[] widths = {2.5f, 2.5f, 2f, 3f, 2f, 2.5f, 2f, 2.5f, 2.5f};
+            float[] widths = {2.5f, 4.5f, 3f, 2f, 2.5f, 2f, 2.5f, 2.5f};
             PdfPTable tabla = new PdfPTable(widths);
             tabla.setWidthPercentage(95);
 
             String[] encabezados = {
-                    "Tipo", "Nombre", "Apellido", "Sexo", "Carnet",
+                    "Tipo", "Nombre", "Sexo", "Carnet",
                     "Últ. Guardia", "Guardias Rec.", "Baja", "Reincorporación"
             };
             for (String encabezado : encabezados) {
@@ -90,8 +90,10 @@ public class ReporteServices {
 
             for (Persona p : personas) {
                 tabla.addCell(p.getTipo() != null ? p.getTipo().getNombre() : "");
-                tabla.addCell(p.getNombre() != null ? p.getNombre() : "");
-                tabla.addCell(p.getApellido() != null ? p.getApellido() : "");
+                tabla.addCell(
+                        ((p.getNombre() != null ? p.getNombre() : "") +
+                                (p.getApellido() != null ? " " + p.getApellido() : "")).trim()
+                );
                 tabla.addCell(p.getSexo() != null ? String.valueOf(p.getSexo().charAt(0)) : "");
                 tabla.addCell(p.getCarnet() != null ? p.getCarnet() : "");
                 tabla.addCell(p.getUltimaGuardiaHecha() != null ? p.getUltimaGuardiaHecha().format(formatoFecha) : "");
