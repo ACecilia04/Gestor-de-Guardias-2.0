@@ -7,6 +7,7 @@ import gui.internosComp.PanelOpcionesTrabajador;
 import gui.pantallasEmergentes.Advertencia;
 import model.Persona;
 import model.TipoPersona;
+import services.ReporteServices;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
 import utils.exceptions.EntradaInvalidaException;
@@ -102,6 +103,34 @@ public class PantallaTrabajadores extends JPanel {
         });
 
 
+        tablaOpciones.getBotonExport().addActionListener(e -> {
+            // 1. Obtener los trabajadores filtrados
+            ArrayList<Persona> filtrados = checkFiltros(
+                    (ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador"))
+            );
+            if (filtrados.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "No hay trabajadores para exportar con los filtros actuales.", "Sin datos", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // 2. Dialogo para elegir donde guardar
+            JFileChooser chooser = new JFileChooser();
+            chooser.setDialogTitle("Guardar reporte PDF");
+            chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("PDF", "pdf"));
+            int seleccion = chooser.showSaveDialog(this);
+
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                String path = chooser.getSelectedFile().getAbsolutePath();
+                String title = chooser.getName();
+                if (!path.toLowerCase().endsWith(".pdf")) path += ".pdf";
+
+                // 3. Llamar al servicio de reporte
+                new ReporteServices().generarReporteTodasLasPersonas(filtrados, path,title);
+
+                JOptionPane.showMessageDialog(this, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+        });
+
         tablaOpciones.getBotonBajaMini().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,6 +150,7 @@ public class PantallaTrabajadores extends JPanel {
                 }
             }
         });
+
 
 
         tablaOpciones.getBotonEliminar().addActionListener(new ActionListener() {

@@ -23,6 +23,7 @@ public class PanelOpcionesMostrarP extends JPanel {
     private final Boton botonBorrarPlanif;
     private final Boton botonEditarPlanif;
     private final Boton botonCrearPlanif;
+    private final Boton botonExport;
     private final int separacion = 10;
     private final int x = 20;
     private final int y = separacion + 10;
@@ -74,14 +75,17 @@ public class PanelOpcionesMostrarP extends JPanel {
         botonBorrarPlanif = new Boton("Borrar");
         botonEditarPlanif = new Boton("Editar");
         botonCrearPlanif = new Boton("Crear Nuevo");
+        botonExport = new Boton("Exportar PDF");
 
         botonEditarPlanif.setNuevoSize(dimBoton);
         botonCrearPlanif.setNuevoSize(dimBoton);
         botonBorrarPlanif.setNuevoSize(dimBoton);
+        botonExport.setNuevoSize(dimBoton);
 
         botones.add(botonBorrarPlanif);
         botones.add(botonEditarPlanif);
         botones.add(botonCrearPlanif);
+        botones.add(botonExport);
 
         panel4.add(botonVerPlanif);
         y += dimBoton.height + y;
@@ -134,6 +138,8 @@ public class PanelOpcionesMostrarP extends JPanel {
     public Boton getBotonCrearPlanif() {
         return botonCrearPlanif;
     }
-
+    public Boton getBotonExport() {
+        return botonExport;
+    }
 
 }

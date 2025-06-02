@@ -100,11 +100,11 @@ public class PanelOpcionesEstudiante extends JPanel {
         checkBaja.setLocation(x, y);
         checkFem.setLocation(x2, y);
         y += checkBaja.getPreferredSize().height + separacion;
-
+        y += separacion;
 
 //        disponibilidad.setNuevoSizeLetra(18);
 
-        y += separacion;
+
 
         panelFiltros.add(filtrar);
         panelFiltros.add(disponibilidad);

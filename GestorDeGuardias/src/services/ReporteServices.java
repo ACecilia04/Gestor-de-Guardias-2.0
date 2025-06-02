@@ -3,13 +3,13 @@ package services;
 import com.lowagie.text.*;
 import com.lowagie.text.pdf.*;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
 import model.DiaGuardia;
 import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
 
 import java.awt.*;
-import java.awt.Image;
 import java.io.FileOutputStream;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -19,29 +19,25 @@ import java.util.stream.Collectors;
 public class ReporteServices {
 
     // Reporte de todas las personas
-    public void generarReporteTodasLasPersonas(List<Persona> personas, String nombreArchivo) {
-        generarReportePersonas(personas, nombreArchivo, "Reporte de Todas las Personas");
+    public void generarReporteTodasLasPersonas(List<Persona> personas, String rutaArchivo, String Titulo) {
+        generarReportePersonas(personas, rutaArchivo, Titulo);
     }
 
-    // Reporte de personas de baja
-    public void generarReportePersonasDeBaja(List<Persona> personas, String nombreArchivo) {
-        generarReportePersonas(personas, nombreArchivo, "Reporte de Personas de Baja");
-    }
 
     // Método privado reutilizable
     private void generarReportePersonas(List<Persona> personas, String nombreArchivo, String tituloReporte) {
-        Document documento = new Document(PageSize.A4.rotate()); // Horizontal para mayor espacio
+        Document documento = new Document(PageSize.A4); // Horizontal para mayor espacio
         try {
             PdfWriter.getInstance(documento, new FileOutputStream(nombreArchivo));
             documento.open();
 
-            // Logo (opcional)
-//            try {
-//                Image logo = Image.getInstance("logo.png");
-//                logo.scaleToFit(80, 80);
-//                logo.setAlignment(Image.ALIGN_RIGHT);
-//                documento.add(logo);
-//            } catch (Exception ignored) { }
+            // Logo (opcional) Image.getInstance("D:/Programming/Projects/Gestor-de-Guardias-2.0/GestorDeGuardias/src/iconos/logoPDF.jpg");
+            try {
+                Image logo = Image.getInstance("D:/Programming/Projects/Gestor-de-Guardias-2.0/GestorDeGuardias/src/iconos/logoPDF.jpg");
+                logo.scaleToFit(80, 80);
+                logo.setAlignment(Image.ALIGN_RIGHT);
+                documento.add(logo);
+            } catch (Exception ignored) { }
 
             // Título
             Paragraph titulo = new Paragraph(tituloReporte,
