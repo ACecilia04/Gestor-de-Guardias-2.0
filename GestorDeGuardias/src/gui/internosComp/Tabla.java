@@ -34,10 +34,10 @@ public class Tabla extends Cuadro implements IsTabla {
     private final ArrayList<PanelDiaBase> panelesCasillas = new ArrayList<>();
     private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
-    private final Font fuente = new Font("Arial", Font.BOLD, 14);
+    private final Font fuente = new Font("Arial", Font.BOLD, 13);
     private final int distX;
     private final int distY;
-    private final JPanel anchoTotal;
+    private final JPanel contenedor;
     private final PanelOpcionesPlanif tablaOpciones;
     //Secciones
     CuadroRectoAbajo titulo;
@@ -46,7 +46,7 @@ public class Tabla extends Cuadro implements IsTabla {
     ArrayList<DiaGuardia> dias;
     private int mouseX, mouseY;
 
-    public Tabla(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, final PanelOpcionesPlanif tablaOpciones, final int distX, final int distY, final JPanel anchoTotal) {
+    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) {
         super(dimension, redondez, color);
         PanelDia.setCasillaLargo(dimension.width - sepIzquierda * 2);
         this.setLayout(null);
@@ -55,7 +55,7 @@ public class Tabla extends Cuadro implements IsTabla {
         this.tablaOpciones = tablaOpciones;
         this.distX = distX;
         this.distY = distY;
-        this.anchoTotal = anchoTotal;
+        this.contenedor = contenedor;
         dias = estosDias;
 
         tablaOpciones.getGuardar().addActionListener(new ActionListener() {
@@ -184,7 +184,7 @@ public class Tabla extends Cuadro implements IsTabla {
 
                 int z = xReal + distX;
 
-                int bultoCalculo = anchoTotal.getWidth() + distX - myself.getSize().width - tablaOpciones.getWidth();
+                int bultoCalculo = contenedor.getWidth() + distX - myself.getSize().width - tablaOpciones.getWidth();
                 int bultoCalculo2 = tablaOpciones.getSize().height - myself.getSize().height;
 
                 if (xReal <= 0) {
@@ -193,7 +193,7 @@ public class Tabla extends Cuadro implements IsTabla {
                 if (yReal <= 0) {
                     yReal = 0;
                 }
-                if (z > anchoTotal.getWidth() + distX - myself.getSize().width - tablaOpciones.getWidth()) {
+                if (z > contenedor.getWidth() + distX - myself.getSize().width - tablaOpciones.getWidth()) {
                     xReal = bultoCalculo - distX;
                 }
                 if (yReal > bultoCalculo2) {
