@@ -3,9 +3,6 @@ package utils.dao.mappers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Created by aaguilera on 01/30/2020.
- */
 public class DoubleMapper implements RowMapper<Double> {
 
     private String columnName;

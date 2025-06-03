@@ -4,9 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
-/**
- * Created by aaguilera on 8/23/2016.
- */
 public class DateMapper implements RowMapper<Date> {
 
     private String columnName;

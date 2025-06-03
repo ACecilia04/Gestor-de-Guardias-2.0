@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BooleanMapper implements RowMapper<Boolean> {
+
     private String columnName;
 
     public BooleanMapper() {
@@ -11,10 +12,6 @@ public class BooleanMapper implements RowMapper<Boolean> {
     }
 
     public BooleanMapper(String columnName) {
-        this.columnName = columnName;
-    }
-
-    public BooleanMapper(String columnName, boolean allowNull) {
         this.columnName = columnName;
     }
 

@@ -4,9 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
-/**
- * Created by aaguilera on 02/05/2022.
- */
 public class LocalDateMapper implements RowMapper<LocalDate> {
 
     private String columnName;

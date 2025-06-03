@@ -206,68 +206,59 @@ public class JdbcTemplate {
 
 
     private void setStatementField(PreparedStatement statement, int columnNr, Object value) throws SQLException {
-        if (value == null){
-            statement.setObject(columnNr, null);
-            return;
-        }
-
-        if (value.getClass() == Integer.class) {
+        if (value instanceof Integer) {
             statement.setInt(columnNr, (Integer)value);
-            return;
-        }
+        } else
 
-        if(value.getClass() == String.class){
+        if(value instanceof String){
             statement.setString(columnNr, (String)value);
-            return;
-        }
+        } else
 
-        if(value.getClass() == Long.class){
+        if(value instanceof Long){
             statement.setLong(columnNr, (Long)value);
-            return;
-        }
+        } else
 
-        if(value.getClass() == Byte.class){
+        if(value instanceof Character){
+            statement.setString(columnNr, String.valueOf(value));
+        } else
+
+        if(value instanceof Byte){
             statement.setByte(columnNr, (Byte)value);
-            return;
-        }
+        } else
 
-        if(value.getClass() == java.util.Date.class){
+        if(value instanceof java.util.Date){
             java.sql.Date sqlDate = new java.sql.Date(((Date)value).getTime());
             statement.setDate(columnNr, sqlDate);
-            return;
-        }
+        } else
 
-        if(value.getClass() == Time.class){
+        if(value instanceof Time){
             statement.setTime(columnNr, (Time)value);
-            return;
-        }
+        } else
 
-        if(value.getClass() == LocalDate.class){
+        if(value instanceof LocalDate){
             java.util.Date date = java.util.Date.from(((LocalDate)value).atStartOfDay(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             statement.setDate(columnNr, sqlDate);
-            return;
-        }
+        } else
 
-        if(value.getClass() == LocalTime.class){
+        if(value instanceof LocalTime){
             java.sql.Time sqlTime = Time.valueOf((LocalTime)value);
             statement.setTime(columnNr, sqlTime);
-            return;
-        }
+        } else
 
-        if(value.getClass() == LocalDateTime.class){
+        if(value instanceof LocalDateTime){
             statement.setTimestamp(columnNr, Timestamp.valueOf((LocalDateTime)value));
-            return;
-        }
+        } else
 
-        if(value.getClass() == Timestamp.class){
+        if(value instanceof Timestamp){
             statement.setTimestamp(columnNr, (Timestamp) value);
-        }
+        } else
 
-        if(value.getClass() == Boolean.class){
+        if(value instanceof Boolean){
             statement.setBoolean(columnNr, (Boolean)value);
-        }
+        } else
 
+        statement.setObject(columnNr, null);
     }
 
 }
