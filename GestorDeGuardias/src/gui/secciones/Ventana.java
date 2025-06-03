@@ -5,7 +5,6 @@ import gui.componentes.Cuadro;
 import gui.internosComp.*;
 import gui.pantallasEmergentes.*;
 import model.*;
-import services.Gestor;
 import services.ServicesLocator;
 import services.TurnoDeGuardiaServices;
 import utils.exceptions.EntradaInvalidaException;
@@ -17,7 +16,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.geom.RoundRectangle2D;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -253,7 +251,8 @@ public class Ventana extends JFrame {
 
                 dias = servicesLocator.getPlantillaServices().crearPLantilla(opcion);
 
-                Tabla tabla = new Tabla(AddPlanif.getTablaDim(), paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
+                Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
+                Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
 
                 panelAddPlanif.addTabla(tabla);
 
@@ -325,7 +324,8 @@ public class Ventana extends JFrame {
     }
 
     public void editarPlanif(ArrayList<DiaGuardia> diasAux) {
-        Tabla tabla = new Tabla(AddPlanif.getTablaDim(), paleta.getColorFondoTabla(), diasAux, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
+        Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
+        Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), diasAux, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
         barraSup.mostrarPanel("panelEd1");
         CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
         cardLayout.show(panelVacio, "panel4");

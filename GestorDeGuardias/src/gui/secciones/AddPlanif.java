@@ -2,11 +2,9 @@ package gui.secciones;
 
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
+import gui.internosComp.PanelOpcionesPlanif;
 import gui.internosComp.PanelTurno;
 import gui.internosComp.Tabla;
-import gui.internosComp.PanelOpcionesPlanif;
-import model.DiaGuardia;
-import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
@@ -14,17 +12,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
-import java.time.Clock;
-import java.util.ArrayList;
 
 
 public class AddPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-    private static Dimension tablaDim ;
+    private Dimension tablaDim ;
 //            = new Dimension(1200, 745);
+    private Dimension dimTablaOpciones;
     private final JPanel backdropPane;
-    int x;
+    //int x;
     private PanelOpcionesPlanif tablaOpciones;
     private Tabla tabla;
 
@@ -32,8 +29,7 @@ public class AddPlanif extends JPanel {
     public AddPlanif(JPanel contenedor) {
         setLayout(new BorderLayout());
 
-
-        Dimension dimTablaOpciones = new Dimension(300, contenedor.getSize().height);
+        dimTablaOpciones = new Dimension(300, contenedor.getSize().height);
 
         backdropPane = new JPanel();
         backdropPane.setLayout(null);
@@ -41,10 +37,12 @@ public class AddPlanif extends JPanel {
         Paleta paleta = new Paleta();
         backdropPane.setBackground(paleta.getColorFondo());
 
-
         tablaOpciones = new PanelOpcionesPlanif(dimTablaOpciones);
-        tablaDim = new Dimension(contenedor.getWidth() - tablaOpciones.getWidth() * 2, contenedor.getHeight());
+        // 1) tablaOpciones no tiene tamaño aqui todavia, tablaOpciones.getWidth() = 0, lo correcto sería dimTablaOpciones.getWidth()
+        //tablaDim = new Dimension(contenedor.getWidth() - tablaOpciones.getWidth() * 2, contenedor.getHeight());
 
+        // 2) pero las dimensiones del contenedor no son correctas aqui, asi que mejor mover esto para getTablaDim() y recalcular tablaDim cada vez que se necesite
+        //tablaDim = new Dimension(contenedor.getWidth() - (int)dimTablaOpciones.getWidth(), contenedor.getHeight());
 
         final Boton aux1 = tablaOpciones.getBotonAddPersona();
         aux1.addActionListener(new ActionListener() {
@@ -66,12 +64,11 @@ public class AddPlanif extends JPanel {
             }
         });
 
-        x = (contenedor.getWidth() - dimTablaOpciones.width - tablaDim.width) / 2;
-
+        // Esto no se usa, lo quitamos
+        //x = (contenedor.getWidth() - dimTablaOpciones.width - tablaDim.width) / 2;
 
         add(tablaOpciones, BorderLayout.EAST);
         add(backdropPane, BorderLayout.CENTER);
-
     }
 
     public void addTabla(Tabla tabla) {
@@ -85,13 +82,16 @@ public class AddPlanif extends JPanel {
         repaint();
         revalidate();
     }
-    public static Dimension getTablaDim() {
+
+    public Dimension getTablaDim(Integer contenedorWidth, Integer contenedorHeight) {
+        tablaDim = new Dimension(contenedorWidth - (int)dimTablaOpciones.getWidth(), contenedorHeight);
         return tablaDim;
     }
 
-    public static void setTablaDim(Dimension tablaDim) {
-        AddPlanif.tablaDim = tablaDim;
+    public void setTablaDim(Dimension tablaDim) {
+        this.tablaDim = tablaDim;
     }
+
     public PanelOpcionesPlanif getTablaOpciones() {
         return tablaOpciones;
     }
