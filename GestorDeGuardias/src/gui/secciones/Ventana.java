@@ -172,8 +172,6 @@ public class Ventana extends JFrame {
         //Paneles Auxiliares
         panel1 = new JPanel();
         panel1.setLayout(new BorderLayout());
-//        panel5 = new JPanel();
-//        panel5.setBackground(Color.MAGENTA);
 
         panelVacio.add(pantallaPlanif, "panel1");
         panelVacio.add(pantallaEstudiantes, "panel2");

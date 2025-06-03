@@ -31,14 +31,11 @@ public class MostrarPlanif extends JPanel {
     private static final int PANEL_HEIGHT = 200;
     private static final int HORIZONTAL_GAP = 30;
     private static final int VERTICAL_GAP = 20;
-    //    private static final Dimension tablaDim = new Dimension(1200, 745);
-    private final Paleta paleta = new Paleta();
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
     private final JPanel panelInterior;
     private final ArrayList<PanelInterno> paneles;
 
     private final PanelOpcionesMostrarP panelOpciones;
-    private final int opcionesAncho = 300;
 
     private final Font fuente = new Font("Arial", Font.PLAIN, 14);
 
@@ -50,6 +47,7 @@ public class MostrarPlanif extends JPanel {
         setBackground(Color.GREEN);
 
         paneles = new ArrayList<>();
+        int opcionesAncho = 300;
         panelOpciones = new PanelOpcionesMostrarP(new Dimension(opcionesAncho, 100));
 
         panelOpciones.getBotonVerPlanif().addActionListener(new ActionListener() {
@@ -146,6 +144,8 @@ public class MostrarPlanif extends JPanel {
 
         // Crea el panelInterior
         panelInterior = new JPanel();
+        //    private static final Dimension tablaDim = new Dimension(1200, 745);
+        Paleta paleta = new Paleta();
         panelInterior.setBackground(paleta.getColorFondo());
 
         // Crea un JScrollPane para el panelInterior
@@ -207,7 +207,7 @@ public class MostrarPlanif extends JPanel {
 
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    // Llamar al m�todo setSeleccionado() cuando se hace clic en el panel
+                    // Llamar al método setSeleccionado() cuando se hace clic en el panel
                     aux.setSeleccionado();
                     calcularSeleccionados(aux);
 

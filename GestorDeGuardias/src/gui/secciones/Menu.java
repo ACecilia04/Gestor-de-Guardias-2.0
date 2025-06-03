@@ -62,13 +62,13 @@ public class Menu extends JPanel {
 
         btnMinimizar.addActionListener(new ActionListener() {
             private boolean isMinimized = false;
-            List botones = (List) Arrays.asList(btnPlanifs, btnEstudiantes, btnTrabajadores);
+//            List botones = (List) Arrays.asList(btnPlanifs, btnEstudiantes, btnTrabajadores);
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (isMinimized) {
-                    setPreferredSize(new Dimension(247, getHeight()));  // Expand to full size
+                    setPreferredSize(new Dimension(247, getHeight()));
                 } else {
-                    setPreferredSize(new Dimension(70, getHeight()));  // Minimized width
+                    setPreferredSize(new Dimension(70, getHeight()));
                 }
 
                 isMinimized = !isMinimized;
