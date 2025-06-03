@@ -119,22 +119,23 @@ public class PlantillaServices {
     }
 
     public void crearPlanificacionAutomaticamente(ArrayList<DiaGuardia> dias) throws MultiplesErroresException, EntradaInvalidaException {
-        ArrayList<Persona> personasDisponibles;
-
+        List<Persona> personasDisponibles;
         for (DiaGuardia dia : dias) {
             for (TurnoDeGuardia turno : dia.getTurnos()) {
-//                if (turno.getPersonaAsignada() == null) {
-//
-//                    personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
-//                    if (!personasDisponibles.isEmpty())
-//                        asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
-//
-//                }
+                while (turno.getPersonasAsignadas().size() < configuracionServices.getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha())) {
+                    personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
+                    asignarPersona(dia, turno.getHorario(), personasDisponibles.getFirst());
+                }
             }
         }
     }
 
-    public List<DiaGuardia> agruparPorDia(List<TurnoDeGuardia> turnos) {
+
+    public ArrayList<DiaGuardia> getPlanificacionesAPartirDe(LocalDate fecha) {
+        return agruparPorDia(turnoDeGuardiaServices.getTurnosAPartirDe(fecha));
+    }
+
+    public ArrayList<DiaGuardia> agruparPorDia(List<TurnoDeGuardia> turnos) {
         Map<LocalDate, ArrayList<TurnoDeGuardia>> mapa = new HashMap<>();
 
         for (TurnoDeGuardia turno : turnos) {
@@ -142,12 +143,15 @@ public class PlantillaServices {
             mapa.computeIfAbsent(fecha, k -> new ArrayList<>()).add(turno);
         }
 
-        List<DiaGuardia> diasGuardia = new ArrayList<>();
+        ArrayList<DiaGuardia> diasGuardia = new ArrayList<>();
         for (Map.Entry<LocalDate, ArrayList<TurnoDeGuardia>> entry : mapa.entrySet()) {
             diasGuardia.add(new DiaGuardia(entry.getKey(), entry.getValue()));
         }
 
         return diasGuardia;
+    }
+    public ArrayList<DiaGuardia> getPlanDeGuardias() {
+        return agruparPorDia(turnoDeGuardiaServices.getAllTurnosDeGuardia());
     }
 
 }
