@@ -40,7 +40,7 @@ public class PantallaSelecPersona extends JDialog {
     private final CustomTablaComplex tabla;
 //    private final Font fuente = new Font("Arial", Font.PLAIN, 14);
     private final ArrayList<Persona> personas;
-    private final Boton boton1;
+    private final Boton btnSeleccionar;
     private final ArrayList<Actualizable> actualizables;
     private Buscar buscar;
     private String IDselec;
@@ -71,48 +71,48 @@ public class PantallaSelecPersona extends JDialog {
         panel1.setLayout(new FlowLayout(FlowLayout.RIGHT, 15, 20));
         panel1.setBackground(Color.WHITE);
 
-        boton1 = new Boton("Seleccionar") {
+        btnSeleccionar = new Boton("Seleccionar") {
             private static final long serialVersionUID = 1L;
 
             public void actualizar() {
                 if (tabla.getColumnaSelec() != -1) {
 
-                    boton1.setColorLetra(Color.WHITE);
-                    boton1.setColorLetraPres(Color.WHITE);
-                    boton1.setColorFondo(paleta.getColorCaracteristico());
-                    boton1.setSeleccionable(true);
+                    btnSeleccionar.setColorLetra(Color.WHITE);
+                    btnSeleccionar.setColorLetraPres(Color.WHITE);
+                    btnSeleccionar.setColorFondo(paleta.getColorCaracteristico());
+                    btnSeleccionar.setSeleccionable(true);
 
                 } else {
 
-                    boton1.setColorLetra(Color.GRAY.darker());
-                    boton1.setColorFondo(Color.LIGHT_GRAY);
-                    boton1.setColorPresionado(Color.LIGHT_GRAY);
-                    boton1.setSeleccionable(false);
+                    btnSeleccionar.setColorLetra(Color.GRAY.darker());
+                    btnSeleccionar.setColorFondo(Color.LIGHT_GRAY);
+                    btnSeleccionar.setColorPresionado(Color.LIGHT_GRAY);
+                    btnSeleccionar.setSeleccionable(false);
 
 
                 }
             }
         };
-        boton1.setSeleccionable(false);
-        actualizables.add(boton1);
-        boton1.setColorLetra(Color.GRAY.darker());
-        boton1.setColorFondo(Color.LIGHT_GRAY);
-        boton1.setColorPresionado(Color.LIGHT_GRAY);
+        btnSeleccionar.setSeleccionable(false);
+        actualizables.add(btnSeleccionar);
+        btnSeleccionar.setColorLetra(Color.GRAY.darker());
+        btnSeleccionar.setColorFondo(Color.LIGHT_GRAY);
+        btnSeleccionar.setColorPresionado(Color.LIGHT_GRAY);
 
-        boton1.setNuevoSize(dimBoton);
+        btnSeleccionar.setNuevoSize(dimBoton);
 
 
-        boton1.addActionListener(new ActionListener() {
+        btnSeleccionar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (boton1.isSeleccionable()) {
+                if (btnSeleccionar.isSeleccionable()) {
                     if (tabla.getColumnaSelec() != -1) {
                         IDselec = (String) tabla.getTabla().getValueAt(tabla.getColumnaSelec(), 0);
 
                         try {
                             //Gestor.getInstance().asignarPersona(dia,, persona);********************************************************************************************************************
                             Persona personaAux = ServicesLocator.getInstance().getPersonaServices().getPersonaByCi(IDselec);
-                            Gestor.getInstance().asignarPersona(turno.getFecha(), turno.getTurno().getHorario(), personaAux);
+                            ServicesLocator.getInstance().getPlantillaServices().asignarPersona(turno.getFecha(), turno.getTurno().getHorario(), personaAux);
                             turno.actualizar();
                         } catch (EntradaInvalidaException | MultiplesErroresException e1) {
                             // TODO Auto-generated catch block
@@ -125,20 +125,15 @@ public class PantallaSelecPersona extends JDialog {
         });
 
 
-        Boton boton2 = new Boton("Cancelar");
-        boton2.setBordeado(true);
-        boton2.setNuevoSize(dimBoton);
-        boton2.setColorPresionado(paleta.getColorCaracteristico().darker());
+        Boton btnCancelar = new Boton("Cancelar");
+        btnCancelar.setBordeado(true);
+        btnCancelar.setNuevoSize(dimBoton);
+        btnCancelar.setColorPresionado(paleta.getColorCaracteristico().darker());
 
-        boton2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+        btnCancelar.addActionListener(e -> dispose());
 
-        panel1.add(boton2);
-        panel1.add(boton1);
+        panel1.add(btnCancelar);
+        panel1.add(btnSeleccionar);
 
         //Panel2
         panel2 = new JPanel(null);

@@ -10,20 +10,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
+import java.util.Arrays;
 
 public class Menu extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-
     private final Paleta paleta;
-
     private final JPanel superior;
-
     private final CustomSplitPane splitPanel;
     private final JPanel panel1;
     private final JPanel panel2;
-
-
     private final int separacion = 30;
     private final int x = 30;
     private int y = separacion - 10;
@@ -45,71 +41,92 @@ public class Menu extends JPanel {
         add(superior, BorderLayout.NORTH);
 
         //PanelSplit
-
+        Boton btnMinimizar = new Boton();
+        btnMinimizar.addIcono("/iconos/MenuRayas.png");
+        btnMinimizar.setSelectLetra(true);
+        superior.add(btnMinimizar);
+        add(superior, BorderLayout.NORTH);
         //Panel1
-        Boton botonPlanifs = new Boton("Planificaciones");
-        botonPlanifs.addIcono("/iconos/Calendar.png");
-        botonPlanifs.setSelectLetra(true);
+        Boton btnPlanifs = new Boton("Planificaciones");
+        btnPlanifs.addIcono("/iconos/Calendar.png");
+        btnPlanifs.setSelectLetra(true);
 
-        Boton botonEstudiantes = new Boton("Estudiantes");
-        botonEstudiantes.addIcono("/iconos/Estudiante.png");
-        botonEstudiantes.setSelectLetra(true);
+        Boton btnEstudiantes = new Boton("Estudiantes");
+        btnEstudiantes.addIcono("/iconos/Estudiante.png");
+        btnEstudiantes.setSelectLetra(true);
 
-        Boton botonTrabajadores = new Boton("Trabajadores");
-        botonTrabajadores.addIcono("/iconos/Profesor.png");
-        botonTrabajadores.setSelectLetra(true);
+        Boton btnTrabajadores = new Boton("Trabajadores");
+        btnTrabajadores.addIcono("/iconos/Profesor.png");
+        btnTrabajadores.setSelectLetra(true);
 
-        botonPlanifs.addActionListener(new ActionListener() {
+        btnMinimizar.addActionListener(new ActionListener() {
+            private boolean isMinimized = false;
+            List botones = (List) Arrays.asList(btnPlanifs, btnEstudiantes, btnTrabajadores);
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (isMinimized) {
+                    setPreferredSize(new Dimension(247, getHeight()));  // Expand to full size
+                } else {
+                    setPreferredSize(new Dimension(70, getHeight()));  // Minimized width
+                }
+
+                isMinimized = !isMinimized;
+                revalidate();
+                repaint();
+            }
+        });
+
+        btnPlanifs.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.mostrarPanel("panel1");
             }
         });
 
-        botonEstudiantes.addActionListener(new ActionListener() {
+        btnEstudiantes.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.mostrarPanel("panel2");
             }
         });
 
-        botonTrabajadores.addActionListener(new ActionListener() {
+        btnTrabajadores.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.mostrarPanel("panel3");
             }
         });
 
-        botonPlanifs.setLocation(x, y);
-        y += botonPlanifs.getSize().height + separacion;
-        botonEstudiantes.setLocation(x, y);
-        y += botonEstudiantes.getSize().height + separacion;
-        botonTrabajadores.setLocation(x, y);
-        y += botonTrabajadores.getSize().height + separacion * 2;
+        btnPlanifs.setLocation(x, y);
+        y += btnPlanifs.getSize().height + separacion;
+        btnEstudiantes.setLocation(x, y);
+        y += btnEstudiantes.getSize().height + separacion;
+        btnTrabajadores.setLocation(x, y);
+        y += btnTrabajadores.getSize().height + separacion * 2;
 
         panel1 = new JPanel(null);
         panel1.setBackground(getBackground());
-        panel1.add(botonPlanifs);
-        panel1.add(botonEstudiantes);
-        panel1.add(botonTrabajadores);
+        panel1.add(btnPlanifs);
+        panel1.add(btnEstudiantes);
+        panel1.add(btnTrabajadores);
 
         panel1.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
 
 
         //Panel2
-        Boton boton4 = new Boton("Añadir Planificación");
-        boton4.addIcono("/iconos/Estrella.png");
-        boton4.setSelectLetra(true);
+        Boton btnAddPlanif = new Boton("Añadir Planificación");
+        btnAddPlanif.addIcono("/iconos/Estrella.png");
+        btnAddPlanif.setSelectLetra(true);
 
-        Boton boton5 = new Boton("Actualizar Asistencias");
-        boton5.addIcono("/iconos/Documento.png");
-        boton5.setSelectLetra(true);
+        Boton btnActualizarAsist = new Boton("Actualizar Asistencias");
+        btnActualizarAsist.addIcono("/iconos/Documento.png");
+        btnActualizarAsist.setSelectLetra(true);
 
-        Boton boton6 = new Boton("Facultad");
-        boton6.addIcono("/iconos/Casa.png");
-        boton6.setSelectLetra(true);
+        Boton btnFacultad = new Boton("Facultad");
+        btnFacultad.addIcono("/iconos/Casa.png");
+        btnFacultad.setSelectLetra(true);
 
-        boton4.addActionListener(new ActionListener() {
+        btnAddPlanif.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -117,14 +134,14 @@ public class Menu extends JPanel {
             }
         });
 
-        boton5.addActionListener(new ActionListener() {
+        btnActualizarAsist.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ventana.mostrarPanel("panel5");
             }
         });
 
-        boton6.addActionListener(new ActionListener() {
+        btnFacultad.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Ventana.getInstance().mostrarFacultad();
@@ -132,17 +149,17 @@ public class Menu extends JPanel {
         });
 
         y = separacion;
-        boton4.setLocation(x, y);
-        y += boton4.getSize().height + separacion;
-        boton5.setLocation(x, y);
-        y += boton5.getSize().height + separacion;
-        boton6.setLocation(x, y);
+        btnAddPlanif.setLocation(x, y);
+        y += btnAddPlanif.getSize().height + separacion;
+        btnActualizarAsist.setLocation(x, y);
+        y += btnActualizarAsist.getSize().height + separacion;
+        btnFacultad.setLocation(x, y);
 
         panel2 = new JPanel(null);
         panel2.setBackground(getBackground());
-        panel2.add(boton4);
-        panel2.add(boton5);
-        panel2.add(boton6);
+        panel2.add(btnAddPlanif);
+        panel2.add(btnActualizarAsist);
+        panel2.add(btnFacultad);
 
         panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
 

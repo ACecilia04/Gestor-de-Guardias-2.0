@@ -141,7 +141,7 @@ public class PersonaServices {
     }
 
     public List<Persona> getPersonasDisponibles(LocalDate fecha, TipoPersona tipo, String sexo){
-        return baseDao.spQuery("sp_persona_get_disponible_para_turno(?, ?, ?)", new PersonaMapper(), fecha, tipo, sexo.toLowerCase().charAt(0));
+        return baseDao.spQuery("sp_persona_get_disponible_para_turno(?, ?, ?)", new PersonaMapper(), fecha, tipo.toString(), sexo.toLowerCase().substring(0, 1));
     }
 
 
