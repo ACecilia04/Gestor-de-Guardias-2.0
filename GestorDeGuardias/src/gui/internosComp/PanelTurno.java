@@ -30,7 +30,7 @@ public class PanelTurno extends Cuadro implements Actualizable {
 
     protected int espacioID = 0;
     protected int espacioNombre = 0;
-    protected int espacioApellido = 20;
+    protected int espacioApellido = 0;
 
     protected int sizeHorario = 100;
     protected int sizeID = 110 + espacioID;

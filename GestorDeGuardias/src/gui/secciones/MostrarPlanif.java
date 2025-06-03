@@ -11,6 +11,7 @@ import model.DiaGuardia;
 import services.Gestor;
 import services.ReporteServices;
 import services.ServicesLocator;
+import utils.dao.SqlServerCustomException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -83,7 +84,8 @@ public class MostrarPlanif extends JPanel {
                     if (!path.toLowerCase().endsWith(".pdf")) path += ".pdf";
 
                     // 3. Llamar al servicio de reporte
-                    // new ReporteServices().generarReportePlantilla(filtrados, path,title);
+
+//                     new ReporteServices().generarReportePlantilla(, path,title);
 
                     JOptionPane.showMessageDialog(MostrarPlanif.this, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -103,7 +105,7 @@ public class MostrarPlanif extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (getSeleccionado() != null) {
-                    ArrayList<DiaGuardia> diasAux = Gestor.getInstance().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
+                    ArrayList<DiaGuardia> diasAux = (ArrayList<DiaGuardia>) ServicesLocator.getInstance().getPlantillaServices().agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices().getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
                     Ventana.getInstance().editarPlanif(diasAux);
                 }
 
@@ -116,7 +118,11 @@ public class MostrarPlanif extends JPanel {
                 String string = "<html><p>Si borras una planificación las posteriores <br>tambien se perderan. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
                 Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                 if (!advertencia.getEleccion()) {
-                    Gestor.getInstance().borrarPlanificacion(getSeleccionado().getFechaInicio());
+                    try {
+                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardia(getSeleccionado().getFechaInicio());
+                    } catch (SqlServerCustomException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     getSeleccionado().setSeleccionado(false);
                     actualizarPlanif();
                     panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);

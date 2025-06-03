@@ -50,6 +50,10 @@ public class TurnoDeGuardiaServices {
         baseDao.spUpdate("sp_turno_de_guardia_delete(?, ?)", horarioId, fecha);
     }
 
+    public void deleteTurnosDeGuardia(LocalDate fecha) throws SqlServerCustomException {
+        baseDao.spUpdate("sp_turno_de_guardia_delete_mes(?)", fecha);
+    }
+
 
     // Internal Mapper
     public static class TurnoDeGuardiaMapper implements RowMapper<TurnoDeGuardia> {

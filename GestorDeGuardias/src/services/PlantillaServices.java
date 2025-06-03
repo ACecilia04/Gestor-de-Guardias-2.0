@@ -8,7 +8,9 @@ import utils.exceptions.MultiplesErroresException;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static utils.Utilitarios.quickSort;
 
@@ -131,4 +133,21 @@ public class PlantillaServices {
             }
         }
     }
+
+    public List<DiaGuardia> agruparPorDia(List<TurnoDeGuardia> turnos) {
+        Map<LocalDate, ArrayList<TurnoDeGuardia>> mapa = new HashMap<>();
+
+        for (TurnoDeGuardia turno : turnos) {
+            LocalDate fecha = turno.getFecha();
+            mapa.computeIfAbsent(fecha, k -> new ArrayList<>()).add(turno);
+        }
+
+        List<DiaGuardia> diasGuardia = new ArrayList<>();
+        for (Map.Entry<LocalDate, ArrayList<TurnoDeGuardia>> entry : mapa.entrySet()) {
+            diasGuardia.add(new DiaGuardia(entry.getKey(), entry.getValue()));
+        }
+
+        return diasGuardia;
+    }
+
 }
