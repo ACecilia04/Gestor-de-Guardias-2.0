@@ -1,7 +1,6 @@
 package model;
 
 import utils.exceptions.EntradaInvalidaException;
-import logica.principal.HorarioGuardia;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class DiaGuardia implements Comparable<DiaGuardia> {
         return this.getFecha().compareTo(dia.getFecha());
     }
 
-    public TurnoDeGuardia buscarTurno(HorarioGuardia horario) throws EntradaInvalidaException {
+    public TurnoDeGuardia buscarTurno(Horario horario) throws EntradaInvalidaException {
         TurnoDeGuardia indicado = null;
         boolean encontrado = false;
         if (horario == null)

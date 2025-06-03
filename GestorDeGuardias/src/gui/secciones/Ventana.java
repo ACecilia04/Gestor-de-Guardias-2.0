@@ -35,7 +35,6 @@ public class Ventana extends JFrame {
     private final JPanel contReal;
     private final JPanel zonaInferior; //Inferior
     //Pedazos de informacion
-//    private final BarraSalida barraSalida = null;
     private final BarraSuperior barraSup;
     private final Menu menu;
     //Auxiliar
@@ -89,11 +88,6 @@ public class Ventana extends JFrame {
                 redimensionar();
             }
         });
-
-
-        //BarraSalida
-//        barraSalida = new BarraSalida(this);
-//        contentPane.add(barraSalida, BorderLayout.NORTH);
 
         //ContentPane real
         contReal = new JPanel(new BorderLayout());
@@ -178,8 +172,6 @@ public class Ventana extends JFrame {
         //Paneles Auxiliares
         panel1 = new JPanel();
         panel1.setLayout(new BorderLayout());
-//        panel5 = new JPanel();
-//        panel5.setBackground(Color.MAGENTA);
 
         panelVacio.add(pantallaPlanif, "panel1");
         panelVacio.add(pantallaEstudiantes, "panel2");
@@ -269,7 +261,7 @@ public class Ventana extends JFrame {
                 barraSup.mostrarPanel("panelEd1");
             }
 
-            if (pantallaActual != nombrePanel) {
+            if (!Objects.equals(pantallaActual, nombrePanel)) {
                 cardLayout.show(panelVacio, nombrePanel);
                 pantallaActual = nombrePanel;
             }
@@ -303,7 +295,7 @@ public class Ventana extends JFrame {
             DiaGuardia fechaAux = turno.getFecha();
             Horario horarioAux = turno.getTurno().getHorario();
 
-            nuevaPantalla = new PantallaSelecPersona(tablaP, (ArrayList<Persona>) Gestor.getInstance().getPersonasDisponibles(fechaAux.getFecha(), horarioAux, diasEnPantalla), turno);
+            nuevaPantalla = new PantallaSelecPersona(tablaP, (ArrayList<Persona>) servicesLocator.getPlantillaServices().getPersonasDisponibles(fechaAux.getFecha(), horarioAux, diasEnPantalla), turno);
         } catch (MultiplesErroresException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

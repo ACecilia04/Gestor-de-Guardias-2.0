@@ -5,6 +5,8 @@ import gui.componentes.Boton;
 import gui.internosComp.PanelTurno;
 import gui.internosComp.Tabla;
 import gui.internosComp.PanelOpcionesPlanif;
+import model.DiaGuardia;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
@@ -12,13 +14,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
+import java.time.Clock;
+import java.util.ArrayList;
 
 
 public class AddPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-    private static Dimension tablaDim = new Dimension(1200, 745);
-    private final JPanel contentPane;
+    private static Dimension tablaDim ;
+//            = new Dimension(1200, 745);
+    private final JPanel backdropPane;
     int x;
     private PanelOpcionesPlanif tablaOpciones;
     private Tabla tabla;
@@ -28,17 +33,18 @@ public class AddPlanif extends JPanel {
         setLayout(new BorderLayout());
 
 
-        Dimension dimTablaOpciones = new Dimension(310, contenedor.getSize().height);
+        Dimension dimTablaOpciones = new Dimension(300, contenedor.getSize().height);
 
-
-        contentPane = new JPanel();
-        contentPane.setLayout(null);
+        backdropPane = new JPanel();
+        backdropPane.setLayout(null);
 
         Paleta paleta = new Paleta();
-        contentPane.setBackground(paleta.getColorFondo());
+        backdropPane.setBackground(paleta.getColorFondo());
 
 
         tablaOpciones = new PanelOpcionesPlanif(dimTablaOpciones);
+        tablaDim = new Dimension(contenedor.getWidth() - tablaOpciones.getWidth() * 2, contenedor.getHeight());
+
 
         final Boton aux1 = tablaOpciones.getBotonAddPersona();
         aux1.addActionListener(new ActionListener() {
@@ -64,11 +70,21 @@ public class AddPlanif extends JPanel {
 
 
         add(tablaOpciones, BorderLayout.EAST);
-        add(contentPane, BorderLayout.CENTER);
-
+        add(backdropPane, BorderLayout.CENTER);
 
     }
 
+    public void addTabla(Tabla tabla) {
+        if (this.tabla != null) {
+            backdropPane.remove(this.tabla);
+        }
+        tabla.setSize(tablaDim);
+        this.tabla = tabla;
+        tabla.setLocation(SwingConstants.CENTER, 20);
+        backdropPane.add(tabla);//Hacer singleton
+        repaint();
+        revalidate();
+    }
     public static Dimension getTablaDim() {
         return tablaDim;
     }
@@ -76,19 +92,6 @@ public class AddPlanif extends JPanel {
     public static void setTablaDim(Dimension tablaDim) {
         AddPlanif.tablaDim = tablaDim;
     }
-
-    public void addTabla(Tabla tabla) {
-        if (this.tabla != null) {
-            contentPane.remove(this.tabla);
-        }
-        tabla.setSize(tablaDim);
-        this.tabla = tabla;
-        tabla.setLocation(SwingConstants.CENTER, 20);
-        contentPane.add(tabla);//Hacer singleton
-        repaint();
-        revalidate();
-    }
-
     public PanelOpcionesPlanif getTablaOpciones() {
         return tablaOpciones;
     }
@@ -96,4 +99,5 @@ public class AddPlanif extends JPanel {
     public void setTablaOpciones(PanelOpcionesPlanif tablaOpciones) {
         this.tablaOpciones = tablaOpciones;
     }
+
 }

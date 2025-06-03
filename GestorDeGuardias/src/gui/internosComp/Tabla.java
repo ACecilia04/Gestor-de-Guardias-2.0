@@ -7,9 +7,11 @@ import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.pantallasEmergentes.Advertencia;
+import gui.secciones.AddPlanif;
 import gui.secciones.Ventana;
 import model.DiaGuardia;
 import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -34,10 +36,10 @@ public class Tabla extends Cuadro implements IsTabla {
     private final ArrayList<PanelDiaBase> panelesCasillas = new ArrayList<>();
     private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
-    private final Font fuente = new Font("Arial", Font.BOLD, 14);
+    private final Font fuente = new Font("Arial", Font.BOLD, 13);
     private final int distX;
     private final int distY;
-    private final JPanel anchoTotal;
+    private final JPanel contenedor;
     private final PanelOpcionesPlanif tablaOpciones;
     //Secciones
     CuadroRectoAbajo titulo;
@@ -46,7 +48,7 @@ public class Tabla extends Cuadro implements IsTabla {
     ArrayList<DiaGuardia> dias;
     private int mouseX, mouseY;
 
-    public Tabla(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, final PanelOpcionesPlanif tablaOpciones, final int distX, final int distY, final JPanel anchoTotal) {
+    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) {
         super(dimension, redondez, color);
         PanelDia.setCasillaLargo(dimension.width - sepIzquierda * 2);
         this.setLayout(null);
@@ -55,22 +57,23 @@ public class Tabla extends Cuadro implements IsTabla {
         this.tablaOpciones = tablaOpciones;
         this.distX = distX;
         this.distY = distY;
-        this.anchoTotal = anchoTotal;
+        this.contenedor = contenedor;
         dias = estosDias;
 
         tablaOpciones.getGuardar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Gestor.getInstance().guardar(dias);
+                    try {
+                        // 2. Llama a tu servicio de guardado (ajusta a tu arquitectura)
+                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarTurnos(dias);
+                        System.out.print("aaaaaa");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(Tabla.this, "Ocurrió un error:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     String string = "<html><p>Guardado Exitoso<br><br></p><html>";
-
                     Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Guardado Exitoso", string, "Aceptar");
-                } catch (EntradaInvalidaException e1) {
-                    String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-
-                    Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Advertencia", string, "Aceptar");
-                }
+                    advertencia.dispose();
             }
         });
 
@@ -78,12 +81,14 @@ public class Tabla extends Cuadro implements IsTabla {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                ArrayList<DiaGuardia> diasAPlanificar;
                 try {
                     if (!tablaOpciones.getDiasSeleccionados().isEmpty()) {
-                        Gestor.getInstance().crearPlanificacionAutomaticamente(tablaOpciones.getDiasSeleccionados());
+                        diasAPlanificar = tablaOpciones.getDiasSeleccionados();
                     } else {
-                        Gestor.getInstance().crearPlanificacionAutomaticamente(dias);
+                        diasAPlanificar = dias;
                     }
+                    ServicesLocator.getInstance().getPlantillaServices().crearPlanificacionAutomaticamente(diasAPlanificar);
 
                 } catch (MultiplesErroresException e1) {
                     StringBuilder stringAux = new StringBuilder();
@@ -184,7 +189,7 @@ public class Tabla extends Cuadro implements IsTabla {
 
                 int z = xReal + distX;
 
-                int bultoCalculo = anchoTotal.getWidth() + distX - myself.getSize().width - tablaOpciones.getWidth();
+                int bultoCalculo = contenedor.getWidth() + distX - myself.getSize().width - tablaOpciones.getWidth();
                 int bultoCalculo2 = tablaOpciones.getSize().height - myself.getSize().height;
 
                 if (xReal <= 0) {
@@ -193,7 +198,7 @@ public class Tabla extends Cuadro implements IsTabla {
                 if (yReal <= 0) {
                     yReal = 0;
                 }
-                if (z > anchoTotal.getWidth() + distX - myself.getSize().width - tablaOpciones.getWidth()) {
+                if (z > contenedor.getWidth() + distX - myself.getSize().width - tablaOpciones.getWidth()) {
                     xReal = bultoCalculo - distX;
                 }
                 if (yReal > bultoCalculo2) {

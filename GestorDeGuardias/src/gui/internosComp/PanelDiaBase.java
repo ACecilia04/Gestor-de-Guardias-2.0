@@ -21,7 +21,7 @@ import static gui.auxiliares.ConvertidorFecha.traducDiaSemana;
 public abstract class PanelDiaBase extends Cuadro implements Actualizable {
     protected static final long serialVersionUID = 1L;
     //Casillas
-    protected static int casillaLargo = 954;
+    protected static int casillaLargo = 50;
     protected static int largoComun = 54;
 //    protected static int largoDoble = 80;
 //    protected static int largoTriple = 110;

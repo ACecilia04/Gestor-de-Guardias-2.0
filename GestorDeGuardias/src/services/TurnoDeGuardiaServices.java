@@ -1,9 +1,6 @@
 package services;
 
-import model.Horario;
-import model.Persona;
-import model.TipoPersona;
-import model.TurnoDeGuardia;
+import model.*;
 import utils.dao.MainBaseDao;
 import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
@@ -48,6 +45,34 @@ public class TurnoDeGuardiaServices {
     // DELETE
     public void deleteTurnoDeGuardia(Long horarioId, LocalDate fecha) throws SqlServerCustomException {
         baseDao.spUpdate("sp_turno_de_guardia_delete(?, ?)", horarioId, fecha);
+    }
+
+    public void deleteTurnosDeGuardia(LocalDate fecha) throws SqlServerCustomException {
+        baseDao.spUpdate("sp_turno_de_guardia_delete_mes(?)", fecha);
+    }
+
+    public void guardarTurnos(ArrayList<DiaGuardia> dias) {
+        for (DiaGuardia dia : dias) {
+            ArrayList<TurnoDeGuardia> turnos = dia.getTurnos();
+            if (turnos == null) continue;
+            for (TurnoDeGuardia turno : turnos) {
+                Long horarioId = turno.getHorario().getId();
+                ArrayList<Persona> personasAsignadas = turno.getPersonasAsignadas();
+                LocalDate fecha = turno.getFecha();
+                try {
+                    for (Persona persona : personasAsignadas) {
+                        baseDao.spUpdate(
+                                "sp_turno_de_guardia_create(?, ?, ?)",
+                                persona.getId(),
+                                fecha,
+                                horarioId
+                        );
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException("Error al guardar el turno: " + turno, e);
+                }
+            }
+        }
     }
 
 

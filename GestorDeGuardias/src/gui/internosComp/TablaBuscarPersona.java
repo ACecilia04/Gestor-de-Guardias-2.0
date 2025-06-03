@@ -21,7 +21,7 @@ public class TablaBuscarPersona extends CustomTablaComplex {
             aux[0] = e.getCarnet();
             aux[1] = e.getApellido();
             aux[2] = e.getNombre();
-            aux[3] = Integer.toString(9);
+            aux[3] = String.valueOf(e.getGuardiasDeRecuperacion());
 
             modelo.addRow(aux);
 
@@ -38,8 +38,7 @@ public class TablaBuscarPersona extends CustomTablaComplex {
 
     @Override
     public String[] getColumnas() {
-        String[] aux = {"ID", "Apellidos", "Nombre", "Cant Guardias"};
-        return aux;
+        return new String[]{"Carnet", "Apellidos", "Nombre", "A Recuperar"};
     }
 
     @Override

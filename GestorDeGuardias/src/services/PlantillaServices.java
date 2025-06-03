@@ -8,7 +8,9 @@ import utils.exceptions.MultiplesErroresException;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static utils.Utilitarios.quickSort;
 
@@ -68,8 +70,6 @@ public class PlantillaServices {
     }
     public List<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
         List<String> errores = new ArrayList<>();
-        List<Persona> personasConDeuda = new ArrayList<>(); // 2 arreglos para poner a los endeudados primero
-        List<Persona> personasSinDeuda = new ArrayList<>();
 
         if (fecha == null)
             errores.add("Fecha no especificada.");
@@ -78,38 +78,12 @@ public class PlantillaServices {
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Datos incorrectos:, errores");
 
-        ArrayList<Persona> personasEnPantalla = getPersonasEnPantalla(diasEnPantalla);
-        boolean fechaEsReceso = periodoNoPlanificableServices.fechaEsNoPlanificable(fecha);
+        Boolean fechaEsReceso = periodoNoPlanificableServices.fechaEsNoPlanificable(fecha);
         Configuracion configuracionDeFecha = configuracionServices.getConfiguracionByPk(horario.getId(), fecha, fechaEsReceso);  //esta lanza la EntradaInvalidaException y poor eso es parte de la declaracion pero en realidad no tendr� oportunidad de lanzarla aqui
+        List<Persona> personasDisponibles = personaServices.getPersonasDisponibles(fecha, configuracionDeFecha.getTipoPersona(), configuracionDeFecha.getSexo());
 
-       return personaServices.getPersonasDisponibles(fecha, configuracionDeFecha.getTipoPersona(), configuracionDeFecha.getSexo());
-
-//                        //asegurando no tener alguien haciendo 2 guardias en 1 mes
-//                        if ((persona.getDiasDesdeUltimaGuardiaAsignada(fecha) > 31 &&
-//                                persona.getDiasDesdeUltimaGuardiaHecha(fecha) > 30) &&
-//                                !(personasEnPantalla.contains(persona))) {
-//                            //caso especial que que la fecha esta en receso docente
-//                            if (fechaEsReceso) {
-//                                if (persona.estaDisponibleEnRecesoDocente(fecha)) {
-//                                    if (persona.getGuardiasDeRecuperacion() > 0) {
-//                                        personasConDeuda.add(persona);
-//                                    } else {
-//                                        personasSinDeuda.add(persona);
-//                                    }
-//                                }
-//                            } else if (persona.getGuardiasDeRecuperacion() > 0) {
-//                                personasConDeuda.add(persona);
-//                            } else {
-//                                personasSinDeuda.add(persona);
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        quickSort(personasConDeuda, 0, personasConDeuda.size() - 1, fecha);
-//        quickSort(personasSinDeuda, 0, personasSinDeuda.size() - 1, fecha);
-//        personasConDeuda.addAll(personasSinDeuda); //para no crear un 3er arreglo obvi
-//        return personasConDeuda;
+        personasDisponibles.removeAll(getPersonasEnPantalla(diasEnPantalla));
+        return personasDisponibles;
     }
     private ArrayList<Persona> getPersonasEnPantalla(ArrayList<DiaGuardia> diasEnPantalla) {
         ArrayList<Persona> personas = new ArrayList<Persona>();
@@ -121,4 +95,63 @@ public class PlantillaServices {
 
         return personas;
     }
+
+    public void asignarPersona(DiaGuardia dia, Horario horario, Persona persona) throws EntradaInvalidaException, MultiplesErroresException {
+        ArrayList<String> errores = new ArrayList<String>();
+
+        if (dia == null)
+            errores.add("Día a planificar no especificado.");
+        else if (dia.getFecha().isBefore(LocalDate.now()))
+            errores.add("No se pueden hacer cambios a fechas pasadas.");
+
+        if (horario == null)
+            errores.add("Turno a planificar no especificado.");
+        if (persona == null)
+            errores.add("Persona a asignar no especificada.");
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Datos erróneos para la asignación de guardia:", errores);
+
+        TurnoDeGuardia turno = dia.buscarTurno(horario);
+
+        if (turno == null)
+            throw new EntradaInvalidaException("Este día no tiene el horario deseado.");
+        turno.asignarPersona(persona);
+    }
+
+    public void crearPlanificacionAutomaticamente(ArrayList<DiaGuardia> dias) throws MultiplesErroresException, EntradaInvalidaException {
+        List<Persona> personasDisponibles;
+        for (DiaGuardia dia : dias) {
+            for (TurnoDeGuardia turno : dia.getTurnos()) {
+                while (turno.getPersonasAsignadas().size() < configuracionServices.getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha())) {
+                    personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
+                    asignarPersona(dia, turno.getHorario(), personasDisponibles.getFirst());
+                }
+            }
+        }
+    }
+
+
+    public ArrayList<DiaGuardia> getPlanificacionesAPartirDe(LocalDate fecha) {
+        return agruparPorDia(turnoDeGuardiaServices.getTurnosAPartirDe(fecha));
+    }
+
+    public ArrayList<DiaGuardia> agruparPorDia(List<TurnoDeGuardia> turnos) {
+        Map<LocalDate, ArrayList<TurnoDeGuardia>> mapa = new HashMap<>();
+
+        for (TurnoDeGuardia turno : turnos) {
+            LocalDate fecha = turno.getFecha();
+            mapa.computeIfAbsent(fecha, k -> new ArrayList<>()).add(turno);
+        }
+
+        ArrayList<DiaGuardia> diasGuardia = new ArrayList<>();
+        for (Map.Entry<LocalDate, ArrayList<TurnoDeGuardia>> entry : mapa.entrySet()) {
+            diasGuardia.add(new DiaGuardia(entry.getKey(), entry.getValue()));
+        }
+
+        return diasGuardia;
+    }
+    public ArrayList<DiaGuardia> getPlanDeGuardias() {
+        return agruparPorDia(turnoDeGuardiaServices.getAllTurnosDeGuardia());
+    }
+
 }
