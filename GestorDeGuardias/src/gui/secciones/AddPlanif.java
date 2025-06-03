@@ -19,7 +19,6 @@ public class AddPlanif extends JPanel {
     private static final long serialVersionUID = 1L;
     private Dimension tablaDim ;
 //            = new Dimension(1200, 745);
-    private Dimension dimTablaOpciones;
     private final JPanel backdropPane;
     //int x;
     private PanelOpcionesPlanif tablaOpciones;
@@ -29,7 +28,7 @@ public class AddPlanif extends JPanel {
     public AddPlanif(JPanel contenedor) {
         setLayout(new BorderLayout());
 
-        dimTablaOpciones = new Dimension(300, contenedor.getSize().height);
+        Dimension dimTablaOpciones = new Dimension(300, contenedor.getSize().height);
 
         backdropPane = new JPanel();
         backdropPane.setLayout(null);
@@ -84,7 +83,7 @@ public class AddPlanif extends JPanel {
     }
 
     public Dimension getTablaDim(Integer contenedorWidth, Integer contenedorHeight) {
-        tablaDim = new Dimension(contenedorWidth - (int)dimTablaOpciones.getWidth(), contenedorHeight);
+        tablaDim = new Dimension(contenedorWidth - tablaOpciones.getWidth(), contenedorHeight);
         return tablaDim;
     }
 
