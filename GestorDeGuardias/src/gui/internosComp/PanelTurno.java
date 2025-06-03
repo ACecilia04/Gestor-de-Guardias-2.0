@@ -13,6 +13,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 public class PanelTurno extends Cuadro implements Actualizable {
     private static final long serialVersionUID = 1L;
@@ -216,14 +217,29 @@ public class PanelTurno extends Cuadro implements Actualizable {
     }
 
     public void actualizar() {
-//        Persona aux = turno.getPersonaAsignada();
-//        if (aux != null) {
-//            nombre.setText(aux.getNombre());
-//            apellido.setText(aux.getApellido());
-//            ID.setText(aux.getCarnet());
-//            revalidate();
-//            repaint();
-//        }
+        ArrayList<Persona> aux = turno.getPersonasAsignadas();
+        if (aux != null && !aux.isEmpty()) {
+            StringBuilder nombres = new StringBuilder();
+            StringBuilder apellidos = new StringBuilder();
+            StringBuilder carnets = new StringBuilder();
+
+            for (Persona persona : aux) {
+                if (!nombres.isEmpty()) {
+                    nombres.append(", ");
+                    apellidos.append(", ");
+                    carnets.append(", ");
+                }
+                nombres.append(persona.getNombre());
+                apellidos.append(persona.getApellido());
+                carnets.append(persona.getCarnet());
+            }
+
+            nombre.setText(nombres.toString());
+            apellido.setText(apellidos.toString());
+            ID.setText(carnets.toString());
+            revalidate();
+            repaint();
+        }
     }
 
     public TurnoDeGuardia getTurno() {

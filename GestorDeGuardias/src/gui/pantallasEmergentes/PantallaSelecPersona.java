@@ -46,7 +46,7 @@ public class PantallaSelecPersona extends JDialog {
     private String IDselec;
 
     public PantallaSelecPersona(final CustomTablaComplex tabla, final ArrayList<Persona> personas, final PanelTurno turno) {
-        super(Ventana.getInstance(), "JDialog", true);
+        super(Ventana.getInstance(), "Seleccionar Persona", true);
 
         this.personas = personas;
 
