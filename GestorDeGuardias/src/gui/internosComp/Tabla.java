@@ -7,9 +7,11 @@ import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.pantallasEmergentes.Advertencia;
+import gui.secciones.AddPlanif;
 import gui.secciones.Ventana;
 import model.DiaGuardia;
 import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -61,16 +63,17 @@ public class Tabla extends Cuadro implements IsTabla {
         tablaOpciones.getGuardar().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    Gestor.getInstance().guardar(dias);
+                    try {
+                        // 2. Llama a tu servicio de guardado (ajusta a tu arquitectura)
+                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarTurnos(dias);
+                        System.out.print("aaaaaa");
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(Tabla.this, "Ocurrió un error:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                     String string = "<html><p>Guardado Exitoso<br><br></p><html>";
-
                     Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Guardado Exitoso", string, "Aceptar");
-                } catch (EntradaInvalidaException e1) {
-                    String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-
-                    Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Advertencia", string, "Aceptar");
-                }
+                    advertencia.dispose();
             }
         });
 

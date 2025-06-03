@@ -77,6 +77,7 @@ public class TurnoDeGuardia {
     }
 
     public void setHecho(Boolean hecho) {
+        this.hecho = hecho;
     }
 
 

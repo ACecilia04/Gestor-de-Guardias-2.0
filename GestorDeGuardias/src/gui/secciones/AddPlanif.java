@@ -5,6 +5,8 @@ import gui.componentes.Boton;
 import gui.internosComp.PanelTurno;
 import gui.internosComp.Tabla;
 import gui.internosComp.PanelOpcionesPlanif;
+import model.DiaGuardia;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
@@ -12,6 +14,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serial;
+import java.time.Clock;
+import java.util.ArrayList;
 
 
 public class AddPlanif extends JPanel {
@@ -40,6 +44,7 @@ public class AddPlanif extends JPanel {
 
         tablaOpciones = new PanelOpcionesPlanif(dimTablaOpciones);
         tablaDim = new Dimension(contenedor.getWidth() - tablaOpciones.getWidth() * 2, contenedor.getHeight());
+
 
         final Boton aux1 = tablaOpciones.getBotonAddPersona();
         aux1.addActionListener(new ActionListener() {
