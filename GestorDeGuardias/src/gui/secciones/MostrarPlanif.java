@@ -179,7 +179,7 @@ public class MostrarPlanif extends JPanel {
         panelInterior.removeAll();
 //        HashSet<String> mesesPlanificados = new HashSet<>();
 
-        ArrayList<DiaGuardia> dias = Gestor.getInstance().getPlanDeGuardias();
+        ArrayList<DiaGuardia> dias = ServicesLocator.getInstance().getPlantillaServices().getPlanDeGuardias();
         panelInterior.setLayout(layout);
 
         HashSet<String> mesesArchivables = new HashSet<>();
@@ -264,7 +264,7 @@ public class MostrarPlanif extends JPanel {
     public void mostrarTabla() {
         if (getSeleccionado() != null) {
             Ventana.getInstance().getPanel1().removeAll();
-            ArrayList<DiaGuardia> diasAux = Gestor.getInstance().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
+            ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
             TablaBase tabla = new TablaBase(Ventana.getInstance().getPanelVacio().getSize(), Color.WHITE, diasAux);
             Ventana.getInstance().getPanel1().add(tabla, BorderLayout.CENTER);
         }

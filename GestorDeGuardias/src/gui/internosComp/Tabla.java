@@ -10,6 +10,7 @@ import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.Ventana;
 import model.DiaGuardia;
 import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -78,12 +79,14 @@ public class Tabla extends Cuadro implements IsTabla {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                ArrayList<DiaGuardia> diasAPlanificar;
                 try {
                     if (!tablaOpciones.getDiasSeleccionados().isEmpty()) {
-                        Gestor.getInstance().crearPlanificacionAutomaticamente(tablaOpciones.getDiasSeleccionados());
+                        diasAPlanificar = tablaOpciones.getDiasSeleccionados();
                     } else {
-                        Gestor.getInstance().crearPlanificacionAutomaticamente(dias);
+                        diasAPlanificar = dias;
                     }
+                    ServicesLocator.getInstance().getPlantillaServices().crearPlanificacionAutomaticamente(diasAPlanificar);
 
                 } catch (MultiplesErroresException e1) {
                     StringBuilder stringAux = new StringBuilder();
