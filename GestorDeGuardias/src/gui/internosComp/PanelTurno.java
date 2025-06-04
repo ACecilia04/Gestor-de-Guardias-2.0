@@ -77,7 +77,7 @@ public class PanelTurno extends Cuadro implements Actualizable {
         ID = new Etiqueta(fuente, colorLetra, "");
 //TODO : fix panelTurno so that we can show the assigned ppl
 
-        if (this.turno.getPersonasAsignadas().getFirst() != null) {
+        if (!this.turno.getPersonasAsignadas().isEmpty()) {
             setPersona(this.turno.getPersonasAsignadas().getFirst());
         }
 

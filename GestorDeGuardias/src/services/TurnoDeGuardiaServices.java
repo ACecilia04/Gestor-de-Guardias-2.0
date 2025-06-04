@@ -61,12 +61,7 @@ public class TurnoDeGuardiaServices {
                 LocalDate fecha = turno.getFecha();
                 try {
                     for (Persona persona : personasAsignadas) {
-                        baseDao.spUpdate(
-                                "sp_turno_de_guardia_create(?, ?, ?)",
-                                persona.getId(),
-                                fecha,
-                                horarioId
-                        );
+                        updateTurnoDeGuardia(horarioId,fecha,persona.getId(),turno.getCumplimiento());
                     }
                 } catch (Exception e) {
                     throw new RuntimeException("Error al guardar el turno: " + turno, e);
