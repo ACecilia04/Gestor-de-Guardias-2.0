@@ -78,12 +78,15 @@ public class MostrarPlanif extends JPanel {
 
                 if (seleccion == JFileChooser.APPROVE_OPTION) {
                     String path = chooser.getSelectedFile().getAbsolutePath();
-                    String title = chooser.getName();
                     if (!path.toLowerCase().endsWith(".pdf")) path += ".pdf";
 
+                    // Obtiene todos los turnos a partir de la fecha de inicio seleccionada
+                    ArrayList<DiaGuardia> diasGuardia = ServicesLocator.getInstance()
+                            .getPlantillaServices()
+                            .getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
                     // 3. Llamar al servicio de reporte
 
-//                     new ReporteServices().generarReportePlantilla(, path,title);
+                     new ReporteServices().generarReportePlantilla( diasGuardia, path);
 
                     JOptionPane.showMessageDialog(MostrarPlanif.this, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -121,8 +124,9 @@ public class MostrarPlanif extends JPanel {
                     } catch (SqlServerCustomException ex) {
                         throw new RuntimeException(ex);
                     }
-                    getSeleccionado().setSeleccionado(false);
                     actualizarPlanif();
+                    getSeleccionado().setSeleccionado(false);
+
                     panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
                     panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
                     panelOpciones.getBotonCrearPlanif().setSeleccionable(false);
