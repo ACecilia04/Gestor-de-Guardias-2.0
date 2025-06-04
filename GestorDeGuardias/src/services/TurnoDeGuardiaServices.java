@@ -28,7 +28,7 @@ public class TurnoDeGuardiaServices {
         return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_turno_de_guardia_read", new TurnoDeGuardiaMapper());
     }
     public ArrayList<TurnoDeGuardia> getTurnosAPartirDe(LocalDate fecha) {
-        return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_get_turnos_a_partir_de", new TurnoDeGuardiaMapper(), fecha);
+        return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_get_turnos_a_partir_de(?)", new TurnoDeGuardiaMapper(), fecha);
     }
 
     // READ by primary key
