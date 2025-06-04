@@ -43,7 +43,7 @@ public class Boton extends JPanel implements Actualizable {
     private Color colorLetra = paleta.getColorLetraMenu();
     private Color colorLetraPres = paleta.getColorLetraSelec();
     private boolean select = false;
-
+    private Font fuente = new Font("Arial", Font.PLAIN, 14);
 
     /**
      * Este es para Botones simples
@@ -66,15 +66,7 @@ public class Boton extends JPanel implements Actualizable {
      * Este es para Iconos sin texto
      */
     public Boton() {
-        textoLabel = "";
-        inicializar();
-
-        etiqueta.setSize(etiqueta.getPreferredSize());
-        etiqueta.setLocation(distanciaX, distanciaY);
-        add(etiqueta);
-
-        this.setPreferredSize(new Dimension(etiqueta.getSize().width + distanciaX * 2, etiqueta.getHeight() + distanciaY * 2));
-        this.setSize(getPreferredSize());
+       this("");
     }
 
     //Lo que hago por amor al arte...
@@ -296,9 +288,9 @@ public class Boton extends JPanel implements Actualizable {
         etiqueta.setLocation((getWidth() - etiqueta.getWidth()) / 2, (getHeight() - etiqueta.getHeight()) / 2);
     }
 
-//    public Color getColorLetra() {
-//        return colorLetra;
-//    }
+    public Color getColorLetra() {
+        return colorLetra;
+    }
 
     public void setColorLetra(Color colorLetra) {
         this.colorLetra = colorLetra;
@@ -350,9 +342,9 @@ public class Boton extends JPanel implements Actualizable {
         this.colorIcono = colorIcono;
     }
 
-//    public Color getColorIconoPres() {
-//        return colorIconoPres;
-//    }
+    public Color getColorIconoPres() {
+        return colorIconoPres;
+    }
 
     public void setColorIconoPres(Color colorIconoPres) {
         this.colorIconoPres = colorIconoPres;
@@ -377,6 +369,23 @@ public class Boton extends JPanel implements Actualizable {
     public void actualizar() {
         // TODO Auto-generated method stub
 
+    }
+
+    public void actualizar(boolean minimizar){
+        if (minimizar) {
+            etiqueta.setText("");
+            redondez = 0;
+
+            this.setPreferredSize(etiqueta.getSize());
+            setNuevoSize(this.getPreferredSize());
+        } else {
+            etiqueta.setText(textoLabel);
+
+            this.setPreferredSize(new Dimension(etiqueta.getSize().width + distanciaX * 2, etiqueta.getPreferredSize().height + distanciaY * 2));
+            this.setSize(getPreferredSize());
+        }
+        revalidate();
+        repaint();
     }
 
     public JLabel getEtiqueta() {

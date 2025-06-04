@@ -25,7 +25,17 @@ public class Menu extends JPanel {
     private final int x = 30;
     private int y = separacion - 10;
 
-    public Menu(JPanel contenedor, final Ventana ventana) {
+    Boton btnMinimizar = new Boton();
+    Boton btnPlanifs = new Boton();
+    Boton btnEstudiantes = new Boton();
+    Boton btnTrabajadores = new Boton();
+
+    Boton btnAddPlanif = new Boton();
+    Boton btnActualizarAsist = new Boton();
+    Boton btnFacultad = new Boton();
+
+
+    public Menu (JPanel contenedor, final Ventana ventana) {
         paleta = new Paleta();
         setBackground(paleta.getColorFondoTabla());
 
@@ -34,141 +44,107 @@ public class Menu extends JPanel {
         setLayout(new BorderLayout());
 
         //Superior
-        superior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        Border bordeMargen = BorderFactory.createEmptyBorder(10, 0, 0, 15);
-        superior.setSize(new Dimension(this.getPreferredSize().width, 50));
-        superior.setBackground(getBackground());
+        {
+            superior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            superior.setSize(new Dimension(this.getPreferredSize().width, 50));
+            superior.setBackground(getBackground());
+            add(superior, BorderLayout.NORTH);
 
-        add(superior, BorderLayout.NORTH);
+            btnMinimizar.addIcono("/iconos/MenuRayas.png");
+            btnMinimizar.setSelectLetra(true);
 
-        //PanelSplit
-        Boton btnMinimizar = new Boton();
-        btnMinimizar.addIcono("/iconos/MenuRayas.png");
-        btnMinimizar.setSelectLetra(true);
-        superior.add(btnMinimizar);
-        add(superior, BorderLayout.NORTH);
-        //Panel1
-        Boton btnPlanifs = new Boton("Planificaciones");
-        btnPlanifs.addIcono("/iconos/Calendar.png");
-        btnPlanifs.setSelectLetra(true);
+            btnMinimizar.addActionListener(new ActionListener() {
+                private boolean isMinimized = false;
+                //            List botones = (List) Arrays.asList(btnPlanifs, btnEstudiantes, btnTrabajadores);
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (isMinimized) {
+                        maximizarMenu();
+                    } else {
+                        minimizarMenu();
+                    }
 
-        Boton btnEstudiantes = new Boton("Estudiantes");
-        btnEstudiantes.addIcono("/iconos/Estudiante.png");
-        btnEstudiantes.setSelectLetra(true);
-
-        Boton btnTrabajadores = new Boton("Trabajadores");
-        btnTrabajadores.addIcono("/iconos/Profesor.png");
-        btnTrabajadores.setSelectLetra(true);
-
-        btnMinimizar.addActionListener(new ActionListener() {
-            private boolean isMinimized = false;
-//            List botones = (List) Arrays.asList(btnPlanifs, btnEstudiantes, btnTrabajadores);
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (isMinimized) {
-                    setPreferredSize(new Dimension(247, getHeight()));
-                } else {
-                    setPreferredSize(new Dimension(70, getHeight()));
+                    isMinimized = !isMinimized;
+                    revalidate();
+                    repaint();
                 }
+            });
 
-                isMinimized = !isMinimized;
-                revalidate();
-                repaint();
-            }
-        });
-
-        btnPlanifs.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ventana.mostrarPanel("panel1");
-            }
-        });
-
-        btnEstudiantes.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ventana.mostrarPanel("panel2");
-            }
-        });
-
-        btnTrabajadores.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ventana.mostrarPanel("panel3");
-            }
-        });
-
-        btnPlanifs.setLocation(x, y);
-        y += btnPlanifs.getSize().height + separacion;
-        btnEstudiantes.setLocation(x, y);
-        y += btnEstudiantes.getSize().height + separacion;
-        btnTrabajadores.setLocation(x, y);
-        y += btnTrabajadores.getSize().height + separacion * 2;
-
-        panel1 = new JPanel(null);
-        panel1.setBackground(getBackground());
-        panel1.add(btnPlanifs);
-        panel1.add(btnEstudiantes);
-        panel1.add(btnTrabajadores);
-
-        panel1.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
+            superior.add(btnMinimizar);
+        }
 
 
-        //Panel2
-        Boton btnAddPlanif = new Boton("Añadir Planificación");
-        btnAddPlanif.addIcono("/iconos/Estrella.png");
-        btnAddPlanif.setSelectLetra(true);
+        //Panel1
+        {
+            panel1 = new JPanel(null);
+            panel1.setBackground(getBackground());
 
-        Boton btnActualizarAsist = new Boton("Actualizar Asistencias");
-        btnActualizarAsist.addIcono("/iconos/Documento.png");
-        btnActualizarAsist.setSelectLetra(true);
+            btnPlanifs.addIcono("/iconos/Calendar.png");
+            btnPlanifs.setSelectLetra(true);
+            btnPlanifs.setLocation(x, y);
+            y += btnPlanifs.getSize().height + separacion;
 
-        Boton btnFacultad = new Boton("Facultad");
-        btnFacultad.addIcono("/iconos/Casa.png");
-        btnFacultad.setSelectLetra(true);
+            btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panel1"));
 
-        btnAddPlanif.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            btnEstudiantes.addIcono("/iconos/Estudiante.png");
+            btnEstudiantes.setSelectLetra(true);
+            btnEstudiantes.setLocation(x, y);
+            y += btnEstudiantes.getSize().height + separacion;
 
-                ventana.mostrarPanel("panel4");
-            }
-        });
+            btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panel2"));
 
-        btnActualizarAsist.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ventana.mostrarPanel("panel5");
-            }
-        });
+            btnTrabajadores.addIcono("/iconos/Profesor.png");
+            btnTrabajadores.setSelectLetra(true);
+            btnTrabajadores.setLocation(x, y);
+            y += btnTrabajadores.getSize().height + separacion * 2;
 
-        btnFacultad.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Ventana.getInstance().mostrarFacultad();
-            }
-        });
+            btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panel3"));
+
+            panel1.add(btnPlanifs);
+            panel1.add(btnEstudiantes);
+            panel1.add(btnTrabajadores);
+            panel1.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
+        }
 
         y = separacion;
-        btnAddPlanif.setLocation(x, y);
-        y += btnAddPlanif.getSize().height + separacion;
-        btnActualizarAsist.setLocation(x, y);
-        y += btnActualizarAsist.getSize().height + separacion;
-        btnFacultad.setLocation(x, y);
 
-        panel2 = new JPanel(null);
-        panel2.setBackground(getBackground());
-        panel2.add(btnAddPlanif);
-        panel2.add(btnActualizarAsist);
-        panel2.add(btnFacultad);
+        //Panel2
+        {
+            panel2 = new JPanel(null);
+            panel2.setBackground(getBackground());
 
-        panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
+            btnAddPlanif.addIcono("/iconos/Estrella.png");
+            btnAddPlanif.setSelectLetra(true);
+            btnAddPlanif.setLocation(x, y);
+            y += btnAddPlanif.getSize().height + separacion;
 
+            btnAddPlanif.addActionListener(e -> ventana.mostrarPanel("panel4"));
+
+            btnActualizarAsist.addIcono("/iconos/Documento.png");
+            btnActualizarAsist.setSelectLetra(true);
+            btnActualizarAsist.setLocation(x, y);
+            y += btnActualizarAsist.getSize().height + separacion;
+
+            btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panel5"));
+
+            btnFacultad.addIcono("/iconos/Casa.png");
+            btnFacultad.setSelectLetra(true);
+            btnFacultad.setLocation(x, y);
+
+            btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
+
+
+            panel2.add(btnAddPlanif);
+            panel2.add(btnActualizarAsist);
+            panel2.add(btnFacultad);
+
+            panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
+        }
         splitPanel = new CustomSplitPane(panel1, panel2, JSplitPane.VERTICAL_SPLIT);
         add(splitPanel, BorderLayout.CENTER);
 
-
         //Bordes
+        Border bordeMargen = BorderFactory.createEmptyBorder(10, 0, 0, 15);
         Border border = BorderFactory.createMatteBorder(0, 0, 0, 3, paleta.getColorBorde());
         Border margenDoubleBorder = BorderFactory.createCompoundBorder(border, bordeMargen);
 
@@ -176,6 +152,51 @@ public class Menu extends JPanel {
         panel2.setBorder(border);
         superior.setBorder(margenDoubleBorder);
         setBorder(border);
+
+        maximizarMenu();
+    }
+
+    private void minimizarMenu(){
+        setPreferredSize(new Dimension(70, getHeight()));
+        btnPlanifs.setText("");
+        btnPlanifs.setLocation(10, btnPlanifs.getY());
+
+        btnEstudiantes.setText("");
+        btnEstudiantes.setLocation(10, btnEstudiantes.getY());
+
+        btnTrabajadores.setText("");
+        btnTrabajadores.setLocation(10, btnTrabajadores.getY());
+
+        btnAddPlanif.setText("");
+        btnAddPlanif.setLocation(10, btnAddPlanif.getY());
+
+        btnActualizarAsist.setText("");
+        btnActualizarAsist.setLocation(10, btnActualizarAsist.getY());
+
+        btnFacultad.setText("");
+        btnFacultad.setLocation(10, btnFacultad.getY());
+
+    }
+
+    private void maximizarMenu(){
+        setPreferredSize(new Dimension(247, getHeight()));
+        btnPlanifs.setText("Planificaciones");
+        btnPlanifs.setLocation(x, btnPlanifs.getY());
+
+        btnEstudiantes.setText("Estudiantes");
+        btnEstudiantes.setLocation(x, btnEstudiantes.getY());
+
+        btnTrabajadores.setText("Trabajadores");
+        btnTrabajadores.setLocation(x, btnTrabajadores.getY());
+
+        btnAddPlanif.setText("Añadir Planificación");
+        btnAddPlanif.setLocation(x, btnAddPlanif.getY());
+
+        btnActualizarAsist.setText("Actualizar Asistencias");
+        btnActualizarAsist.setLocation(x, btnActualizarAsist.getY());
+
+        btnFacultad.setText("Facultad");
+        btnFacultad.setLocation(x, btnFacultad.getY());
     }
 
 }

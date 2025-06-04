@@ -80,7 +80,6 @@ public class PanelTurno extends Cuadro implements Actualizable {
         if (!this.turno.getPersonasAsignadas().isEmpty()) {
             setPersona(this.turno.getPersonasAsignadas().getFirst());
         }
-
         nombre.setSize(new Dimension(sizeNombre, horario.getSize().height));
         nombre.setPreferredSize(nombre.getSize());
         nombre.setBorder(BorderFactory.createEmptyBorder(0, espacioNombre, 0, 0));

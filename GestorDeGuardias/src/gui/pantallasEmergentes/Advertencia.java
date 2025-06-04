@@ -33,7 +33,8 @@ public class Advertencia extends JDialog {
         this.opcion1 = op1;
         this.opcion2 = op2;
 
-        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+//        if(doNothingOnClose)
+            setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
         inicializar(texto, Ventana.getInstance());
         addBotonSi();

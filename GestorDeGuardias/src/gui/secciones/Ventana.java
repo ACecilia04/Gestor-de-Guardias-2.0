@@ -241,7 +241,7 @@ public class Ventana extends JFrame {
             if (Objects.equals(nombrePanel, "panel4")) {
 //                barraSup.mostrarPanel("panelEd2");
                 ArrayList<DiaGuardia> dias = new ArrayList<>();
-                boolean opcion = false;
+                boolean empezarHoy = false;
 
                 TurnoDeGuardiaServices tgServ = servicesLocator.getTurnoDeGuardiaServices();
                 ArrayList<TurnoDeGuardia> plan = tgServ.getAllTurnosDeGuardia();
@@ -250,10 +250,10 @@ public class Ventana extends JFrame {
                 if (plan.isEmpty() || (tgServ.getTurnosAPartirDe(LocalDate.now()).isEmpty() && !plan.getLast().getFecha().isAfter(LocalDate.now()))) {
                     String string = "<html><p>No se encuentran registradas planificaciones <br> para el mes actual <br><br>Desea generar las planificaciones del resto del mes o del próximo?</p></html>";
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Mes Actual", "Próximo Mes");
-                    opcion = advertencia.getEleccion();
+                    empezarHoy = advertencia.getEleccion();
                 }
-//                if(opcion != null) {
-                    dias = servicesLocator.getPlantillaServices().crearPLantilla(opcion);
+//                if(empezarHoy != null) {
+                    dias = servicesLocator.getPlantillaServices().crearPLantilla(empezarHoy);
 
                     Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
                     Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
