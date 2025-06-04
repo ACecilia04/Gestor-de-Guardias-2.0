@@ -96,15 +96,15 @@ public class TurnoDeGuardiaServices {
             do {
                 Persona p = new Persona();
 
-                p.setId(rs.getLong("id"));
+                p.setId(rs.getLong("persona_id"));
                 p.setNombre(rs.getString("nombre"));
                 p.setApellido(rs.getString("apellido"));
                 p.setSexo(rs.getString("sexo"));
                 p.setCarnet(rs.getString("carnet"));
                 p.setTipo(new TipoPersona(rs.getString("tipo")));
-                p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha").toLocalDate());
-                p.setBaja(rs.getDate("baja").toLocalDate());
-                p.setReincorporacion(rs.getDate("reincorporacion").toLocalDate());
+                p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
+                p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
+                p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
                 p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
                 personas.add(p);
             } while (rs.next());
