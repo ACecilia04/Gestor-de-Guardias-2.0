@@ -103,7 +103,7 @@ public class MostrarPlanif extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (getSeleccionado() != null) {
-                    ArrayList<DiaGuardia> diasAux = (ArrayList<DiaGuardia>) ServicesLocator.getInstance().getPlantillaServices().agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices().getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
+                    ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices().agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices().getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
                     Ventana.getInstance().editarPlanif(diasAux);
                 }
 

@@ -161,21 +161,21 @@ public class Gestor {
 //            turno.borrarPersonaAsignada();
     }
 
-    public void crearPlanificacionAutomaticamente(ArrayList<DiaGuardia> dias) throws MultiplesErroresException, EntradaInvalidaException {
-        ArrayList<Persona> personasDisponibles;
-
-        for (DiaGuardia dia : dias) {
-//            for (TurnoDeGuardia turno : dia.getTurnos()) {
-//                if (turno.getPersonaAsignada() == null) {
+//    public void crearPlanificacionAutomaticamente(ArrayList<DiaGuardia> dias) throws MultiplesErroresException, EntradaInvalidaException {
+//        ArrayList<Persona> personasDisponibles;
 //
-//                    personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
-//                    if (!personasDisponibles.isEmpty())
-//                        asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
-//
-//                }
-//            }
-        }
-    }
+//        for (DiaGuardia dia : dias) {
+////            for (TurnoDeGuardia turno : dia.getTurnos()) {
+////                if (turno.getPersonaAsignada() == null) {
+////
+////                    personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
+////                    if (!personasDisponibles.isEmpty())
+////                        asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
+////
+////                }
+////            }
+//        }
+//    }
 
 //    /**
 //     * Luego de dar la baja via la facultad, asigna un sustituto

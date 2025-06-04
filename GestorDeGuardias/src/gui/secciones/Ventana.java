@@ -139,6 +139,10 @@ public class Ventana extends JFrame {
 //        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), Cuadro.redMED, Cuadro.redMED));
         setMinimumSize(new Dimension(800, 600));
         setTitle("Gestor de Guardias");
+////        ImageIcon JSIcon = new ImageIcon("/iconos/LogoCalendario.png");
+////        setIconImage(JSIcon.getImage());
+//        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconos/LogoCalendario.jpg"));
+//        setIconImage(icon);
 
         // Crear el panel de superposici�n
         overlayPanel = new Cuadro(this.getSize(), 0, Color.BLACK);
@@ -248,14 +252,14 @@ public class Ventana extends JFrame {
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Mes Actual", "Próximo Mes");
                     opcion = advertencia.getEleccion();
                 }
+//                if(opcion != null) {
+                    dias = servicesLocator.getPlantillaServices().crearPLantilla(opcion);
 
-                dias = servicesLocator.getPlantillaServices().crearPLantilla(opcion);
+                    Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
+                    Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
 
-                Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
-                Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
-
-                panelAddPlanif.addTabla(tabla);
-
+                    panelAddPlanif.addTabla(tabla);
+//                }
             } else {
                 barraSup.mostrarPanel("panelEd1");
             }
