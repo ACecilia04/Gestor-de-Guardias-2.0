@@ -59,12 +59,24 @@ public class TurnoDeGuardiaServices {
                 Long horarioId = turno.getHorario().getId();
                 ArrayList<Persona> personasAsignadas = turno.getPersonasAsignadas();
                 LocalDate fecha = turno.getFecha();
-                try {
-                    for (Persona persona : personasAsignadas) {
-                        updateTurnoDeGuardia(horarioId,fecha,persona.getId(),turno.getCumplimiento());
+                for (Persona persona : personasAsignadas) {
+                    try {
+                        // Intenta crear el turno
+                        baseDao.spUpdate(
+                                "sp_turno_de_guardia_create(?, ?, ?)",
+                                persona.getId(),
+                                fecha,
+                                horarioId
+                        );
+                    } catch (Exception e) {
+                        // Si falla por clave duplicada, intenta actualizar en su lugar
+                        try {
+                            updateTurnoDeGuardia(horarioId,fecha,persona.getId(), turno.getCumplimiento());
+
+                        } catch (Exception ex) {
+                            throw new RuntimeException("Error al actualizar el turno: " + turno, ex);
+                        }
                     }
-                } catch (Exception e) {
-                    throw new RuntimeException("Error al guardar el turno: " + turno, e);
                 }
             }
         }
