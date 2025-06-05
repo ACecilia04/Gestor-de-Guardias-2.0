@@ -3,6 +3,9 @@ package gui.pantallasEmergentes;
 import gui.auxiliares.Paleta;
 import gui.componentes.*;
 import gui.secciones.Ventana;
+import model.Usuario;
+import services.ServicesLocator;
+import services.UsuarioServices;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +15,6 @@ import java.awt.geom.RoundRectangle2D;
 
 public class Login extends JDialog {
     private static final long serialVersionUID = 1L;
-    private final String CLAVE = "1234";
     private final JPanel contentPane;
     private final JPanel panel1;
     private final JPanel panel2;
@@ -20,6 +22,7 @@ public class Login extends JDialog {
     private final int espacioInicial = 72;
 
     private final Paleta paleta = new Paleta();
+    private Usuario usuarioLogueado; // Nuevo: Para almacenar el usuario autenticado
 
     public Login(JPanel overlayPane) {
         super(Ventana.getInstance(), "JDialog", true);
@@ -86,36 +89,32 @@ public class Login extends JDialog {
         panel1.add(logo);
 
         //Pequenos textos junto al logo
-        //Mira esto que cul
         Etiqueta texto1 = new Etiqueta("<html>" +
-                "<span style='font-size:17px; color:" + toHex(paleta.getColorCaracteristico()) + ";'>Gestor de Guardias</span><br>" + // Tama�o de fuente para "Gestor de Guardias"
-                "<span style='font-size:16px; color:" + toHex(paleta.getColorLetraMenu()) + ";'>Proyecto Final</span>" + // Tama�o y color para "Proyecto Final"
+                "<span style='font-size:17px; color:" + toHex(paleta.getColorCaracteristico()) + ";'>Gestor de Guardias</span><br>" +
+                "<span style='font-size:16px; color:" + toHex(paleta.getColorLetraMenu()) + ";'>Proyecto Final</span>" +
                 "</html>");
         y = logo.getLocation().y + (logo.getSize().height - texto1.getSize().height) / 2;
         texto1.setLocation(logo.getLocation().x + logo.getWidth() + 10, y);
         panel1.add(texto1);
 
         //Incia sesion
-        Etiqueta etiqueta = new Etiqueta("<html>Inicia sesion con tu Correo o Nombre <br>de Usuario</html>");
+        Etiqueta etiqueta = new Etiqueta("Iniciar Sesión");
         etiqueta.setLocation(margen, 190);
-        etiqueta.setNuevoSizeLetra((float) 23);
+        etiqueta.setNuevoSizeLetra((float) 14);
         etiqueta.setForeground(paleta.getColorLetraMenu());
         panel1.add(etiqueta);
 
-
         //Ingresar Textos
-        final CustomTextField inicio = new CustomTextField(new Dimension(370, 47), "Ingresa tu Correo/Nombre (Clave = 1234)", 40, Color.LIGHT_GRAY);
+        final CustomTextField inicio = new CustomTextField(new Dimension(370, 47), "Ingresa tu Nombre", 40, Color.LIGHT_GRAY);
         int sepTextField = 50;
         inicio.setLocation(margen, etiqueta.getLocation().y + etiqueta.getSize().height + sepTextField);
         panel1.add(inicio);
 
-        final CustomPasswordField contrasena = new CustomPasswordField(new Dimension(370, 47), "Contrase�a (Clave = 1234)", Cuadro.redBAJA, 40, Color.LIGHT_GRAY);
+        final CustomPasswordField contrasena = new CustomPasswordField(new Dimension(370, 47), "Contraseña", Cuadro.redBAJA, 40, Color.LIGHT_GRAY);
         contrasena.setLocation(margen, inicio.getLocation().y + contrasena.getSize().height + 30);
         panel1.add(contrasena);
 
         //Etiquetas de error
-
-        //Error 1
         int sepError = 5;
         final Etiqueta inicioIncorrecto = new Etiqueta("Usuario Inexistente");
         inicioIncorrecto.setForeground(Color.RED);
@@ -123,7 +122,7 @@ public class Login extends JDialog {
         inicioIncorrecto.setLocation(margen, inicio.getLocation().y - inicioIncorrecto.getSize().height - sepError);
         inicioIncorrecto.setVisible(false);
 
-        final Etiqueta contrasenaIncorrecta = new Etiqueta("Contrasena Incorrecta");
+        final Etiqueta contrasenaIncorrecta = new Etiqueta("Contraseña Incorrecta");
         contrasenaIncorrecta.setForeground(Color.RED);
         contrasenaIncorrecta.setNuevoSizeLetra(16);
         contrasenaIncorrecta.setLocation(margen, contrasena.getLocation().y - contrasenaIncorrecta.getSize().height - sepError);
@@ -132,42 +131,42 @@ public class Login extends JDialog {
         panel1.add(inicioIncorrecto);
         panel1.add(contrasenaIncorrecta);
 
-
         boton1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean correcto = true;
+                String nombreUsuario = inicio.getText();
+                String contrasenaIngresada = contrasena.getText();
 
-                if (!myself.contrasenaCorrecta(contrasena.getText(), CLAVE)) {
-                    correcto = false;
-                    if (contrasena.getText().isEmpty() || contrasena.getText().equals(contrasena.getTextoPorDefecto())) {
-                        contrasenaIncorrecta.setTexto("Campo Obligatorio");
-                    } else {
-                        contrasenaIncorrecta.setTexto("Contrasena Incorrecta");
-                    }
-                    if (!contrasenaIncorrecta.isVisible()) {
-                        contrasenaIncorrecta.setVisible(true);
-                    }
-                } else if (contrasenaIncorrecta.isVisible()) {
-                    contrasenaIncorrecta.setVisible(false);
-                }
+                // Ocultar errores previos
+                inicioIncorrecto.setVisible(false);
+                contrasenaIncorrecta.setVisible(false);
 
-                if (!myself.usuarioCorrecto(inicio.getText(), CLAVE)) {
+                if (nombreUsuario.isEmpty() || nombreUsuario.equals(inicio.getTextoPorDefecto())) {
                     correcto = false;
-                    if (inicio.getText().isEmpty() || inicio.getText().equals(inicio.getTextoPorDefecto())) {
-                        inicioIncorrecto.setTexto("Campo Obligatorio");
-                    } else {
+                    inicioIncorrecto.setTexto("Campo Obligatorio");
+                    inicioIncorrecto.setVisible(true);
+                } else {
+                    UsuarioServices usuarioServices = ServicesLocator.getInstance().getUsuarioServices();
+                    Usuario usuario = usuarioServices.getUsuarioByNombre(nombreUsuario);
+
+                    if (usuario == null) {
+                        correcto = false;
                         inicioIncorrecto.setTexto("Usuario Inexistente");
-                    }
-                    if (!inicioIncorrecto.isVisible()) {
                         inicioIncorrecto.setVisible(true);
+                    } else if (contrasenaIngresada.isEmpty() || contrasenaIngresada.equals(contrasena.getTextoPorDefecto())) {
+                        correcto = false;
+                        contrasenaIncorrecta.setTexto("Campo Obligatorio");
+                        contrasenaIncorrecta.setVisible(true);
+                    } else if (!usuario.getContrasenna().equals(contrasenaIngresada)) {
+                        correcto = false;
+                        contrasenaIncorrecta.setTexto("Contraseña Incorrecta");
+                        contrasenaIncorrecta.setVisible(true);
+                    } else {
+                        // Login correcto
+                        usuarioLogueado = usuario;
+                        myself.dispose();
                     }
-                } else if (inicioIncorrecto.isVisible()) {
-                    inicioIncorrecto.setVisible(false);
-                }
-
-                if (correcto) {
-                    myself.dispose();
                 }
             }
         });
@@ -184,14 +183,7 @@ public class Login extends JDialog {
         return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
     }
 
-    public boolean usuarioCorrecto(String usuario, String clave) {
-        boolean correcto = usuario.equals(clave);
-        return correcto;
-    }
-
-    public boolean contrasenaCorrecta(String contrasena, String clave) {
-        boolean correcto = contrasena.equals(clave);
-        return correcto;
+    public Usuario getUsuarioLogueado() {
+        return usuarioLogueado;
     }
 }
-

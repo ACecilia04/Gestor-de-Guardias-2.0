@@ -74,7 +74,9 @@ public class Ventana extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //******************************************************************************************************************
-                //login = new Login(overlayPanel);
+                setVisible(false);
+                login = new Login(overlayPanel);
+                setVisible(true);
             }
         });
         timer.setRepeats(false);
