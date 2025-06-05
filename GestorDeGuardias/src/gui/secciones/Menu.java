@@ -32,7 +32,6 @@ public class Menu extends JPanel {
     public Menu (JPanel contenedor, final Ventana ventana, Usuario usuario) {
         paleta = new Paleta();
         setBackground(paleta.getColorFondoTabla());
-        btnPlanifs.setEnabled(false);
 
         setPreferredSize(new Dimension(247, contenedor.getSize().height));
         setSize(new Dimension(247, contenedor.getSize().height));
