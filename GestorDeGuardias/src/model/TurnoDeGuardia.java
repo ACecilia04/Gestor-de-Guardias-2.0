@@ -19,13 +19,6 @@ public class TurnoDeGuardia {
         this.hecho = false;
     }
 
-//    public TurnoDeGuardia(Horario horario, Long personaAsignada, Boolean hecho, LocalDate fecha) {
-//        this.fecha = fecha;
-//        this.horario = horario;
-//        asignarPersona(personaAsignada);
-//        this.hecho = hecho;
-//    }
-
     public TurnoDeGuardia() {
         personasAsignadas = new ArrayList<>();
     }
@@ -84,12 +77,8 @@ public class TurnoDeGuardia {
 
     public void setId(Long id){this.id = id;}
 
-
-//    public List<Persona> getPersonasAsignadas() { return personasAsignadas; }
-//    public void asignarPersona(Persona persona) { personasAsignadas.add(persona); }
-//
-//    public boolean esValidoParaAsignacion() {
-//        return !diaEsReceso && personasAsignadas.size() < cantPersonas;
-//    }
+    public void setPersonaAsignada(Persona p) {
+        personasAsignadas.add(p);
+    }
 
 }

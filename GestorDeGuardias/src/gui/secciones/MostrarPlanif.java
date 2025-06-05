@@ -123,6 +123,8 @@ public class MostrarPlanif extends JPanel {
                     } catch (SqlServerCustomException ex) {
                         String errorMsg = "<html><p>Ocurrió un error:<br>" + ex.getMessage() + "</p></html>";
                         new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", errorMsg, "Aceptar");
+                        throw new RuntimeException(ex);
+
                     }
                     actualizarPlanif();
                     getSeleccionado().setSeleccionado(false);
