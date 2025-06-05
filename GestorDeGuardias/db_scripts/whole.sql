@@ -1385,7 +1385,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_create]    Script Date: 05/06/2025 1:12:41 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1396,12 +1396,26 @@ CREATE PROCEDURE [dbo].[sp_turno_de_guardia_create]
     @horario bigint
 AS
 BEGIN
+	DECLARE @count int;
+
+	SET @count = (
+		SELECT COUNT(*)
+		FROM turno_de_guardia
+		WHERE fecha = @fecha
+		AND horario = @horario
+		AND persona_asignada = @persona_asignada
+	);
+
+	IF (@count > 0)
+		THROW 51000, 'Turno de guardia existente', 1
+
     INSERT INTO turno_de_guardia (persona_asignada, fecha, horario)
-    VALUES (@persona_asignada, @fecha, @horario);
+	    VALUES (@persona_asignada, @fecha, @horario);
 END
 
+
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete]    Script Date: 04/06/2025 09:45:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete]    Script Date: 05/06/2025 1:12:41 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1437,7 +1451,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete_a_partir_de_fecha]    Script Date: 04/06/2025 09:45:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete_a_partir_de_fecha]    Script Date: 05/06/2025 1:12:41 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1448,27 +1462,24 @@ CREATE PROCEDURE [dbo].[sp_turno_de_guardia_delete_a_partir_de_fecha]
 AS
 BEGIN
 	DECLARE @count int;
-	DECLARE @today DATE = GETDATE();
 
 	SET @count = (
 		SELECT COUNT(*)
 		FROM turno_de_guardia
-		WHERE fecha = @fecha
+		WHERE fecha > @fecha or fecha = @fecha
 	);
 
 	IF (@count = 0)
-		THROW 51000, 'No hay turnos de guardia en esta fecha.', 1;
-
-	IF (@fecha < @today)
-			THROW 51000, 'No se pueden borrar turnos de fechas pasadas.', 1;
+		THROW 51000, 'No hay turnos de guardia despues de esta fecha.', 1;
 
       UPDATE turno_de_guardia
 		SET borrado = 1
 		WHERE fecha > @fecha or fecha = @fecha;
 
 END
+
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read]    Script Date: 05/06/2025 1:12:41 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1478,33 +1489,33 @@ CREATE PROCEDURE [dbo].[sp_turno_de_guardia_read]
 AS
 BEGIN
     SELECT
-       tg.fecha,
-       tg.hecho,
-       tg.id,
-       h.id AS horario_id,
-       h.inicio,
-       h.fin,
-       p.id AS persona_id,
-       p.nombre,
-       p.apellido,
-       p.sexo,
-       p.carnet,
-       p.tipo,
-       p.ultima_guardia_hecha,
-       p.guardias_de_recuperacion,
-       p.baja,
-       p.reincorporacion,
-       p.tipo,
-       p.borrado
+       tg.*
     FROM turno_de_guardia tg
-    JOIN persona p ON tg.persona_asignada = p.id
-    JOIN horario h ON tg.horario = h.id
     WHERE tg.borrado = 0
-    ORDER BY tg.fecha, h.inicio;
+    ORDER BY tg.fecha;
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read_by_pk]    Script Date: 04/06/2025 09:45:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read_a_partir_de]    Script Date: 05/06/2025 1:12:41 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_turno_de_guardia_read_a_partir_de]
+    @fecha DATE
+AS
+BEGIN
+    SELECT
+       tg.*
+    FROM turno_de_guardia tg
+    WHERE tg.borrado = 0
+    AND MONTH(tg.fecha) = MONTH(@fecha) AND YEAR(tg.fecha) = YEAR(@fecha)
+    ORDER BY tg.fecha;
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read_by_pk]    Script Date: 05/06/2025 1:12:41 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1542,7 +1553,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_update]    Script Date: 05/06/2025 1:12:41 pm ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
