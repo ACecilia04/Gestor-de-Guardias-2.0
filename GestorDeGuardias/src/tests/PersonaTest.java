@@ -24,7 +24,7 @@ public class PersonaTest {
         personaServices = ServicesLocator.getInstance().getPersonaServices();
 
         TipoPersona tipo = new TipoPersona("Estudiante");
-        Persona nuevoRecord = new Persona("01010112355", "Ana", "Garcia", "f", tipo);
+        Persona nuevoRecord = new Persona("01020112355", "Anaisa", "Garcia", "f", tipo);
         try {
             personaServices.insertPersona(nuevoRecord);
         } catch (MultiplesErroresException | SqlServerCustomException e) {
@@ -41,7 +41,7 @@ public class PersonaTest {
 
     @AfterClass
     public static void done() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         try {
             personaServices.deletePersonaById(record.getId());
         } catch (SqlServerCustomException e) {
@@ -274,7 +274,7 @@ public class PersonaTest {
     @Test
     public void insertExistingCi_throwException() {
         TipoPersona tipo = new TipoPersona("Estudiante");
-        Persona nuevoRecord = new Persona("01010112355", "Ana2", "Garcia", "f", tipo);
+        Persona nuevoRecord = new Persona("01020112355", "Ana2", "Garcia", "f", tipo);
         boolean validaError = false;
         boolean performed = false;
         try {
@@ -310,7 +310,7 @@ public class PersonaTest {
 
     @Test
     public void updateCiEmpty_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setCarnet("");
         boolean validaError = false;
         boolean performed = false;
@@ -328,7 +328,7 @@ public class PersonaTest {
 
     @Test
     public void updateCiNull_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setCarnet(null);
         boolean validaError = false;
         boolean performed = false;
@@ -346,7 +346,7 @@ public class PersonaTest {
 
     @Test
     public void updateCiIllegal_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setCarnet("1234567890");
         boolean validaError = false;
         boolean performed = false;
@@ -364,7 +364,7 @@ public class PersonaTest {
 
     @Test
     public void updateCiIllegal2_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setCarnet("1234567890G");
         boolean validaError = false;
         boolean performed = false;
@@ -382,7 +382,7 @@ public class PersonaTest {
 
     @Test
     public void updateCiIllegal3_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setCarnet("12345678901");
         boolean validaError = false;
         boolean performed = false;
@@ -400,7 +400,7 @@ public class PersonaTest {
 
     @Test
     public void updateCiIllegal4_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setCarnet("12125678901");
         boolean validaError = false;
         boolean performed = false;
@@ -418,7 +418,7 @@ public class PersonaTest {
 
     @Test
     public void updateNombreEmpty_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setNombre(null);
         boolean validaError = false;
         boolean performed = false;
@@ -436,7 +436,7 @@ public class PersonaTest {
 
     @Test
     public void updateApellidoEmpty_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setApellido("");
         boolean validaError = false;
         boolean performed = false;
@@ -454,7 +454,7 @@ public class PersonaTest {
 
     @Test
     public void updateSexoEmpty_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setSexo("");
         boolean validaError = false;
         boolean performed = false;
@@ -472,7 +472,7 @@ public class PersonaTest {
 
     @Test
     public void updateSexoUnknown_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setSexo("g");
         boolean validaError = false;
         boolean performed = false;
@@ -490,7 +490,7 @@ public class PersonaTest {
 
     @Test
     public void updateTipoPersonaEmpty_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setTipo(null);
         boolean validaError = false;
         boolean performed = false;
@@ -508,7 +508,7 @@ public class PersonaTest {
 
     @Test
     public void updateTipoPersonaUnknown_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setTipo(new TipoPersona("Latón"));
         boolean validaError = false;
         boolean performed = false;
@@ -526,8 +526,8 @@ public class PersonaTest {
 
     @Test
     public void updateNonExisting_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
-        record.setId(99L);
+        Persona record = personaServices.getPersonaByCi("01020112355");
+        record.setId(999L);
         boolean validaError = false;
         boolean performed = false;
         try {
@@ -544,7 +544,7 @@ public class PersonaTest {
 
     @Test
     public void updateNameExisting_throwException() {
-        Persona record = personaServices.getPersonaByCi("01010112355");
+        Persona record = personaServices.getPersonaByCi("01020112355");
         record.setCarnet("10101012345");
         record.setSexo("m");
         boolean validaError = false;
@@ -643,7 +643,7 @@ public class PersonaTest {
 
     @Test
     public void getExistingCi_success() {
-        String ci = "01010112355";
+        String ci = "01020112355";
         Persona record = personaServices.getPersonaByCi(ci);
         assertNotNull(record);
         Persona record2 = personaServices.getPersonaById(record.getId());

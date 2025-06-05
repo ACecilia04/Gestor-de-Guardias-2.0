@@ -399,13 +399,13 @@ GO
 
 CREATE PROCEDURE [dbo].[sp_configuracion_read_by_pk]
     @horario bigint,
-    @fecha DATE,
+    @dia_semana TINYINT,
     @dia_es_receso BIT
 AS
 BEGIN
     SELECT * FROM configuracion
     WHERE horario = @horario
-	AND dia_semana = DATEPART(WEEKDAY, @fecha)
+	AND dia_semana = @dia_semana
 	AND dia_es_receso = @dia_es_receso
 	AND borrado = 0;
 END
@@ -454,7 +454,7 @@ BEGIN
     UPDATE configuracion
     SET dia_semana = COALESCE(@dia_semana, dia_semana),
         dia_es_receso = COALESCE(@dia_es_receso, dia_es_receso),
-        horario =COALESCE(@horario, horario),
+        horario = COALESCE(@horario, horario),
         tipo_persona = COALESCE(@tipo_persona, tipo_persona),
         sexo = COALESCE(@sexo, sexo),
         cant_personas = COALESCE(@cant_personas, cant_personas)
@@ -774,7 +774,7 @@ SELECT IIF(total > 0, 1, 0) as existe
 FROM (
 	SELECT COUNT(*) as total
 	FROM periodo_no_planificable
-	WHERE @fecha BETWEEN inicio AND fin
+	WHERE @fecha BETWEEN inicio AND fin
 ) as total;
 END
 GO
@@ -876,8 +876,9 @@ BEGIN
 	SET @count = (
 		SELECT COUNT(*)
 		FROM persona
-		WHERE LOWER(LTRIM(carnet)) = LOWER(LTRIM(@carnet))
-		OR (LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre)) AND LOWER(LTRIM(apellido)) = LOWER(LTRIM(@apellido)))
+		WHERE (LOWER(LTRIM(carnet)) = LOWER(LTRIM(@carnet))
+		OR (LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre)) AND LOWER(LTRIM(apellido)) = LOWER(LTRIM(@apellido))))
+		AND borrado = 0
 	);
 
 	IF (@count > 0)
@@ -917,7 +918,7 @@ BEGIN
 	);
 
 	IF (@count > 0)
-		THROW 51000, 'Persona no se puede eliminar porque está siendo utilizado', 1
+		THROW 51000, 'Persona no se puede eliminar porque está siendo utilizada', 1
 
     DELETE FROM persona
 		WHERE LOWER(LTRIM(carnet)) = LOWER(LTRIM(@carnet));
@@ -1095,8 +1096,9 @@ BEGIN
 	SET @count = (
 		SELECT COUNT(*)
 		FROM persona
-		WHERE LOWER(LTRIM(carnet)) = LOWER(LTRIM(@carnet))
-		OR (LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre)) AND LOWER(LTRIM(apellido)) = LOWER(LTRIM(@apellido)))
+		WHERE (LOWER(LTRIM(carnet)) = LOWER(LTRIM(@carnet))
+		OR (LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre)) AND LOWER(LTRIM(apellido)) = LOWER(LTRIM(@apellido))))
+		AND borrado = 0
 		AND id <> @id
 	);
 
