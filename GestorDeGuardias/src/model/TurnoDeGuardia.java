@@ -12,13 +12,18 @@ public class TurnoDeGuardia {
 
     private ArrayList<Persona> personasAsignadas = new ArrayList<>();
 
-
     public TurnoDeGuardia(Long id, LocalDate fecha, Horario horario, Persona personaAsignada, Boolean hecho) {
         this.id = id;
         this.fecha = fecha;
         this.horario = horario;
         this.personaAsignada = personaAsignada;
         this.hecho = hecho;
+    }
+
+    public TurnoDeGuardia(LocalDate fecha, Horario horario, Persona personaAsignada) {
+        this.fecha = fecha;
+        this.horario = horario;
+        this.personaAsignada = personaAsignada;
     }
 
     public TurnoDeGuardia() {

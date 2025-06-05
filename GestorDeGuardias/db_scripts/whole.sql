@@ -1030,6 +1030,22 @@ BEGIN
 END
 
 GO
+/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_id]    Script Date: 01/06/2025 5:22:00 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_persona_read_by_id]
+    @id bigint
+AS
+BEGIN
+    SELECT * FROM persona
+	WHERE id = @id
+	AND borrado = 0;
+END
+
+GO
 /****** Object:  StoredProcedure [dbo].[sp_persona_read_by_tipo]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
@@ -1523,33 +1539,35 @@ GO
 
 CREATE PROCEDURE [dbo].[sp_turno_de_guardia_read_by_pk]
     @fecha date,
-    @horario bigint
+    @horario bigint,
+    @persona_asignada bigint
 AS
 BEGIN
     SELECT
-       tg.fecha,
-       tg.hecho,
-       tg.id,
-       h.id AS horario_id,
-       h.inicio,
-       h.fin,
-       p.id AS persona_id,
-       p.nombre,
-       p.apellido,
-       p.sexo,
-       p.carnet,
-       p.tipo,
-       p.ultima_guardia_hecha,
-       p.guardias_de_recuperacion,
-       p.baja,
-       p.reincorporacion,
-       p.tipo,
-       p.borrado
+       tg.*
     FROM turno_de_guardia tg
-    JOIN persona p ON tg.persona_asignada = p.id
-    JOIN horario h ON tg.horario = h.id
-    WHERE tg.fecha = @fecha AND tg.horario = @horario
-    ORDER BY tg.fecha, h.inicio;
+    WHERE tg.fecha = @fecha
+    AND tg.horario = @horario
+    AND tg.persona_asignada = @persona_asignada
+    ORDER BY tg.fecha;
+END
+
+GO
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read_by_id]    Script Date: 05/06/2025 1:12:41 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_turno_de_guardia_read_by_id]
+    @id bigint
+AS
+BEGIN
+    SELECT
+       tg.*
+    FROM turno_de_guardia tg
+    WHERE tg.id = @id
+    ORDER BY tg.fecha;
 END
 
 GO
