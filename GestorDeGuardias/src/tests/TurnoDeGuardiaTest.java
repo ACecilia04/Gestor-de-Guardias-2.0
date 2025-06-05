@@ -14,9 +14,9 @@ import utils.dao.SqlServerCustomException;
 import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalDate;
+import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TurnoDeGuardiaTest {
 
@@ -131,193 +131,231 @@ public class TurnoDeGuardiaTest {
         assertFalse(performed);
     }
 
-//    @Test
-//    public void insertExisting_throwException() {
-//        LocalTime inicio = LocalTime.of(8, 0, 0);
-//        LocalTime fin = LocalTime.of(20, 0, 0);
-//        Horario nuevoRecord = new Horario(inicio, fin);
-//        boolean validaError = false;
-//        boolean performed = false;
-//        try {
-//            horarioServices.insertHorario(nuevoRecord);
-//            performed = true;
-//        } catch (MultiplesErroresException e) {
-//            System.out.println(e.getMessage());
-//        } catch (SqlServerCustomException e) {
-//            validaError = e.getMessage().equals("Horario existente");
-//        }
-//        assertTrue(validaError);
-//        assertFalse(performed);
-//    }
-//
-//
-//    @Test
-//    public void updateHoraInicialNull_throwException() {
-//        LocalTime inicio = LocalTime.of(8, 0, 0);
-//        LocalTime fin = LocalTime.of(20, 0, 0);
-//        Horario record = horarioServices.getHorarioByPk(inicio, fin);
-//        record.setInicio(null);
-//        boolean validaError = false;
-//        boolean performed = false;
-//        try {
-//            horarioServices.updateHorario(record);
-//            performed = true;
-//        } catch (MultiplesErroresException e) {
-//            validaError = e.getErrores().contains("Hora inicial no especificada.");
-//        } catch (SqlServerCustomException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        assertTrue(validaError);
-//        assertFalse(performed);
-//    }
-//
-//    @Test
-//    public void updateHoraFinalNull_throwException() {
-//        LocalTime inicio = LocalTime.of(8, 0, 0);
-//        LocalTime fin = LocalTime.of(20, 0, 0);
-//        Horario record = horarioServices.getHorarioByPk(inicio, fin);
-//        record.setFin(null);
-//        boolean validaError = false;
-//        boolean performed = false;
-//        try {
-//            horarioServices.updateHorario(record);
-//            performed = true;
-//        } catch (MultiplesErroresException e) {
-//            validaError = e.getErrores().contains("Hora final no especificada.");
-//        } catch (SqlServerCustomException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        assertTrue(validaError);
-//        assertFalse(performed);
-//    }
-//
-//    @Test
-//    public void updateNonExisting_throwException() {
-//        LocalTime inicio = LocalTime.of(8, 0, 0);
-//        LocalTime fin = LocalTime.of(20, 0, 0);
-//        Horario record = new Horario(inicio, fin);
-//        record.setId(100L);
-//        boolean validaError = false;
-//        boolean performed = false;
-//        try {
-//            horarioServices.updateHorario(record);
-//            performed = true;
-//        } catch (MultiplesErroresException e) {
-//            System.out.println(e.getMessage());
-//        } catch (SqlServerCustomException e) {
-//            validaError = e.getMessage().equals("Horario inexistente");
-//        }
-//        assertTrue(validaError);
-//        assertFalse(performed);
-//    }
-//
-//    @Test
-//    public void updateExisting_throwException() {
-//        LocalTime inicio = LocalTime.of(8, 0, 0);
-//        LocalTime fin = LocalTime.of(20, 0, 0);
-//        Horario record = horarioServices.getHorarioByPk(inicio, fin);
-//        record.setInicio(LocalTime.of(20, 0, 0));
-//        record.setFin(LocalTime.of(8, 0, 0));
-//        boolean validaError = false;
-//        boolean performed = false;
-//        try {
-//            horarioServices.updateHorario(record);
-//            performed = true;
-//        } catch (MultiplesErroresException e) {
-//            System.out.println(e.getMessage());
-//        } catch (SqlServerCustomException e) {
-//            validaError = e.getMessage().equals("Horario existente");
-//        }
-//        assertTrue(validaError);
-//        assertFalse(performed);
-//    }
-//
-//
-//    @Test
-//    public void deleteIdEmpty_throwException() {
-//        Long id = 0L;
-//        boolean validaError = false;
-//        boolean performed = false;
-//        try {
-//            horarioServices.deleteHorario(id);
-//            performed = true;
-//        } catch (SqlServerCustomException e) {
-//            validaError = e.getMessage().equals("Horario inexistente");
-//        }
-//        assertTrue(validaError);
-//        assertFalse(performed);
-//    }
-//
-//    @Test
-//    public void deleteIdNull_throwException() {
-//        Long id = null;
-//        boolean validaError = false;
-//        boolean performed = false;
-//        try {
-//            horarioServices.deleteHorario(id);
-//            performed = true;
-//        } catch (SqlServerCustomException e) {
-//            validaError = e.getMessage().equals("Horario inexistente");
-//        }
-//        assertTrue(validaError);
-//        assertFalse(performed);
-//    }
-//
-//    @Test
-//    public void deleteIdNonExisting_throwException() {
-//        Long id = 1000L;
-//        boolean validaError = false;
-//        boolean performed = false;
-//        try {
-//            horarioServices.deleteHorario(id);
-//            performed = true;
-//        } catch (SqlServerCustomException e) {
-//            validaError = e.getMessage().equals("Horario inexistente");
-//        }
-//        assertTrue(validaError);
-//        assertFalse(performed);
-//    }
-//
-//
-//    @Test
-//    public void getNonExistingId_returnNull() {
-//        Long id = 1000L;
-//        Horario record = horarioServices.getHorarioById(id);
-//        assertNull(record);
-//    }
-//
-//    @Test
-//    public void getHoraInicialNull_returnNull() {
-//        LocalTime inicio = null;
-//        LocalTime fin = LocalTime.of(20, 0, 0);
-//        Horario record = horarioServices.getHorarioByPk(inicio, fin);
-//        assertNull(record);
-//    }
-//
-//    @Test
-//    public void getHoraFinalNull_returnNull() {
-//        LocalTime inicio = LocalTime.of(8, 0, 0);
-//        LocalTime fin = null;
-//        Horario record = horarioServices.getHorarioByPk(inicio, fin);
-//        assertNull(record);
-//    }
-//
-//    @Test
-//    public void getExistingHorario_success() {
-//        LocalTime inicio = LocalTime.of(8, 0, 0);
-//        LocalTime fin = LocalTime.of(20, 0, 0);
-//        Horario record = horarioServices.getHorarioByPk(inicio, fin);
-//        assertNotNull(record);
-//        Horario record2 = horarioServices.getHorarioById(record.getId());
-//        assertNotNull(record2);
-//    }
-//
-//
+    @Test
+    public void insertExisting_throwException() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia nuevoRecord = new TurnoDeGuardia(fecha, horario, personaAsignada);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.insertTurnoDeGuardia(nuevoRecord);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Turno de guardia existente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void updateFechalNull_throwException() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), fecha, personaAsignada.getId());
+        record.setFecha(null);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.updateTurnoDeGuardia(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Fecha no especificada.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updateHorarioNull_throwException() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), fecha, personaAsignada.getId());
+        record.setHorario(null);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.updateTurnoDeGuardia(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Horario no especificado.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updatePersonaNull_throwException() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), fecha, personaAsignada.getId());
+        record.setPersonaAsignada(null);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.updateTurnoDeGuardia(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            validaError = e.getErrores().contains("Persona no especificada.");
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updateNonExisting_throwException() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), fecha, personaAsignada.getId());
+        record.setId(100L);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.updateTurnoDeGuardia(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Turno de guardia inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void updateExisting_throwException() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), fecha, personaAsignada.getId());
+        Persona personaAsignada2 = personaServices.getPersonaById(2L);
+        record.setPersonaAsignada(personaAsignada2);
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.updateTurnoDeGuardia(record);
+            performed = true;
+        } catch (MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Turno de guardia existente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void deleteIdEmpty_throwException() {
+        Long id = 0L;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.deleteTurnoDeGuardia(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Turno de guardia inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void deleteIdNull_throwException() {
+        Long id = null;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.deleteTurnoDeGuardia(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Turno de guardia inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+    @Test
+    public void deleteIdNonExisting_throwException() {
+        Long id = 1000L;
+        boolean validaError = false;
+        boolean performed = false;
+        try {
+            turnoDeGuardiaServices.deleteTurnoDeGuardia(id);
+            performed = true;
+        } catch (SqlServerCustomException e) {
+            validaError = e.getMessage().equals("Turno de guardia inexistente");
+        }
+        assertTrue(validaError);
+        assertFalse(performed);
+    }
+
+
+    @Test
+    public void getNonExistingId_returnNull() {
+        Long id = 1000L;
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaById(id);
+        assertNull(record);
+    }
+
+    @Test
+    public void getHorarioNull_returnNull() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(null, fecha, personaAsignada.getId());
+        assertNull(record);
+    }
+
+    @Test
+    public void getFechaNull_returnNull() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), null, personaAsignada.getId());
+        assertNull(record);
+    }
+
+    @Test
+    public void getPersonaNull_returnNull() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), fecha, null);
+        assertNull(record);
+    }
+
+    @Test
+    public void getExistingTurnoDeGuardia_success() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(1L);
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), fecha, personaAsignada.getId());
+        assertNotNull(record);
+        TurnoDeGuardia record2 = turnoDeGuardiaServices.getTurnoDeGuardiaById(record.getId());
+        assertNotNull(record2);
+    }
+
 //    @Test
 //    public void insert_get_delete_success() {
-//        LocalTime inicio = LocalTime.of(10, 0, 0);
-//        LocalTime fin = LocalTime.of(22, 0, 0);
-//        Horario nuevoRecord = new Horario(inicio, fin);
+//        Horario horario = horarioServices.getHorarioById(1L);
+//        LocalDate fecha = null;
+//        Persona personaAsignada = personaServices.getPersonaById(1L);
+//        TurnoDeGuardia nuevoRecord = new TurnoDeGuardia(fecha, horario, personaAsignada);
 //        try {
 //            horarioServices.insertHorario(nuevoRecord);
 //        } catch (MultiplesErroresException | SqlServerCustomException e) {
@@ -345,10 +383,10 @@ public class TurnoDeGuardiaTest {
 //        assertNull(record);
 //    }
 
-//    @Test
-//    public void getAll_success() {
-//        List<TurnoDeGuardia> records = turnoDeGuardiaServices.getAllTurnosDeGuardia();
-//        assertNotNull(records);
-//        assertFalse(records.isEmpty());
-//    }
+    @Test
+    public void getAll_success() {
+        List<TurnoDeGuardia> records = turnoDeGuardiaServices.getAllTurnosDeGuardia();
+        assertNotNull(records);
+        assertFalse(records.isEmpty());
+    }
 }
