@@ -1721,3 +1721,147 @@ USE [master]
 GO
 ALTER DATABASE [Gestor_de_Guardias] SET  READ_WRITE
 GO
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------
+ SET IDENTITY_INSERT [dbo].[configuracion] ON
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'1', N'0', N'1', N'Estudiante', N'M', N'1', N'1', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'2', N'0', N'1', N'Estudiante', N'M', N'1', N'2', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'3', N'0', N'1', N'Estudiante', N'M', N'1', N'3', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'4', N'0', N'1', N'Estudiante', N'M', N'1', N'4', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'5', N'0', N'1', N'Estudiante', N'M', N'1', N'5', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'0', N'1', N'Estudiante', N'M', N'1', N'6', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'0', N'1', N'Estudiante', N'M', N'1', N'7', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'0', N'2', N'Estudiante', N'F', N'1', N'8', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'0', N'2', N'Estudiante', N'F', N'1', N'9', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'0', N'3', N'Trabajador', NULL, N'1', N'10', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'0', N'4', N'Trabajador', NULL, N'1', N'11', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'0', N'3', N'Trabajador', NULL, N'1', N'12', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'0', N'4', N'Trabajador', NULL, N'1', N'13', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'1', N'1', N'3', N'Trabajador', NULL, N'1', N'14', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'1', N'1', N'4', N'Trabajador', NULL, N'1', N'15', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'2', N'1', N'3', N'Trabajador', NULL, N'1', N'16', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'2', N'1', N'4', N'Trabajador', NULL, N'1', N'17', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'3', N'1', N'3', N'Trabajador', NULL, N'1', N'18', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'3', N'1', N'4', N'Trabajador', NULL, N'1', N'19', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'4', N'1', N'3', N'Trabajador', NULL, N'1', N'20', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'4', N'1', N'4', N'Trabajador', NULL, N'1', N'21', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'5', N'1', N'3', N'Trabajador', NULL, N'1', N'22', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'5', N'1', N'4', N'Trabajador', NULL, N'1', N'23', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'1', N'3', N'Trabajador', NULL, N'1', N'24', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'1', N'4', N'Trabajador', NULL, N'1', N'25', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'1', N'3', N'Trabajador', NULL, N'1', N'26', N'0')
+ GO
+
+ INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'1', N'4', N'Trabajador', NULL, N'1', N'27', N'0')
+ GO
+
+ SET IDENTITY_INSERT [dbo].[configuracion] OFF
+ GO
+
+
+ SET IDENTITY_INSERT [dbo].[horario] ON
+ GO
+
+ INSERT INTO [dbo].[horario] ([inicio], [fin], [id], [borrado]) VALUES (N'20:00:00', N'08:00:00', N'1', N'0')
+ GO
+
+ INSERT INTO [dbo].[horario] ([inicio], [fin], [id], [borrado]) VALUES (N'08:00:00', N'20:00:00', N'2', N'0')
+ GO
+
+ INSERT INTO [dbo].[horario] ([inicio], [fin], [id], [borrado]) VALUES (N'09:00:00', N'14:00:00', N'3', N'0')
+ GO
+
+ INSERT INTO [dbo].[horario] ([inicio], [fin], [id], [borrado]) VALUES (N'14:00:00', N'19:00:00', N'4', N'0')
+ GO
+
+ SET IDENTITY_INSERT [dbo].[horario] OFF
+ GO
+
+
+INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'8', N'Carolina', N'Lorenzo', N'f', N'05102278053', NULL, N'0', NULL, NULL, N'Estudiante', N'0')
+GO
+
+INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'9', N'Amanda', N'Aguilera Garcia', N'f', N'04022578073', NULL, N'0', NULL, NULL, N'Estudiante', N'0')
+GO
+
+INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'10', N'Tony', N'Gracia', N'm', N'93072178062', NULL, N'0', NULL, NULL, N'Trabajador', N'0')
+GO
+
+INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'11', N'Sonia', N'Perez Lovelle', N'f', N'68110225093', NULL, N'0', NULL, NULL, N'Trabajador', N'0')
+GO
+
+INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'12', N'Daniel', N'Pardo', N'm', N'98040225688', NULL, N'0', NULL, NULL, N'Trabajador', N'0')
+GO
+
+INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'13', N'Pepe', N'Grillo', N'm', N'05102278066', NULL, N'0', NULL, NULL, N'Estudiante', N'0')
+GO
+
+INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'14', N'Fito', N'Paez', N'm', N'04120225366', NULL, N'0', NULL, NULL, N'Estudiante', N'0')
+GO
+
+SET IDENTITY_INSERT [dbo].[persona] OFF
+GO
+
+
+INSERT INTO [dbo].[rol] ([nombre]) VALUES (N'Administrador')
+GO
+
+INSERT INTO [dbo].[rol] ([nombre]) VALUES (N'Usuario')
+GO
+
+INSERT INTO [dbo].[tipo_persona] ([nombre]) VALUES (N'Estudiante')
+GO
+
+INSERT INTO [dbo].[tipo_persona] ([nombre]) VALUES (N'Trabajador')
+GO
