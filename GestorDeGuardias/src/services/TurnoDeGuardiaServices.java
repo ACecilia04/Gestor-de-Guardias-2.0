@@ -44,8 +44,13 @@ public class TurnoDeGuardiaServices {
     }
 
     // READ by primary key
-    public TurnoDeGuardia getTurnoDeGuardiaByPk(Long horarioId, LocalDate fecha) {
-        return baseDao.spQuerySingleObject("sp_turno_de_guardia_read_by_pk( ?, ?)", new TurnoDeGuardiaMapper(),horarioId, fecha);
+    public TurnoDeGuardia getTurnoDeGuardiaByPk(Long horarioId, LocalDate fecha, Long personaAsignadaId) {
+        return baseDao.spQuerySingleObject("sp_turno_de_guardia_read_by_pk(?, ?, ?)", new TurnoDeGuardiaMapper(), fecha, horarioId, personaAsignadaId);
+    }
+
+    // READ by id
+    public TurnoDeGuardia getTurnoDeGuardiaByPk(Long id) {
+        return baseDao.spQuerySingleObject("sp_turno_de_guardia_read_by_id(?)", new TurnoDeGuardiaMapper(), id);
     }
 
     // UPDATE
