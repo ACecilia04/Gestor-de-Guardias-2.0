@@ -1,5 +1,6 @@
 package services;
 
+import model.Usuario;
 import utils.dao.MainBaseDao;
 
 public class ServicesLocator {
@@ -13,6 +14,7 @@ public class ServicesLocator {
     private final UsuarioServices usuarioServices;
     private final RolServices rolServices;
     private final PlantillaServices plantillaServices;
+    private Usuario usuarioActual;
 
     private ServicesLocator() {
         MainBaseDao mbDAO = new MainBaseDao();
@@ -67,4 +69,12 @@ public class ServicesLocator {
     }
 
     public PlantillaServices getPlantillaServices(){ return plantillaServices;}
+
+    public Usuario getUsuarioActual() {
+        return usuarioActual;
+    }
+
+    public void setUsuarioActual(Usuario usuarioActual) {
+        this.usuarioActual = usuarioActual;
+    }
 }
