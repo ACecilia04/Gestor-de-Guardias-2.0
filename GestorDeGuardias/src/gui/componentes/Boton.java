@@ -182,74 +182,77 @@ public class Boton extends JPanel implements Actualizable {
         this.setSize(getPreferredSize());
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (!seleccionable) {
+        // Usa isEnabled() en vez de seleccionable
+        if (!isEnabled()) {
+            // Usa tus propios colores de bloqueado
             g2.setColor(colorFondoBlock);
             etiqueta.setForeground(colorLetraBlock);
             etiqueta.setBackground(colorFondoBlock);
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+
             ImageIcon icono = (ImageIcon) etiqueta.getIcon();
             if (icono != null) {
                 BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIconoBlock);
                 etiqueta.setIcon(new ImageIcon(coloredImage));
             }
             g2.dispose();
-        } else {
-            if (!selecLetra) {
-
-                if (bordeado) {
-                    if (!select) {
-                        g2.setColor(colorBordeado);
-                        g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
-                        g2.setColor(colorFondo);
-                        g2.fillRoundRect(grosorBorde, grosorBorde, getWidth() - grosorBorde - 3, getHeight() - grosorBorde - 3, redondez, redondez);
-                        etiqueta.setForeground(colorLetra);
-                        g2.dispose();
-
-                    } else {
-                        g2.setColor(colorPresionado);
-                        g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
-                        etiqueta.setForeground(Color.WHITE);
-                        g2.dispose();
-                    }
-                } else {
-                    if (!select) {
-                        g2.setColor(colorFondo);
-                        etiqueta.setForeground(colorLetra);
-                    } else {
-                        g2.setColor(colorPresionado);
-                        etiqueta.setForeground(colorLetraPres);
-                    }
-                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
-                    g2.dispose();
-                }
-                etiqueta.setBackground(select ? colorPresionado : colorFondo);
-            } else {
-                g2.setColor(colorFondo);
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
-                g2.dispose();
-
-                etiqueta.setBackground(colorFondo);
-
-                if (!select) {
-                    etiqueta.setForeground(colorLetra);
-                    ImageIcon icono = (ImageIcon) etiqueta.getIcon();
-                    BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIcono);
-                    etiqueta.setIcon(new ImageIcon(coloredImage));
-                } else {
-                    etiqueta.setForeground(colorLetraPres);
-                    ImageIcon icono = (ImageIcon) etiqueta.getIcon();
-                    BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIconoPres);
-                    etiqueta.setIcon(new ImageIcon(coloredImage));
-                }
-            }
+            return; // Sal de la función, no sigas pintando como si estuviera enabled
         }
 
+        // El resto igual que antes, pero ahora solo para botones habilitados
+        if (!selecLetra) {
+            if (bordeado) {
+                if (!select) {
+                    g2.setColor(colorBordeado);
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+                    g2.setColor(colorFondo);
+                    g2.fillRoundRect(grosorBorde, grosorBorde, getWidth() - grosorBorde - 3, getHeight() - grosorBorde - 3, redondez, redondez);
+                    etiqueta.setForeground(colorLetra);
+                    g2.dispose();
 
+                } else {
+                    g2.setColor(colorPresionado);
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+                    etiqueta.setForeground(Color.WHITE);
+                    g2.dispose();
+                }
+            } else {
+                if (!select) {
+                    g2.setColor(colorFondo);
+                    etiqueta.setForeground(colorLetra);
+                } else {
+                    g2.setColor(colorPresionado);
+                    etiqueta.setForeground(colorLetraPres);
+                }
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+                g2.dispose();
+            }
+            etiqueta.setBackground(select ? colorPresionado : colorFondo);
+        } else {
+            g2.setColor(colorFondo);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+            g2.dispose();
+
+            etiqueta.setBackground(colorFondo);
+
+            if (!select) {
+                etiqueta.setForeground(colorLetra);
+                ImageIcon icono = (ImageIcon) etiqueta.getIcon();
+                BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIcono);
+                etiqueta.setIcon(new ImageIcon(coloredImage));
+            } else {
+                etiqueta.setForeground(colorLetraPres);
+                ImageIcon icono = (ImageIcon) etiqueta.getIcon();
+                BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIconoPres);
+                etiqueta.setIcon(new ImageIcon(coloredImage));
+            }
+        }
     }
 
     public void addActionListener(ActionListener listener) {
