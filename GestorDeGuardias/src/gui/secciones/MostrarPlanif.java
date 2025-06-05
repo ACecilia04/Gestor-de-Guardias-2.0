@@ -8,7 +8,6 @@ import gui.internosComp.PanelOpcionesMostrarP;
 import gui.internosComp.TablaBase;
 import gui.pantallasEmergentes.Advertencia;
 import model.DiaGuardia;
-import services.Gestor;
 import services.ReporteServices;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
@@ -120,7 +119,7 @@ public class MostrarPlanif extends JPanel {
                 Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
                 if (!advertencia.getEleccion()) {
                     try {
-                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardia(getSeleccionado().getFechaInicio());
+                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardiaAPartirDe(getSeleccionado().getFechaInicio());
                     } catch (SqlServerCustomException ex) {
                         throw new RuntimeException(ex);
                     }

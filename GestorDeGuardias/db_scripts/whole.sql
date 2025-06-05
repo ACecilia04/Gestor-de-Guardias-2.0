@@ -1,366 +1,283 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : SQLserver
- Source Server Type    : SQL Server
- Source Server Version : 16001000 (16.00.1000)
- Source Host           : localhost:1433
- Source Catalog        : Gestor_de_Guardias
- Source Schema         : dbo
-
- Target Server Type    : SQL Server
- Target Server Version : 16001000 (16.00.1000)
- File Encoding         : 65001
-
- Date: 02/06/2025 23:49:53
-*/
-
-
--- ----------------------------
--- Table structure for configuracion
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[configuracion]') AND type IN ('U'))
-	DROP TABLE [dbo].[configuracion]
-GO
-
-CREATE TABLE [dbo].[configuracion] (
-  [dia_semana] tinyint  NOT NULL,
-  [dia_es_receso] bit  NOT NULL,
-  [horario] bigint  NOT NULL,
-  [tipo_persona] nvarchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
-  [sexo] nchar(1) COLLATE SQL_Latin1_General_CP1_CI_AS  NULL,
-  [cant_personas] tinyint DEFAULT 1 NOT NULL,
-  [id] bigint  IDENTITY(1,1) NOT NULL,
-  [borrado] bit DEFAULT 0 NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[configuracion] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of configuracion
--- ----------------------------
-SET IDENTITY_INSERT [dbo].[configuracion] ON
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'1', N'0', N'1', N'Estudiante', N'M', N'1', N'1', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'2', N'0', N'1', N'Estudiante', N'M', N'1', N'2', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'3', N'0', N'1', N'Estudiante', N'M', N'1', N'3', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'4', N'0', N'1', N'Estudiante', N'M', N'1', N'4', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'5', N'0', N'1', N'Estudiante', N'M', N'1', N'5', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'0', N'1', N'Estudiante', N'M', N'1', N'6', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'0', N'1', N'Estudiante', N'M', N'1', N'7', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'0', N'2', N'Estudiante', N'F', N'1', N'8', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'0', N'2', N'Estudiante', N'F', N'1', N'9', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'0', N'3', N'Trabajador', NULL, N'1', N'10', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'0', N'4', N'Trabajador', NULL, N'1', N'11', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'0', N'3', N'Trabajador', NULL, N'1', N'12', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'0', N'4', N'Trabajador', NULL, N'1', N'13', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'1', N'1', N'3', N'Trabajador', NULL, N'1', N'14', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'1', N'1', N'4', N'Trabajador', NULL, N'1', N'15', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'2', N'1', N'3', N'Trabajador', NULL, N'1', N'16', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'2', N'1', N'4', N'Trabajador', NULL, N'1', N'17', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'3', N'1', N'3', N'Trabajador', NULL, N'1', N'18', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'3', N'1', N'4', N'Trabajador', NULL, N'1', N'19', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'4', N'1', N'3', N'Trabajador', NULL, N'1', N'20', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'4', N'1', N'4', N'Trabajador', NULL, N'1', N'21', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'5', N'1', N'3', N'Trabajador', NULL, N'1', N'22', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'5', N'1', N'4', N'Trabajador', NULL, N'1', N'23', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'1', N'3', N'Trabajador', NULL, N'1', N'24', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'6', N'1', N'4', N'Trabajador', NULL, N'1', N'25', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'1', N'3', N'Trabajador', NULL, N'1', N'26', N'0')
-GO
-
-INSERT INTO [dbo].[configuracion] ([dia_semana], [dia_es_receso], [horario], [tipo_persona], [sexo], [cant_personas], [id], [borrado]) VALUES (N'7', N'1', N'4', N'Trabajador', NULL, N'1', N'27', N'0')
-GO
-
-SET IDENTITY_INSERT [dbo].[configuracion] OFF
-GO
-
-
--- ----------------------------
--- Table structure for horario
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[horario]') AND type IN ('U'))
-	DROP TABLE [dbo].[horario]
-GO
-
-CREATE TABLE [dbo].[horario] (
-  [inicio] time  NOT NULL,
-  [fin] time  NOT NULL,
-  [id] bigint  IDENTITY(1,1) NOT NULL,
-  [borrado] bit DEFAULT 0 NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[horario] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of horario
--- ----------------------------
-SET IDENTITY_INSERT [dbo].[horario] ON
-GO
-
-INSERT INTO [dbo].[horario] ([inicio], [fin], [id], [borrado]) VALUES (N'20:00:00', N'08:00:00', N'1', N'0')
-GO
-
-INSERT INTO [dbo].[horario] ([inicio], [fin], [id], [borrado]) VALUES (N'08:00:00', N'20:00:00', N'2', N'0')
-GO
-
-INSERT INTO [dbo].[horario] ([inicio], [fin], [id], [borrado]) VALUES (N'09:00:00', N'14:00:00', N'3', N'0')
-GO
-
-INSERT INTO [dbo].[horario] ([inicio], [fin], [id], [borrado]) VALUES (N'14:00:00', N'19:00:00', N'4', N'0')
-GO
-
-SET IDENTITY_INSERT [dbo].[horario] OFF
-GO
-
-
--- ----------------------------
--- Table structure for periodo_no_planificable
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[periodo_no_planificable]') AND type IN ('U'))
-	DROP TABLE [dbo].[periodo_no_planificable]
-GO
-
-CREATE TABLE [dbo].[periodo_no_planificable] (
-  [inicio] date  NOT NULL,
-  [fin] date  NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[periodo_no_planificable] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of periodo_no_planificable
--- ----------------------------
-
--- ----------------------------
--- Table structure for persona
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[persona]') AND type IN ('U'))
-	DROP TABLE [dbo].[persona]
-GO
-
-CREATE TABLE [dbo].[persona] (
-  [id] bigint  IDENTITY(1,1) NOT NULL,
-  [nombre] nvarchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [apellido] nvarchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [sexo] char(1) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [carnet] nvarchar(11) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [ultima_guardia_hecha] date  NULL,
-  [guardias_de_recuperacion] int DEFAULT 0 NOT NULL,
-  [baja] date  NULL,
-  [reincorporacion] date  NULL,
-  [tipo] nvarchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [borrado] bit DEFAULT 0 NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[persona] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of persona
--- ----------------------------
-SET IDENTITY_INSERT [dbo].[persona] ON
-GO
-
-INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'8', N'Carolina', N'Lorenzo', N'f', N'05102278053', NULL, N'0', NULL, NULL, N'Estudiante', N'0')
-GO
-
-INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'9', N'Amanda', N'Aguilera Garcia', N'f', N'04022578073', NULL, N'0', NULL, NULL, N'Estudiante', N'0')
-GO
-
-INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'10', N'Tony', N'Gracia', N'm', N'93072178062', NULL, N'0', NULL, NULL, N'Trabajador', N'0')
-GO
-
-INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'11', N'Sonia', N'Perez Lovelle', N'f', N'68110225093', NULL, N'0', NULL, NULL, N'Trabajador', N'0')
-GO
-
-INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'12', N'Daniel', N'Pardo', N'm', N'98040225688', NULL, N'0', NULL, NULL, N'Trabajador', N'0')
-GO
-
-INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'13', N'Pepe', N'Grillo', N'm', N'05102278066', NULL, N'0', NULL, NULL, N'Estudiante', N'0')
-GO
-
-INSERT INTO [dbo].[persona] ([id], [nombre], [apellido], [sexo], [carnet], [ultima_guardia_hecha], [guardias_de_recuperacion], [baja], [reincorporacion], [tipo], [borrado]) VALUES (N'14', N'Fito', N'Paez', N'm', N'04120225366', NULL, N'0', NULL, NULL, N'Estudiante', N'0')
-GO
-
-SET IDENTITY_INSERT [dbo].[persona] OFF
-GO
-
-
--- ----------------------------
--- Table structure for rol
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[rol]') AND type IN ('U'))
-	DROP TABLE [dbo].[rol]
-GO
-
-CREATE TABLE [dbo].[rol] (
-  [nombre] nvarchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[rol] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of rol
--- ----------------------------
-INSERT INTO [dbo].[rol] ([nombre]) VALUES (N'Administrador')
-GO
-
-INSERT INTO [dbo].[rol] ([nombre]) VALUES (N'Usuario')
-GO
-
-
--- ----------------------------
--- Table structure for tipo_persona
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[tipo_persona]') AND type IN ('U'))
-	DROP TABLE [dbo].[tipo_persona]
-GO
-
-CREATE TABLE [dbo].[tipo_persona] (
-  [nombre] nvarchar(20) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[tipo_persona] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of tipo_persona
--- ----------------------------
-INSERT INTO [dbo].[tipo_persona] ([nombre]) VALUES (N'Estudiante')
-GO
-
-INSERT INTO [dbo].[tipo_persona] ([nombre]) VALUES (N'Trabajador')
-GO
-
-
--- ----------------------------
--- Table structure for turno_de_guardia
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[turno_de_guardia]') AND type IN ('U'))
-	DROP TABLE [dbo].[turno_de_guardia]
-GO
-
-CREATE TABLE [dbo].[turno_de_guardia] (
-  [persona_asignada] bigint  NOT NULL,
-  [hecho] bit  NULL,
-  [fecha] date  NOT NULL,
-  [horario] bigint  NOT NULL,
-  [borrado] bit DEFAULT 0 NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[turno_de_guardia] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of turno_de_guardia
--- ----------------------------
-
--- ----------------------------
--- Table structure for usuario
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[usuario]') AND type IN ('U'))
-	DROP TABLE [dbo].[usuario]
-GO
-
-CREATE TABLE [dbo].[usuario] (
-  [nombre] nvarchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [contrasenna] nvarchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [rol] nvarchar(50) COLLATE SQL_Latin1_General_CP1_CI_AS  NOT NULL,
-  [id] bigint  IDENTITY(1,1) NOT NULL
-)
-GO
-
-ALTER TABLE [dbo].[usuario] SET (LOCK_ESCALATION = TABLE)
-GO
-
-
--- ----------------------------
--- Records of usuario
--- ----------------------------
-SET IDENTITY_INSERT [dbo].[usuario] ON
-GO
-
-SET IDENTITY_INSERT [dbo].[usuario] OFF
-GO
-
-
--- ----------------------------
--- procedure structure for sp_configuracion_create
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_configuracion_create]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_configuracion_create]
-GO
-
+USE [master]
+GO
+/****** Object:  Database [Gestor_de_Guardias]    Script Date: 04/06/2025 07:58:30 p. m. ******/
+CREATE DATABASE [Gestor_de_Guardias]
+ CONTAINMENT = NONE
+ ON  PRIMARY
+( NAME = N'Gestor_de_Guardias', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\Gestor_de_Guardias.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON
+( NAME = N'Gestor_de_Guardias_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\Gestor_de_Guardias_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Gestor_de_Guardias].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET ANSI_NULL_DEFAULT OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET ANSI_NULLS OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET ANSI_PADDING OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET ANSI_WARNINGS OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET ARITHABORT OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET AUTO_CLOSE OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET AUTO_SHRINK OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET AUTO_UPDATE_STATISTICS ON
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET CURSOR_CLOSE_ON_COMMIT OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET CURSOR_DEFAULT  GLOBAL
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET CONCAT_NULL_YIELDS_NULL OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET NUMERIC_ROUNDABORT OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET QUOTED_IDENTIFIER OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET RECURSIVE_TRIGGERS OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET  DISABLE_BROKER
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET AUTO_UPDATE_STATISTICS_ASYNC OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET DATE_CORRELATION_OPTIMIZATION OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET TRUSTWORTHY OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET ALLOW_SNAPSHOT_ISOLATION OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET PARAMETERIZATION SIMPLE
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET READ_COMMITTED_SNAPSHOT OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET HONOR_BROKER_PRIORITY OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET RECOVERY SIMPLE
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET  MULTI_USER
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET PAGE_VERIFY CHECKSUM
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET DB_CHAINING OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF )
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET TARGET_RECOVERY_TIME = 60 SECONDS
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET DELAYED_DURABILITY = DISABLED
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET ACCELERATED_DATABASE_RECOVERY = OFF
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [Gestor_de_Guardias] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [Gestor_de_Guardias]
+GO
+/****** Object:  User [guardiasadm]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+CREATE USER [guardiasadm] FOR LOGIN [guardiasadm] WITH DEFAULT_SCHEMA=[dbo]
+GO
+ALTER ROLE [db_owner] ADD MEMBER [guardiasadm]
+GO
+/****** Object:  Table [dbo].[configuracion]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[configuracion](
+	[dia_semana] [tinyint] NOT NULL,
+	[dia_es_receso] [bit] NOT NULL,
+	[horario] [bigint] NOT NULL,
+	[tipo_persona] [nvarchar](20) NULL,
+	[sexo] [nchar](1) NULL,
+	[cant_personas] [tinyint] NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[borrado] [bit] NOT NULL,
+ CONSTRAINT [PK_esquema] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[horario]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[horario](
+	[inicio] [time](0) NOT NULL,
+	[fin] [time](0) NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[borrado] [bit] NOT NULL,
+ CONSTRAINT [PK_horario] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[periodo_no_planificable]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[periodo_no_planificable](
+	[inicio] [date] NOT NULL,
+	[fin] [date] NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[borrado] [bit] NULL,
+ CONSTRAINT [PK_periodo_no_planificable] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[persona]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[persona](
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[nombre] [nvarchar](50) NOT NULL,
+	[apellido] [nvarchar](50) NOT NULL,
+	[sexo] [char](1) NOT NULL,
+	[carnet] [nvarchar](11) NOT NULL,
+	[ultima_guardia_hecha] [date] NULL,
+	[guardias_de_recuperacion] [int] NOT NULL,
+	[baja] [date] NULL,
+	[reincorporacion] [date] NULL,
+	[tipo] [nvarchar](20) NOT NULL,
+	[borrado] [bit] NOT NULL,
+ CONSTRAINT [PK_persona] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[rol]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[rol](
+	[nombre] [nvarchar](50) NOT NULL,
+ CONSTRAINT [PK_rol] PRIMARY KEY CLUSTERED
+(
+	[nombre] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tipo_persona]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tipo_persona](
+	[nombre] [nvarchar](20) NOT NULL,
+ CONSTRAINT [PK_tipo_persona] PRIMARY KEY CLUSTERED
+(
+	[nombre] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[turno_de_guardia]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[turno_de_guardia](
+	[persona_asignada] [bigint] NOT NULL,
+	[hecho] [bit] NULL,
+	[fecha] [date] NOT NULL,
+	[horario] [bigint] NOT NULL,
+	[borrado] [bit] NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[usuario]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[usuario](
+	[nombre] [nvarchar](50) NOT NULL,
+	[contrasenna] [nvarchar](50) NOT NULL,
+	[rol] [nvarchar](50) NOT NULL,
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[borrado] [bit] NOT NULL,
+ CONSTRAINT [PK_usuario] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET ANSI_PADDING ON
+GO
+/****** Object:  Index [IX_usuario]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+CREATE UNIQUE NONCLUSTERED INDEX [IX_usuario] ON [dbo].[usuario]
+(
+	[nombre] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[configuracion] ADD  DEFAULT ((1)) FOR [cant_personas]
+GO
+ALTER TABLE [dbo].[configuracion] ADD  DEFAULT ((0)) FOR [borrado]
+GO
+ALTER TABLE [dbo].[horario] ADD  DEFAULT ((0)) FOR [borrado]
+GO
+ALTER TABLE [dbo].[periodo_no_planificable] ADD  CONSTRAINT [DF_periodo_no_planificable_borrado]  DEFAULT ((0)) FOR [borrado]
+GO
+ALTER TABLE [dbo].[persona] ADD  DEFAULT ((0)) FOR [guardias_de_recuperacion]
+GO
+ALTER TABLE [dbo].[persona] ADD  DEFAULT ((0)) FOR [borrado]
+GO
+ALTER TABLE [dbo].[turno_de_guardia] ADD  CONSTRAINT [DF__turno_de___borra__47DBAE45]  DEFAULT ((0)) FOR [borrado]
+GO
+ALTER TABLE [dbo].[usuario] ADD  CONSTRAINT [DF_usuario_borrado]  DEFAULT ((0)) FOR [borrado]
+GO
+ALTER TABLE [dbo].[configuracion]  WITH CHECK ADD  CONSTRAINT [FK_configuracion_horario] FOREIGN KEY([horario])
+REFERENCES [dbo].[horario] ([id])
+GO
+ALTER TABLE [dbo].[configuracion] CHECK CONSTRAINT [FK_configuracion_horario]
+GO
+ALTER TABLE [dbo].[configuracion]  WITH CHECK ADD  CONSTRAINT [FK_configuracion_tipo_persona] FOREIGN KEY([tipo_persona])
+REFERENCES [dbo].[tipo_persona] ([nombre])
+GO
+ALTER TABLE [dbo].[configuracion] CHECK CONSTRAINT [FK_configuracion_tipo_persona]
+GO
+ALTER TABLE [dbo].[persona]  WITH CHECK ADD  CONSTRAINT [FK_persona_tipo_persona] FOREIGN KEY([tipo])
+REFERENCES [dbo].[tipo_persona] ([nombre])
+GO
+ALTER TABLE [dbo].[persona] CHECK CONSTRAINT [FK_persona_tipo_persona]
+GO
+ALTER TABLE [dbo].[turno_de_guardia]  WITH CHECK ADD  CONSTRAINT [FK_turno_de_guardia_horario1] FOREIGN KEY([horario])
+REFERENCES [dbo].[horario] ([id])
+GO
+ALTER TABLE [dbo].[turno_de_guardia] CHECK CONSTRAINT [FK_turno_de_guardia_horario1]
+GO
+ALTER TABLE [dbo].[turno_de_guardia]  WITH CHECK ADD  CONSTRAINT [FK_turno_de_guardia_persona] FOREIGN KEY([persona_asignada])
+REFERENCES [dbo].[persona] ([id])
+GO
+ALTER TABLE [dbo].[turno_de_guardia] CHECK CONSTRAINT [FK_turno_de_guardia_persona]
+GO
+ALTER TABLE [dbo].[usuario]  WITH CHECK ADD  CONSTRAINT [FK_usuario_rol] FOREIGN KEY([rol])
+REFERENCES [dbo].[rol] ([nombre])
+GO
+ALTER TABLE [dbo].[usuario] CHECK CONSTRAINT [FK_usuario_rol]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp_configuracion_create]
     @diaSemana INT,
     @diaEsReceso BIT,
@@ -387,14 +304,12 @@ BEGIN
     INSERT INTO configuracion (dia_semana, dia_es_receso, horario, tipo_persona, sexo, cant_personas)
     VALUES (@diaSemana, @diaEsReceso, @horario, @tipoPersona, @sexo, @cantPersonas);
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_configuracion_delete
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_configuracion_delete]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_configuracion_delete]
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_configuracion_delete]
@@ -416,16 +331,18 @@ BEGIN
 	SET borrado = 1
 	WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_configuracion_get_cant_personas_asignables
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_configuracion_get_cant_personas_asignables]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_configuracion_get_cant_personas_asignables]
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_get_cant_personas_asignables]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
 CREATE PROCEDURE [dbo].[sp_configuracion_get_cant_personas_asignables]
 @horario BIGINT,
 @fecha DATE
@@ -442,13 +359,10 @@ BEGIN
     WHERE dia_semana = DATEPART(WEEkDAY, @fecha) and dia_es_receso = @esReceso
 END
 GO
-
-
--- ----------------------------
--- procedure structure for sp_configuracion_read
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_configuracion_read]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_configuracion_read]
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_configuracion_read]
@@ -457,14 +371,12 @@ BEGIN
     SELECT * FROM configuracion
 	WHERE borrado = 0;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_configuracion_read_by_id
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_configuracion_read_by_id]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_configuracion_read_by_id]
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_read_by_id]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_configuracion_read_by_id]
@@ -475,14 +387,12 @@ BEGIN
     WHERE id = @id
 	AND borrado = 0;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_configuracion_read_by_pk
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_configuracion_read_by_pk]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_configuracion_read_by_pk]
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_read_by_pk]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_configuracion_read_by_pk]
@@ -497,14 +407,12 @@ BEGIN
 	AND dia_es_receso = @dia_es_receso
 	AND borrado = 0;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_configuracion_update
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_configuracion_update]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_configuracion_update]
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_configuracion_update]
@@ -550,16 +458,18 @@ BEGIN
         cant_personas = COALESCE(@cant_personas, cant_personas)
     WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_configuraciones_de_fecha
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_configuraciones_de_fecha]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_configuraciones_de_fecha]
+/****** Object:  StoredProcedure [dbo].[sp_configuraciones_de_fecha]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
 CREATE PROCEDURE [dbo].[sp_configuraciones_de_fecha]
 	@fecha DATE
 AS
@@ -576,20 +486,17 @@ BEGIN
 	WHERE dia_semana = DATEPART(WEEKDAY, @fecha) AND dia_es_receso = @esReceso
 END
 GO
-
-
--- ----------------------------
--- procedure structure for sp_get_turnos_a_partir_de
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_get_turnos_a_partir_de]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_get_turnos_a_partir_de]
+/****** Object:  StoredProcedure [dbo].[sp_get_turnos_a_partir_de]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_get_turnos_a_partir_de]
     @fecha DATE
 AS
 BEGIN
-SELECT TOP 31
+SELECT
         tg.fecha,
         tg.hecho,
         h.id AS horario_id,
@@ -613,14 +520,12 @@ SELECT TOP 31
         MONTH(tg.fecha) = MONTH(@fecha) AND YEAR(tg.fecha) = YEAR(@fecha)
     ORDER BY tg.fecha, h.inicio;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_horario_create
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_horario_create]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_horario_create]
+/****** Object:  StoredProcedure [dbo].[sp_horario_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_horario_create]
@@ -643,14 +548,12 @@ BEGIN
     INSERT INTO horario (inicio, fin)
 		VALUES (@inicio, @fin);
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_horario_delete
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_horario_delete]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_horario_delete]
+/****** Object:  StoredProcedure [dbo].[sp_horario_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_horario_delete]
@@ -682,14 +585,12 @@ BEGIN
 		SET borrado = 1
 		WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_horario_read
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_horario_read]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_horario_read]
+/****** Object:  StoredProcedure [dbo].[sp_horario_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_horario_read]
@@ -699,14 +600,12 @@ BEGIN
 	WHERE borrado = 0
 	ORDER BY inicio asc
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_horario_read_by_id
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_horario_read_by_id]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_horario_read_by_id]
+/****** Object:  StoredProcedure [dbo].[sp_horario_read_by_id]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_horario_read_by_id]
@@ -718,14 +617,12 @@ BEGIN
 	AND borrado = 0
 		ORDER BY inicio asc;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_horario_read_by_pk
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_horario_read_by_pk]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_horario_read_by_pk]
+/****** Object:  StoredProcedure [dbo].[sp_horario_read_by_pk]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_horario_read_by_pk]
@@ -740,14 +637,12 @@ BEGIN
 		ORDER BY inicio asc;
 
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_horario_update
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_horario_update]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_horario_update]
+/****** Object:  StoredProcedure [dbo].[sp_horario_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_horario_update]
@@ -784,16 +679,18 @@ BEGIN
 		fin = @fin
     WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_horarios_de_fecha
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_horarios_de_fecha]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_horarios_de_fecha]
+/****** Object:  StoredProcedure [dbo].[sp_horarios_de_fecha]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
 CREATE PROCEDURE [dbo].[sp_horarios_de_fecha]
 	@fecha DATE
 AS
@@ -813,13 +710,10 @@ c.dia_es_receso = @esReceso
 	ORDER BY inicio asc;
 END
 GO
-
-
--- ----------------------------
--- procedure structure for sp_periodo_no_planificable_count
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_periodo_no_planificable_count]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_periodo_no_planificable_count]
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_count]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_count]
@@ -827,16 +721,13 @@ AS
 BEGIN
 SELECT COUNT(*) FROM periodo_no_planificable
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_periodo_no_planificable_create
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_periodo_no_planificable_create]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_periodo_no_planificable_create]
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_create]
     @inicio date,
     @fin date
@@ -844,14 +735,12 @@ AS
 BEGIN
     INSERT INTO periodo_no_planificable (inicio, fin) VALUES (@inicio, @fin);
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_periodo_no_planificable_delete
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_periodo_no_planificable_delete]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_periodo_no_planificable_delete]
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_delete]
@@ -861,36 +750,35 @@ AS
 BEGIN
     DELETE FROM periodo_no_planificable WHERE inicio = @inicio AND fin = @fin;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_periodo_no_planificable_has_date
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_periodo_no_planificable_has_date]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_periodo_no_planificable_has_date]
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_has_date]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_has_date]
 	@fecha DATE
 AS
 BEGIN
 	SET NOCOUNT ON;
-SELECT IIF(total > 0, 1, 0) as existe 
+SELECT IIF(total > 0, 1, 0) as existe
 FROM (
 	SELECT COUNT(*) as total
-	FROM periodo_no_planificable 
+	FROM periodo_no_planificable
 	WHERE @fecha BETWEEN inicio AND fin
-) as total;
+) as total;
 END
 GO
-
-
--- ----------------------------
--- procedure structure for sp_periodo_no_planificable_in_date
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_periodo_no_planificable_in_date]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_periodo_no_planificable_in_date]
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_in_date]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_in_date]
@@ -901,14 +789,12 @@ BEGIN
 	FROM periodo_no_planificable
 	WHERE @fecha BETWEEN inicio AND fin
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_periodo_no_planificable_read
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_periodo_no_planificable_read]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_periodo_no_planificable_read]
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_read]
@@ -916,14 +802,12 @@ AS
 BEGIN
     SELECT * FROM periodo_no_planificable;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_periodo_no_planificable_read_by_pk
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_periodo_no_planificable_read_by_pk]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_periodo_no_planificable_read_by_pk]
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_read_by_pk]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_read_by_pk]
@@ -933,14 +817,12 @@ AS
 BEGIN
     SELECT * FROM periodo_no_planificable WHERE inicio = @inicio AND fin = @fin;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_periodo_no_planificable_update
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_periodo_no_planificable_update]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_periodo_no_planificable_update]
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_update]
@@ -955,16 +837,13 @@ BEGIN
         fin = @nuevo_fin
     WHERE inicio = @inicio AND fin = @fin;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_count_by_tipo
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_count_by_tipo]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_count_by_tipo]
+/****** Object:  StoredProcedure [dbo].[sp_persona_count_by_tipo]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp_persona_count_by_tipo]
 	@tipo nvarchar(20)
 AS
@@ -974,16 +853,13 @@ BEGIN
 	WHERE tipo = @tipo
 	AND borrado = 0
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_create
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_create]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_create]
+/****** Object:  StoredProcedure [dbo].[sp_persona_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp_persona_create]
     @nombre NVARCHAR(50),
     @apellido NVARCHAR(50),
@@ -1007,14 +883,12 @@ BEGIN
     INSERT INTO persona (nombre, apellido, sexo, carnet, tipo)
 		VALUES (@nombre, @apellido, @sexo, @carnet, @tipo);
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_delete_by_ci
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_delete_by_ci]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_delete_by_ci]
+/****** Object:  StoredProcedure [dbo].[sp_persona_delete_by_ci]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_persona_delete_by_ci]
@@ -1045,14 +919,12 @@ BEGIN
     DELETE FROM persona
 		WHERE LOWER(LTRIM(carnet)) = LOWER(LTRIM(@carnet));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_delete_by_id
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_delete_by_id]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_delete_by_id]
+/****** Object:  StoredProcedure [dbo].[sp_persona_delete_by_id]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_persona_delete_by_id]
@@ -1082,38 +954,37 @@ BEGIN
     DELETE FROM persona
 		WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_get_disponible_para_turno
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_get_disponible_para_turno]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_get_disponible_para_turno]
+/****** Object:  StoredProcedure [dbo].[sp_persona_get_disponible_para_turno]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
 CREATE PROCEDURE [dbo].[sp_persona_get_disponible_para_turno]
 	@fecha DATE,
 	@tipo nvarchar(20),
-	@sexo char(1)
+	@sexo char(1) = null
 	AS
 BEGIN
 	SELECT * FROM persona
 	WHERE(
 	tipo = @tipo AND
-	sexo = @sexo AND
+	(@sexo IS NULL OR sexo = @sexo) AND
 	(@fecha < baja OR baja IS NULL) AND
 	(@fecha > reincorporacion OR reincorporacion IS NULL))
 	ORDER BY guardias_de_recuperacion, apellido, nombre;
 END
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_read
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_read]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_read]
+/****** Object:  StoredProcedure [dbo].[sp_persona_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_persona_read]
@@ -1122,14 +993,12 @@ BEGIN
     SELECT * FROM persona
 	WHERE borrado = 0;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_read_by_baja
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_read_by_baja]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_read_by_baja]
+/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_baja]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_persona_read_by_baja]
@@ -1140,14 +1009,12 @@ BEGIN
     WHERE baja = @baja
 	AND borrado = 0;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_read_by_ci
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_read_by_ci]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_read_by_ci]
+/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_ci]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_persona_read_by_ci]
@@ -1158,14 +1025,12 @@ BEGIN
 	WHERE LOWER(LTRIM(carnet)) = LOWER(LTRIM(@carnet))
 	AND borrado = 0;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_read_by_tipo
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_read_by_tipo]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_read_by_tipo]
+/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_tipo]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_persona_read_by_tipo]
@@ -1176,14 +1041,12 @@ BEGIN
     WHERE LOWER(LTRIM(tipo)) = LOWER(LTRIM(@tipo))
 	AND borrado = 0;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_update
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_update]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_update]
+/****** Object:  StoredProcedure [dbo].[sp_persona_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_persona_update]
@@ -1233,14 +1096,12 @@ BEGIN
         tipo = COALESCE(@tipo, tipo)
     WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_persona_update_baja
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_persona_update_baja]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_persona_update_baja]
+/****** Object:  StoredProcedure [dbo].[sp_persona_update_baja]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_persona_update_baja]
@@ -1263,16 +1124,13 @@ BEGIN
 		SET baja = @baja
 		WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_rol_create
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_rol_create]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_rol_create]
+/****** Object:  StoredProcedure [dbo].[sp_rol_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp_rol_create]
     @nombre nvarchar(50)
 AS
@@ -1291,14 +1149,12 @@ BEGIN
     INSERT INTO rol (nombre)
 		VALUES (LOWER(LTRIM(@nombre)));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_rol_delete
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_rol_delete]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_rol_delete]
+/****** Object:  StoredProcedure [dbo].[sp_rol_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_rol_delete]
@@ -1328,14 +1184,12 @@ BEGIN
     DELETE FROM rol
 	WHERE LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_rol_read
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_rol_read]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_rol_read]
+/****** Object:  StoredProcedure [dbo].[sp_rol_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_rol_read]
@@ -1343,14 +1197,12 @@ AS
 BEGIN
     SELECT * FROM rol;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_rol_read_by_nombre
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_rol_read_by_nombre]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_rol_read_by_nombre]
+/****** Object:  StoredProcedure [dbo].[sp_rol_read_by_nombre]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_rol_read_by_nombre]
@@ -1359,14 +1211,12 @@ AS
 BEGIN
     SELECT * FROM rol WHERE LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_rol_update
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_rol_update]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_rol_update]
+/****** Object:  StoredProcedure [dbo].[sp_rol_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_rol_update]
@@ -1398,16 +1248,13 @@ BEGIN
     SET nombre = LOWER(LTRIM(@nuevo_nombre))
     WHERE LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_tipo_persona_create
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_tipo_persona_create]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_tipo_persona_create]
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp_tipo_persona_create]
     @nombre nvarchar(20)
 AS
@@ -1426,14 +1273,12 @@ BEGIN
     INSERT INTO tipo_persona (nombre)
 		VALUES (LOWER(LTRIM(@nombre)));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_tipo_persona_delete
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_tipo_persona_delete]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_tipo_persona_delete]
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_tipo_persona_delete]
@@ -1470,14 +1315,12 @@ BEGIN
     DELETE tipo_persona
 		WHERE LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_tipo_persona_read
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_tipo_persona_read]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_tipo_persona_read]
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_tipo_persona_read]
@@ -1485,14 +1328,12 @@ AS
 BEGIN
     SELECT * FROM tipo_persona;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_tipo_persona_read_by_nombre
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_tipo_persona_read_by_nombre]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_tipo_persona_read_by_nombre]
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_read_by_nombre]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_tipo_persona_read_by_nombre]
@@ -1502,14 +1343,12 @@ BEGIN
     SELECT * FROM tipo_persona
 	WHERE LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_tipo_persona_update
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_tipo_persona_update]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_tipo_persona_update]
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_tipo_persona_update]
@@ -1541,16 +1380,13 @@ BEGIN
 		SET nombre = LOWER(LTRIM(@nuevo_nombre))
 		WHERE LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_turno_de_guardia_create
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_turno_de_guardia_create]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_turno_de_guardia_create]
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp_turno_de_guardia_create]
     @persona_asignada bigint,
     @fecha date,
@@ -1560,36 +1396,79 @@ BEGIN
     INSERT INTO turno_de_guardia (persona_asignada, fecha, horario)
     VALUES (@persona_asignada, @fecha, @horario);
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_turno_de_guardia_delete
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_turno_de_guardia_delete]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_turno_de_guardia_delete]
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_turno_de_guardia_delete]
-    @persona_asignada bigint,
-    @fecha date,
-    @horario bigint
+    @id BIGINT
 AS
 BEGIN
-    UPDATE turno_de_guardia
-    SET borrado = 1
-    WHERE persona_asignada = @persona_asignada
-      AND fecha = @fecha
-      AND horario = @horario;
+	DECLARE @count int;
+	DECLARE @fecha_turno DATE;
+	    DECLARE @today DATE = GETDATE();
+
+	SET @count = (
+		SELECT COUNT(*)
+		FROM turno_de_guardia
+		WHERE id = @id
+	);
+
+	IF (@count = 0)
+		THROW 51000, 'Turno de guardia inexistente', 1;
+
+	SELECT @fecha_turno = fecha
+    FROM turno_de_guardia
+    WHERE id = @id;
+
+	IF (@fecha_turno < @today)
+			THROW 51000, 'No se pueden borrar turnos de fechas pasadas.', 1;
+
+      UPDATE turno_de_guardia
+		SET borrado = 1
+		WHERE id = @id or fecha > @fecha_turno or fecha = @fecha_turno;
 END
+
+GO
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete_a_partir_de_fecha]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
+CREATE PROCEDURE [dbo].[sp_turno_de_guardia_delete_a_partir_de_fecha]
+    @fecha DATE
+AS
+BEGIN
+	DECLARE @count int;
+	DECLARE @today DATE = GETDATE();
 
--- ----------------------------
--- procedure structure for sp_turno_de_guardia_read
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_turno_de_guardia_read]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_turno_de_guardia_read]
+	SET @count = (
+		SELECT COUNT(*)
+		FROM turno_de_guardia
+		WHERE fecha = @fecha
+	);
+
+	IF (@count = 0)
+		THROW 51000, 'No hay turnos de guardia en esta fecha.', 1;
+
+	IF (@fecha < @today)
+			THROW 51000, 'No se pueden borrar turnos de fechas pasadas.', 1;
+
+      UPDATE turno_de_guardia
+		SET borrado = 1
+		WHERE fecha > @fecha or fecha = @fecha;
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_turno_de_guardia_read]
@@ -1616,16 +1495,15 @@ BEGIN
     FROM turno_de_guardia tg
     JOIN persona p ON tg.persona_asignada = p.id
     JOIN horario h ON tg.horario = h.id
+    WHERE tg.borrado = 0
     ORDER BY tg.fecha, h.inicio;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_turno_de_guardia_read_by_pk
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_turno_de_guardia_read_by_pk]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_turno_de_guardia_read_by_pk]
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read_by_pk]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_turno_de_guardia_read_by_pk]
@@ -1657,39 +1535,56 @@ BEGIN
     WHERE tg.fecha = @fecha AND tg.horario = @horario
     ORDER BY tg.fecha, h.inicio;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_turno_de_guardia_update
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_turno_de_guardia_update]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_turno_de_guardia_update]
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_turno_de_guardia_update]
+    @id BIGINT,
     @persona_asignada bigint,
     @fecha date,
     @horario bigint,
     @hecho bit
 AS
 BEGIN
+	DECLARE @count int;
+
+	SET @count = (
+		SELECT COUNT(*)
+		FROM turno_de_guardia
+		WHERE id = @id
+	);
+    IF (@count = 0)
+		THROW 51000, 'Turno de guardia inexistente', 1
+
+	SET @count = (
+		SELECT COUNT(*)
+		FROM turno_de_guardia
+		WHERE fecha = @fecha
+		AND horario = @horario
+		AND id <> @id
+	);
+
+	IF (@count > 0)
+		THROW 51000, 'Turno de guardia existente', 1
+
     UPDATE turno_de_guardia
     SET hecho = @hecho
     WHERE persona_asignada = @persona_asignada
       AND fecha = @fecha
       AND horario = @horario;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_usuario_create
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_usuario_create]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_usuario_create]
+/****** Object:  StoredProcedure [dbo].[sp_usuario_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
 GO
-
+SET QUOTED_IDENTIFIER ON
+GO
 CREATE PROCEDURE [dbo].[sp_usuario_create]
     @nombre nvarchar(50),
     @contrasenna nvarchar(50),
@@ -1710,14 +1605,12 @@ BEGIN
 	INSERT INTO usuario (nombre, contrasenna, rol)
 	    VALUES (@nombre, @contrasenna, LOWER(LTRIM(@rol)));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_usuario_delete
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_usuario_delete]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_usuario_delete]
+/****** Object:  StoredProcedure [dbo].[sp_usuario_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_usuario_delete]
@@ -1738,14 +1631,12 @@ BEGIN
     DELETE FROM usuario
 	WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_usuario_read
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_usuario_read]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_usuario_read]
+/****** Object:  StoredProcedure [dbo].[sp_usuario_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_usuario_read]
@@ -1753,14 +1644,12 @@ AS
 BEGIN
     SELECT * FROM usuario;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_usuario_read_by_id
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_usuario_read_by_id]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_usuario_read_by_id]
+/****** Object:  StoredProcedure [dbo].[sp_usuario_read_by_id]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_usuario_read_by_id]
@@ -1769,14 +1658,12 @@ AS
 BEGIN
     SELECT * FROM usuario WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_usuario_read_by_nombre
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_usuario_read_by_nombre]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_usuario_read_by_nombre]
+/****** Object:  StoredProcedure [dbo].[sp_usuario_read_by_nombre]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_usuario_read_by_nombre]
@@ -1786,14 +1673,12 @@ BEGIN
     SELECT * FROM usuario
 	WHERE LOWER(LTRIM(nombre)) = LOWER(LTRIM(@nombre));
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_usuario_update
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_usuario_update]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_usuario_update]
+/****** Object:  StoredProcedure [dbo].[sp_usuario_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[sp_usuario_update]
@@ -1830,158 +1715,9 @@ BEGIN
         rol = LOWER(LTRIM(@rol))
     WHERE id = @id;
 END
+
 GO
-
-
--- ----------------------------
--- procedure structure for sp_turno_de_guardia_delete_mes
--- ----------------------------
-IF EXISTS (SELECT * FROM sys.all_objects WHERE object_id = OBJECT_ID(N'[dbo].[sp_turno_de_guardia_delete_mes]') AND type IN ('P', 'PC', 'RF', 'X'))
-	DROP PROCEDURE[dbo].[sp_turno_de_guardia_delete_mes]
+USE [master]
 GO
-
-CREATE PROCEDURE [dbo].[sp_turno_de_guardia_delete_mes]
-    @fecha DATE
-AS
-BEGIN
-    UPDATE turno_de_guardia
-    SET borrado = 1
-    WHERE MONTH(fecha) = MONTH(@fecha)
-      AND YEAR(fecha) = YEAR(@fecha);
-END
+ALTER DATABASE [Gestor_de_Guardias] SET  READ_WRITE
 GO
-
-
--- ----------------------------
--- Auto increment value for configuracion
--- ----------------------------
-DBCC CHECKIDENT ('[dbo].[configuracion]', RESEED, 27)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table configuracion
--- ----------------------------
-ALTER TABLE [dbo].[configuracion] ADD CONSTRAINT [PK_esquema] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Auto increment value for horario
--- ----------------------------
-DBCC CHECKIDENT ('[dbo].[horario]', RESEED, 4)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table horario
--- ----------------------------
-ALTER TABLE [dbo].[horario] ADD CONSTRAINT [PK_horario] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table periodo_no_planificable
--- ----------------------------
-ALTER TABLE [dbo].[periodo_no_planificable] ADD CONSTRAINT [PK_periodo_no_planificable] PRIMARY KEY CLUSTERED ([inicio], [fin])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Auto increment value for persona
--- ----------------------------
-DBCC CHECKIDENT ('[dbo].[persona]', RESEED, 14)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table persona
--- ----------------------------
-ALTER TABLE [dbo].[persona] ADD CONSTRAINT [PK_persona] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table rol
--- ----------------------------
-ALTER TABLE [dbo].[rol] ADD CONSTRAINT [PK_rol] PRIMARY KEY CLUSTERED ([nombre])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table tipo_persona
--- ----------------------------
-ALTER TABLE [dbo].[tipo_persona] ADD CONSTRAINT [PK_tipo_persona] PRIMARY KEY CLUSTERED ([nombre])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Primary Key structure for table turno_de_guardia
--- ----------------------------
-ALTER TABLE [dbo].[turno_de_guardia] ADD CONSTRAINT [PK_turno_de_guardia] PRIMARY KEY CLUSTERED ([fecha], [horario])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Auto increment value for usuario
--- ----------------------------
-DBCC CHECKIDENT ('[dbo].[usuario]', RESEED, 1)
-GO
-
-
--- ----------------------------
--- Primary Key structure for table usuario
--- ----------------------------
-ALTER TABLE [dbo].[usuario] ADD CONSTRAINT [PK_usuario] PRIMARY KEY CLUSTERED ([id])
-WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON)  
-ON [PRIMARY]
-GO
-
-
--- ----------------------------
--- Foreign Keys structure for table configuracion
--- ----------------------------
-ALTER TABLE [dbo].[configuracion] ADD CONSTRAINT [FK_configuracion_horario] FOREIGN KEY ([horario]) REFERENCES [dbo].[horario] ([id]) ON DELETE NO ACTION ON UPDATE NO ACTION
-GO
-
-ALTER TABLE [dbo].[configuracion] ADD CONSTRAINT [FK_configuracion_tipo_persona] FOREIGN KEY ([tipo_persona]) REFERENCES [dbo].[tipo_persona] ([nombre]) ON DELETE NO ACTION ON UPDATE NO ACTION
-GO
-
-
--- ----------------------------
--- Foreign Keys structure for table persona
--- ----------------------------
-ALTER TABLE [dbo].[persona] ADD CONSTRAINT [FK_persona_tipo_persona] FOREIGN KEY ([tipo]) REFERENCES [dbo].[tipo_persona] ([nombre]) ON DELETE NO ACTION ON UPDATE NO ACTION
-GO
-
-
--- ----------------------------
--- Foreign Keys structure for table turno_de_guardia
--- ----------------------------
-ALTER TABLE [dbo].[turno_de_guardia] ADD CONSTRAINT [FK_turno_de_guardia_horario1] FOREIGN KEY ([horario]) REFERENCES [dbo].[horario] ([id]) ON DELETE NO ACTION ON UPDATE NO ACTION
-GO
-
-ALTER TABLE [dbo].[turno_de_guardia] ADD CONSTRAINT [FK_turno_de_guardia_persona] FOREIGN KEY ([persona_asignada]) REFERENCES [dbo].[persona] ([id]) ON DELETE NO ACTION ON UPDATE NO ACTION
-GO
-
-
--- ----------------------------
--- Foreign Keys structure for table usuario
--- ----------------------------
-ALTER TABLE [dbo].[usuario] ADD CONSTRAINT [FK_usuario_rol] FOREIGN KEY ([rol]) REFERENCES [dbo].[rol] ([nombre]) ON DELETE NO ACTION ON UPDATE NO ACTION
-GO
-

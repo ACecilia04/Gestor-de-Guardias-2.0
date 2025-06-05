@@ -9,6 +9,7 @@ public class TurnoDeGuardia {
     private
     Boolean hecho;
     private LocalDate fecha;
+    private Long id;
 
 
     public TurnoDeGuardia(LocalDate fecha, Horario horario, ArrayList<Persona> personasAsignadas) {
@@ -59,6 +60,7 @@ public class TurnoDeGuardia {
     public Boolean getCumplimiento() {
         return hecho;
     }
+    public Long getId(){return id;}
 
     public void asignarPersona(Persona personaAsignada) {
         personasAsignadas.add(personaAsignada);
@@ -79,6 +81,8 @@ public class TurnoDeGuardia {
     public void setHecho(Boolean hecho) {
         this.hecho = hecho;
     }
+
+    public void setId(Long id){this.id = id;}
 
 
 //    public List<Persona> getPersonasAsignadas() { return personasAsignadas; }

@@ -38,17 +38,20 @@ public class TurnoDeGuardiaServices {
     }
 
     // UPDATE
-    public void updateTurnoDeGuardia(Long horarioId, LocalDate fecha, long personaAsignada, Boolean hecho) throws SqlServerCustomException {
-        baseDao.spUpdate("sp_turno_de_guardia_update(?, ?, ?, ?)", horarioId, fecha, personaAsignada, hecho);
+    public void updateTurnoDeGuardia(Long turnoId,Long horarioId, LocalDate fecha, long personaAsignada, Boolean hecho) throws SqlServerCustomException {
+        baseDao.spUpdate("sp_turno_de_guardia_update(?, ?, ?, ?, ?)", turnoId, horarioId, fecha, personaAsignada, hecho);
     }
 
     // DELETE
-    public void deleteTurnoDeGuardia(Long horarioId, LocalDate fecha) throws SqlServerCustomException {
-        baseDao.spUpdate("sp_turno_de_guardia_delete(?, ?)", horarioId, fecha);
+    public void deleteTurnosDeGuardiaAPartirDe(Long turnoId) throws SqlServerCustomException {
+
+        baseDao.spUpdate("sp_turno_de_guardia_delete(?)", turnoId);
     }
 
-    public void deleteTurnosDeGuardia(LocalDate fecha) throws SqlServerCustomException {
-        baseDao.spUpdate("sp_turno_de_guardia_delete_mes(?)", fecha);
+    public void deleteTurnosDeGuardiaAPartirDe(LocalDate fecha) throws SqlServerCustomException {
+        if(fecha.isBefore(LocalDate.now()))
+            throw new IllegalArgumentException("No se puden borrar turnos de fechas pasadas.");
+        baseDao.spUpdate("sp_turno_de_guardia_delete_a_partir_de(?)", fecha);
     }
 
     public void guardarTurnos(ArrayList<DiaGuardia> dias) {
@@ -71,7 +74,7 @@ public class TurnoDeGuardiaServices {
                     } catch (Exception e) {
                         // Si falla por clave duplicada, intenta actualizar en su lugar
                         try {
-                            updateTurnoDeGuardia(horarioId,fecha,persona.getId(), turno.getCumplimiento());
+                            updateTurnoDeGuardia(turno.getId(), horarioId,fecha,persona.getId(), turno.getCumplimiento());
 
                         } catch (Exception ex) {
                             throw new RuntimeException("Error al actualizar el turno: " + turno, ex);
@@ -91,7 +94,8 @@ public class TurnoDeGuardiaServices {
         public TurnoDeGuardia mapRow(ResultSet rs, int rowNum) throws SQLException {
             TurnoDeGuardia turno = new TurnoDeGuardia();
             turno.setFecha(rs.getDate("fecha").toLocalDate());
-            turno.setHecho(rs.getObject("hecho", Boolean.class));
+            turno.setHecho(rs.getBoolean("hecho"));
+            turno.setId(rs.getLong("id"));
 
             Horario horario = new Horario();
             horario.setId(rs.getLong("horario_id"));
