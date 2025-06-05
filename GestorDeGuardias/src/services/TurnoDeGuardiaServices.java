@@ -28,7 +28,7 @@ public class TurnoDeGuardiaServices {
     public void insertTurnoDeGuardia(TurnoDeGuardia record) throws SqlServerCustomException, MultiplesErroresException {
         validarTurnoDeGuardia(record);
 
-        baseDao.spUpdate("sp_turno_de_guardia_create(?, ?, ?, ?)",
+        baseDao.spUpdate("sp_turno_de_guardia_create(?, ?, ?)",
                 record.getPersonaAsignada().getId(),
                 record.getFecha(),
                 record.getHorario().getId()
@@ -40,7 +40,7 @@ public class TurnoDeGuardiaServices {
         return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_turno_de_guardia_read", new TurnoDeGuardiaMapper());
     }
     public ArrayList<TurnoDeGuardia> getTurnosAPartirDe(LocalDate fecha) {
-        return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_turno_de_guardia_read_a_partir_de(?)", new TurnoDeGuardiaMapper(), fecha);
+        return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_turno_de_guardia_read_a_partir_de_fecha(?)", new TurnoDeGuardiaMapper(), fecha);
     }
 
     // READ by primary key

@@ -76,6 +76,7 @@ public class Ventana extends JFrame {
                 //******************************************************************************************************************
                 setVisible(false);
                 login = new Login(overlayPanel);
+                if (login.getUsuarioLogueado() == null) System.exit(0);
                 setVisible(true);
             }
         });
