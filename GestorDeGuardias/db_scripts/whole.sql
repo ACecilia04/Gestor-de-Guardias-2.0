@@ -1559,6 +1559,7 @@ BEGIN
        tg.*
     FROM turno_de_guardia tg
     WHERE tg.id = @id
+    AND borrado = 0
     ORDER BY tg.fecha;
 END
 
@@ -1603,7 +1604,7 @@ BEGIN
     UPDATE turno_de_guardia
     SET hecho = @hecho,
         persona_asignada = @persona_asignada,
-        fecha = @fecha
+        fecha = @fecha,
         horario = @horario
     WHERE id = @id;
 END
