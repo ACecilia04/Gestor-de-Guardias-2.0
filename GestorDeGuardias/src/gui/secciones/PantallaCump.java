@@ -3,6 +3,7 @@ package gui.secciones;
 import gui.internosComp.PanelOpcionesArchivar;
 import gui.internosComp.TablaArchivar;
 import model.DiaGuardia;
+import services.ServicesLocator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,6 +32,7 @@ public class PantallaCump extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (tabla != null) {
                     tabla.setCumplimiento(0);
+                    tabla.actualizarVistaTabla();
                 }
             }
         });
@@ -41,6 +43,7 @@ public class PantallaCump extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (tabla != null) {
                     tabla.setCumplimiento(1);
+                    tabla.actualizarVistaTabla();
                 }
             }
         });
@@ -50,10 +53,18 @@ public class PantallaCump extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if (tabla != null) {
                     tabla.setCumplimiento(2);
+                    tabla.actualizarVistaTabla();
                 }
             }
         });
 
+        tablaOpciones.getBotonGuardar().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO AÑADIR FUNCIONALIDAD
+                ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarCumpTurnos(getTabla().getDias());
+            }
+        });
     }
 
     public TablaArchivar getTabla() {
@@ -70,6 +81,7 @@ public class PantallaCump extends JPanel {
         this.tabla = new TablaArchivar(auxDim, Color.WHITE, diasAux);
 
         this.add(tabla, BorderLayout.CENTER);
+        this.tabla.actualizarVistaTabla();
 
         revalidate();
         repaint();

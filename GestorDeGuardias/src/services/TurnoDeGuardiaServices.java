@@ -54,6 +54,26 @@ public class TurnoDeGuardiaServices {
         baseDao.spUpdate("sp_turno_de_guardia_delete_a_partir_de_fecha(?)", fecha);
     }
 
+    public void guardarCumpTurnos(ArrayList<DiaGuardia> dias) {
+        for (DiaGuardia dia : dias) {
+            ArrayList<TurnoDeGuardia> turnos = dia.getTurnos();
+            if (turnos == null) continue;
+            for (TurnoDeGuardia turno : turnos) {
+                Long horarioId = turno.getHorario().getId();
+                ArrayList<Persona> personasAsignadas = turno.getPersonasAsignadas();
+                LocalDate fecha = turno.getFecha();
+                for (Persona persona : personasAsignadas) {
+                        try {
+                            updateTurnoDeGuardia(turno.getId(), horarioId,fecha,persona.getId(), turno.getCumplimiento());
+
+                        } catch (Exception ex) {
+                            throw new RuntimeException("Error al actualizar el turno: " + turno, ex);
+                        }
+                }
+            }
+        }
+    }
+
     public void guardarTurnos(ArrayList<DiaGuardia> dias) {
         for (DiaGuardia dia : dias) {
             ArrayList<TurnoDeGuardia> turnos = dia.getTurnos();
