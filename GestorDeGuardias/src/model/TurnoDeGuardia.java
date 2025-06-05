@@ -77,8 +77,4 @@ public class TurnoDeGuardia {
 
     public void setId(Long id){this.id = id;}
 
-    public void setPersonaAsignada(Persona p) {
-        personasAsignadas.add(p);
-    }
-
 }

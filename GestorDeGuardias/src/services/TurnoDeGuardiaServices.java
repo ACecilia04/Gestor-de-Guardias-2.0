@@ -110,6 +110,7 @@ public class TurnoDeGuardiaServices {
             p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
             p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
             p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
+            turno.asignarPersona(p);
 
             return turno;
         }

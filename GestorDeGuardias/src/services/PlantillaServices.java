@@ -6,10 +6,7 @@ import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PlantillaServices {
     ServicesLocator sl;
@@ -121,7 +118,10 @@ public class PlantillaServices {
             for (TurnoDeGuardia turno : dia.getTurnos()) {
                 while (turno.getPersonasAsignadas().size() < configuracionServices.getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha())) {
                     personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
-                    asignarPersona(dia, turno.getHorario(), personasDisponibles.getFirst());
+                    if(!personasDisponibles.isEmpty()) {
+                        asignarPersona(dia, turno.getHorario(), personasDisponibles.getFirst());
+                        System.out.println("in");
+                    }
                 }
             }
         }
@@ -133,8 +133,7 @@ public class PlantillaServices {
     }
 
     public ArrayList<DiaGuardia> agruparPorDia(List<TurnoDeGuardia> turnos) {
-        Map<LocalDate, ArrayList<TurnoDeGuardia>> mapa = new HashMap<>();
-
+        Map<LocalDate, ArrayList<TurnoDeGuardia>> mapa = new LinkedHashMap<>();
         for (TurnoDeGuardia turno : turnos) {
             LocalDate fecha = turno.getFecha();
             mapa.computeIfAbsent(fecha, k -> new ArrayList<>()).add(turno);
