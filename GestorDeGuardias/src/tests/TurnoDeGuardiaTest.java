@@ -350,38 +350,38 @@ public class TurnoDeGuardiaTest {
         assertNotNull(record2);
     }
 
-//    @Test
-//    public void insert_get_delete_success() {
-//        Horario horario = horarioServices.getHorarioById(1L);
-//        LocalDate fecha = null;
-//        Persona personaAsignada = personaServices.getPersonaById(1L);
-//        TurnoDeGuardia nuevoRecord = new TurnoDeGuardia(fecha, horario, personaAsignada);
-//        try {
-//            horarioServices.insertHorario(nuevoRecord);
-//        } catch (MultiplesErroresException | SqlServerCustomException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        Horario record = horarioServices.getHorarioByPk(inicio, fin);
-//        assertNotNull(record);
-//
-//        LocalTime nuevoInicio = LocalTime.of(12, 0, 0);
-//        record.setInicio(nuevoInicio);
-//        try {
-//            horarioServices.updateHorario(record);
-//        } catch (SqlServerCustomException | MultiplesErroresException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        record = horarioServices.getHorarioById(record.getId());
-//        assertEquals(nuevoInicio, record.getInicio());
-//
-//        try {
-//            horarioServices.deleteHorario(record.getId());
-//        } catch (SqlServerCustomException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        record = horarioServices.getHorarioById(record.getId());
-//        assertNull(record);
-//    }
+    @Test
+    public void insert_get_delete_success() {
+        Horario horario = horarioServices.getHorarioById(1L);
+        LocalDate fecha = LocalDate.now();
+        Persona personaAsignada = personaServices.getPersonaById(3L);
+        TurnoDeGuardia nuevoRecord = new TurnoDeGuardia(fecha, horario, personaAsignada);
+        try {
+            turnoDeGuardiaServices.insertTurnoDeGuardia(nuevoRecord);
+        } catch (MultiplesErroresException | SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        TurnoDeGuardia record = turnoDeGuardiaServices.getTurnoDeGuardiaByPk(horario.getId(), fecha, personaAsignada.getId());
+        assertNotNull(record);
+
+        Horario nuevoHorario = horarioServices.getHorarioById(2L);
+        record.setHorario(nuevoHorario);
+        try {
+            turnoDeGuardiaServices.updateTurnoDeGuardia(record);
+        } catch (SqlServerCustomException | MultiplesErroresException e) {
+            System.out.println(e.getMessage());
+        }
+        record = turnoDeGuardiaServices.getTurnoDeGuardiaById(record.getId());
+        assertEquals(nuevoHorario.getId(), record.getHorario().getId());
+
+        try {
+            turnoDeGuardiaServices.deleteTurnoDeGuardia(record.getId());
+        } catch (SqlServerCustomException e) {
+            System.out.println(e.getMessage());
+        }
+        record = turnoDeGuardiaServices.getTurnoDeGuardiaById(record.getId());
+        assertNull(record);
+    }
 
     @Test
     public void getAll_success() {
