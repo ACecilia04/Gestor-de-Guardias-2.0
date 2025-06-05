@@ -150,4 +150,20 @@ public class PlantillaServices {
         return agruparPorDia(turnoDeGuardiaServices.getAllTurnosDeGuardia());
     }
 
+    public ArrayList<DiaGuardia> getDiasPorActualizarCumplimiento() throws EntradaInvalidaException {
+        ArrayList<DiaGuardia> planDeGuardias = getPlanDeGuardias();
+        ArrayList<DiaGuardia> diasPorActualizar = new ArrayList<DiaGuardia>();
+        int i = 0;
+        if (planDeGuardias.isEmpty())
+            throw new EntradaInvalidaException("No hay guardias planificadas.");
+
+        while (planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
+            DiaGuardia dia = planDeGuardias.get(i);
+            if (!(dia.getTurnosPorActualizar().isEmpty()))
+                diasPorActualizar.add(dia);
+            i++;
+        }
+        return diasPorActualizar;
+
+    }
 }

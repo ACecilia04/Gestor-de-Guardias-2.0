@@ -6,6 +6,7 @@ import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import model.DiaGuardia;
 import services.Gestor;
+import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
@@ -76,7 +77,7 @@ public class AsistenciaPlanif extends JPanel {
         panelInterior.removeAll();
         ArrayList<DiaGuardia> dias;
         try {
-            dias = Gestor.getInstance().getDiasPorActualizarCumplimiento();
+            dias = ServicesLocator.getInstance().getPlantillaServices().getDiasPorActualizarCumplimiento();
             panelInterior.setLayout(layout);
 
             HashSet<String> mesesArchivables = new HashSet<>();
@@ -142,7 +143,7 @@ public class AsistenciaPlanif extends JPanel {
 
             ArrayList<DiaGuardia> dias = new ArrayList<>();
             try {
-                dias = Gestor.getInstance().getDiasPorActualizarCumplimiento();
+                dias = ServicesLocator.getInstance().getPlantillaServices().getDiasPorActualizarCumplimiento();
             } catch (EntradaInvalidaException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
