@@ -46,15 +46,16 @@ public class PanelTurnoArch extends PanelTurno{
         if(turno.getCumplimiento() != null){
             if(turno.getCumplimiento()){
                 cumplido.setSelected(true);
+                turno.actualizarCumplimiento(true);
             } if(!turno.getCumplimiento()){
                 noCumplido.setSelected(true);
+                turno.actualizarCumplimiento(false);
             }
         }
 
         cumplido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                turno.actualizarCumplimiento(true);
                 try {
                     ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
                 } catch (SqlServerCustomException ex) {

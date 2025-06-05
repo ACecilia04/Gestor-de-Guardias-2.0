@@ -19,6 +19,7 @@ public class PanelOpcionesArchivar extends JPanel {
     private final Boton botonCump;
     private final Boton botonCump2;
     private final Boton reiniciar;
+    private final Boton botonGuardar; // <--- NUEVO
 
     public PanelOpcionesArchivar(Dimension dim) {
         setPreferredSize(dim);
@@ -43,7 +44,6 @@ public class PanelOpcionesArchivar extends JPanel {
         botonCump2.setColorPresionado(paleta.getColorCaracteristico());
         botonCump2.setColorLetraPres(Color.WHITE);
 
-
         reiniciar = new Boton("Reiniciar");
 
         reiniciar.setNuevoSize(dimBoton);
@@ -51,6 +51,12 @@ public class PanelOpcionesArchivar extends JPanel {
         reiniciar.setColorPresionado(paleta.getColorCaracteristico());
         reiniciar.setColorLetraPres(Color.WHITE);
 
+        botonGuardar = new Boton("Guardar");  // <--- NUEVO
+
+        botonGuardar.setNuevoSize(dimBoton);
+        botonGuardar.setColorFondo(paleta.getColorCasillaTabla());
+        botonGuardar.setColorPresionado(paleta.getColorCaracteristico());
+        botonGuardar.setColorLetraPres(Color.WHITE);
 
         int x = (panel3.getPreferredSize().width - dimBoton.getSize().width) / 2;
         int y = (panel3.getPreferredSize().height - dimBoton.getSize().height) / 2;
@@ -61,10 +67,13 @@ public class PanelOpcionesArchivar extends JPanel {
         botonCump.setLocation(x, y);
         y += botonCump.getHeight() + 20;
         botonCump2.setLocation(x, y);
+        y += botonCump2.getHeight() + 20;
+        botonGuardar.setLocation(x, y); // <--- NUEVO
 
         panel3.add(botonCump);
         panel3.add(botonCump2);
         panel3.add(reiniciar);
+        panel3.add(botonGuardar); // <--- NUEVO
 
         this.add(panel3, BorderLayout.CENTER);
         //Bordes
@@ -73,20 +82,19 @@ public class PanelOpcionesArchivar extends JPanel {
         setBorder(border);
     }
 
-
     public Boton getBotonCump() {
         return botonCump;
     }
-
 
     public Boton getBotonCump2() {
         return botonCump2;
     }
 
-
     public Boton getReiniciar() {
         return reiniciar;
     }
 
-
+    public Boton getBotonGuardar() {
+        return botonGuardar;
+    }
 }

@@ -7,6 +7,9 @@ import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import model.DiaGuardia;
+import model.TurnoDeGuardia;
+import services.ServicesLocator;
+import utils.dao.SqlServerCustomException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -179,16 +182,27 @@ public class TablaArchivar extends Cuadro implements IsTabla {
                                 a1.getTurno().actualizarCumplimiento(null);
                                 break;
                             case 1:
-
+                                TurnoDeGuardia turno = a1.getTurno();
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getCumplido().setSelected(true);
                                     a1.getTurno().actualizarCumplimiento(true);
+                                    try {
+                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
+                                    } catch (SqlServerCustomException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
                                 }
                                 break;
                             case 2:
+                                 turno = a1.getTurno();
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getNoCumplido().setSelected(true);
                                     a1.getTurno().actualizarCumplimiento(false);
+                                    try {
+                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
+                                    } catch (SqlServerCustomException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
                                 }
                                 break;
                         }
