@@ -121,7 +121,8 @@ public class MostrarPlanif extends JPanel {
                     try {
                         ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardiaAPartirDe(getSeleccionado().getFechaInicio());
                     } catch (SqlServerCustomException ex) {
-                        throw new RuntimeException(ex);
+                        String errorMsg = "<html><p>Ocurrió un error:<br>" + ex.getMessage() + "</p></html>";
+                        new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", errorMsg, "Aceptar");
                     }
                     actualizarPlanif();
                     getSeleccionado().setSeleccionado(false);

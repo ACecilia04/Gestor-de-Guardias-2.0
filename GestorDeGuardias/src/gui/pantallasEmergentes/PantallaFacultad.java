@@ -184,7 +184,7 @@ public class PantallaFacultad extends JDialog {
         panelSup.setPreferredSize(new Dimension(panelFac.getSize().width, 100));
         panelSup.setBackground(panelFac.getBackground());
 
-        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Informacion de Facultad : " + "INGENIERIA INFORMATICA");
+        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Informacion de Facultad : " + "INGENIERIA INFORMATICA  ");
 
         titulo.setLocation(20, 20);
         panelSup.add(titulo);
@@ -197,14 +197,14 @@ public class PantallaFacultad extends JDialog {
         int sepEtiq = 20;
 
         String aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().
-                getPersonaCountByTipo("Estudiante"));
-        Etiqueta cantE = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Estudiantes :  " + aux);
+                getPersonaCountByTipo("Estudiante  "));
+        Etiqueta cantE = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Estudiantes : " + aux + "       ");
         cantE.setLocation(x, y);
         y += cantE.getHeight() + sepEtiq;
         content.add(cantE);
 
-        aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().getPersonaCountByTipo("Trabajador"));
-        Etiqueta cantT = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Trabajadores :  " + aux);
+        aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().getPersonaCountByTipo("Trabajador  "));
+        Etiqueta cantT = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Trabajadores :  " + aux +  "       ");
         cantT.setLocation(x, y);
         y += cantT.getHeight() + sepEtiq;
         content.add(cantT);
@@ -242,7 +242,7 @@ public class PantallaFacultad extends JDialog {
 
         ArrayList<PeriodoNoPlanificable> recesos = ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getAllPeriodosNoPlanificables();
         String aux = Integer.toString(recesos.size());
-        final Etiqueta cantERec = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Recesos :  " + aux);
+        final Etiqueta cantERec = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Recesos :  " + aux + "         ");
         cantERec.setLocation(x, y);
         y += cantERec.getHeight() + sepEtiq;
         content.add(cantERec);

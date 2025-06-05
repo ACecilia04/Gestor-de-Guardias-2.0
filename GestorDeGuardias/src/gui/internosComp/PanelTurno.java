@@ -218,25 +218,10 @@ public class PanelTurno extends Cuadro implements Actualizable {
 
     public void actualizar() {
         ArrayList<Persona> aux = turno.getPersonasAsignadas();
-        if (aux != null && !aux.isEmpty()) {
-            StringBuilder nombres = new StringBuilder();
-            StringBuilder apellidos = new StringBuilder();
-            StringBuilder carnets = new StringBuilder();
-
-            for (Persona persona : aux) {
-                if (!nombres.isEmpty()) {
-                    nombres.append(", ");
-                    apellidos.append(", ");
-                    carnets.append(", ");
-                }
-                nombres.append(persona.getNombre());
-                apellidos.append(persona.getApellido());
-                carnets.append(persona.getCarnet());
-            }
-
-            nombre.setText(nombres.toString());
-            apellido.setText(apellidos.toString());
-            ID.setText(carnets.toString());
+        if (!aux.isEmpty()) {
+            nombre.setText(aux.getFirst().getNombre());
+            apellido.setText(aux.getFirst().getApellido());
+            ID.setText(aux.getFirst().getCarnet());
             revalidate();
             repaint();
         }

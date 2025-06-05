@@ -51,7 +51,7 @@ public class TurnoDeGuardiaServices {
     public void deleteTurnosDeGuardiaAPartirDe(LocalDate fecha) throws SqlServerCustomException {
         if(fecha.isBefore(LocalDate.now()))
             throw new IllegalArgumentException("No se puden borrar turnos de fechas pasadas.");
-        baseDao.spUpdate("sp_turno_de_guardia_delete_a_partir_de(?)", fecha);
+        baseDao.spUpdate("sp_turno_de_guardia_delete_a_partir_de_fecha(?)", fecha);
     }
 
     public void guardarTurnos(ArrayList<DiaGuardia> dias) {
@@ -85,16 +85,12 @@ public class TurnoDeGuardiaServices {
         }
     }
 
-
-    // Internal Mapper
     public static class TurnoDeGuardiaMapper implements RowMapper<TurnoDeGuardia> {
-        //TODO: check if personaMapper can be used in TurnoDeGuardiaMapper
-
         @Override
         public TurnoDeGuardia mapRow(ResultSet rs, int rowNum) throws SQLException {
             TurnoDeGuardia turno = new TurnoDeGuardia();
             turno.setFecha(rs.getDate("fecha").toLocalDate());
-            turno.setHecho(rs.getBoolean("hecho"));
+            turno.setHecho(rs.getObject("hecho") != null ? rs.getBoolean("hecho") : null);
             turno.setId(rs.getLong("id"));
 
             Horario horario = new Horario();
@@ -103,24 +99,22 @@ public class TurnoDeGuardiaServices {
             horario.setFin(rs.getTime("fin").toLocalTime());
             turno.setHorario(horario);
 
+            Persona p = new Persona();
+            p.setId(rs.getLong("persona_id"));
+            p.setNombre(rs.getString("nombre"));
+            p.setApellido(rs.getString("apellido"));
+            p.setSexo(rs.getString("sexo"));
+            p.setCarnet(rs.getString("carnet"));
+            p.setTipo(new TipoPersona(rs.getString("tipo")));
+            p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
+            p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
+            p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
+            p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
+
             ArrayList<Persona> personas = new ArrayList<>();
-            do {
-                Persona p = new Persona();
-
-                p.setId(rs.getLong("persona_id"));
-                p.setNombre(rs.getString("nombre"));
-                p.setApellido(rs.getString("apellido"));
-                p.setSexo(rs.getString("sexo"));
-                p.setCarnet(rs.getString("carnet"));
-                p.setTipo(new TipoPersona(rs.getString("tipo")));
-                p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
-                p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
-                p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
-                p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
-                personas.add(p);
-            } while (rs.next());
-
+            personas.add(p);
             turno.setPersonasAsignadas(personas);
+
             return turno;
         }
     }

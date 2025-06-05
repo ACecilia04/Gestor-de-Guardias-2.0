@@ -1,6 +1,5 @@
 package services;
 
-import logica.principal.EsquemaGuardia;
 import model.*;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
@@ -11,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static utils.Utilitarios.quickSort;
 
 public class PlantillaServices {
     ServicesLocator sl;
