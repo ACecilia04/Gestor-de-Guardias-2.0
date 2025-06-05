@@ -6,6 +6,7 @@ import model.DiaGuardia;
 import model.TurnoDeGuardia;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
+import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,7 +59,7 @@ public class PanelTurnoArch extends PanelTurno{
             public void actionPerformed(ActionEvent e) {
                 try {
                     ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno);
-                } catch (SqlServerCustomException ex) {
+                } catch (SqlServerCustomException | MultiplesErroresException ex) {
                     throw new RuntimeException(ex);
                 }
 
@@ -71,7 +72,7 @@ public class PanelTurnoArch extends PanelTurno{
                 turno.actualizarCumplimiento(false);
                 try {
                     ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno);
-                } catch (SqlServerCustomException ex) {
+                } catch (SqlServerCustomException | MultiplesErroresException ex) {
                     throw new RuntimeException(ex);
                 }
             }

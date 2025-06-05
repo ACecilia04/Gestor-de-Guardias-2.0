@@ -1,14 +1,20 @@
 package services;
 
-import model.*;
+import model.DiaGuardia;
+import model.Horario;
+import model.Persona;
+import model.TurnoDeGuardia;
 import utils.dao.MainBaseDao;
 import utils.dao.SqlServerCustomException;
 import utils.dao.mappers.RowMapper;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TurnoDeGuardiaServices {
 
@@ -19,7 +25,9 @@ public class TurnoDeGuardiaServices {
     }
 
     // CREATE
-    public void insertTurnoDeGuardia(TurnoDeGuardia record) throws SqlServerCustomException {
+    public void insertTurnoDeGuardia(TurnoDeGuardia record) throws SqlServerCustomException, MultiplesErroresException {
+        validarTurnoDeGuardia(record);
+
         baseDao.spUpdate("sp_turno_de_guardia_create(?, ?, ?, ?)",
                 record.getPersonaAsignada().getId(),
                 record.getFecha(),
@@ -41,7 +49,9 @@ public class TurnoDeGuardiaServices {
     }
 
     // UPDATE
-    public void updateTurnoDeGuardia(TurnoDeGuardia record) throws SqlServerCustomException {
+    public void updateTurnoDeGuardia(TurnoDeGuardia record) throws SqlServerCustomException, MultiplesErroresException {
+        validarTurnoDeGuardia(record);
+
         baseDao.spUpdate("sp_turno_de_guardia_update(?, ?, ?, ?, ?)",
                 record.getId(),
                 record.getHorario().getId(),
@@ -56,9 +66,12 @@ public class TurnoDeGuardiaServices {
         baseDao.spUpdate("sp_turno_de_guardia_delete(?)", turnoId);
     }
 
-    public void deleteTurnosDeGuardiaAPartirDe(LocalDate fecha) throws SqlServerCustomException {
+    public void deleteTurnosDeGuardiaAPartirDe(LocalDate fecha) throws SqlServerCustomException, EntradaInvalidaException {
+        if (fecha == null)
+            throw new EntradaInvalidaException("Fecha no especificada.");
+
         if (fecha.isBefore(LocalDate.now()))
-            throw new IllegalArgumentException("No se pueden borrar turnos de fechas pasadas.");
+            throw new EntradaInvalidaException("No se pueden borrar turnos de fechas pasadas.");
 
         baseDao.spUpdate("sp_turno_de_guardia_delete_a_partir_de_fecha(?)", fecha);
     }
@@ -73,7 +86,7 @@ public class TurnoDeGuardiaServices {
                     try {
                         turno.setPersonaAsignada(persona);
                         updateTurnoDeGuardia(turno);
-                    } catch (SqlServerCustomException ex) {
+                    } catch (SqlServerCustomException | MultiplesErroresException ex) {
                         throw new RuntimeException("Error al actualizar el turno: " + turno, ex);
                     }
                 }
@@ -90,11 +103,11 @@ public class TurnoDeGuardiaServices {
                     turno.setPersonaAsignada(persona);
                     try {
                         insertTurnoDeGuardia(turno);
-                    } catch (SqlServerCustomException e) {
+                    } catch (SqlServerCustomException | MultiplesErroresException e) {
                         // Si falla por clave duplicada, intenta actualizar en su lugar
                         try {
                             updateTurnoDeGuardia(turno);
-                        } catch (SqlServerCustomException ex) {
+                        } catch (SqlServerCustomException | MultiplesErroresException ex) {
                             throw new RuntimeException("Error al actualizar el turno: " + turno, ex);
                         }
                     }
@@ -104,6 +117,10 @@ public class TurnoDeGuardiaServices {
     }
 
     public static class TurnoDeGuardiaMapper implements RowMapper<TurnoDeGuardia> {
+
+        private static HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
+        private static PersonaServices personaServices = ServicesLocator.getInstance().getPersonaServices();
+
         @Override
         public TurnoDeGuardia mapRow(ResultSet rs, int rowNum) throws SQLException {
             TurnoDeGuardia turno = new TurnoDeGuardia();
@@ -112,26 +129,28 @@ public class TurnoDeGuardiaServices {
             turno.setFecha(rs.getDate("fecha") == null ? null : rs.getDate("fecha").toLocalDate());
             turno.setHecho(rs.getBoolean("hecho"));
 
-            Horario horario = new Horario();
-            horario.setId(rs.getLong("horario_id"));
-            horario.setInicio(rs.getTime("inicio").toLocalTime());
-            horario.setFin(rs.getTime("fin").toLocalTime());
+            Horario horario = horarioServices.getHorarioById(rs.getLong("horario"));
             turno.setHorario(horario);
 
-            Persona p = new Persona();
-            p.setId(rs.getLong("persona_id"));
-            p.setNombre(rs.getString("nombre"));
-            p.setApellido(rs.getString("apellido"));
-            p.setSexo(rs.getString("sexo"));
-            p.setCarnet(rs.getString("carnet"));
-            p.setTipo(new TipoPersona(rs.getString("tipo")));
-            p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
-            p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
-            p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
-            p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
+            Persona p = personaServices.getPersonaById(rs.getLong("persona_asignada"));
             turno.asignarPersona(p);
 
             return turno;
         }
+    }
+
+    // ==============   VALIDACIONES   ==========================================
+    private void validarTurnoDeGuardia(TurnoDeGuardia record) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        if (record.getFecha() == null)
+            errores.add("Fecha no especificada.");
+        if (record.getHorario() == null)
+            errores.add("Horario no especificado.");
+        if (record.getPersonaAsignada() == null)
+            errores.add("Persona no especificada.");
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Turno de guardia con datos erróneos:", errores);
     }
 }

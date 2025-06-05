@@ -11,6 +11,7 @@ import model.DiaGuardia;
 import services.ReporteServices;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
+import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -120,7 +121,7 @@ public class MostrarPlanif extends JPanel {
                 if (!advertencia.getEleccion()) {
                     try {
                         ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardiaAPartirDe(getSeleccionado().getFechaInicio());
-                    } catch (SqlServerCustomException ex) {
+                    } catch (SqlServerCustomException | EntradaInvalidaException ex) {
                         String errorMsg = "<html><p>Ocurrió un error:<br>" + ex.getMessage() + "</p></html>";
                         new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", errorMsg, "Aceptar");
                         throw new RuntimeException(ex);
