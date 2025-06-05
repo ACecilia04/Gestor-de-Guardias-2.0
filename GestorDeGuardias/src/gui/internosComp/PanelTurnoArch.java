@@ -16,21 +16,14 @@ public class PanelTurnoArch extends PanelTurno{
     private CustomRadioButton cumplido, noCumplido;
     private ButtonGroup radioGrupo;
 
-    public PanelTurnoArch(int ancho, Color color, final TurnoDeGuardia turno,  DiaGuardia fecha, final Actualizable act) {
-        super(ancho,color,turno,fecha, act);
-        if(this.getSize().width -1000> 150){
-            LayoutManager layout = this.getLayout();
+    public PanelTurnoArch(int ancho, Color color, final TurnoDeGuardia turno, DiaGuardia fecha, final Actualizable act) {
+        super(ancho, color, turno, fecha, act);
+        LayoutManager layout = this.getLayout();
 
-            if (layout instanceof FlowLayout) {
-                FlowLayout flowLayout = (FlowLayout) layout;
+        if (layout instanceof FlowLayout flowLayout) {
+            if (this.getSize().width - 1000 > 150) {
                 flowLayout.setHgap(30);
-            }
-
-        } else {
-            LayoutManager layout = this.getLayout();
-
-            if (layout instanceof FlowLayout) {
-                FlowLayout flowLayout = (FlowLayout) layout;
+            } else {
                 flowLayout.setHgap(10);
             }
         }
