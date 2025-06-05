@@ -7,6 +7,8 @@ import gui.componentes.Cuadro;
 import gui.componentes.CustomPopupMenu;
 import gui.componentes.Etiqueta;
 import model.DiaGuardia;
+import model.TurnoDeGuardia;
+import services.ServicesLocator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -198,9 +200,11 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
     }
 
     protected int getAncho() {
-        int ancho = largoComun;
-      for (int i = 0; i < dia.getTurnos().size(); i++)
-            ancho = (int) (ancho * 1.5);
+        int ancho = 0;
+//ahora son lo mismo xq se asigna 1 persona por turno, luego cambiará
+//        for(TurnoDeGuardia turno : dia.getTurnos())
+//                ancho += ServicesLocator.getInstance().getConfiguracionServices().getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha()) * largoComun;
+            ancho += dia.getTurnos().size() * largoComun;
 
         return ancho;
     }

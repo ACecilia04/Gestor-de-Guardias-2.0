@@ -141,6 +141,7 @@ public class PantallaFacultad extends JDialog {
                 mostrarPanel("panel1");
             }
         });
+
         Boton botonRecesos = new Boton("Admin Recesos");
         botonRecesos.addActionListener(new ActionListener() {
             @Override
@@ -223,7 +224,7 @@ public class PantallaFacultad extends JDialog {
         panelSup.setPreferredSize(new Dimension(panelFac.getSize().width, 100));
         panelSup.setBackground(panelFac.getBackground());
 
-        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Administracion de RECESOS DOCENTES");
+        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Administracion de días no planificables");
 
         titulo.setLocation(20, 20);
         panelSup.add(titulo);
@@ -248,7 +249,7 @@ public class PantallaFacultad extends JDialog {
         content.add(cantERec);
 
         String[] recesosNombre = new String[recesos.size()];
-        if (recesos.size() > 0) {
+        if (!recesos.isEmpty()) {
             for (int i = 0; i < recesos.size(); i++) {
                 //TODO: aqui habia un .getnombre
                 recesosNombre[i] = recesos.get(i).toString();
@@ -320,10 +321,14 @@ public class PantallaFacultad extends JDialog {
                     PeriodoNoPlanificableServices pnpService = ServicesLocator.getInstance().getPeriodoNoPlanificableServices();
                     LocalDate fechaAux2 = Gestor.getInstance().getFacultad().buscarRecesoDocente(comboRec.getEleccion()).getInicio();
                     try {
+                        PeriodoNoPlanificable indicado = pnpService.getPeriodoEnFecha(fechaAux2);
+                        pnpService.deletePeriodoNoPlanificable(indicado.getInicio(), indicado.getFin());
                         Gestor.getInstance().getFacultad().eliminarRecesoDocente(fechaAux2);
                     } catch (EntradaInvalidaException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
+                    } catch (SqlServerCustomException ex) {
+                        throw new RuntimeException(ex);
                     }
 
                     cantERec.setText("Cantidad de periodos no planificables :  " + pnpService.countPeriodoNoPlanificable());
@@ -361,7 +366,7 @@ public class PantallaFacultad extends JDialog {
 
         Boton atras = new Boton();
         atras.setSelectLetra(true);
-        atras.addIcono("/iconos/Estrella.png");
+        atras.addIcono("/iconos/FlechaAtras.png");
         atras.setColorIcono(paleta.getColorCaracteristico());
         atras.setColorIconoPres(paleta.getColorCaracteristico().darker());
         atras.setLocation(x, 20);
@@ -381,17 +386,17 @@ public class PantallaFacultad extends JDialog {
         int y2 = 80;
         x = 25;
 
-        Dimension dimTextF = new Dimension(200, 40);
-        final CustomTextField nombre = new CustomTextField(dimTextF, "Nombre identif", 30, paleta.getColorFondo());
-        nombre.setLocation(x, y2);
-        y2 += dimTextF.height + sep2 + 10;
-        panelCrear.add(nombre);
+//        Dimension dimTextF = new Dimension(200, 40);
+//        final CustomTextField nombre = new CustomTextField(dimTextF, "Nombre identif", 30, paleta.getColorFondo());
+//        nombre.setLocation(x, y2);
+//        y2 += dimTextF.height + sep2 + 10;
+//        panelCrear.add(nombre);
 
-        final Etiqueta vacio1 = new Etiqueta(fuenteE, paleta.getColorLetraMenu(), "Campo sin Rellenar");
-        vacio1.setForeground(Color.RED);
-        vacio1.setLocation(25, nombre.getLocation().y - vacio1.getSize().height - 5);
-        panelCrear.add(vacio1);
-        vacio1.setVisible(false);
+//        final Etiqueta vacio1 = new Etiqueta(fuenteE, paleta.getColorLetraMenu(), "Campo sin Rellenar");
+//        vacio1.setForeground(Color.RED);
+//        vacio1.setLocation(25, nombre.getLocation().y - vacio1.getSize().height - 5);
+//        panelCrear.add(vacio1);
+//        vacio1.setVisible(false);
 
 
         //Zona1
@@ -407,7 +412,7 @@ public class PantallaFacultad extends JDialog {
 
         final CustomTextField dia = new CustomTextField(new Dimension(50, 40), "", 2, paleta.getColorFondo(), 3, 3);
         dia.soloNumeros(true);
-        Etiqueta diaE = new Etiqueta(fuente2, paleta.getColorLetraMenu(), "Dia");
+        Etiqueta diaE = new Etiqueta(fuente2, paleta.getColorLetraMenu(), "Día");
         diaE.setLocation(x, yE);
         dia.setLocation(x, y2);
         x += dia.getWidth() + sep2;
@@ -421,14 +426,14 @@ public class PantallaFacultad extends JDialog {
 
         final CustomTextField agno = new CustomTextField(new Dimension(80, 40), "", 4, paleta.getColorFondo(), 3, 3);
         agno.soloNumeros(true);
-        Etiqueta agnoE = new Etiqueta(fuente2, paleta.getColorLetraMenu(), "A�o");
+        Etiqueta agnoE = new Etiqueta(fuente2, paleta.getColorLetraMenu(), "Año");
         agnoE.setLocation(x, yE);
         agno.setLocation(x, y2);
         x += agno.getWidth() + sep2;
 
         Boton cal = new Boton();
         cal.setSelectLetra(true);
-        cal.addIcono("/iconos/Estrella.png");
+        cal.addIcono("/iconos/Calendar.png");
         cal.setColorIcono(paleta.getColorCaracteristico());
         cal.setColorIconoPres(paleta.getColorCaracteristico().darker());
         cal.setLocation(x, y2);
@@ -491,7 +496,7 @@ public class PantallaFacultad extends JDialog {
 
         final CustomTextField dia2 = new CustomTextField(new Dimension(50, 40), "", 2, paleta.getColorFondo(), 3, 3);
         dia2.soloNumeros(true);
-        Etiqueta diaE2 = new Etiqueta(fuente2, paleta.getColorLetraMenu(), "Dia");
+        Etiqueta diaE2 = new Etiqueta(fuente2, paleta.getColorLetraMenu(), "Día");
         diaE2.setLocation(x, yE);
         dia2.setLocation(x, y2);
         x += dia2.getWidth() + sep2;
@@ -505,14 +510,14 @@ public class PantallaFacultad extends JDialog {
 
         final CustomTextField agno2 = new CustomTextField(new Dimension(80, 40), "", 4, paleta.getColorFondo(), 3, 3);
         agno2.soloNumeros(true);
-        Etiqueta agnoE2 = new Etiqueta(fuente2, paleta.getColorLetraMenu(), "A�o");
+        Etiqueta agnoE2 = new Etiqueta(fuente2, paleta.getColorLetraMenu(), "Año");
         agnoE2.setLocation(x, yE);
         agno2.setLocation(x, y2);
         x += agno2.getWidth() + sep2;
 
         Boton cal2 = new Boton();
         cal2.setSelectLetra(true);
-        cal2.addIcono("/iconos/Estrella.png");
+        cal2.addIcono("/iconos/Calendar.png");
         cal2.setColorIcono(paleta.getColorCaracteristico());
         cal2.setColorIconoPres(paleta.getColorCaracteristico().darker());
         cal2.setLocation(x, y2);
@@ -559,7 +564,7 @@ public class PantallaFacultad extends JDialog {
         panelCrear.add(agno2);
 
 
-        Boton annadir = new Boton("A�adir Receso");
+        Boton annadir = new Boton("Añadir Receso");
         annadir.setColorFondo(paleta.getColorCasillaTabla());
         annadir.setColorPresionado(paleta.getColorCaracteristico());
         annadir.setColorLetra(paleta.getColorLetraMenu());
@@ -580,7 +585,7 @@ public class PantallaFacultad extends JDialog {
 //                    correcto = false;
 //                }
 //                if (correcto) {
-                    vacio1.setVisible(false);
+//                    vacio1.setVisible(false);
                     LocalDate fechaInicio = LocalDate.of(Integer.parseInt(agno.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
                     LocalDate fechaFinal = LocalDate.of(Integer.parseInt(agno2.getText()), Integer.parseInt(mes2.getText()), Integer.parseInt(dia2.getText()));
                     try {
@@ -593,7 +598,7 @@ public class PantallaFacultad extends JDialog {
                         CardLayout cardLayout = (CardLayout) contentVacio.getLayout();
                         cardLayout.show(contentVacio, "panelMini1");
 
-                        nombre.getTextField().setText("");
+//                        nombre.getTextField().setText("");
                         repaint();
                         revalidate();
                     } catch (SqlServerCustomException e1) {

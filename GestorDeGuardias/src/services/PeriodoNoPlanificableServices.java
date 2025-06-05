@@ -55,6 +55,8 @@ public class PeriodoNoPlanificableServices {
     public Boolean fechaEsNoPlanificable(LocalDate fecha){
             return baseDao.spQuerySingleObject("sp_periodo_no_planificable_has_date(?)", new BooleanMapper("existe"), fecha);
     }
+
+
     // Internal Mapper
     private static class PeriodoNoPlanificableMapper implements RowMapper<PeriodoNoPlanificable> {
         @Override
