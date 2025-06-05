@@ -66,7 +66,7 @@ public class Boton extends JPanel implements Actualizable {
      * Este es para Iconos sin texto
      */
     public Boton() {
-       this("");
+        this("");
     }
 
     //Lo que hago por amor al arte...
@@ -92,6 +92,8 @@ public class Boton extends JPanel implements Actualizable {
         adaptador = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                // Solo responde si está habilitado y seleccionable
+                if (!isEnabled() || !seleccionable) return;
                 if (actionListener != null) {
                     actionListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Button clicked"));
                 }
@@ -99,14 +101,26 @@ public class Boton extends JPanel implements Actualizable {
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                if (!isEnabled() || !seleccionable) return;
                 select = true;
                 repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                if (!isEnabled() || !seleccionable) return;
                 select = false;
                 repaint();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (!isEnabled() || !seleccionable) return;
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (!isEnabled() || !seleccionable) return;
             }
         };
         addMouseListener(adaptador);
@@ -182,74 +196,76 @@ public class Boton extends JPanel implements Actualizable {
         this.setSize(getPreferredSize());
     }
 
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        if (!seleccionable) {
+        // Se muestra gris si está deshabilitado o no seleccionable
+        if (!isEnabled() || !seleccionable) {
             g2.setColor(colorFondoBlock);
             etiqueta.setForeground(colorLetraBlock);
             etiqueta.setBackground(colorFondoBlock);
             g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+
             ImageIcon icono = (ImageIcon) etiqueta.getIcon();
             if (icono != null) {
                 BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIconoBlock);
                 etiqueta.setIcon(new ImageIcon(coloredImage));
             }
             g2.dispose();
-        } else {
-            if (!selecLetra) {
-
-                if (bordeado) {
-                    if (!select) {
-                        g2.setColor(colorBordeado);
-                        g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
-                        g2.setColor(colorFondo);
-                        g2.fillRoundRect(grosorBorde, grosorBorde, getWidth() - grosorBorde - 3, getHeight() - grosorBorde - 3, redondez, redondez);
-                        etiqueta.setForeground(colorLetra);
-                        g2.dispose();
-
-                    } else {
-                        g2.setColor(colorPresionado);
-                        g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
-                        etiqueta.setForeground(Color.WHITE);
-                        g2.dispose();
-                    }
-                } else {
-                    if (!select) {
-                        g2.setColor(colorFondo);
-                        etiqueta.setForeground(colorLetra);
-                    } else {
-                        g2.setColor(colorPresionado);
-                        etiqueta.setForeground(colorLetraPres);
-                    }
-                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
-                    g2.dispose();
-                }
-                etiqueta.setBackground(select ? colorPresionado : colorFondo);
-            } else {
-                g2.setColor(colorFondo);
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
-                g2.dispose();
-
-                etiqueta.setBackground(colorFondo);
-
-                if (!select) {
-                    etiqueta.setForeground(colorLetra);
-                    ImageIcon icono = (ImageIcon) etiqueta.getIcon();
-                    BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIcono);
-                    etiqueta.setIcon(new ImageIcon(coloredImage));
-                } else {
-                    etiqueta.setForeground(colorLetraPres);
-                    ImageIcon icono = (ImageIcon) etiqueta.getIcon();
-                    BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIconoPres);
-                    etiqueta.setIcon(new ImageIcon(coloredImage));
-                }
-            }
+            return;
         }
 
+        // El resto igual que antes, pero ahora solo para botones habilitados y seleccionables
+        if (!selecLetra) {
+            if (bordeado) {
+                if (!select) {
+                    g2.setColor(colorBordeado);
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+                    g2.setColor(colorFondo);
+                    g2.fillRoundRect(grosorBorde, grosorBorde, getWidth() - grosorBorde - 3, getHeight() - grosorBorde - 3, redondez, redondez);
+                    etiqueta.setForeground(colorLetra);
+                    g2.dispose();
 
+                } else {
+                    g2.setColor(colorPresionado);
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+                    etiqueta.setForeground(Color.WHITE);
+                    g2.dispose();
+                }
+            } else {
+                if (!select) {
+                    g2.setColor(colorFondo);
+                    etiqueta.setForeground(colorLetra);
+                } else {
+                    g2.setColor(colorPresionado);
+                    etiqueta.setForeground(colorLetraPres);
+                }
+                g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+                g2.dispose();
+            }
+            etiqueta.setBackground(select ? colorPresionado : colorFondo);
+        } else {
+            g2.setColor(colorFondo);
+            g2.fillRoundRect(0, 0, getWidth(), getHeight(), redondez, redondez);
+            g2.dispose();
+
+            etiqueta.setBackground(colorFondo);
+
+            if (!select) {
+                etiqueta.setForeground(colorLetra);
+                ImageIcon icono = (ImageIcon) etiqueta.getIcon();
+                BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIcono);
+                etiqueta.setIcon(new ImageIcon(coloredImage));
+            } else {
+                etiqueta.setForeground(colorLetraPres);
+                ImageIcon icono = (ImageIcon) etiqueta.getIcon();
+                BufferedImage coloredImage = changeIconColor(icono.getImage(), colorIconoPres);
+                etiqueta.setIcon(new ImageIcon(coloredImage));
+            }
+        }
     }
 
     public void addActionListener(ActionListener listener) {
@@ -356,13 +372,12 @@ public class Boton extends JPanel implements Actualizable {
 
     public void setSeleccionable(boolean seleccionable) {
         if (seleccionable) {
-            addMouseListener(adaptador);
             setCursor(new Cursor(Cursor.HAND_CURSOR));
         } else {
-            this.removeMouseListener(adaptador);
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
         this.seleccionable = seleccionable;
+        repaint();
     }
 
     @Override
@@ -408,5 +423,17 @@ public class Boton extends JPanel implements Actualizable {
         colorPresionado = colorFondo.darker();
         repaint();
         revalidate();
+    }
+
+    // Si el botón está deshabilitado (setEnabled(false)) también cambia el cursor
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (!enabled) {
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        } else if (seleccionable) {
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
+        repaint();
     }
 }
