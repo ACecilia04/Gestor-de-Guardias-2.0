@@ -670,6 +670,7 @@ BEGIN
 		FROM horario
 		WHERE inicio = @inicio
 		AND fin = @fin
+		AND borrado = 0
 		AND id <> @id
 	);
 
