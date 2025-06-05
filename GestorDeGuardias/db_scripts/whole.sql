@@ -273,7 +273,9 @@ REFERENCES [dbo].[rol] ([nombre])
 GO
 ALTER TABLE [dbo].[usuario] CHECK CONSTRAINT [FK_usuario_rol]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_configuracion_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+USE [Gestor_de_Guardias]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -306,7 +308,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_configuracion_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_delete]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -333,7 +335,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_configuracion_get_cant_personas_asignables]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_get_cant_personas_asignables]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -359,7 +361,7 @@ BEGIN
     WHERE dia_semana = DATEPART(WEEkDAY, @fecha) and dia_es_receso = @esReceso
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_configuracion_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -373,7 +375,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_configuracion_read_by_id]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_read_by_id]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -389,7 +391,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_configuracion_read_by_pk]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_read_by_pk]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -409,7 +411,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_configuracion_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_configuracion_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -460,7 +462,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_configuraciones_de_fecha]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_configuraciones_de_fecha]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -486,7 +488,7 @@ BEGIN
 	WHERE dia_semana = DATEPART(WEEKDAY, @fecha) AND dia_es_receso = @esReceso
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_get_turnos_a_partir_de]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_get_turnos_a_partir_de]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -499,6 +501,7 @@ BEGIN
 SELECT
         tg.fecha,
         tg.hecho,
+        tg.id,
         h.id AS horario_id,
         h.inicio,
         h.fin,
@@ -522,7 +525,7 @@ SELECT
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_horario_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_horario_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -550,7 +553,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_horario_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_horario_delete]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -587,7 +590,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_horario_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_horario_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -602,7 +605,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_horario_read_by_id]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_horario_read_by_id]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -619,7 +622,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_horario_read_by_pk]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_horario_read_by_pk]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -639,7 +642,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_horario_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_horario_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -681,7 +684,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_horarios_de_fecha]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_horarios_de_fecha]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -710,7 +713,7 @@ c.dia_es_receso = @esReceso
 	ORDER BY inicio asc;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_count]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_count]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -723,7 +726,7 @@ SELECT COUNT(*) FROM periodo_no_planificable
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -737,7 +740,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_delete]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -752,7 +755,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_has_date]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_has_date]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -775,7 +778,7 @@ FROM (
 ) as total;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_in_date]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_in_date]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -791,7 +794,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -804,7 +807,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_read_by_pk]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_read_by_pk]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -819,7 +822,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -839,7 +842,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_count_by_tipo]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_count_by_tipo]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -855,7 +858,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -885,7 +888,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_delete_by_ci]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_delete_by_ci]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -921,7 +924,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_delete_by_id]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_delete_by_id]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -956,7 +959,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_get_disponible_para_turno]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_get_disponible_para_turno]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -981,7 +984,7 @@ BEGIN
 	ORDER BY guardias_de_recuperacion, apellido, nombre;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -995,7 +998,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_baja]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_baja]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1011,7 +1014,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_ci]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_ci]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1027,7 +1030,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_tipo]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_tipo]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1043,7 +1046,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1098,7 +1101,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_persona_update_baja]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_persona_update_baja]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1126,7 +1129,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_rol_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_rol_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1151,7 +1154,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_rol_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_rol_delete]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1186,7 +1189,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_rol_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_rol_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1199,7 +1202,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_rol_read_by_nombre]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_rol_read_by_nombre]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1213,7 +1216,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_rol_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_rol_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1250,7 +1253,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1275,7 +1278,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_delete]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1317,7 +1320,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1330,7 +1333,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_read_by_nombre]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_read_by_nombre]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1345,7 +1348,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_tipo_persona_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1382,7 +1385,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1398,7 +1401,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1434,7 +1437,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete_a_partir_de_fecha]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete_a_partir_de_fecha]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1465,7 +1468,7 @@ BEGIN
 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1477,6 +1480,7 @@ BEGIN
     SELECT
        tg.fecha,
        tg.hecho,
+       tg.id,
        h.id AS horario_id,
        h.inicio,
        h.fin,
@@ -1500,7 +1504,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read_by_pk]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read_by_pk]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1514,6 +1518,7 @@ BEGIN
     SELECT
        tg.fecha,
        tg.hecho,
+       tg.id,
        h.id AS horario_id,
        h.inicio,
        h.fin,
@@ -1537,7 +1542,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1580,7 +1585,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_usuario_create]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_usuario_create]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1607,7 +1612,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_usuario_delete]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_usuario_delete]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1633,7 +1638,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_usuario_read]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_usuario_read]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1646,7 +1651,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_usuario_read_by_id]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_usuario_read_by_id]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1660,7 +1665,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_usuario_read_by_nombre]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_usuario_read_by_nombre]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1675,7 +1680,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[sp_usuario_update]    Script Date: 04/06/2025 07:58:31 p. m. ******/
+/****** Object:  StoredProcedure [dbo].[sp_usuario_update]    Script Date: 04/06/2025 09:45:17 p. m. ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1715,8 +1720,8 @@ BEGIN
         rol = LOWER(LTRIM(@rol))
     WHERE id = @id;
 END
-
 GO
+
 USE [master]
 GO
 ALTER DATABASE [Gestor_de_Guardias] SET  READ_WRITE
