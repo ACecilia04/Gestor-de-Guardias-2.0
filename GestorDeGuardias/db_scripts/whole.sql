@@ -1420,6 +1420,7 @@ BEGIN
 		WHERE fecha = @fecha
 		AND horario = @horario
 		AND persona_asignada = @persona_asignada
+		AND borrado = 0
 	);
 
 	IF (@count > 0)
@@ -1428,7 +1429,6 @@ BEGIN
     INSERT INTO turno_de_guardia (persona_asignada, fecha, horario)
 	    VALUES (@persona_asignada, @fecha, @horario);
 END
-
 
 GO
 /****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_delete]    Script Date: 05/06/2025 1:12:41 pm ******/
@@ -1442,8 +1442,6 @@ CREATE PROCEDURE [dbo].[sp_turno_de_guardia_delete]
 AS
 BEGIN
 	DECLARE @count int;
-	DECLARE @fecha_turno DATE;
-	    DECLARE @today DATE = GETDATE();
 
 	SET @count = (
 		SELECT COUNT(*)
@@ -1454,16 +1452,9 @@ BEGIN
 	IF (@count = 0)
 		THROW 51000, 'Turno de guardia inexistente', 1;
 
-	SELECT @fecha_turno = fecha
-    FROM turno_de_guardia
-    WHERE id = @id;
-
-	IF (@fecha_turno < @today)
-			THROW 51000, 'No se pueden borrar turnos de fechas pasadas.', 1;
-
       UPDATE turno_de_guardia
-		SET borrado = 1
-		WHERE id = @id or fecha > @fecha_turno or fecha = @fecha_turno;
+        SET borrado = 1
+        WHERE id = @id;
 END
 
 GO
@@ -1549,6 +1540,7 @@ BEGIN
     WHERE tg.fecha = @fecha
     AND tg.horario = @horario
     AND tg.persona_asignada = @persona_asignada
+    AND tg.borrado = 0
     ORDER BY tg.fecha;
 END
 
@@ -1600,6 +1592,8 @@ BEGIN
 		FROM turno_de_guardia
 		WHERE fecha = @fecha
 		AND horario = @horario
+		AND persona_asignada = @persona_asignada
+		AND borrado = 0
 		AND id <> @id
 	);
 
@@ -1607,10 +1601,11 @@ BEGIN
 		THROW 51000, 'Turno de guardia existente', 1
 
     UPDATE turno_de_guardia
-    SET hecho = @hecho
-    WHERE persona_asignada = @persona_asignada
-      AND fecha = @fecha
-      AND horario = @horario;
+    SET hecho = @hecho,
+        persona_asignada = @persona_asignada,
+        fecha = @fecha
+        horario = @horario
+    WHERE id = @id;
 END
 
 GO

@@ -49,7 +49,7 @@ public class TurnoDeGuardiaServices {
     }
 
     // READ by id
-    public TurnoDeGuardia getTurnoDeGuardiaByPk(Long id) {
+    public TurnoDeGuardia getTurnoDeGuardiaById(Long id) {
         return baseDao.spQuerySingleObject("sp_turno_de_guardia_read_by_id(?)", new TurnoDeGuardiaMapper(), id);
     }
 
@@ -138,7 +138,7 @@ public class TurnoDeGuardiaServices {
             turno.setHorario(horario);
 
             Persona p = personaServices.getPersonaById(rs.getLong("persona_asignada"));
-            turno.asignarPersona(p);
+            turno.setPersonaAsignada(p);
 
             return turno;
         }
