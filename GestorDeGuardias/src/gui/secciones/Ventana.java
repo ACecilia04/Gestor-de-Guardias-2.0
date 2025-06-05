@@ -26,36 +26,26 @@ public class Ventana extends JFrame {
     public static final Dimension SIZE_VENTANA = new Dimension(1200, 700);
     private static final long serialVersionUID = 1L;
     private static Ventana ventana;
-    //Demora en aparecer el panel de inicio
     final int delayInSeconds = 2;
     private final Paleta paleta;
-    //Paneles para layouts
     private final JPanel contReal;
-    private final JPanel zonaInferior; //Inferior
-    //Pedazos de informacion
-    private final BarraSuperior barraSup;
-    private final Menu menu;
-    //Auxiliar
+    private final JPanel zonaInferior;
+    private BarraSuperior barraSup;
+    private Menu menu;
     private JPanel contentPane;
     private JPanel panelVacio;
-    //Fondo negro
     private Cuadro overlayPanel;
-    //Paneles de cambio
     private JPanel panel1;
-//    private JPanel panel5;
-//    private JPanel panel2;
     private AddPlanif panelAddPlanif;
     private PantallaEstudiantes pantallaEstudiantes;
     private PantallaTrabajadores pantallaTrabajadores;
     private MostrarPlanif pantallaPlanif;
     private AsistenciaPlanif pantallaArchivar;
     private PantallaCump pantallaCump;
-
     private PantallaFacultad pantallaFacultad;
     @SuppressWarnings("unused")
     private Login login;
     private PantallaAddPersona pantallaAddPersona;
-    //Fechas para iniciar la tabla
     private LocalDate inicio;
     private int distX;
     private int distY;
@@ -66,17 +56,20 @@ public class Ventana extends JFrame {
     private Ventana() {
         paleta = new Paleta();
         servicesLocator = ServicesLocator.getInstance();
-
-        //Caracteristicas de la ventana
         inicializarCaractVentana();
-        // Crear un temporizador para mostrar el JDialog despu�s de un retraso
+
         Timer timer = new Timer(delayInSeconds * 500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //******************************************************************************************************************
                 setVisible(false);
                 login = new Login(overlayPanel);
-                if (login.getUsuarioLogueado() == null) System.exit(0);
+                Usuario usuarioLogueado = login.getUsuarioLogueado();
+                if (usuarioLogueado == null) System.exit(0);
+
+                // Instanciar el menú pasando el usuario logueado
+                menu = new Menu(zonaInferior, Ventana.this, usuarioLogueado);
+                zonaInferior.add(menu, BorderLayout.WEST);
+
                 setVisible(true);
             }
         });
@@ -90,35 +83,26 @@ public class Ventana extends JFrame {
             }
         });
 
-        //ContentPane real
         contReal = new JPanel(new BorderLayout());
-
         Dimension auxContReal = new Dimension(this.getSize().width, this.getSize().height);
         contReal.setSize(auxContReal);
         contReal.setBackground(getBackground());
 
-        //Crear&Add Barra Superior
         barraSup = new BarraSuperior(contReal);
         contReal.add(barraSup, BorderLayout.NORTH);
 
-        //Contenedor de la zona Inferior
         zonaInferior = new JPanel(new BorderLayout());
         zonaInferior.setPreferredSize(new Dimension(contReal.getSize().width, contReal.getSize().height - barraSup.getPreferredSize().height));
         zonaInferior.setSize(new Dimension(contReal.getSize().width, contReal.getSize().height - barraSup.getPreferredSize().height));
         contReal.add(zonaInferior);
 
+        // El menú ahora se instancia después del login
 
-        //Crear&Add Menu
-        menu = new Menu(zonaInferior, this);
-        zonaInferior.add(menu, BorderLayout.WEST);
-
-        //Crear PanelCambiante
         inicializarPanelCambiante();
 
         zonaInferior.add(panelVacio, BorderLayout.CENTER);
         contentPane.add(contReal, BorderLayout.SOUTH);
         contentPane.setBorder(BorderFactory.createLineBorder(paleta.getColorBorde(), 2));
-
     }
 
     public static Ventana getInstance() {
@@ -133,27 +117,19 @@ public class Ventana extends JFrame {
     }
 
     private void inicializarCaractVentana() {
-        //Caracteristicas de la ventana
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setSize(Ventana.SIZE_VENTANA);
         setLocation(0, 0);
         setBackground(paleta.getColorFondo());
-//        setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), Cuadro.redMED, Cuadro.redMED));
         setMinimumSize(new Dimension(800, 600));
         setTitle("Gestor de Guardias");
-////        ImageIcon JSIcon = new ImageIcon("/iconos/LogoCalendario.png");
-////        setIconImage(JSIcon.getImage());
-//        Image icon = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/iconos/LogoCalendario.jpg"));
-//        setIconImage(icon);
 
-        // Crear el panel de superposici�n
         overlayPanel = new Cuadro(this.getSize(), 0, Color.BLACK);
         overlayPanel.setTransparencia(Cuadro.transALTA);
         overlayPanel.setLocation(0, 0);
         getRootPane().setGlassPane(overlayPanel);
 
-        //ContentPane
         contentPane = new JPanel();
         contentPane.setLayout(new BorderLayout());
         contentPane.setBackground(this.getBackground());
@@ -162,11 +138,10 @@ public class Ventana extends JFrame {
 
     private void inicializarPanelCambiante() {
         panelVacio = new JPanel(new CardLayout());
-        panelVacio.setSize(zonaInferior.getWidth() - menu.getWidth(), zonaInferior.getHeight());
+        panelVacio.setSize(zonaInferior.getWidth() - 247, zonaInferior.getHeight()); // 247 = ancho menú
 
-        distX = menu.getSize().width;
+        distX = 247;
         distY = barraSup.getPreferredSize().height;
-        //Crear paneles que cambian [BORRAR MIENTRAS SE CREEN LOS REALES]
         inicializarEstudiantes();
         inicializarTrabajadores();
         pantallaPlanif = new MostrarPlanif();
@@ -174,7 +149,6 @@ public class Ventana extends JFrame {
         pantallaArchivar = new AsistenciaPlanif();
         pantallaCump = new PantallaCump();
 
-        //Paneles Auxiliares
         panel1 = new JPanel();
         panel1.setLayout(new BorderLayout());
 
@@ -193,7 +167,7 @@ public class Ventana extends JFrame {
         contReal.setSize(frameSize.width, frameSize.height);
         zonaInferior.setPreferredSize(new Dimension(frameSize.width, frameSize.height - barraSup.getPreferredSize().height));
         zonaInferior.setSize(new Dimension(frameSize.width, frameSize.height - barraSup.getPreferredSize().height));
-        panelVacio.setSize(zonaInferior.getWidth() - menu.getWidth(), zonaInferior.getHeight());
+        panelVacio.setSize(zonaInferior.getWidth() - 247, zonaInferior.getHeight());
         for (Component comp1 : panelVacio.getComponents()) {
             if (comp1 instanceof JPanel) {
                 comp1.setSize(panelVacio.getWidth(), panelVacio.getHeight());
@@ -242,7 +216,6 @@ public class Ventana extends JFrame {
 
 
             if (Objects.equals(nombrePanel, "panel4")) {
-//                barraSup.mostrarPanel("panelEd2");
                 ArrayList<DiaGuardia> dias = new ArrayList<>();
                 boolean empezarHoy = false;
 
@@ -255,14 +228,12 @@ public class Ventana extends JFrame {
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Mes Actual", "Próximo Mes");
                     empezarHoy = advertencia.getEleccion();
                 }
-//                if(empezarHoy != null) {
-                    dias = servicesLocator.getPlantillaServices().crearPLantilla(empezarHoy);
+                dias = servicesLocator.getPlantillaServices().crearPLantilla(empezarHoy);
 
-                    Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
-                    Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
+                Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
+                Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
 
-                    panelAddPlanif.addTabla(tabla);
-//                }
+                panelAddPlanif.addTabla(tabla);
             } else {
                 barraSup.mostrarPanel("panelEd1");
             }
@@ -271,25 +242,18 @@ public class Ventana extends JFrame {
                 cardLayout.show(panelVacio, nombrePanel);
                 pantallaActual = nombrePanel;
             }
-
-
         }
     }
 
     private void inicializarEstudiantes() {
-
-
         pantallaEstudiantes = new PantallaEstudiantes();
-
         TablaEstudiantes customTabla = new TablaEstudiantes();
         customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros((ArrayList<Persona>)servicesLocator.getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
         pantallaEstudiantes.addTabla(customTabla);
     }
 
     private void inicializarTrabajadores() {
-
         pantallaTrabajadores = new PantallaTrabajadores();
-
         TablaTrabajadores customTabla = new TablaTrabajadores();
         customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros((ArrayList<Persona>)servicesLocator.getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador"))));
         pantallaTrabajadores.addTabla(customTabla);
@@ -303,7 +267,6 @@ public class Ventana extends JFrame {
 
             nuevaPantalla = new PantallaSelecPersona(tablaP, (ArrayList<Persona>) servicesLocator.getPlantillaServices().getPersonasDisponibles(fechaAux.getFecha(), horarioAux, diasEnPantalla), turno);
         } catch (MultiplesErroresException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -311,20 +274,16 @@ public class Ventana extends JFrame {
     public void addPantallaAddTrabajador() {
         pantallaAddPersona = new PantallaAddTrabajador();
         pantallaTrabajadores.revalidarTabla();
-
     }
 
     public void addPantallaAddEstudiante() {
         pantallaAddPersona = new PantallaAddEstudiante();
         pantallaEstudiantes.revalidarTabla();
-
     }
-
 
     public JPanel getPanelVacio() {
         return panelVacio;
     }
-
 
     public void mostrarFacultad() {
         pantallaFacultad = new PantallaFacultad();
@@ -340,15 +299,7 @@ public class Ventana extends JFrame {
         panelAddPlanif.addTabla(tabla);
     }
 
-//    public JPanel getPanel2() {
-//        return panel2;
-//    }
-
     public PantallaCump getPantallaCump() {
         return pantallaCump;
     }
-
-
 }
-
-

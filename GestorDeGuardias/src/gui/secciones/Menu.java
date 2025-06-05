@@ -3,18 +3,13 @@ package gui.secciones;
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.CustomSplitPane;
+import model.Usuario;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.Serial;
-import java.util.Arrays;
-import java.util.List;
 
 public class Menu extends JPanel {
-    @Serial
     private static final long serialVersionUID = 1L;
     private final Paleta paleta;
     private final JPanel superior;
@@ -34,10 +29,10 @@ public class Menu extends JPanel {
     Boton btnActualizarAsist = new Boton();
     Boton btnFacultad = new Boton();
 
-
-    public Menu (JPanel contenedor, final Ventana ventana) {
+    public Menu (JPanel contenedor, final Ventana ventana, Usuario usuario) {
         paleta = new Paleta();
         setBackground(paleta.getColorFondoTabla());
+        btnPlanifs.setEnabled(false);
 
         setPreferredSize(new Dimension(247, contenedor.getSize().height));
         setSize(new Dimension(247, contenedor.getSize().height));
@@ -53,17 +48,15 @@ public class Menu extends JPanel {
             btnMinimizar.addIcono("/iconos/MenuRayas.png");
             btnMinimizar.setSelectLetra(true);
 
-            btnMinimizar.addActionListener(new ActionListener() {
+            btnMinimizar.addActionListener(new java.awt.event.ActionListener() {
                 private boolean isMinimized = false;
-                //            List botones = (List) Arrays.asList(btnPlanifs, btnEstudiantes, btnTrabajadores);
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(java.awt.event.ActionEvent e) {
                     if (isMinimized) {
                         maximizarMenu();
                     } else {
                         minimizarMenu();
                     }
-
                     isMinimized = !isMinimized;
                     revalidate();
                     repaint();
@@ -72,7 +65,6 @@ public class Menu extends JPanel {
 
             superior.add(btnMinimizar);
         }
-
 
         //Panel1
         {
@@ -83,21 +75,18 @@ public class Menu extends JPanel {
             btnPlanifs.setSelectLetra(true);
             btnPlanifs.setLocation(x, y);
             y += btnPlanifs.getSize().height + separacion;
-
             btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panel1"));
 
             btnEstudiantes.addIcono("/iconos/Estudiante.png");
             btnEstudiantes.setSelectLetra(true);
             btnEstudiantes.setLocation(x, y);
             y += btnEstudiantes.getSize().height + separacion;
-
             btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panel2"));
 
             btnTrabajadores.addIcono("/iconos/Profesor.png");
             btnTrabajadores.setSelectLetra(true);
             btnTrabajadores.setLocation(x, y);
             y += btnTrabajadores.getSize().height + separacion * 2;
-
             btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panel3"));
 
             panel1.add(btnPlanifs);
@@ -117,22 +106,18 @@ public class Menu extends JPanel {
             btnAddPlanif.setSelectLetra(true);
             btnAddPlanif.setLocation(x, y);
             y += btnAddPlanif.getSize().height + separacion;
-
             btnAddPlanif.addActionListener(e -> ventana.mostrarPanel("panel4"));
 
             btnActualizarAsist.addIcono("/iconos/Documento.png");
             btnActualizarAsist.setSelectLetra(true);
             btnActualizarAsist.setLocation(x, y);
             y += btnActualizarAsist.getSize().height + separacion;
-
             btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panel5"));
 
             btnFacultad.addIcono("/iconos/Casa.png");
             btnFacultad.setSelectLetra(true);
             btnFacultad.setLocation(x, y);
-
             btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
-
 
             panel2.add(btnAddPlanif);
             panel2.add(btnActualizarAsist);
@@ -140,10 +125,10 @@ public class Menu extends JPanel {
 
             panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
         }
+
         splitPanel = new CustomSplitPane(panel1, panel2, JSplitPane.VERTICAL_SPLIT);
         add(splitPanel, BorderLayout.CENTER);
 
-        //Bordes
         Border bordeMargen = BorderFactory.createEmptyBorder(10, 0, 0, 15);
         Border border = BorderFactory.createMatteBorder(0, 0, 0, 3, paleta.getColorBorde());
         Border margenDoubleBorder = BorderFactory.createCompoundBorder(border, bordeMargen);
@@ -152,8 +137,44 @@ public class Menu extends JPanel {
         panel2.setBorder(border);
         superior.setBorder(margenDoubleBorder);
         setBorder(border);
-
+        deshabilitarOpcionesPorRol(usuario.getRol().getNombre());
         maximizarMenu();
+
+        // Aquí: deshabilitar botones según el rol
+
+    }
+
+    private void deshabilitarOpcionesPorRol(String rolNombre) {
+        rolNombre = rolNombre.toLowerCase();
+
+        switch (rolNombre) {
+            case "administrador":
+                // No deshabilitar nada
+                break;
+            case "planificador":
+                // Solo deja planificación y añadir planificación
+                btnEstudiantes.setEnabled(false);
+                btnTrabajadores.setEnabled(false);
+                btnActualizarAsist.setEnabled(false);
+                btnFacultad.setEnabled(false);
+                break;
+            case "controlador":
+                // Solo deja asistencia
+                btnPlanifs.setEnabled(false);
+                btnEstudiantes.setEnabled(false);
+                btnTrabajadores.setEnabled(false);
+                btnAddPlanif.setEnabled(false);
+                btnFacultad.setEnabled(false);
+                break;
+            default:
+                // Si el rol no se reconoce, deshabilita todo
+                btnPlanifs.setEnabled(false);
+                btnEstudiantes.setEnabled(false);
+                btnTrabajadores.setEnabled(false);
+                btnAddPlanif.setEnabled(false);
+                btnActualizarAsist.setEnabled(false);
+                btnFacultad.setEnabled(false);
+        }
     }
 
     private void minimizarMenu(){
@@ -175,7 +196,6 @@ public class Menu extends JPanel {
 
         btnFacultad.setText("");
         btnFacultad.setLocation(10, btnFacultad.getY());
-
     }
 
     private void maximizarMenu(){
@@ -198,5 +218,4 @@ public class Menu extends JPanel {
         btnFacultad.setText("Facultad");
         btnFacultad.setLocation(x, btnFacultad.getY());
     }
-
 }
