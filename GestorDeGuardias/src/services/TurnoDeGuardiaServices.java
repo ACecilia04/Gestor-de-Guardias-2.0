@@ -59,9 +59,9 @@ public class TurnoDeGuardiaServices {
 
         baseDao.spUpdate("sp_turno_de_guardia_update(?, ?, ?, ?, ?)",
                 record.getId(),
-                record.getHorario().getId(),
-                record.getFecha(),
                 record.getPersonaAsignada().getId(),
+                record.getFecha(),
+                record.getHorario().getId(),
                 record.getCumplimiento()
         );
     }
