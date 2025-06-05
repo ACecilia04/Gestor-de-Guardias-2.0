@@ -57,7 +57,7 @@ public class PanelTurnoArch extends PanelTurno{
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
+                    ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno);
                 } catch (SqlServerCustomException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -70,7 +70,7 @@ public class PanelTurnoArch extends PanelTurno{
             public void actionPerformed(ActionEvent e) {
                 turno.actualizarCumplimiento(false);
                 try {
-                    ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
+                    ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno);
                 } catch (SqlServerCustomException ex) {
                     throw new RuntimeException(ex);
                 }

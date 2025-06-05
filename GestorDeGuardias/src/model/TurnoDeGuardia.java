@@ -4,24 +4,26 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TurnoDeGuardia {
-    private Horario horario;
-    private ArrayList<Persona> personasAsignadas;
-    private
-    Boolean hecho;
-    private LocalDate fecha;
     private Long id;
+    private LocalDate fecha;
+    private Horario horario;
+    private Persona personaAsignada;
+    private Boolean hecho;
+
+    private ArrayList<Persona> personasAsignadas = new ArrayList<>();
 
 
-    public TurnoDeGuardia(LocalDate fecha, Horario horario, ArrayList<Persona> personasAsignadas) {
+    public TurnoDeGuardia(Long id, LocalDate fecha, Horario horario, Persona personaAsignada, Boolean hecho) {
+        this.id = id;
         this.fecha = fecha;
         this.horario = horario;
-        this.personasAsignadas = personasAsignadas;
-        this.hecho = false;
+        this.personaAsignada = personaAsignada;
+        this.hecho = hecho;
     }
 
     public TurnoDeGuardia() {
-        personasAsignadas = new ArrayList<>();
     }
+
 
     public TurnoDeGuardia(Horario horario) {
         this.horario = horario;
@@ -50,28 +52,18 @@ public class TurnoDeGuardia {
         return personasAsignadas;
     }
 
-    public Persona getPersonaAsignada() {
-        return personasAsignadas.getFirst();
-    }
     public Boolean getCumplimiento() {
         return hecho;
     }
+
     public Long getId(){return id;}
 
     public void asignarPersona(Persona personaAsignada) {
         personasAsignadas.add(personaAsignada);
     }
 
-    public void borrarpersonasAsignadas() {
-        this.personasAsignadas = null;
-    }
-
     public void actualizarCumplimiento(Boolean hecho) {
         this.hecho = hecho;
-    }
-
-    public void setPersonasAsignadas(ArrayList<Persona> personas) {
-     personas.forEach(this::asignarPersona);
     }
 
     public void setHecho(Boolean hecho) {
@@ -80,4 +72,15 @@ public class TurnoDeGuardia {
 
     public void setId(Long id){this.id = id;}
 
+    public Persona getPersonaAsignada() {
+        return personaAsignada;
+    }
+
+    public void setPersonaAsignada(Persona personaAsignada) {
+        this.personaAsignada = personaAsignada;
+    }
+
+    public Boolean getHecho() {
+        return hecho;
+    }
 }

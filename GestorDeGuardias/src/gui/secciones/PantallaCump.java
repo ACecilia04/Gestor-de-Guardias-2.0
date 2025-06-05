@@ -62,7 +62,7 @@ public class PantallaCump extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO AÑADIR FUNCIONALIDAD
-                ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarCumpTurnos(getTabla().getDias());
+                ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarCumplimientoTurnos(getTabla().getDias());
             }
         });
     }
