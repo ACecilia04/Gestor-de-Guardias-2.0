@@ -63,7 +63,7 @@ public class Ventana extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
                 login = new Login(overlayPanel);
-                Usuario usuarioLogueado = login.getUsuarioLogueado();
+                Usuario usuarioLogueado = servicesLocator.getUsuarioActual();
                 if (usuarioLogueado == null) System.exit(0);
 
                 // Instanciar el menú pasando el usuario logueado

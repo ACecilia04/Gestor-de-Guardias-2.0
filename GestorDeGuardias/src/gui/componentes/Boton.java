@@ -66,7 +66,7 @@ public class Boton extends JPanel implements Actualizable {
      * Este es para Iconos sin texto
      */
     public Boton() {
-       this("");
+        this("");
     }
 
     //Lo que hago por amor al arte...
@@ -92,6 +92,8 @@ public class Boton extends JPanel implements Actualizable {
         adaptador = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                // Solo responde si está habilitado y seleccionable
+                if (!isEnabled() || !seleccionable) return;
                 if (actionListener != null) {
                     actionListener.actionPerformed(new ActionEvent(this, ActionEvent.ACTION_PERFORMED, "Button clicked"));
                 }
@@ -99,14 +101,26 @@ public class Boton extends JPanel implements Actualizable {
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                if (!isEnabled() || !seleccionable) return;
                 select = true;
                 repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
+                if (!isEnabled() || !seleccionable) return;
                 select = false;
                 repaint();
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (!isEnabled() || !seleccionable) return;
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                if (!isEnabled() || !seleccionable) return;
             }
         };
         addMouseListener(adaptador);
@@ -188,9 +202,8 @@ public class Boton extends JPanel implements Actualizable {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Usa isEnabled() en vez de seleccionable
-        if (!isEnabled()) {
-            // Usa tus propios colores de bloqueado
+        // Se muestra gris si está deshabilitado o no seleccionable
+        if (!isEnabled() || !seleccionable) {
             g2.setColor(colorFondoBlock);
             etiqueta.setForeground(colorLetraBlock);
             etiqueta.setBackground(colorFondoBlock);
@@ -202,10 +215,10 @@ public class Boton extends JPanel implements Actualizable {
                 etiqueta.setIcon(new ImageIcon(coloredImage));
             }
             g2.dispose();
-            return; // Sal de la función, no sigas pintando como si estuviera enabled
+            return;
         }
 
-        // El resto igual que antes, pero ahora solo para botones habilitados
+        // El resto igual que antes, pero ahora solo para botones habilitados y seleccionables
         if (!selecLetra) {
             if (bordeado) {
                 if (!select) {
@@ -359,13 +372,12 @@ public class Boton extends JPanel implements Actualizable {
 
     public void setSeleccionable(boolean seleccionable) {
         if (seleccionable) {
-            addMouseListener(adaptador);
             setCursor(new Cursor(Cursor.HAND_CURSOR));
         } else {
-            this.removeMouseListener(adaptador);
             setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
         }
         this.seleccionable = seleccionable;
+        repaint();
     }
 
     @Override
@@ -411,5 +423,17 @@ public class Boton extends JPanel implements Actualizable {
         colorPresionado = colorFondo.darker();
         repaint();
         revalidate();
+    }
+
+    // Si el botón está deshabilitado (setEnabled(false)) también cambia el cursor
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        if (!enabled) {
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+        } else if (seleccionable) {
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
+        }
+        repaint();
     }
 }

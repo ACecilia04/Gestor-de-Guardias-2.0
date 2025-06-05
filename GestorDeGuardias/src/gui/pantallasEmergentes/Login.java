@@ -22,7 +22,6 @@ public class Login extends JDialog {
     private final int espacioInicial = 72;
 
     private final Paleta paleta = new Paleta();
-    private Usuario usuarioLogueado; // Nuevo: Para almacenar el usuario autenticado
 
     public Login(JPanel overlayPane) {
         super(Ventana.getInstance(), "JDialog", true);
@@ -164,7 +163,7 @@ public class Login extends JDialog {
                         contrasenaIncorrecta.setVisible(true);
                     } else {
                         // Login correcto
-                        usuarioLogueado = usuario;
+                        ServicesLocator.getInstance().setUsuarioActual(usuario);
                         myself.dispose();
                     }
                 }
@@ -181,9 +180,5 @@ public class Login extends JDialog {
 
     private static String toHex(Color color) {
         return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
-    }
-
-    public Usuario getUsuarioLogueado() {
-        return usuarioLogueado;
     }
 }
