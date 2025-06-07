@@ -171,38 +171,39 @@ public class TablaArchivar extends Cuadro implements IsTabla {
 
 
     public void setCumplimiento(int b) {
+
         for (PanelDiaBase e1 : panelesCasillas) {
             if (e1 instanceof PanelDiaArch e) {
                 ArrayList<PanelTurno> paneles = e.getPanelesTurno();
                 for (PanelTurno a : paneles) {
                     if (a instanceof PanelTurnoArch a1) {
+                        TurnoDeGuardia turno = a1.getTurno();
+
                         switch (b) {
                             case 0:
                                 a1.getRadioGrupo().clearSelection();
                                 a1.getTurno().actualizarCumplimiento(null);
                                 break;
                             case 1:
-                                TurnoDeGuardia turno = a1.getTurno();
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getCumplido().setSelected(true);
                                     a1.getTurno().actualizarCumplimiento(true);
-                                    try {
-                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
-                                    } catch (SqlServerCustomException ex) {
-                                        throw new RuntimeException(ex);
-                                    }
+//                                    try {
+//                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
+//                                    } catch (SqlServerCustomException ex) {
+//                                        throw new RuntimeException(ex);
+//                                    }
                                 }
                                 break;
                             case 2:
-                                 turno = a1.getTurno();
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getNoCumplido().setSelected(true);
                                     a1.getTurno().actualizarCumplimiento(false);
-                                    try {
-                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
-                                    } catch (SqlServerCustomException ex) {
-                                        throw new RuntimeException(ex);
-                                    }
+//                                    try {
+//                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
+//                                    } catch (SqlServerCustomException ex) {
+//                                        throw new RuntimeException(ex);
+//                                    }
                                 }
                                 break;
                         }

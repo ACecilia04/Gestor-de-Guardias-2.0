@@ -220,8 +220,9 @@ public class Persona implements Comparable<Persona> {
     }
 
     public void annadirGuardiaAsignada(LocalDate fecha) {
-        if (!guardiasAsignadas.contains(fecha)) ;
-        this.guardiasAsignadas.add(fecha);
+        if (!guardiasAsignadas.contains(fecha)) {
+            this.guardiasAsignadas.add(fecha);
+        }
     }
 
     public LocalDate buscarGuardiaAsignada(LocalDate fecha) throws EntradaInvalidaException {

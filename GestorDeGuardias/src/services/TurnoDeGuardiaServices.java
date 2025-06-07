@@ -57,18 +57,19 @@ public class TurnoDeGuardiaServices {
     public void guardarCumpTurnos(ArrayList<DiaGuardia> dias) {
         for (DiaGuardia dia : dias) {
             ArrayList<TurnoDeGuardia> turnos = dia.getTurnos();
-            if (turnos == null) continue;
-            for (TurnoDeGuardia turno : turnos) {
-                Long horarioId = turno.getHorario().getId();
-                ArrayList<Persona> personasAsignadas = turno.getPersonasAsignadas();
-                LocalDate fecha = turno.getFecha();
-                for (Persona persona : personasAsignadas) {
+            if (turnos != null && !turnos.isEmpty()) {
+                for (TurnoDeGuardia turno : turnos) {
+                    Long horarioId = turno.getHorario().getId();
+                    ArrayList<Persona> personasAsignadas = turno.getPersonasAsignadas();
+                    LocalDate fecha = turno.getFecha();
+                    for (Persona persona : personasAsignadas) {
                         try {
-                            updateTurnoDeGuardia(turno.getId(), horarioId,fecha,persona.getId(), turno.getCumplimiento());
+                            updateTurnoDeGuardia(turno.getId(), horarioId, fecha, persona.getId(), turno.getCumplimiento());
 
                         } catch (Exception ex) {
                             throw new RuntimeException("Error al actualizar el turno: " + turno, ex);
                         }
+                    }
                 }
             }
         }

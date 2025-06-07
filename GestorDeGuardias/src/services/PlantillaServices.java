@@ -109,6 +109,7 @@ public class PlantillaServices {
 
         if (turno == null)
             throw new EntradaInvalidaException("Este día no tiene el horario deseado.");
+
         turno.asignarPersona(persona);
     }
 
@@ -158,7 +159,7 @@ public class PlantillaServices {
             throw new EntradaInvalidaException("No hay guardias planificadas.");
 
 
-        while (i < planDeGuardias.size() && planDeGuardias.get(i).getFecha().isAfter(LocalDate.now())) {
+        while (i < planDeGuardias.size() && planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
             DiaGuardia dia = planDeGuardias.get(i);
             if (!(dia.getTurnosPorActualizar().isEmpty()))
                 diasPorActualizar.add(dia);

@@ -170,7 +170,7 @@ public class Gestor {
 ////
 ////                    personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
 ////                    if (!personasDisponibles.isEmpty())
-////                        asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
+//                      asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
 ////
 ////                }
 ////            }
