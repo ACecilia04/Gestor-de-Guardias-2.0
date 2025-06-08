@@ -4,6 +4,8 @@ import gui.auxiliares.Actualizable;
 import gui.componentes.CustomRadioButton;
 import model.DiaGuardia;
 import model.TurnoDeGuardia;
+import services.ServicesLocator;
+import utils.dao.SqlServerCustomException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -53,6 +55,12 @@ public class PanelTurnoArch extends PanelTurno{
             @Override
             public void actionPerformed(ActionEvent e) {
                 turno.actualizarCumplimiento(true);
+                try {
+                    ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
+                } catch (SqlServerCustomException ex) {
+                    throw new RuntimeException(ex);
+                }
+
             }
         });
 
@@ -60,6 +68,11 @@ public class PanelTurnoArch extends PanelTurno{
             @Override
             public void actionPerformed(ActionEvent e) {
                 turno.actualizarCumplimiento(false);
+                try {
+                    ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
+                } catch (SqlServerCustomException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 

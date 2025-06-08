@@ -50,6 +50,9 @@ public class TurnoDeGuardia {
         return personasAsignadas;
     }
 
+    public Persona getPersonaAsignada() {
+        return personasAsignadas.getFirst();
+    }
     public Boolean getCumplimiento() {
         return hecho;
     }
