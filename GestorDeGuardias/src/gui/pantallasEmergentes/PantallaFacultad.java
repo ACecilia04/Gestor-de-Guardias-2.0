@@ -576,14 +576,6 @@ public class PantallaFacultad extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                boolean correcto = true;
-//
-//                if (nombre.getText().isEmpty()) {
-//                    vacio1.setVisible(true);
-//
-//                    revalidate();
-//                    repaint();
-//                    correcto = false;
-//                }
 //                if (correcto) {
 //                    vacio1.setVisible(false);
                     LocalDate fechaInicio = LocalDate.of(Integer.parseInt(agno.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));

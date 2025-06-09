@@ -157,7 +157,7 @@ public class PlantillaServices {
         if (planDeGuardias.isEmpty())
             throw new EntradaInvalidaException("No hay guardias planificadas.");
 
-        while (planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
+        while (i<planDeGuardias.size() && planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
             DiaGuardia dia = planDeGuardias.get(i);
             if (!(dia.getTurnosPorActualizar().isEmpty()))
                 diasPorActualizar.add(dia);

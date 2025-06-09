@@ -10,26 +10,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PanelTurnoArch extends PanelTurno {
+public class PanelTurnoArch extends PanelTurno{
     private static final long serialVersionUID = 1L;
 
-    private final CustomRadioButton cumplido;
-    private final CustomRadioButton noCumplido;
-    private final ButtonGroup radioGrupo;
+    private CustomRadioButton cumplido, noCumplido;
+    private ButtonGroup radioGrupo;
 
-    public PanelTurnoArch(int ancho, Color color, final TurnoDeGuardia turno, DiaGuardia fecha, final Actualizable act) {
-        super(ancho, color, turno, fecha, act);
-        if (this.getSize().width - 1000 > 150) {
+    public PanelTurnoArch(int ancho, Color color, final TurnoDeGuardia turno,  DiaGuardia fecha, final Actualizable act) {
+        super(ancho,color,turno,fecha, act);
+        if(this.getSize().width -1000> 150){
             LayoutManager layout = this.getLayout();
 
-            if (layout instanceof FlowLayout flowLayout) {
+            if (layout instanceof FlowLayout) {
+                FlowLayout flowLayout = (FlowLayout) layout;
                 flowLayout.setHgap(30);
             }
 
         } else {
             LayoutManager layout = this.getLayout();
 
-            if (layout instanceof FlowLayout flowLayout) {
+            if (layout instanceof FlowLayout) {
+                FlowLayout flowLayout = (FlowLayout) layout;
                 flowLayout.setHgap(10);
             }
         }
@@ -47,11 +48,10 @@ public class PanelTurnoArch extends PanelTurno {
         radioGrupo.add(cumplido);
         radioGrupo.add(noCumplido);
 
-        if (turno.getCumplimiento() != null) {
-            if (turno.getCumplimiento()) {
+        if(turno.getCumplimiento() != null){
+            if(turno.getCumplimiento()){
                 cumplido.setSelected(true);
-            }
-            if (!turno.getCumplimiento()) {
+            } if(!turno.getCumplimiento()){
                 noCumplido.setSelected(true);
             }
         }
@@ -75,7 +75,7 @@ public class PanelTurnoArch extends PanelTurno {
 
     }
 
-    public void cambiar(Color fondo, Color letra) {
+    public void cambiar(Color fondo,Color letra){
         super.cambiar(fondo, letra);
         cumplido.setForeground(letra);
         noCumplido.setForeground(letra);
@@ -95,3 +95,4 @@ public class PanelTurnoArch extends PanelTurno {
 
 
 }
+
