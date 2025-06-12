@@ -116,9 +116,15 @@ public class PlantillaServices {
     public void crearPlanificacionAutomaticamente(ArrayList<DiaGuardia> dias) throws MultiplesErroresException, EntradaInvalidaException {
         List<Persona> personasDisponibles;
         for (DiaGuardia dia : dias) {
+            System.out.println("every dia");
+
             for (TurnoDeGuardia turno : dia.getTurnos()) {
+                System.out.println("every turno");
+
                 while (turno.getPersonasAsignadas().size() < configuracionServices.getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha())) {
                     personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
+                    System.out.println(turno.getPersonasAsignadas().size());
+
                     if(!personasDisponibles.isEmpty()) {
                         asignarPersona(dia, turno.getHorario(), personasDisponibles.getFirst());
                         System.out.println("in");

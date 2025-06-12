@@ -13,6 +13,8 @@ public class Usuario {
     }
 
     public Usuario() {
+        rol = new Rol("Administrador"
+        );
     }
 
     public Long getId() {
