@@ -231,9 +231,11 @@ public class Ventana extends JFrame {
                 dias = servicesLocator.getPlantillaServices().crearPLantilla(empezarHoy);
 
                 Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
-                Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
+                Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(),distX, distY, panelAddPlanif);
+                panelAddPlanif.getTablaOpciones().setTabla(tabla);
 
                 panelAddPlanif.addTabla(tabla);
+
             } else {
                 barraSup.mostrarPanel("panelEd1");
             }

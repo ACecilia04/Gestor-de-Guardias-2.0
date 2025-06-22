@@ -61,7 +61,7 @@ public class PanelOpcionesMostrarP extends JPanel {
         int x = (panel4.getPreferredSize().width - dimBoton.getSize().width) / 2;
         int y = botonSep;
 
-        botonVerPlanif = new Boton("Ver Planificación");
+        botonVerPlanif = new Boton("Ver");
 
 //        botoaddEstud.setBordeado(true);
         botonVerPlanif.setColorPresionado(paleta.getColorCaracteristico());
@@ -74,7 +74,7 @@ public class PanelOpcionesMostrarP extends JPanel {
 
         botonBorrarPlanif = new Boton("Borrar");
         botonEditarPlanif = new Boton("Editar");
-        botonCrearPlanif = new Boton("Crear Nuevo");
+        botonCrearPlanif = new Boton("Nuevo");
         botonExport = new Boton("Exportar PDF");
 
         botonEditarPlanif.setNuevoSize(dimBoton);

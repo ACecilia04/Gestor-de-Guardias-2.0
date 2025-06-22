@@ -58,7 +58,7 @@ public class PlantillaServices {
         }
         return dias;
     }
-    
+
     public List<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException {
         List<String> errores = new ArrayList<>();
 
@@ -158,8 +158,8 @@ public class PlantillaServices {
         if (planDeGuardias.isEmpty())
             throw new EntradaInvalidaException("No hay guardias planificadas.");
 
-
         while (i < planDeGuardias.size() && planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
+            System.out.println(i);
             DiaGuardia dia = planDeGuardias.get(i);
             if (!(dia.getTurnosPorActualizar().isEmpty()))
                 diasPorActualizar.add(dia);

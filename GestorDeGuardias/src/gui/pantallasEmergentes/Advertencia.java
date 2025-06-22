@@ -48,8 +48,8 @@ public class Advertencia extends JDialog {
         setVisible(true);
     }
 
-    public Advertencia(Dimension dim, String title, String texto, String op2) {
-        super(Ventana.getInstance(), title, true);
+    public Advertencia(Dimension dim, String title, String texto, String op2, boolean modal) {
+        super(Ventana.getInstance(), title, modal);
         this.myself = this;
         this.dim = dim;
         this.opcion2 = op2;
@@ -64,7 +64,6 @@ public class Advertencia extends JDialog {
 
         setVisible(true);
     }
-
 
     public void inicializar(String texto, final Frame ventana) {
         setLocationRelativeTo(ventana);

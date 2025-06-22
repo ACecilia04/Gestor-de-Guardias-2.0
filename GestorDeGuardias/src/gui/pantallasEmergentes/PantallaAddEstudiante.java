@@ -16,7 +16,7 @@ public class PantallaAddEstudiante extends PantallaAddPersona {
         try {
             Persona nuevaPersona = new Persona(boxID.getText(), boxNombre.getText(), boxApellidos.getText(), sexo, new TipoPersona("Estudiante"));
             ServicesLocator.getInstance().getPersonaServices().insertPersona(nuevaPersona);
-            Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Añadido Exitosamente", "Estudiante añadido Exitosamente", "Aceptar");
+            Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Añadido Exitosamente", "Estudiante añadido Exitosamente", "Aceptar", true);
             this.dispose();
         }catch (MultiplesErroresException e) {
             StringBuilder errores = new StringBuilder();

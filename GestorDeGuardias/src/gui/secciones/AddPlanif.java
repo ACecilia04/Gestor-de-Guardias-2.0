@@ -37,17 +37,12 @@ public class AddPlanif extends JPanel {
         backdropPane.setBackground(paleta.getColorFondo());
 
         tablaOpciones = new PanelOpcionesPlanif(dimTablaOpciones);
-        // 1) tablaOpciones no tiene tamaño aqui todavia, tablaOpciones.getWidth() = 0, lo correcto sería dimTablaOpciones.getWidth()
-        //tablaDim = new Dimension(contenedor.getWidth() - tablaOpciones.getWidth() * 2, contenedor.getHeight());
 
-        // 2) pero las dimensiones del contenedor no son correctas aqui, asi que mejor mover esto para getTablaDim() y recalcular tablaDim cada vez que se necesite
-        //tablaDim = new Dimension(contenedor.getWidth() - (int)dimTablaOpciones.getWidth(), contenedor.getHeight());
-
-        final Boton aux1 = tablaOpciones.getBotonAddPersona();
-        aux1.addActionListener(new ActionListener() {
+        final Boton btnAddPersona = tablaOpciones.getBotonAddPersona();
+        btnAddPersona.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (aux1.isSeleccionable()) {
+                if (btnAddPersona.isSeleccionable()) {
                     try {
 
                         if (tablaOpciones.getTablaSelec().getComponentes().size() == 1) {

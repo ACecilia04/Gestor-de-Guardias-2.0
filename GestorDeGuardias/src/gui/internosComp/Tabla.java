@@ -7,10 +7,8 @@ import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.pantallasEmergentes.Advertencia;
-import gui.secciones.AddPlanif;
 import gui.secciones.Ventana;
 import model.DiaGuardia;
-import services.Gestor;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
@@ -40,72 +38,25 @@ public class Tabla extends Cuadro implements IsTabla {
     private final int distX;
     private final int distY;
     private final JPanel contenedor;
-    private final PanelOpcionesPlanif tablaOpciones;
     //Secciones
     CuadroRectoAbajo titulo;
     JPanel panelCasillas;
     Cuadro myself;
+    PanelOpcionesPlanif tablaOpciones;
     ArrayList<DiaGuardia> dias;
     private int mouseX, mouseY;
 
-    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) {
+    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias,PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) {
         super(dimension, redondez, color);
         PanelDia.setCasillaLargo(dimension.width - sepIzquierda * 2);
         this.setLayout(null);
         myself = this;
-        this.setColorBorde(paleta.getColorCaracteristico());
         this.tablaOpciones = tablaOpciones;
+        this.setColorBorde(paleta.getColorCaracteristico());
         this.distX = distX;
         this.distY = distY;
         this.contenedor = contenedor;
         dias = estosDias;
-
-        tablaOpciones.getGuardar().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                    try {
-                        // 2. Llama a tu servicio de guardado (ajusta a tu arquitectura)
-                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarTurnos(dias);
-                    } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(Tabla.this, "Ocurrió un error:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                    String string = "<html><p>Guardado Exitoso<br><br></p><html>";
-                    Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Guardado Exitoso", string, "Aceptar");
-                    advertencia.dispose();
-            }
-        });
-
-        tablaOpciones.getBotonAut().addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ArrayList<DiaGuardia> diasAPlanificar;
-                try {
-                    if (!tablaOpciones.getDiasSeleccionados().isEmpty()) {
-                        diasAPlanificar = tablaOpciones.getDiasSeleccionados();
-                    } else {
-                        diasAPlanificar = dias;
-                    }
-                    ServicesLocator.getInstance().getPlantillaServices().crearPlanificacionAutomaticamente(diasAPlanificar);
-
-                } catch (MultiplesErroresException e1) {
-                    StringBuilder stringAux = new StringBuilder();
-                    for (String error : e1.getErrores()) {
-                        stringAux.append(error).append("<br>");
-                    }
-
-                    String string = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
-                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
-                } catch (EntradaInvalidaException e1) {
-                    String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
-                }
-                actualizarVistaTabla();
-
-
-            }
-
-        });
 
         // Agregar MouseListener y MouseMotionListener al panel t�tulo
         inicializarTitulo();

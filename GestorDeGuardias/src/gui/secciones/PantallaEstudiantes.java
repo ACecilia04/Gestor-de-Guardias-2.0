@@ -155,7 +155,7 @@ public class PantallaEstudiantes extends JPanel {
 
                             throw new RuntimeException(ex);
                         }
-                        Advertencia advertencia2 = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Baja Exitosa", "Baja Exitosa", "Aceptar");
+                        Advertencia advertencia2 = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Baja Exitosa", "Baja Exitosa", "Aceptar", true);
 
                         revalidarTabla();
                     }

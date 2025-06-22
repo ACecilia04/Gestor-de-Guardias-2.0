@@ -4,11 +4,18 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.CustomSplitPane;
 import gui.componentes.CustomTabla;
+import gui.pantallasEmergentes.Advertencia;
+import gui.secciones.Ventana;
 import model.DiaGuardia;
+import services.ServicesLocator;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PanelOpcionesPlanif extends JPanel {
@@ -25,12 +32,12 @@ public class PanelOpcionesPlanif extends JPanel {
 //        private final int x = 40;
 //    private final int y = separacion + 10;
     private final Boton botonAddPersona;
-    private final Boton guardar;
+    private final Boton btnGuardar;
     private final Boton botonAut;
     Paleta paleta = new Paleta();
 
+    private Tabla tabla;
 
-    //   private final Font fuente = new Font("Arial", Font.PLAIN, 15);
 
     public PanelOpcionesPlanif(Dimension dimension) {
         setPreferredSize(dimension);
@@ -48,7 +55,7 @@ public class PanelOpcionesPlanif extends JPanel {
         //Panel2
         panelControl = new JPanel(null);
         panelControl.setBackground(getBackground());
-        botonAut = new Boton("Generar Aut");
+        botonAut = new Boton("Auto Generación");
         botonAut.addIcono("/iconos/Espiral.png");
         botonAut.setNuevoSize(new Dimension(botonAut.getSize().width + 10, botonAut.getSize().height + 10));
         botonAut.cambiarIconTextGap(10);
@@ -57,6 +64,14 @@ public class PanelOpcionesPlanif extends JPanel {
         botonAut.setColorFondo(paleta.getColorCaracteristico());
         Dimension aux = new Dimension(botonAut.getSize().width + 30, botonAut.getSize().height);
         botonAut.setNuevoSize(aux);
+
+        botonAut.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                generarAutomaticamente();
+            }
+        });
 
         tablaSelec = new CustomTabla("Seleccionados");
         botonAddPersona = new Boton("Añadir Persona");
@@ -92,16 +107,23 @@ public class PanelOpcionesPlanif extends JPanel {
         panelGuardar = new JPanel(null);
         panelGuardar.setBackground(getBackground());
         panelGuardar.setPreferredSize(new Dimension(this.getPreferredSize().width, 100));
-        guardar = new Boton("Guardar");
+        btnGuardar = new Boton("Guardar");
 
-        guardar.setNuevoSize(new Dimension(140, 40));
-        guardar.setBordeado(true);
-        guardar.setColorPresionado(paleta.getColorCaracteristico());
+        btnGuardar.setNuevoSize(new Dimension(140, 40));
+        btnGuardar.setBordeado(true);
+        btnGuardar.setColorPresionado(paleta.getColorCaracteristico());
 
-        int x = (panelGuardar.getPreferredSize().width - guardar.getSize().width) / 2;
-        int y = (panelGuardar.getPreferredSize().height - guardar.getSize().height) / 2;
-        guardar.setLocation(x, y);
-        panelGuardar.add(guardar);
+        btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guardar();
+            }
+        });
+
+        int x = (panelGuardar.getPreferredSize().width - btnGuardar.getSize().width) / 2;
+        int y = (panelGuardar.getPreferredSize().height - btnGuardar.getSize().height) / 2;
+        btnGuardar.setLocation(x, y);
+        panelGuardar.add(btnGuardar);
         add(panelGuardar, BorderLayout.SOUTH);
 
         //Bordes
@@ -160,8 +182,8 @@ public class PanelOpcionesPlanif extends JPanel {
         }
     }
 
-    public Boton getGuardar() {
-        return guardar;
+    public Boton getBtnGuardar() {
+        return btnGuardar;
     }
 
     public Boton getBotonAut() {
@@ -190,5 +212,61 @@ public class PanelOpcionesPlanif extends JPanel {
 
     }
 
+    public void generarAutomaticamente(){
 
+        final ArrayList<DiaGuardia> diasAPlanificar = !getDiasSeleccionados().isEmpty()
+                ? getDiasSeleccionados()
+                : tabla.getDias();
+
+        Advertencia procesandoDialog = new Advertencia( new Dimension(530, 300),
+                "Procesando",
+                "<html><p style='text-align: center;'>Generando planificación, por favor espere...</p></html>",
+                "Cerrar", false
+        );
+        procesandoDialog.setModalityType(Dialog.ModalityType.MODELESS);
+        procesandoDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        procesandoDialog.setVisible(true);
+
+        new Thread(() -> {
+            try {
+                ServicesLocator.getInstance()
+                        .getPlantillaServices()
+                        .crearPlanificacionAutomaticamente(diasAPlanificar);
+
+            } catch (MultiplesErroresException e1) {
+                StringBuilder stringAux = new StringBuilder();
+                for (String error : e1.getErrores()) {
+                    stringAux.append(error).append("<br>");
+                }
+                String msg = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
+                SwingUtilities.invokeLater(() -> new Advertencia(
+                        Ventana.SIZE_ADVERTENCIA, "Errores", msg, "Aceptar", true));
+
+            } catch (EntradaInvalidaException e1) {
+                String msg = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
+                SwingUtilities.invokeLater(() -> new Advertencia(
+                        Ventana.SIZE_ADVERTENCIA, "Error", msg, "Aceptar", true));
+
+            } finally {
+                SwingUtilities.invokeLater(() -> {
+                    procesandoDialog.dispose();
+                    tabla.actualizarVistaTabla();
+                });
+            }
+        }).start();
+    }
+
+    private void guardar() {
+        try {
+            ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarTurnos(tabla.getDias());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(tabla, "Ocurrió un error:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        String string = "<html><p>Guardado Exitoso<br><br></p><html>";
+        Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Guardado Exitoso", string, "Aceptar", true);
+        advertencia.dispose();
+    }
+    public void setTabla(Tabla tabla) {
+        this.tabla = tabla;
+    }
 }

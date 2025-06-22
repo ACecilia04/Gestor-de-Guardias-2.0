@@ -583,7 +583,7 @@ public class PantallaFacultad extends JDialog {
                         cantERec.setText("Cantidad de periodos no planificables :  " + ServicesLocator.getInstance().getPeriodoNoPlanificableServices().countPeriodoNoPlanificable());
 
                         comboRec.setOpciones(new String[]{ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getAllPeriodosNoPlanificables().toString()});
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Receso Guardado", string, "Aceptar");
+                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Receso Guardado", string, "Aceptar", true);
                         CardLayout cardLayout = (CardLayout) contentVacio.getLayout();
                         cardLayout.show(contentVacio, "panelMini1");
 
@@ -592,7 +592,7 @@ public class PantallaFacultad extends JDialog {
                         revalidate();
                     } catch (SqlServerCustomException e1) {
                         String string = "<html><p style='text-align: center;'> ERROR <br><br>" + e1.getMessage() + "</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
+                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar", true);
 //                    } catch (MultiplesErroresException e1) {
 //                        StringBuilder stringAux = new StringBuilder();
 //                        for (String error : e1.getErrores()) {
