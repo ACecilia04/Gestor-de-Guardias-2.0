@@ -44,7 +44,7 @@ public class MostrarPlanif extends JPanel {
 
     public MostrarPlanif() {
         setLayout(new BorderLayout());
-        setBackground(Color.GREEN);
+//        setBackground(Color.GREEN);
 
         paneles = new ArrayList<>();
         int opcionesAncho = 300;

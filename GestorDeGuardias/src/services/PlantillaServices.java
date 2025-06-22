@@ -9,16 +9,14 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 public class PlantillaServices {
-    ServicesLocator sl;
-    private HorarioServices horarioServices;
-    private TurnoDeGuardiaServices turnoDeGuardiaServices;
+    private final HorarioServices horarioServices;
+    private final TurnoDeGuardiaServices turnoDeGuardiaServices;
 
-    ConfiguracionServices configuracionServices;
-    private PersonaServices personaServices;
-    private PeriodoNoPlanificableServices periodoNoPlanificableServices;
+    private final ConfiguracionServices configuracionServices;
+    private final PersonaServices personaServices;
+    private final PeriodoNoPlanificableServices periodoNoPlanificableServices;
 
     public PlantillaServices(ServicesLocator sl) {
-        this.sl = sl;
         horarioServices = sl.getHorarioServices();
         turnoDeGuardiaServices = sl.getTurnoDeGuardiaServices();
         configuracionServices = sl.getConfiguracionServices();
@@ -27,13 +25,11 @@ public class PlantillaServices {
     }
     /**
      * Crea la plantilla de guardias y sus datos sin asignar personas para
-     * cumplir las guardias El parametro empezar hoy determina si la primera
-     * fecha de la plantilla ser� la fecha actual si este es falso empezar�
-     * desde
+     * cumplir las guardias. El parametro empezarHoy determina si la primera
+     * fecha de la plantilla será la fecha actual, si este es falso empezará
+     * desde el primer día del próximo mes
      *
-     * @param empezarHoy
      * @return los de dias de guardia y sus horarios sin planificar
-     * @throws EntradaInvalidaException
      */
     public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy) {
         LocalDate inicio;
@@ -62,7 +58,8 @@ public class PlantillaServices {
         }
         return dias;
     }
-    public List<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
+    
+    public List<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException {
         List<String> errores = new ArrayList<>();
 
         if (fecha == null)
@@ -80,7 +77,7 @@ public class PlantillaServices {
         return personasDisponibles;
     }
     private ArrayList<Persona> getPersonasEnPantalla(ArrayList<DiaGuardia> diasEnPantalla) {
-        ArrayList<Persona> personas = new ArrayList<Persona>();
+        ArrayList<Persona> personas = new ArrayList<>();
         for (DiaGuardia dia : diasEnPantalla)
             for (TurnoDeGuardia turno : dia.getTurnos()) {
                 if (!turno.getPersonasAsignadas().isEmpty())
@@ -91,7 +88,7 @@ public class PlantillaServices {
     }
 
     public void asignarPersona(DiaGuardia dia, Horario horario, Persona persona) throws EntradaInvalidaException, MultiplesErroresException {
-        ArrayList<String> errores = new ArrayList<String>();
+        ArrayList<String> errores = new ArrayList<>();
 
         if (dia == null)
             errores.add("Día a planificar no especificado.");
@@ -156,7 +153,7 @@ public class PlantillaServices {
 
     public ArrayList<DiaGuardia> getDiasPorActualizarCumplimiento() throws EntradaInvalidaException {
         ArrayList<DiaGuardia> planDeGuardias = getPlanDeGuardias();
-        ArrayList<DiaGuardia> diasPorActualizar = new ArrayList<DiaGuardia>();
+        ArrayList<DiaGuardia> diasPorActualizar = new ArrayList<>();
         int i = 0;
         if (planDeGuardias.isEmpty())
             throw new EntradaInvalidaException("No hay guardias planificadas.");

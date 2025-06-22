@@ -73,93 +73,93 @@ public class Gestor {
 
     //*******************************************************Para llenar la plantilla*****************************************************************
 
-    /**
-     * Guarda en el registro del gestor una lista de planificaciones solo si a
-     * todos los turnos de d�as lectivos se le han asignado una persona para
-     * hacerlos.
-     *
-     * @param nuevosDias
-     * @throws EntradaInvalidaException
-     */
-    public void guardar(ArrayList<DiaGuardia> nuevosDias) throws EntradaInvalidaException {
-        boolean vacio = false;
-
-        if (nuevosDias == null || nuevosDias.isEmpty())
-            throw new EntradaInvalidaException("No hay días para guardar.");
-
-        for (int i = 0; i < nuevosDias.size() && !vacio; i++) {
-//            if (!facultad.fechaEsRecesoDocente(nuevosDias.get(i).getFecha())) // xq	si es receso docente puede estar vacia ya q parte de voluntariedad
-//                for (int ii = 0; ii < nuevosDias.get(i).getTurnos().size() && !vacio; ii++)
-////                    vacio = nuevosDias.get(i).getTurnos().get(ii).getPersonaAsignada() == null;
-        }
-        if (vacio) {
-            throw new EntradaInvalidaException("Todo día lectivo debe tener una persona asignada.");
-        } else {
-            for (DiaGuardia dia : nuevosDias)
-//                for (TurnoDeGuardia turno : dia.getTurnos())
-//                    if (turno.getPersonaAsignada() != null)
-//                        facultad.asignarGuardia(turno.getPersonaAsignada().getCarnet(), dia.getFecha());  //ya que se va a guardar se le puede poner la guardia asignada a la persona
-                // si la fecha del ultimo dia registrado esta antes el primer dia de
-                // los nuevos (es decir: estas haciendo una nueva planif)
-                if (this.planDeGuardias.isEmpty() || (planDeGuardias.get(planDeGuardias.size() - 1).getFecha().isBefore(nuevosDias.get(0).getFecha()))) {
-                    planDeGuardias.addAll(nuevosDias);
-                    // si la fecha del ultimo dia registrado esta antes el primer dia de
-                    // los nuevos (es decir: estas haciendo una nueva planif)
-                } else {
-                    //caso contrario es que ya esa planificacion estaba registrada
-                    int indicePlanificados = Collections.binarySearch(planDeGuardias, nuevosDias.get(0)); //google dice que esta magia debe funcionar
-                    for (DiaGuardia d : nuevosDias)
-                        planDeGuardias.set(indicePlanificados++, d);
-                }
-        }
-    }
+//    /**
+//     * Guarda en el registro del gestor una lista de planificaciones solo si a
+//     * todos los turnos de d�as lectivos se le han asignado una persona para
+//     * hacerlos.
+//     *
+//     * @param nuevosDias
+//     * @throws EntradaInvalidaException
+//     */
+//    public void guardar(ArrayList<DiaGuardia> nuevosDias) throws EntradaInvalidaException {
+//        boolean vacio = false;
+//
+//        if (nuevosDias == null || nuevosDias.isEmpty())
+//            throw new EntradaInvalidaException("No hay días para guardar.");
+//
+//        for (int i = 0; i < nuevosDias.size() && !vacio; i++) {
+////            if (!facultad.fechaEsRecesoDocente(nuevosDias.get(i).getFecha())) // xq	si es receso docente puede estar vacia ya q parte de voluntariedad
+////                for (int ii = 0; ii < nuevosDias.get(i).getTurnos().size() && !vacio; ii++)
+//////                    vacio = nuevosDias.get(i).getTurnos().get(ii).getPersonaAsignada() == null;
+//        }
+//        if (vacio) {
+//            throw new EntradaInvalidaException("Todo día lectivo debe tener una persona asignada.");
+//        } else {
+//            for (DiaGuardia dia : nuevosDias)
+////                for (TurnoDeGuardia turno : dia.getTurnos())
+////                    if (turno.getPersonaAsignada() != null)
+////                        facultad.asignarGuardia(turno.getPersonaAsignada().getCarnet(), dia.getFecha());  //ya que se va a guardar se le puede poner la guardia asignada a la persona
+//                // si la fecha del ultimo dia registrado esta antes el primer dia de
+//                // los nuevos (es decir: estas haciendo una nueva planif)
+//                if (this.planDeGuardias.isEmpty() || (planDeGuardias.get(planDeGuardias.size() - 1).getFecha().isBefore(nuevosDias.get(0).getFecha()))) {
+//                    planDeGuardias.addAll(nuevosDias);
+//                    // si la fecha del ultimo dia registrado esta antes el primer dia de
+//                    // los nuevos (es decir: estas haciendo una nueva planif)
+//                } else {
+//                    //caso contrario es que ya esa planificacion estaba registrada
+//                    int indicePlanificados = Collections.binarySearch(planDeGuardias, nuevosDias.get(0)); //google dice que esta magia debe funcionar
+//                    for (DiaGuardia d : nuevosDias)
+//                        planDeGuardias.set(indicePlanificados++, d);
+//                }
+//        }
+//    }
 
     //*************************************************************Editar******************************************************************
 
-    /**
-     * Si los horarios son compatibles y las personas asignadas a ellos est�n
-     * disponibles se intercambian los turnos.
-     *
-     * @param turno1 primer turno seleccionado
-     * @param fecha1 fecha del primer turno
-     * @param turno2 segundo turno seleccionado
-     * @param fecha2 fecha del primer turno
-     * @throws EntradaInvalidaException
-     * @throws MultiplesErroresException
-     */
-    public void intercambiarTurnos(TurnoDeGuardia turno1, LocalDate fecha1, TurnoDeGuardia turno2, LocalDate fecha2) throws EntradaInvalidaException, MultiplesErroresException {
-        if (turno1.getHorario() != turno2.getHorario())
-            throw new EntradaInvalidaException("Estos dos turnos no son intercambiables porque sus horarios no son iguales.");
-//        else if (getDisponibilidadPersona(fecha1, turno1.getHorario(), turno2.getPersonaAsignada()) && getDisponibilidadPersona(fecha2, turno2.getHorario(), turno1.getPersonaAsignada())) {
-//            Persona aux = turno1.getPersonaAsignada();
-//            turno1.asignarPersona(turno2.getPersonaAsignada());
-//            turno2.asignarPersona(aux);
+//    /**
+//     * Si los horarios son compatibles y las personas asignadas a ellos est�n
+//     * disponibles se intercambian los turnos.
+//     *
+//     * @param turno1 primer turno seleccionado
+//     * @param fecha1 fecha del primer turno
+//     * @param turno2 segundo turno seleccionado
+//     * @param fecha2 fecha del primer turno
+//     * @throws EntradaInvalidaException
+//     * @throws MultiplesErroresException
+//     */
+//    public void intercambiarTurnos(TurnoDeGuardia turno1, LocalDate fecha1, TurnoDeGuardia turno2, LocalDate fecha2) throws EntradaInvalidaException, MultiplesErroresException {
+//        if (turno1.getHorario() != turno2.getHorario())
+//            throw new EntradaInvalidaException("Estos dos turnos no son intercambiables porque sus horarios no son iguales.");
+////        else if (getDisponibilidadPersona(fecha1, turno1.getHorario(), turno2.getPersonaAsignada()) && getDisponibilidadPersona(fecha2, turno2.getHorario(), turno1.getPersonaAsignada())) {
+////            Persona aux = turno1.getPersonaAsignada();
+////            turno1.asignarPersona(turno2.getPersonaAsignada());
+////            turno2.asignarPersona(aux);
+////        }
+//        else {
+//            throw new EntradaInvalidaException("Estos dos turnos no son intercambiables porque las personas asignadas a ellos no estan disponibles en la fecha alterna.");
 //        }
-        else {
-            throw new EntradaInvalidaException("Estos dos turnos no son intercambiables porque las personas asignadas a ellos no estan disponibles en la fecha alterna.");
-        }
-    }
-
-    public void borrarPersonaDeTurno(LocalDate fecha, Horario horario) throws EntradaInvalidaException {
-        DiaGuardia dia = buscarDiaGuardia(fecha);
-
-        if (dia == null)
-            throw new EntradaInvalidaException("No hay planificación para esta fecha.");
-//        TurnoDeGuardia turno = dia.buscarTurno(horario);
-
-//        if (turno == null)
-//            throw new EntradaInvalidaException("Este d�a no tiene el horario deseado.");
-//        turno.borrarPersonaAsignada();
-    }
-
-    public void borrarPersonasDeDia(LocalDate fecha) throws EntradaInvalidaException {
-        DiaGuardia dia = buscarDiaGuardia(fecha);
-
-        if (dia == null)
-            throw new EntradaInvalidaException("No hay planificación para esta fecha.");
+//    }
+//
+//    public void borrarPersonaDeTurno(LocalDate fecha, Horario horario) throws EntradaInvalidaException {
+//        DiaGuardia dia = buscarDiaGuardia(fecha);
+//
+//        if (dia == null)
+//            throw new EntradaInvalidaException("No hay planificación para esta fecha.");
+////        TurnoDeGuardia turno = dia.buscarTurno(horario);
+//
+////        if (turno == null)
+////            throw new EntradaInvalidaException("Este d�a no tiene el horario deseado.");
+////        turno.borrarPersonaAsignada();
+//    }
+//
+//    public void borrarPersonasDeDia(LocalDate fecha) throws EntradaInvalidaException {
+//        DiaGuardia dia = buscarDiaGuardia(fecha);
+//
+//        if (dia == null)
+//            throw new EntradaInvalidaException("No hay planificación para esta fecha.");
 //        for (TurnoDeGuardia turno : dia.getTurnos())
 //            turno.borrarPersonaAsignada();
-    }
+//    }
 
 //    public void crearPlanificacionAutomaticamente(ArrayList<DiaGuardia> dias) throws MultiplesErroresException, EntradaInvalidaException {
 //        ArrayList<Persona> personasDisponibles;
@@ -251,47 +251,47 @@ public class Gestor {
      * @throws MultiplesErroresException
      * @throws EntradaInvalidaException
      */
-    private void sustituirGuardias(LocalDate inicio, LocalDate fin, Persona persona) throws MultiplesErroresException, EntradaInvalidaException {
-        ArrayList<Persona> personasDisponibles;
-        for (DiaGuardia dia : this.planDeGuardias) {
-            //si la fecha de ese dia de guardia esta entre las 2 fechas dadas
-            // y esta despues de hoy
-            if ((!dia.getFecha().isBefore(inicio) && !dia.getFecha().isAfter(fin))
-                    && dia.getFecha().isAfter(LocalDate.now())) {
-//                for (TurnoDeGuardia turno : dia.getTurnos()) {
-//                    if (turno.getPersonaAsignada().equals(persona)) {
-//                        personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), new ArrayList<DiaGuardia>());
-//                        if (!personasDisponibles.isEmpty())
-//                            asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
-//                    }
-//                }
-            }
-        }
-    }
-
-    /**
-     * Asigna un sustituto adecuado en todas la guardias planificadas
-     * asignadas a la persona para esa fecha y las proximas
-     *
-     * @param fecha
-     * @param persona
-     * @throws MultiplesErroresException
-     * @throws EntradaInvalidaException
-     */
-    private void sustituirGuardias(LocalDate fecha, Persona persona) throws MultiplesErroresException, EntradaInvalidaException {
-        ArrayList<Persona> personasDisponibles;
-        for (DiaGuardia dia : this.planDeGuardias) {
-            if (!dia.getFecha().isBefore(fecha) && dia.getFecha().isAfter(LocalDate.now())) {
-//                for (TurnoDeGuardia turno : dia.getTurnos()) {
-//                    if (turno.getPersonaAsignada().equals(persona)) {
-//                        personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), new ArrayList<DiaGuardia>());
-//                        if (!personasDisponibles.isEmpty())
-//                            asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
-//                    }
-//                }
-            }
-        }
-    }
+//    private void sustituirGuardias(LocalDate inicio, LocalDate fin, Persona persona) throws MultiplesErroresException, EntradaInvalidaException {
+//        ArrayList<Persona> personasDisponibles;
+//        for (DiaGuardia dia : this.planDeGuardias) {
+//            //si la fecha de ese dia de guardia esta entre las 2 fechas dadas
+//            // y esta despues de hoy
+//            if ((!dia.getFecha().isBefore(inicio) && !dia.getFecha().isAfter(fin))
+//                    && dia.getFecha().isAfter(LocalDate.now())) {
+////                for (TurnoDeGuardia turno : dia.getTurnos()) {
+////                    if (turno.getPersonaAsignada().equals(persona)) {
+////                        personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), new ArrayList<DiaGuardia>());
+////                        if (!personasDisponibles.isEmpty())
+////                            asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
+////                    }
+////                }
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Asigna un sustituto adecuado en todas la guardias planificadas
+//     * asignadas a la persona para esa fecha y las proximas
+//     *
+//     * @param fecha
+//     * @param persona
+//     * @throws MultiplesErroresException
+//     * @throws EntradaInvalidaException
+//     */
+//    private void sustituirGuardias(LocalDate fecha, Persona persona) throws MultiplesErroresException, EntradaInvalidaException {
+//        ArrayList<Persona> personasDisponibles;
+//        for (DiaGuardia dia : this.planDeGuardias) {
+//            if (!dia.getFecha().isBefore(fecha) && dia.getFecha().isAfter(LocalDate.now())) {
+////                for (TurnoDeGuardia turno : dia.getTurnos()) {
+////                    if (turno.getPersonaAsignada().equals(persona)) {
+////                        personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), new ArrayList<DiaGuardia>());
+////                        if (!personasDisponibles.isEmpty())
+////                            asignarPersona(dia, turno.getHorario(), personasDisponibles.get(0));
+////                    }
+////                }
+//            }
+//        }
+//    }
 
 //    /**
 //     * @param fecha
@@ -332,21 +332,21 @@ public class Gestor {
     //******************************************************Cumplimiento**************************************************************************************
 
 
-    public ArrayList<DiaGuardia> getDiasPorActualizarCumplimiento() throws EntradaInvalidaException {
-        ArrayList<DiaGuardia> diasPorActualizar = new ArrayList<DiaGuardia>();
-        int i = 0;
-        if (this.planDeGuardias.isEmpty())
-            throw new EntradaInvalidaException("No hay guardias planificadas.");
-
-        while (planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
-            DiaGuardia dia = planDeGuardias.get(i);
-            if (!(dia.getTurnosPorActualizar().isEmpty()))
-                diasPorActualizar.add(dia);
-            i++;
-        }
-        return diasPorActualizar;
-
-    }
+//    public ArrayList<DiaGuardia> getDiasPorActualizarCumplimiento() throws EntradaInvalidaException {
+//        ArrayList<DiaGuardia> diasPorActualizar = new ArrayList<DiaGuardia>();
+//        int i = 0;
+//        if (this.planDeGuardias.isEmpty())
+//            throw new EntradaInvalidaException("No hay guardias planificadas.");
+//
+//        while (planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
+//            DiaGuardia dia = planDeGuardias.get(i);
+//            if (!(dia.getTurnosPorActualizar().isEmpty()))
+//                diasPorActualizar.add(dia);
+//            i++;
+//        }
+//        return diasPorActualizar;
+//
+//    }
 
     //	public void actualizarCumplimiento(LocalDate fecha, HorarioGuardia horario, Boolean hecho) throws EntradaInvalidaException, MultiplesErroresException{
 //		ArrayList<String> errores = new ArrayList<String>();
@@ -366,15 +366,15 @@ public class Gestor {
 //			throw new EntradaInvalidaException("Ya se ha actualizado el cumplimiento de esta guardia.");
 //
     //	}
-    public void actualizarCumplimiento(ArrayList<DiaGuardia> diasPorActualizar) throws EntradaInvalidaException, MultiplesErroresException {
-        for (DiaGuardia dia : diasPorActualizar) {
-        }
+//    public void actualizarCumplimiento(ArrayList<DiaGuardia> diasPorActualizar) throws EntradaInvalidaException, MultiplesErroresException {
+//        for (DiaGuardia dia : diasPorActualizar) {
+//        }
 //            for (TurnoDeGuardia turno : dia.getTurnos())
 //                if (turno.getCumplimiento() != null) {
 ////					turno.getPersonaAsignada().actualizarCumplimiento(dia.getFecha(), turno.getCumplimiento());
 //                } else
 //                    throw new EntradaInvalidaException("Ya se ha actualizado el cumplimiento de esta guardia.");
-    }
+//    }
 
     // *********************************************************************Filtros y otros**********************************************************************************
 
@@ -428,17 +428,17 @@ public class Gestor {
 //        return personasSinDeudas;
 //    }
 
-    /**
-     * @param fecha
-     * @return indice del dia planificado o -1 si no ha sido planificado
-     */
-    private DiaGuardia buscarDiaGuardia(LocalDate fecha) {
-        int indice;
-//        indice = binaryDateSearch(planDeGuardias, fecha, 0, planDeGuardias.size() - 1);
-//
-//        return indice == -1 ? null : planDeGuardias.get(indice);
-        return null;
-    }
+//    /**
+//     * @param fecha
+//     * @return indice del dia planificado o -1 si no ha sido planificado
+//     */
+//    private DiaGuardia buscarDiaGuardia(LocalDate fecha) {
+//        int indice;
+////        indice = binaryDateSearch(planDeGuardias, fecha, 0, planDeGuardias.size() - 1);
+////
+////        return indice == -1 ? null : planDeGuardias.get(indice);
+//        return null;
+//    }
 
     public Facultad getFacultad() {
         return facultad;
@@ -467,14 +467,14 @@ public class Gestor {
 //        return planDeGuardias;
 //    }
 
-    public void borrarPlanificacion(LocalDate fechaCorte) {
-        Iterator<DiaGuardia> iterator = planDeGuardias.iterator();
-        while (iterator.hasNext()) {
-            DiaGuardia dia = iterator.next();
-            if (dia.getFecha().isAfter(fechaCorte)) {
-                iterator.remove();
-            }
-        }
-    }
+//    public void borrarPlanificacion(LocalDate fechaCorte) {
+//        Iterator<DiaGuardia> iterator = planDeGuardias.iterator();
+//        while (iterator.hasNext()) {
+//            DiaGuardia dia = iterator.next();
+//            if (dia.getFecha().isAfter(fechaCorte)) {
+//                iterator.remove();
+//            }
+//        }
+//    }
 }
 

@@ -66,9 +66,7 @@ public class Tabla extends Cuadro implements IsTabla {
                     try {
                         // 2. Llama a tu servicio de guardado (ajusta a tu arquitectura)
                         ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarTurnos(dias);
-                        System.out.print("aaaaaa");
                     } catch (Exception ex) {
-                        ex.printStackTrace();
                         JOptionPane.showMessageDialog(Tabla.this, "Ocurrió un error:\n" + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                     }
                     String string = "<html><p>Guardado Exitoso<br><br></p><html>";

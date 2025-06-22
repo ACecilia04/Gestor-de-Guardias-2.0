@@ -323,10 +323,7 @@ public class PantallaFacultad extends JDialog {
                     try {
                         PeriodoNoPlanificable indicado = pnpService.getPeriodoEnFecha(fechaAux2);
                         pnpService.deletePeriodoNoPlanificable(indicado.getInicio(), indicado.getFin());
-                        Gestor.getInstance().getFacultad().eliminarRecesoDocente(fechaAux2);
-                    } catch (EntradaInvalidaException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
+
                     } catch (SqlServerCustomException ex) {
                         throw new RuntimeException(ex);
                     }
