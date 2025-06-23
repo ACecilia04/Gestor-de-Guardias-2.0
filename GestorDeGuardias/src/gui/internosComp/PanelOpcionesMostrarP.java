@@ -89,7 +89,7 @@ public class PanelOpcionesMostrarP extends JPanel {
 
         panel4.add(botonVerPlanif);
         y += dimBoton.height + y;
-        dimBoton = new Dimension(dimBoton.width - diferencia, dimBoton.height);
+//        dimBoton = new Dimension(dimBoton.width - diferencia, dimBoton.height);
         x = (panel4.getPreferredSize().width - dimBoton.getSize().width) / 2;
 
         for (Boton e : botones) {

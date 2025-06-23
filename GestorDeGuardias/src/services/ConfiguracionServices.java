@@ -30,7 +30,7 @@ public class ConfiguracionServices {
 
         baseDao.spUpdate("sp_configuracion_create(?, ?, ?, ?, ?, ?)",
                 record.getDiaSemana(),
-                record.isDiaEsReceso(),
+                record.diaEsReceso(),
                 record.getHorario().getId(),
                 record.getTipoPersona().getNombre(),
                 record.getSexo(),
@@ -64,7 +64,7 @@ public class ConfiguracionServices {
         baseDao.spUpdate("sp_configuracion_update(?, ?, ?, ?, ?, ?, ?)",
                 record.getId(),
                 record.getDiaSemana(),
-                record.isDiaEsReceso(),
+                record.diaEsReceso(),
                 record.getHorario().getId(),
                 record.getTipoPersona().getNombre(),
                 record.getSexo(),
@@ -122,7 +122,7 @@ public class ConfiguracionServices {
             errores.add("Dia de semana no especificado.");
         if (record.getDiaSemana() != null && (record.getDiaSemana() < 1 || record.getDiaSemana() > 7))
             errores.add("Dia de semana no válido (1-7).");
-        if (record.isDiaEsReceso() == null)
+        if (record.diaEsReceso() == null)
             errores.add("Dia de receso no especificado.");
         if (record.getHorario() == null)
             errores.add("Horario no especificado.");

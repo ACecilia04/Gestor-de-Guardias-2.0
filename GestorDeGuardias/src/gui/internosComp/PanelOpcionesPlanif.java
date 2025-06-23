@@ -5,6 +5,7 @@ import gui.componentes.Boton;
 import gui.componentes.CustomSplitPane;
 import gui.componentes.CustomTabla;
 import gui.pantallasEmergentes.Advertencia;
+import gui.pantallasEmergentes.Notificacion;
 import gui.secciones.Ventana;
 import model.DiaGuardia;
 import services.ServicesLocator;
@@ -213,48 +214,85 @@ public class PanelOpcionesPlanif extends JPanel {
     }
 
     public void generarAutomaticamente(){
+            String string1 = "<html><p>Procesando.....<br><br></p><html>";
+            Notificacion notificacion = new Notificacion(new Dimension(300, 200), "Generar automáticamente", string1);
 
-        final ArrayList<DiaGuardia> diasAPlanificar = !getDiasSeleccionados().isEmpty()
-                ? getDiasSeleccionados()
-                : tabla.getDias();
+            SwingWorker myWorker = new SwingWorker<String, Void>() {
+                public String doInBackground() {
 
-        Advertencia procesandoDialog = new Advertencia( new Dimension(530, 300),
-                "Procesando",
-                "<html><p style='text-align: center;'>Generando planificación, por favor espere...</p></html>",
-                "Cerrar", false
-        );
-        procesandoDialog.setModalityType(Dialog.ModalityType.MODELESS);
-        procesandoDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-        procesandoDialog.setVisible(true);
+                    ArrayList<DiaGuardia> diasAPlanificar = !getDiasSeleccionados().isEmpty()
+                                        ? getDiasSeleccionados()
+                                        : tabla.getDias();
+                    try {
 
-        new Thread(() -> {
-            try {
-                ServicesLocator.getInstance()
-                        .getPlantillaServices()
-                        .crearPlanificacionAutomaticamente(diasAPlanificar);
+                        ServicesLocator.getInstance().getPlantillaServices().crearPlanificacionAutomaticamente(diasAPlanificar);
 
-            } catch (MultiplesErroresException e1) {
-                StringBuilder stringAux = new StringBuilder();
-                for (String error : e1.getErrores()) {
-                    stringAux.append(error).append("<br>");
-                }
-                String msg = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
-                SwingUtilities.invokeLater(() -> new Advertencia(
-                        Ventana.SIZE_ADVERTENCIA, "Errores", msg, "Aceptar", true));
+                    } catch (MultiplesErroresException e1) {
+                        StringBuilder stringAux = new StringBuilder();
+                        for (String error : e1.getErrores()) {
+                            stringAux.append(error).append("<br>");
+                        }
 
-            } catch (EntradaInvalidaException e1) {
-                String msg = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-                SwingUtilities.invokeLater(() -> new Advertencia(
-                        Ventana.SIZE_ADVERTENCIA, "Error", msg, "Aceptar", true));
-
-            } finally {
-                SwingUtilities.invokeLater(() -> {
-                    procesandoDialog.dispose();
+                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
+                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
+                    } catch (EntradaInvalidaException e1) {
+                        String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
+                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
+                    }
                     tabla.actualizarVistaTabla();
-                });
-            }
-        }).start();
-    }
+
+                    notificacion.dispose();
+                    return null;
+                }
+
+                public void done() {
+                }
+            };
+            myWorker.execute();
+            notificacion.setVisible(true);
+        }
+
+//        final ArrayList<DiaGuardia> diasAPlanificar = !getDiasSeleccionados().isEmpty()
+//                ? getDiasSeleccionados()
+//                : tabla.getDias();
+//
+//        Advertencia procesandoDialog = new Advertencia( new Dimension(530, 300),
+//                "Procesando",
+//                "<html><p style='text-align: center;'>Generando planificación, por favor espere...</p></html>",
+//                "Cerrar", false
+//        );
+//        procesandoDialog.setModalityType(Dialog.ModalityType.MODELESS);
+//        procesandoDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+//        procesandoDialog.setVisible(true);
+//
+//        new Thread(() -> {
+//            try {
+//                ServicesLocator.getInstance()
+//                        .getPlantillaServices()
+//                        .crearPlanificacionAutomaticamente(diasAPlanificar);
+//
+//            } catch (MultiplesErroresException e1) {
+//                StringBuilder stringAux = new StringBuilder();
+//                for (String error : e1.getErrores()) {
+//                    stringAux.append(error).append("<br>");
+//                }
+//                String msg = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
+//                SwingUtilities.invokeLater(() -> new Advertencia(
+//                        Ventana.SIZE_ADVERTENCIA, "Errores", msg, "Aceptar", true));
+//
+//            } catch (EntradaInvalidaException e1) {
+//                String msg = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
+//                SwingUtilities.invokeLater(() -> new Advertencia(
+//                        Ventana.SIZE_ADVERTENCIA, "Error", msg, "Aceptar", true));
+//
+//            } finally {
+//                SwingUtilities.invokeLater(() -> {
+//                    procesandoDialog.dispose();
+//                    tabla.actualizarVistaTabla();
+//                });
+//            }
+//        }).start();
+//    }
 
     private void guardar() {
         try {

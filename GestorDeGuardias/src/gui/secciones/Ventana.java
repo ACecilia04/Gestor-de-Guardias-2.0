@@ -190,7 +190,7 @@ public class Ventana extends JFrame {
         CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
         boolean cambiar = true;
         if (Objects.equals(pantallaActual, "panel4") && !Objects.equals(nombrePanel, "panel4")) {
-            String string = "<html><p>Estas seguro de que quieres cambiar? <br> <br><br>Perderas la planifcacion no guardada</p><html>";
+            String string = "<html><p>Estás seguro de que quieres cambiar? <br> <br><br>Perderás la planifcacion no guardada</p><html>";
             Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Advertencia", string, "Cancelar", "Aceptar");
 
             if (advertencia.getEleccion()) {
@@ -216,7 +216,7 @@ public class Ventana extends JFrame {
 
 
             if (Objects.equals(nombrePanel, "panel4")) {
-                ArrayList<DiaGuardia> dias = new ArrayList<>();
+                ArrayList<DiaGuardia> dias;
                 boolean empezarHoy = false;
 
                 TurnoDeGuardiaServices tgServ = servicesLocator.getTurnoDeGuardiaServices();

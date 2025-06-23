@@ -33,8 +33,7 @@ public class Advertencia extends JDialog {
         this.opcion1 = op1;
         this.opcion2 = op2;
 
-//        if(doNothingOnClose)
-            setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
         inicializar(texto, Ventana.getInstance());
         addBotonSi();
@@ -50,6 +49,22 @@ public class Advertencia extends JDialog {
 
     public Advertencia(Dimension dim, String title, String texto, String op2, boolean modal) {
         super(Ventana.getInstance(), title, modal);
+        this.myself = this;
+        this.dim = dim;
+        this.opcion2 = op2;
+
+        inicializar(texto, Ventana.getInstance());
+        addBotonNo();
+
+        if (label.getPreferredSize().height > 100) {
+            this.setSize(new Dimension(dim.width, label.getPreferredSize().height + 150));
+            setMinimumSize(this.getSize());
+        }
+
+        setVisible(true);
+    }
+    public Advertencia(Dimension dim, String title, String texto, String op2) {
+        super(Ventana.getInstance(), title, true);
         this.myself = this;
         this.dim = dim;
         this.opcion2 = op2;
