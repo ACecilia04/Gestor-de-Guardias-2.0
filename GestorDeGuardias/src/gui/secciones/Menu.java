@@ -148,7 +148,7 @@ public class Menu extends JPanel {
 
         switch (rolNombre) {
             case "administrador":
-                // No deshabilitar nada TODO: cambiar acceso de admin
+                // No deshabilitar nada TODO: cambiar acceso de admin y ver si setVisible funciona como pienso
                 break;
             case "planificador":
                 // Solo deja planificación y añadir planificación
@@ -208,8 +208,8 @@ public class Menu extends JPanel {
         btnTrabajadores.setText("Trabajadores");
         btnTrabajadores.setLocation(x, btnTrabajadores.getY());
 
-        btnAddPlanif.setText("Añadir Planificación");
-        btnAddPlanif.setLocation(x, btnAddPlanif.getY());
+//        btnAddPlanif.setText("Añadir Planificación");
+//        btnAddPlanif.setLocation(x, btnAddPlanif.getY());
 
         btnActualizarAsist.setText("Actualizar Asistencias");
         btnActualizarAsist.setLocation(x, btnActualizarAsist.getY());
