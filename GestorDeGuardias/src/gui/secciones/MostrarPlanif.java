@@ -145,7 +145,7 @@ public class MostrarPlanif extends JPanel {
 
         panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
         panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
-        panelOpciones.getBotonCrearPlanif().setSeleccionable(false);
+        panelOpciones.getBotonCrearPlanif().setSeleccionable(true);
         panelOpciones.getBotonVerPlanif().setSeleccionable(false);
         panelOpciones.getBotonExport().setSeleccionable(false);
 

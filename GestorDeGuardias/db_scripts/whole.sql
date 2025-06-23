@@ -1631,6 +1631,22 @@ BEGIN
 END
 
 GO
+/****** Object:  StoredProcedure [dbo].[sp_turno_de_guardia_read_last]    Script Date: 23/06/2025 12:36:03 a. m. ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_turno_de_guardia_read_last]
+AS
+BEGIN
+SELECT TOP 1 *
+FROM dbo.turno_de_guardia
+WHERE borrado = 0
+ORDER BY id DESC;
+END
+
+GO
 /****** Object:  StoredProcedure [dbo].[sp_usuario_create]    Script Date: 22/06/2025 11:51:14 p. m. ******/
 SET ANSI_NULLS ON
 GO

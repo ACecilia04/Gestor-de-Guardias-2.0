@@ -34,15 +34,13 @@ public class PlantillaServices {
     public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy) {
         LocalDate inicio;
         ArrayList<DiaGuardia> dias = new ArrayList<>();
-        ArrayList<TurnoDeGuardia> turnosActuales = turnoDeGuardiaServices.getAllTurnosDeGuardia();
 
         if (empezarHoy)
             inicio = LocalDate.now();
 
         else {
-            inicio = (turnosActuales.isEmpty())
-                    ? LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth())
-                    : turnosActuales.getLast().getFecha().plusDays(1);
+            inicio = turnoDeGuardiaServices.getUltimoTurnoDeGuardia().getFecha().plusDays(1);
+
         }
 
         int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
@@ -193,10 +191,10 @@ public class PlantillaServices {
             throw new EntradaInvalidaException("No hay guardias planificadas.");
 
         while (i < planDeGuardias.size() && planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
-            System.out.println(i);
             DiaGuardia dia = planDeGuardias.get(i);
-            if (!(dia.getTurnosPorActualizar().isEmpty()))
+            if (!(dia.getTurnosPorActualizar().isEmpty())) {
                 diasPorActualizar.add(dia);
+            }
             i++;
         }
         return diasPorActualizar;
