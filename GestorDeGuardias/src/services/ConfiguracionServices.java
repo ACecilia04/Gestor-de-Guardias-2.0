@@ -79,7 +79,7 @@ public class ConfiguracionServices {
 
     public List<Configuracion> getConfiguracionesDeFecha(LocalDate fecha){
 
-        return baseDao.spQuery("sp_configuraciones_de_fecha(?)", new ConfiguracionMapper(), fecha.getDayOfWeek().getValue());
+        return baseDao.spQuery("sp_configuraciones_de_fecha(?)", new ConfiguracionMapper(), fecha);
     }
 
     public int getCantPersonasAsignables(Long horario, LocalDate fecha){
