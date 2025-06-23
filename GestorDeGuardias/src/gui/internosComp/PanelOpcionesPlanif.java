@@ -22,21 +22,15 @@ import java.util.ArrayList;
 public class PanelOpcionesPlanif extends JPanel {
     private static final long serialVersionUID = 1L;
     private final JPanel superior;
-    private final CustomSplitPane splitPane;
-        private final int separacion = 10;
-//        private CustomSplitPane splitPaneInterno;
-//    private JPanel panel1;
+    private final CustomSplitPane splitPane;;
     private final JPanel panelControl;
     private final JPanel panelTablaSeleccionados;
     private final JPanel panelGuardar;
     private final CustomTabla tablaSelec;
-//        private final int x = 40;
-//    private final int y = separacion + 10;
     private final Boton botonAddPersona;
     private final Boton btnGuardar;
     private final Boton botonAut;
     Paleta paleta = new Paleta();
-
     private Tabla tabla;
 
 
@@ -50,81 +44,69 @@ public class PanelOpcionesPlanif extends JPanel {
         superior.setPreferredSize(new Dimension(this.getPreferredSize().width, 50));
         superior.setBackground(getBackground());
 
-        add(superior, BorderLayout.NORTH);
+        //Panel de Control
+        {
+            panelControl = new JPanel(null);
+            panelControl.setBackground(getBackground());
 
+            botonAut = new Boton("Auto Generación");
+            botonAut.addIcono("/iconos/Espiral.png");
+            botonAut.setNuevoSize(new Dimension(botonAut.getSize().width + 10, botonAut.getSize().height + 10));
+            botonAut.cambiarIconTextGap(10);
+            botonAut.setColorLetra(Color.WHITE);
+            botonAut.setColorLetraPres(Color.WHITE);
+            botonAut.setColorFondo(paleta.getColorCaracteristico());
+            botonAut.setNuevoSize(new Dimension(botonAut.getSize().width + 30, botonAut.getSize().height));
+            botonAut.addActionListener(e -> generarAutomaticamente());
 
-        //Panel2
-        panelControl = new JPanel(null);
-        panelControl.setBackground(getBackground());
-        botonAut = new Boton("Auto Generación");
-        botonAut.addIcono("/iconos/Espiral.png");
-        botonAut.setNuevoSize(new Dimension(botonAut.getSize().width + 10, botonAut.getSize().height + 10));
-        botonAut.cambiarIconTextGap(10);
-        botonAut.setColorLetra(Color.WHITE);
-        botonAut.setColorLetraPres(Color.WHITE);
-        botonAut.setColorFondo(paleta.getColorCaracteristico());
-        Dimension aux = new Dimension(botonAut.getSize().width + 30, botonAut.getSize().height);
-        botonAut.setNuevoSize(aux);
+            botonAddPersona = new Boton("Añadir Persona");
+            botonAddPersona.setNuevoSize(new Dimension(botonAut.getSize().width + 10, botonAut.getSize().height + 10));
+            botonAddPersona.setNuevoSize(new Dimension(botonAut.getSize().width, botonAut.getSize().height));
+            botonAddPersona.setLocation((this.getPreferredSize().width - botonAut.getWidth()) / 2, 20);
+            int yAux = botonAddPersona.getLocation().y + botonAddPersona.getPreferredSize().height + 25;
+            botonAut.setLocation((this.getPreferredSize().width - botonAut.getWidth()) / 2, yAux);
+            botonAddPersona.addActionListener(e -> addPersona());
+            actualizarColorBoton();
 
-        botonAut.addActionListener(new ActionListener() {
+            panelControl.add(botonAut);
+            panelControl.add(botonAddPersona);
+            panelControl.setMinimumSize(new Dimension(getPreferredSize().width, 150));
+        }
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                generarAutomaticamente();
-            }
-        });
+        //Panel de Tabla de Registros Seleccionados
+        {
+            panelTablaSeleccionados = new JPanel(new BorderLayout());
+            panelTablaSeleccionados.setBackground(getBackground());
+            panelTablaSeleccionados.setMinimumSize(new Dimension(this.getPreferredSize().width, 200));
 
-        tablaSelec = new CustomTabla("Seleccionados");
-        botonAddPersona = new Boton("Añadir Persona");
-        botonAddPersona.setNuevoSize(new Dimension(botonAut.getSize().width + 10, botonAut.getSize().height + 10));
+            tablaSelec = new CustomTabla("Seleccionados");
 
-        aux = new Dimension(botonAut.getSize().width, botonAut.getSize().height);
-        botonAddPersona.setNuevoSize(aux);
+            panelTablaSeleccionados.add(tablaSelec, BorderLayout.CENTER);
 
-        botonAddPersona.setLocation((this.getPreferredSize().width - botonAut.getWidth()) / 2, 20);
-        int yAux = botonAddPersona.getLocation().y + botonAddPersona.getPreferredSize().height + 25;
-        botonAut.setLocation((this.getPreferredSize().width - botonAut.getWidth()) / 2, yAux);
-
-        actualizarColorBoton();
-
-
-        panelControl.add(botonAut);
-        panelControl.add(botonAddPersona);
-        panelControl.setMinimumSize(new Dimension(getPreferredSize().width, 150));
-
-        //Panel3
-        panelTablaSeleccionados = new JPanel(new BorderLayout());
-        panelTablaSeleccionados.setBackground(getBackground());
-
-
-        panelTablaSeleccionados.add(tablaSelec, BorderLayout.CENTER);
-
-        panelTablaSeleccionados.setMinimumSize(new Dimension(this.getPreferredSize().width, 200));
+        }
 
         splitPane = new CustomSplitPane(panelControl, panelTablaSeleccionados, JSplitPane.VERTICAL_SPLIT);
+
+        //Panel Guardar
+        {
+            panelGuardar = new JPanel(null);
+            panelGuardar.setBackground(getBackground());
+            panelGuardar.setPreferredSize(new Dimension(this.getPreferredSize().width, 100));
+
+            btnGuardar = new Boton("Guardar");
+            btnGuardar.setNuevoSize(new Dimension(140, 40));
+            btnGuardar.setBordeado(true);
+            btnGuardar.setColorPresionado(paleta.getColorCaracteristico());
+            btnGuardar.addActionListener(e -> guardar());
+            int x = (panelGuardar.getPreferredSize().width - btnGuardar.getSize().width) / 2;
+            int y = (panelGuardar.getPreferredSize().height - btnGuardar.getSize().height) / 2;
+            btnGuardar.setLocation(x, y);
+
+            panelGuardar.add(btnGuardar);
+        }
+
+        add(superior, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
-
-        //Panel4 Guardar
-        panelGuardar = new JPanel(null);
-        panelGuardar.setBackground(getBackground());
-        panelGuardar.setPreferredSize(new Dimension(this.getPreferredSize().width, 100));
-        btnGuardar = new Boton("Guardar");
-
-        btnGuardar.setNuevoSize(new Dimension(140, 40));
-        btnGuardar.setBordeado(true);
-        btnGuardar.setColorPresionado(paleta.getColorCaracteristico());
-
-        btnGuardar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                guardar();
-            }
-        });
-
-        int x = (panelGuardar.getPreferredSize().width - btnGuardar.getSize().width) / 2;
-        int y = (panelGuardar.getPreferredSize().height - btnGuardar.getSize().height) / 2;
-        btnGuardar.setLocation(x, y);
-        panelGuardar.add(btnGuardar);
         add(panelGuardar, BorderLayout.SOUTH);
 
         //Bordes
@@ -134,8 +116,8 @@ public class PanelOpcionesPlanif extends JPanel {
 
         splitPane.setBorder(border);
         panelGuardar.setBorder(border);
-
         superior.setBorder(margenDoubleBorder);
+
         setBorder(border);
 
     }
@@ -169,7 +151,7 @@ public class PanelOpcionesPlanif extends JPanel {
     }
 
     public void actualizarColorBoton() {
-        if (tablaSelec.getCantFilas() == 1) {
+        if (tablaSelec != null && tablaSelec.getCantFilas() == 1) {
             botonAddPersona.setColorLetra(Color.WHITE);
             botonAddPersona.setColorLetraPres(Color.WHITE);
             botonAddPersona.setColorFondo(paleta.getColorCaracteristico());
@@ -183,16 +165,20 @@ public class PanelOpcionesPlanif extends JPanel {
         }
     }
 
-    public Boton getBtnGuardar() {
-        return btnGuardar;
-    }
+    public void addPersona(){
+        if (botonAddPersona.isSeleccionable()) {
+            try {
 
-    public Boton getBotonAut() {
-        return botonAut;
-    }
+                if (getTablaSelec().getComponentes().size() == 1) {
+                    PanelTurno aux = (PanelTurno) getTablaSelec().getComponentes().getFirst();
+                    Ventana.getInstance().addPantallaSelecPerona(aux, tabla.getDias());
+                }
 
-    public Boton getBotonAddPersona() {
-        return botonAddPersona;
+            } catch (EntradaInvalidaException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+        }
     }
 
     public CustomTabla getTablaSelec() {
@@ -224,7 +210,7 @@ public class PanelOpcionesPlanif extends JPanel {
                                         ? getDiasSeleccionados()
                                         : tabla.getDias();
                     try {
-                        
+
                         ServicesLocator.getInstance().getPlantillaServices().crearPlanificacionAutomaticamente(diasAPlanificar);
 
                     } catch (MultiplesErroresException e1) {
@@ -251,48 +237,6 @@ public class PanelOpcionesPlanif extends JPanel {
             myWorker.execute();
             notificacion.setVisible(true);
         }
-
-//        final ArrayList<DiaGuardia> diasAPlanificar = !getDiasSeleccionados().isEmpty()
-//                ? getDiasSeleccionados()
-//                : tabla.getDias();
-//
-//        Advertencia procesandoDialog = new Advertencia( new Dimension(530, 300),
-//                "Procesando",
-//                "<html><p style='text-align: center;'>Generando planificación, por favor espere...</p></html>",
-//                "Cerrar", false
-//        );
-//        procesandoDialog.setModalityType(Dialog.ModalityType.MODELESS);
-//        procesandoDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-//        procesandoDialog.setVisible(true);
-//
-//        new Thread(() -> {
-//            try {
-//                ServicesLocator.getInstance()
-//                        .getPlantillaServices()
-//                        .crearPlanificacionAutomaticamente(diasAPlanificar);
-//
-//            } catch (MultiplesErroresException e1) {
-//                StringBuilder stringAux = new StringBuilder();
-//                for (String error : e1.getErrores()) {
-//                    stringAux.append(error).append("<br>");
-//                }
-//                String msg = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
-//                SwingUtilities.invokeLater(() -> new Advertencia(
-//                        Ventana.SIZE_ADVERTENCIA, "Errores", msg, "Aceptar", true));
-//
-//            } catch (EntradaInvalidaException e1) {
-//                String msg = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-//                SwingUtilities.invokeLater(() -> new Advertencia(
-//                        Ventana.SIZE_ADVERTENCIA, "Error", msg, "Aceptar", true));
-//
-//            } finally {
-//                SwingUtilities.invokeLater(() -> {
-//                    procesandoDialog.dispose();
-//                    tabla.actualizarVistaTabla();
-//                });
-//            }
-//        }).start();
-//    }
 
     private void guardar() {
         try {

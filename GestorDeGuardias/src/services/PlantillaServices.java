@@ -68,7 +68,7 @@ public class PlantillaServices {
             throw new MultiplesErroresException("Datos incorrectos:, errores");
 
         Boolean fechaEsReceso = periodoNoPlanificableServices.fechaEsNoPlanificable(fecha);
-        Configuracion configuracionDeFecha = configuracionServices.getConfiguracionByPk(horario.getId(), fecha, fechaEsReceso);  //esta lanza la EntradaInvalidaException y poor eso es parte de la declaracion pero en realidad no tendr� oportunidad de lanzarla aqui
+        Configuracion configuracionDeFecha = configuracionServices.getConfiguracionByPk(horario.getId(), fecha, fechaEsReceso);
         List<Persona> personasDisponibles = personaServices.getPersonasDisponibles(fecha, configuracionDeFecha.getTipoPersona(), configuracionDeFecha.getSexo());
 
         personasDisponibles.removeAll(getPersonasEnPantalla(diasEnPantalla));

@@ -61,14 +61,12 @@ public class Tabla extends Cuadro implements IsTabla {
         // Agregar MouseListener y MouseMotionListener al panel t�tulo
         inicializarTitulo();
 
-
         panelCasillas = new JPanel();
         panelCasillas.setBackground(Color.WHITE);
         panelCasillas.setLayout(new BoxLayout(panelCasillas, BoxLayout.Y_AXIS));
         panelCasillas.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
-
-
         panelCasillas.add(Box.createRigidArea(new Dimension(10, 0)));
+
         for (int i = 0; i < dias.size(); i++) {
             DiaGuardia dia = dias.get(i);
             Component caja = Box.createRigidArea(new Dimension(0, 5));
@@ -84,8 +82,8 @@ public class Tabla extends Cuadro implements IsTabla {
         JScrollPane scrollPane = new JScrollPane(panelCasillas);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
         scrollPane.setVerticalScrollBar(new CustomScrollBar());
+
         CustomScrollBar sp = new CustomScrollBar();
         sp.setOrientation(JScrollBar.HORIZONTAL);
         scrollPane.setHorizontalScrollBar(sp);

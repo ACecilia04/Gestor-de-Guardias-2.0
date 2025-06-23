@@ -5,14 +5,15 @@ import gui.componentes.Boton;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serial;
 
 public class PanelEdicion2 extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
 
 
-    private final Paleta paleta = new Paleta();
-
     public PanelEdicion2(int alto) {
+        Paleta paleta = new Paleta();
         setBackground(paleta.getColorFondoTabla());
 
         Boton boton1 = new Boton("Intercambiar Dias");

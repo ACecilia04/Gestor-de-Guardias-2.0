@@ -48,6 +48,8 @@ public class MostrarPlanif extends JPanel {
         setLayout(new BorderLayout());
 
         paneles = new ArrayList<>();
+        // Panel opciones
+        {
         int opcionesAncho = 300;
         panelOpciones = new PanelOpcionesMostrarP(new Dimension(opcionesAncho, 100));
 
@@ -87,7 +89,7 @@ public class MostrarPlanif extends JPanel {
                             .getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
                     // 3. Llamar al servicio de reporte
 
-                     new ReporteServices().generarReportePlantilla( diasGuardia, path);
+                    new ReporteServices().generarReportePlantilla(diasGuardia, path);
 
                     JOptionPane.showMessageDialog(MostrarPlanif.this, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -109,7 +111,7 @@ public class MostrarPlanif extends JPanel {
                 if (getSeleccionado() != null) {
                     ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices()
                             .agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices()
-                            .getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
+                                    .getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
                     Ventana.getInstance().editarPlanif(diasAux);
                 }
 
@@ -151,10 +153,10 @@ public class MostrarPlanif extends JPanel {
         panelOpciones.getBotonCrearPlanif().setSeleccionable(true);
         panelOpciones.getBotonVerPlanif().setSeleccionable(false);
         panelOpciones.getBotonExport().setSeleccionable(false);
+    }
 
         // Crea el panelInterior
         panelInterior = new JPanel();
-        //    private static final Dimension tablaDim = new Dimension(1200, 745);
         Paleta paleta = new Paleta();
         panelInterior.setBackground(paleta.getColorFondo());
 
@@ -260,7 +262,7 @@ public class MostrarPlanif extends JPanel {
         }
     }
 
-    private PanelInterno getSeleccionado() {
+    public PanelInterno getSeleccionado() {
         PanelInterno aux = null;
         for (int i = 0; i < paneles.size() && aux == null; i++) {
             if (paneles.get(i).isSeleccionado()) {
@@ -274,8 +276,7 @@ public class MostrarPlanif extends JPanel {
         if (getSeleccionado() != null) {
             Ventana.getInstance().getPanelVerPlanif().removeAll();
             ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
-            TablaBase tabla = new TablaBase(Ventana.getInstance().getPanelVacio().getSize(), Color.WHITE, diasAux);//, distX, distY, contenedor);
-//    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) JPanel contenedor, int distX, int distY
+            TablaBase tabla = new TablaBase(Ventana.getInstance().getPanelVacio().getSize(), Color.WHITE, diasAux);
             tabla.actualizarVistaTabla();
             Ventana.getInstance().getPanelVerPlanif().add(tabla, BorderLayout.CENTER);
             Ventana.getInstance().getPanelVerPlanif().revalidate();

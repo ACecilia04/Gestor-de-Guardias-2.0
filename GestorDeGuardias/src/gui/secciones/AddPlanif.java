@@ -38,26 +38,6 @@ public class AddPlanif extends JPanel {
 
         tablaOpciones = new PanelOpcionesPlanif(dimTablaOpciones);
 
-        final Boton btnAddPersona = tablaOpciones.getBotonAddPersona();
-        btnAddPersona.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (btnAddPersona.isSeleccionable()) {
-                    try {
-
-                        if (tablaOpciones.getTablaSelec().getComponentes().size() == 1) {
-                            PanelTurno aux = (PanelTurno) tablaOpciones.getTablaSelec().getComponentes().getFirst();
-                            Ventana.getInstance().addPantallaSelecPerona(aux, tabla.getDias());
-                        }
-
-                    } catch (EntradaInvalidaException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                }
-            }
-        });
-
         // Esto no se usa, lo quitamos
         //x = (contenedor.getWidth() - dimTablaOpciones.width - tablaDim.width) / 2;
 

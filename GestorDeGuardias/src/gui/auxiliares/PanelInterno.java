@@ -8,6 +8,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.time.LocalDate;
 
+import static gui.auxiliares.ConvertidorFecha.traducDiaMes;
+
 
 public class PanelInterno extends Cuadro {
     private static final Paleta paleta = new Paleta();
@@ -45,7 +47,7 @@ public class PanelInterno extends Cuadro {
         this.setColorFondo(colorFondo);
         this.setBackground(colorFondo);
 
-        String stringMesYAnno = fechaInicial.getMonth().name() + "  " + fechaInicial.getYear();
+        String stringMesYAnno = traducDiaMes(fechaInicial) + "  " + fechaInicial.getYear();
         Font fuente = new Font("Arial", Font.BOLD, 14);
         titulo = new Etiqueta(fuente, colorLetra, stringMesYAnno);
         int espacioX = 20;
@@ -53,7 +55,7 @@ public class PanelInterno extends Cuadro {
         titulo.setLocation(espacioX, espacioY);
 
 
-        String stringFechaInicio = "INICIO: " + fechaInicial.getDayOfMonth() + "  " + fechaInicial.getMonth().name() + "  " + fechaInicial.getYear();
+        String stringFechaInicio = "INICIO: " + fechaInicial.getDayOfMonth() + "  " + traducDiaMes(fechaInicial) + "  " + fechaInicial.getYear();
         titulo2 = new Etiqueta(fuente, colorLetra, stringFechaInicio);
         titulo2.setLocation(espacioX, espacioY * 2 + titulo.getSize().height);
 
