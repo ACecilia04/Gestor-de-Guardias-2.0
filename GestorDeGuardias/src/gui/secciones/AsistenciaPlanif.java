@@ -1,7 +1,7 @@
 package gui.secciones;
 
 import gui.auxiliares.Paleta;
-import gui.auxiliares.PanelInterno;
+import gui.auxiliares.PanelMesDeGuardias;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import model.DiaGuardia;
@@ -26,11 +26,11 @@ public class AsistenciaPlanif extends JPanel {
     private static final int VERTICAL_GAP = 20;
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
     private final JPanel panelInterior;
-    private final ArrayList<PanelInterno> paneles;
+    private final ArrayList<PanelMesDeGuardias> paneles;
     private final Font fuente = new Font("Arial", Font.PLAIN, 14);
     private final LayoutManager layout = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
     private final LayoutManager layout2 = new FlowLayout(FlowLayout.CENTER, 0, 100);
-    private PanelInterno panelSelec;
+    private PanelMesDeGuardias panelSelec;
 
 
     public AsistenciaPlanif() {
@@ -60,8 +60,8 @@ public class AsistenciaPlanif extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public PanelInterno addPlanif(LocalDate fechaIncio) {
-        PanelInterno nuevoPanel = new PanelInterno(fechaIncio, panelDimension);
+    public PanelMesDeGuardias addPlanif(LocalDate fechaIncio) {
+        PanelMesDeGuardias nuevoPanel = new PanelMesDeGuardias(fechaIncio, panelDimension);
 
         panelInterior.add(nuevoPanel);
         panelInterior.revalidate();
@@ -103,8 +103,8 @@ public class AsistenciaPlanif extends JPanel {
         }
 
 
-        for (PanelInterno e : paneles) {
-            final PanelInterno aux = e;
+        for (PanelMesDeGuardias e : paneles) {
+            final PanelMesDeGuardias aux = e;
             aux.addMouseListener(new MouseAdapter() {
                 private static final long DOUBLE_CLICK_DELAY = 500;
                 private long lastClickTime = 0;

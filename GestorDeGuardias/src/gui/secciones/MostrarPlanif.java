@@ -5,8 +5,6 @@ import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.internosComp.PanelOpcionesMostrarP;
-import gui.internosComp.PanelOpcionesPlanif;
-import gui.internosComp.Tabla;
 import gui.internosComp.TablaBase;
 import gui.pantallasEmergentes.Advertencia;
 import model.DiaGuardia;
@@ -34,7 +32,7 @@ public class MostrarPlanif extends JPanel {
     private static final int HORIZONTAL_GAP = 30;
     private static final int VERTICAL_GAP = 20;
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
-    private final JPanel panelInterior;
+    private final JPanel panelMeses;
     private final ArrayList<PanelInterno> paneles;
 
     private final PanelOpcionesMostrarP panelOpciones;
@@ -48,6 +46,7 @@ public class MostrarPlanif extends JPanel {
         setLayout(new BorderLayout());
 
         paneles = new ArrayList<>();
+
         // Panel opciones
         {
         int opcionesAncho = 300;
@@ -156,12 +155,12 @@ public class MostrarPlanif extends JPanel {
     }
 
         // Crea el panelInterior
-        panelInterior = new JPanel();
+        panelMeses = new JPanel();
         Paleta paleta = new Paleta();
-        panelInterior.setBackground(paleta.getColorFondo());
+        panelMeses.setBackground(paleta.getColorFondo());
 
         // Crea un JScrollPane para el panelInterior
-        JScrollPane scrollPane = new JScrollPane(panelInterior);
+        JScrollPane scrollPane = new JScrollPane(panelMeses);
         scrollPane.setPreferredSize(new Dimension(600, 400));
         scrollPane.setVerticalScrollBar(new CustomScrollBar());
         scrollPane.setOpaque(true);
@@ -178,21 +177,21 @@ public class MostrarPlanif extends JPanel {
     private void addPlanif(LocalDate fechaIncio) {
         PanelInterno nuevoPanel = new PanelInterno(fechaIncio, panelDimension);
 
-        panelInterior.add(nuevoPanel);
+        panelMeses.add(nuevoPanel);
         paneles.add(nuevoPanel);
-        panelInterior.revalidate();
-        panelInterior.repaint();
+        panelMeses.revalidate();
+        panelMeses.repaint();
 
         // Calcula el tama�o preferido del panelInterior
         calculatePreferredSize();
     }
 
     public void actualizarPlanif() {
-        panelInterior.removeAll();
+        panelMeses.removeAll();
 //        HashSet<String> mesesPlanificados = new HashSet<>();
 
         ArrayList<DiaGuardia> dias = ServicesLocator.getInstance().getPlantillaServices().getPlanDeGuardias();
-        panelInterior.setLayout(layout);
+        panelMeses.setLayout(layout);
 
         HashSet<String> mesesArchivables = new HashSet<>();
 
@@ -206,9 +205,9 @@ public class MostrarPlanif extends JPanel {
                 addPlanif(fechaAux);
             }}
         if (paneles.isEmpty()) {
-            panelInterior.setLayout(layout2);
+            panelMeses.setLayout(layout2);
             Etiqueta error = new Etiqueta(fuente, Color.GRAY, "No hay planificaciones");
-            panelInterior.add(error);
+            panelMeses.add(error);
         }
 
 
@@ -216,9 +215,13 @@ public class MostrarPlanif extends JPanel {
             final PanelInterno aux = e;
             aux.addMouseListener(new MouseAdapter() {
 
+                private static final long DOUBLE_CLICK_DELAY = 500;
+                private long lastClickTime = 0;
+
                 @Override
-                public void mouseClicked(MouseEvent e) {
-                    // Llamar al método setSeleccionado() cuando se hace clic en el panel
+                public void mousePressed(MouseEvent e) {
+                    long currentClickTime = System.currentTimeMillis();
+
                     aux.setSeleccionado();
                     calcularSeleccionados(aux);
 
@@ -235,8 +238,14 @@ public class MostrarPlanif extends JPanel {
                         panelOpciones.getBotonVerPlanif().setSeleccionable(false);
                         panelOpciones.getBotonExport().setSeleccionable(false);
                     }
-                    repaint();
                     revalidate();
+                    repaint();
+                    if (currentClickTime - lastClickTime <= DOUBLE_CLICK_DELAY) {
+                        Ventana.getInstance().mostrarPanel("panelVerPlanif");
+                        mostrarTabla();
+                    }
+
+                    lastClickTime = currentClickTime;
                 }
             });
         }
@@ -245,13 +254,13 @@ public class MostrarPlanif extends JPanel {
     }
 
     private void calculatePreferredSize() {
-        int numPanels = panelInterior.getComponentCount();
+        int numPanels = panelMeses.getComponentCount();
         // Calcula el n�mero de columnas que caben en el ancho del JScrollPane
         int panelWidthWithGap = PANEL_WIDTH + HORIZONTAL_GAP;
         int numColumns = Math.max(1, getWidth() / panelWidthWithGap); // Evita divisi�n por cero
         int numRows = (numPanels + numColumns - 1) / numColumns; // Calcula el n�mero de filas
         int preferredHeight = (numRows * PANEL_HEIGHT) + ((numRows - 1) * VERTICAL_GAP);
-        panelInterior.setPreferredSize(new Dimension(600, preferredHeight));
+        panelMeses.setPreferredSize(new Dimension(600, preferredHeight));
     }
 
     private void calcularSeleccionados(PanelInterno aux) {

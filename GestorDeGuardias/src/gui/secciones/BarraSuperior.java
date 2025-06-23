@@ -3,6 +3,9 @@ package gui.secciones;
 import gui.auxiliares.Paleta;
 import gui.componentes.Etiqueta;
 import gui.internosComp.PanelEdicion2;
+import gui.internosComp.PanelOpcionesPlanif;
+import gui.internosComp.PanelSupOpcionesAsistencia;
+import gui.internosComp.PanelSupOpcionesPlanifs;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -18,6 +21,8 @@ public class BarraSuperior extends JPanel {
     private final JPanel panelVacio;
     private final JPanel panelEdicion1;
     private final PanelEdicion2 panelEd2;
+    private PanelSupOpcionesPlanifs opcionesPlanif;
+    private PanelSupOpcionesAsistencia opcionesAsistencia;
 
 //    private final Font fuente = new Font("Arial", Font.PLAIN, 18);
 
@@ -59,7 +64,6 @@ public class BarraSuperior extends JPanel {
     }
 
     public void mostrarPanel(String nombrePanel) {
-
         CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
         cardLayout.show(panelVacio, nombrePanel);
         Ventana.getInstance().revalidate();

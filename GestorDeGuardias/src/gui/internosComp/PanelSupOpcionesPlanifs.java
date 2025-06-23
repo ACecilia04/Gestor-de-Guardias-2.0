@@ -13,13 +13,11 @@ import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class PanelSupPlanifs extends JPanel{
+public class PanelSupOpcionesPlanifs extends JPanel{
     MostrarPlanif panelAfectado;
-    public PanelSupPlanifs(int alto, MostrarPlanif panelAfectado) {
+    public PanelSupOpcionesPlanifs(int alto, MostrarPlanif panelAfectado) {
         this.panelAfectado = panelAfectado;
         setBackground(new Paleta().getColorFondoTabla());
 

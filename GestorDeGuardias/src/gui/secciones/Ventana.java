@@ -219,6 +219,7 @@ public class Ventana extends JFrame {
         if (cambiar) {
             if (Objects.equals(nombrePanel, "panelPlanifs") && !Objects.equals(pantallaActual, "panelPlanifs")) {
                 pantallaPlanif.actualizarPlanif();
+                barraSup.mostrarPanel("");
             }
 
 
