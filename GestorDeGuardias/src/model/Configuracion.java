@@ -27,7 +27,7 @@ public class Configuracion {
 
     public Long getId() { return id;}
     public Integer getDiaSemana() { return diaSemana; }
-    public Boolean isDiaEsReceso() { return diaEsReceso; }
+    public Boolean diaEsReceso() { return diaEsReceso; }
     public Horario getHorario() { return horario; }
     public TipoPersona getTipoPersona() { return tipoPersona; }
     public String getSexo() { return sexo; }

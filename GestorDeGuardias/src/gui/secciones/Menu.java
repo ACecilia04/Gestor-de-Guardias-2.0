@@ -76,21 +76,14 @@ public class Menu extends JPanel {
             y += btnPlanifs.getSize().height + separacion;
             btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panel1"));
 
-            btnEstudiantes.addIcono("/iconos/Estudiante.png");
-            btnEstudiantes.setSelectLetra(true);
-            btnEstudiantes.setLocation(x, y);
-            y += btnEstudiantes.getSize().height + separacion;
-            btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panel2"));
-
-            btnTrabajadores.addIcono("/iconos/Profesor.png");
-            btnTrabajadores.setSelectLetra(true);
-            btnTrabajadores.setLocation(x, y);
-            y += btnTrabajadores.getSize().height + separacion * 2;
-            btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panel3"));
+            btnActualizarAsist.addIcono("/iconos/Documento.png");
+            btnActualizarAsist.setSelectLetra(true);
+            btnActualizarAsist.setLocation(x, y);
+            y += btnActualizarAsist.getSize().height + separacion * 2;
+            btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panel5"));
 
             panel1.add(btnPlanifs);
-            panel1.add(btnEstudiantes);
-            panel1.add(btnTrabajadores);
+            panel1.add(btnActualizarAsist);
             panel1.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
         }
 
@@ -101,25 +94,32 @@ public class Menu extends JPanel {
             panel2 = new JPanel(null);
             panel2.setBackground(getBackground());
 
-            btnAddPlanif.addIcono("/iconos/Estrella.png");
-            btnAddPlanif.setSelectLetra(true);
-            btnAddPlanif.setLocation(x, y);
-            y += btnAddPlanif.getSize().height + separacion;
-            btnAddPlanif.addActionListener(e -> ventana.mostrarPanel("panel4"));
+//            btnAddPlanif.addIcono("/iconos/Estrella.png");
+//            btnAddPlanif.setSelectLetra(true);
+//            btnAddPlanif.setLocation(x, y);
+//            y += btnAddPlanif.getSize().height + separacion;
+//            btnAddPlanif.addActionListener(e -> ventana.mostrarPanel("panel4"));
 
-            btnActualizarAsist.addIcono("/iconos/Documento.png");
-            btnActualizarAsist.setSelectLetra(true);
-            btnActualizarAsist.setLocation(x, y);
-            y += btnActualizarAsist.getSize().height + separacion;
-            btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panel5"));
+            btnEstudiantes.addIcono("/iconos/Estudiante.png");
+            btnEstudiantes.setSelectLetra(true);
+            btnEstudiantes.setLocation(x, y);
+            y += btnEstudiantes.getSize().height + separacion;
+            btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panel2"));
+
+            btnTrabajadores.addIcono("/iconos/Profesor.png");
+            btnTrabajadores.setSelectLetra(true);
+            btnTrabajadores.setLocation(x, y);
+            y += btnTrabajadores.getSize().height + separacion;
+            btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panel3"));
 
             btnFacultad.addIcono("/iconos/Casa.png");
             btnFacultad.setSelectLetra(true);
             btnFacultad.setLocation(x, y);
             btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
 
-            panel2.add(btnAddPlanif);
-            panel2.add(btnActualizarAsist);
+//            panel2.add(btnAddPlanif);
+            panel2.add(btnEstudiantes);
+            panel2.add(btnTrabajadores);
             panel2.add(btnFacultad);
 
             panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
@@ -148,31 +148,31 @@ public class Menu extends JPanel {
 
         switch (rolNombre) {
             case "administrador":
-                // No deshabilitar nada
+                // No deshabilitar nada TODO: cambiar acceso de admin y ver si setVisible funciona como pienso
                 break;
             case "planificador":
                 // Solo deja planificación y añadir planificación
-                btnEstudiantes.setEnabled(false);
-                btnTrabajadores.setEnabled(false);
-                btnActualizarAsist.setEnabled(false);
-                btnFacultad.setEnabled(false);
+                btnEstudiantes.setVisible(false);
+                btnTrabajadores.setVisible(false);
+                btnActualizarAsist.setVisible(false);
+                btnFacultad.setVisible(false);
                 break;
             case "controlador":
                 // Solo deja asistencia
-                btnPlanifs.setEnabled(false);
-                btnEstudiantes.setEnabled(false);
-                btnTrabajadores.setEnabled(false);
-                btnAddPlanif.setEnabled(false);
-                btnFacultad.setEnabled(false);
+                btnPlanifs.setVisible(false);
+                btnEstudiantes.setVisible(false);
+                btnTrabajadores.setVisible(false);
+//                btnAddPlanif.setVisible(false);
+                btnFacultad.setVisible(false);
                 break;
             default:
                 // Si el rol no se reconoce, deshabilita todo
-                btnPlanifs.setEnabled(false);
-                btnEstudiantes.setEnabled(false);
-                btnTrabajadores.setEnabled(false);
-                btnAddPlanif.setEnabled(false);
-                btnActualizarAsist.setEnabled(false);
-                btnFacultad.setEnabled(false);
+                btnPlanifs.setVisible(false);
+                btnEstudiantes.setVisible(false);
+                btnTrabajadores.setVisible(false);
+//                btnAddPlanif.setVisible(false);
+                btnActualizarAsist.setVisible(false);
+                btnFacultad.setVisible(false);
         }
     }
 
@@ -181,17 +181,17 @@ public class Menu extends JPanel {
         btnPlanifs.setText("");
         btnPlanifs.setLocation(10, btnPlanifs.getY());
 
+        btnActualizarAsist.setText("");
+        btnActualizarAsist.setLocation(10, btnActualizarAsist.getY());
+
         btnEstudiantes.setText("");
         btnEstudiantes.setLocation(10, btnEstudiantes.getY());
 
         btnTrabajadores.setText("");
         btnTrabajadores.setLocation(10, btnTrabajadores.getY());
 
-        btnAddPlanif.setText("");
-        btnAddPlanif.setLocation(10, btnAddPlanif.getY());
-
-        btnActualizarAsist.setText("");
-        btnActualizarAsist.setLocation(10, btnActualizarAsist.getY());
+//        btnAddPlanif.setText("");
+//        btnAddPlanif.setLocation(10, btnAddPlanif.getY());
 
         btnFacultad.setText("");
         btnFacultad.setLocation(10, btnFacultad.getY());
@@ -208,8 +208,8 @@ public class Menu extends JPanel {
         btnTrabajadores.setText("Trabajadores");
         btnTrabajadores.setLocation(x, btnTrabajadores.getY());
 
-        btnAddPlanif.setText("Añadir Planificación");
-        btnAddPlanif.setLocation(x, btnAddPlanif.getY());
+//        btnAddPlanif.setText("Añadir Planificación");
+//        btnAddPlanif.setLocation(x, btnAddPlanif.getY());
 
         btnActualizarAsist.setText("Actualizar Asistencias");
         btnActualizarAsist.setLocation(x, btnActualizarAsist.getY());

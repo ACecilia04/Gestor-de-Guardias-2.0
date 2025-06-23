@@ -9,16 +9,14 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 public class PlantillaServices {
-    ServicesLocator sl;
-    private HorarioServices horarioServices;
-    private TurnoDeGuardiaServices turnoDeGuardiaServices;
+    private final HorarioServices horarioServices;
+    private final TurnoDeGuardiaServices turnoDeGuardiaServices;
 
-    ConfiguracionServices configuracionServices;
-    private PersonaServices personaServices;
-    private PeriodoNoPlanificableServices periodoNoPlanificableServices;
+    private final ConfiguracionServices configuracionServices;
+    private final PersonaServices personaServices;
+    private final PeriodoNoPlanificableServices periodoNoPlanificableServices;
 
     public PlantillaServices(ServicesLocator sl) {
-        this.sl = sl;
         horarioServices = sl.getHorarioServices();
         turnoDeGuardiaServices = sl.getTurnoDeGuardiaServices();
         configuracionServices = sl.getConfiguracionServices();
@@ -27,26 +25,22 @@ public class PlantillaServices {
     }
     /**
      * Crea la plantilla de guardias y sus datos sin asignar personas para
-     * cumplir las guardias El parametro empezar hoy determina si la primera
-     * fecha de la plantilla ser� la fecha actual si este es falso empezar�
-     * desde
+     * cumplir las guardias. El parametro empezarHoy determina si la primera
+     * fecha de la plantilla será la fecha actual, si este es falso empezará
+     * desde el primer día del próximo mes
      *
-     * @param empezarHoy
      * @return los de dias de guardia y sus horarios sin planificar
-     * @throws EntradaInvalidaException
      */
     public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy) {
         LocalDate inicio;
         ArrayList<DiaGuardia> dias = new ArrayList<>();
-        ArrayList<TurnoDeGuardia> turnosActuales = turnoDeGuardiaServices.getAllTurnosDeGuardia();
 
         if (empezarHoy)
             inicio = LocalDate.now();
 
         else {
-            inicio = (turnosActuales.isEmpty())
-                    ? LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth())
-                    : turnosActuales.getLast().getFecha().plusDays(1);
+            inicio = turnoDeGuardiaServices.getUltimoTurnoDeGuardia().getFecha().plusDays(1);
+
         }
 
         int numDias = inicio.lengthOfMonth() - inicio.getDayOfMonth();
@@ -62,7 +56,8 @@ public class PlantillaServices {
         }
         return dias;
     }
-    public List<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException, EntradaInvalidaException {
+
+    public List<Persona> getPersonasDisponibles(LocalDate fecha, Horario horario, ArrayList<DiaGuardia> diasEnPantalla) throws MultiplesErroresException {
         List<String> errores = new ArrayList<>();
 
         if (fecha == null)
@@ -79,8 +74,9 @@ public class PlantillaServices {
         personasDisponibles.removeAll(getPersonasEnPantalla(diasEnPantalla));
         return personasDisponibles;
     }
+
     private ArrayList<Persona> getPersonasEnPantalla(ArrayList<DiaGuardia> diasEnPantalla) {
-        ArrayList<Persona> personas = new ArrayList<Persona>();
+        ArrayList<Persona> personas = new ArrayList<>();
         for (DiaGuardia dia : diasEnPantalla)
             for (TurnoDeGuardia turno : dia.getTurnos()) {
                 if (!turno.getPersonasAsignadas().isEmpty())
@@ -91,7 +87,7 @@ public class PlantillaServices {
     }
 
     public void asignarPersona(DiaGuardia dia, Horario horario, Persona persona) throws EntradaInvalidaException, MultiplesErroresException {
-        ArrayList<String> errores = new ArrayList<String>();
+        ArrayList<String> errores = new ArrayList<>();
 
         if (dia == null)
             errores.add("Día a planificar no especificado.");
@@ -115,22 +111,55 @@ public class PlantillaServices {
 
     public void crearPlanificacionAutomaticamente(ArrayList<DiaGuardia> dias) throws MultiplesErroresException, EntradaInvalidaException {
         List<Persona> personasDisponibles;
+        List<String> errores = new ArrayList<>();
         boolean hayPersonasDisponibles;
+
         for (DiaGuardia dia : dias) {
+            LocalDate fechaDia = dia.getFecha();
+
+            if (fechaDia == null) {
+                errores.add("Fecha no especificada");
+                continue;
+            }
+            Boolean fechaEsReceso = periodoNoPlanificableServices.fechaEsNoPlanificable(fechaDia);
+            List<Configuracion> configList = configuracionServices.getConfiguracionesDeFecha(fechaDia);
+
             for (TurnoDeGuardia turno : dia.getTurnos()) {
                 hayPersonasDisponibles = true;
-                while (turno.getPersonasAsignadas().size() < configuracionServices.getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha()) && hayPersonasDisponibles) {
-                    personasDisponibles = getPersonasDisponibles(dia.getFecha(), turno.getHorario(), dias);
-                    if(!personasDisponibles.isEmpty()) {
-                        asignarPersona(dia, turno.getHorario(), personasDisponibles.getFirst());
+                Horario horario = turno.getHorario();
+                if (horario == null) {
+                    errores.add(String.format("Horario no especificado. Fecha: %1$s", fechaDia));
+                    continue;
+                }
+                Optional<Configuracion> configuracionDeTurno = configList.stream()
+                        .filter(c -> c.getHorario().getId().equals(horario.getId()) && c.diaEsReceso().equals(fechaEsReceso))
+                        .findFirst();
+
+                if (configuracionDeTurno.isEmpty()) {
+                    errores.add(String.format("Configuración no encontrada. Fecha: %1$s, Horario: %2$s", fechaDia, horario));
+                    continue;
+                }
+                int cantPersonasAsignables = configuracionServices.getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha());
+                while (turno.getPersonasAsignadas().size() < cantPersonasAsignables && hayPersonasDisponibles) {
+                    personasDisponibles = getPersonasDisponibles2(fechaDia, dias, configuracionDeTurno.get().getTipoPersona(), configuracionDeTurno.get().getSexo());
+                    if (!personasDisponibles.isEmpty()) {
+                        turno.asignarPersona(personasDisponibles.getFirst());
                     } else {
                         hayPersonasDisponibles = false;
                     }
                 }
             }
         }
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Datos incorrectos:", errores);
     }
 
+    public List<Persona> getPersonasDisponibles2(LocalDate fecha, ArrayList<DiaGuardia> diasEnPantalla,TipoPersona tipoPersona, String sexo) {
+        List<Persona> personasDisponibles = personaServices.getPersonasDisponibles(fecha, tipoPersona,sexo);
+
+        personasDisponibles.removeAll(getPersonasEnPantalla(diasEnPantalla));
+        return personasDisponibles;
+    }
 
     public ArrayList<DiaGuardia> getPlanificacionesAPartirDe(LocalDate fecha) {
         return agruparPorDia(turnoDeGuardiaServices.getTurnosAPartirDe(fecha));
@@ -156,16 +185,16 @@ public class PlantillaServices {
 
     public ArrayList<DiaGuardia> getDiasPorActualizarCumplimiento() throws EntradaInvalidaException {
         ArrayList<DiaGuardia> planDeGuardias = getPlanDeGuardias();
-        ArrayList<DiaGuardia> diasPorActualizar = new ArrayList<DiaGuardia>();
+        ArrayList<DiaGuardia> diasPorActualizar = new ArrayList<>();
         int i = 0;
         if (planDeGuardias.isEmpty())
             throw new EntradaInvalidaException("No hay guardias planificadas.");
 
-
         while (i < planDeGuardias.size() && planDeGuardias.get(i).getFecha().isBefore(LocalDate.now())) {
             DiaGuardia dia = planDeGuardias.get(i);
-            if (!(dia.getTurnosPorActualizar().isEmpty()))
+            if (!(dia.getTurnosPorActualizar().isEmpty())) {
                 diasPorActualizar.add(dia);
+            }
             i++;
         }
         return diasPorActualizar;

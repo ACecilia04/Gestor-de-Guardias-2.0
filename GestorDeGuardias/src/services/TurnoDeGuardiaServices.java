@@ -52,6 +52,9 @@ public class TurnoDeGuardiaServices {
     public TurnoDeGuardia getTurnoDeGuardiaById(Long id) {
         return baseDao.spQuerySingleObject("sp_turno_de_guardia_read_by_id(?)", new TurnoDeGuardiaMapper(), id);
     }
+    public TurnoDeGuardia getUltimoTurnoDeGuardia() {
+        return baseDao.spQuerySingleObject("sp_turno_de_guardia_read_last()", new TurnoDeGuardiaMapper());
+    }
 
     // UPDATE
     public void updateTurnoDeGuardia(TurnoDeGuardia record) throws SqlServerCustomException, MultiplesErroresException {
@@ -132,7 +135,7 @@ public class TurnoDeGuardiaServices {
 
             turno.setId(rs.getLong("id"));
             turno.setFecha(rs.getDate("fecha") == null ? null : rs.getDate("fecha").toLocalDate());
-            turno.setHecho(rs.getBoolean("hecho"));
+            turno.setHecho(rs.getDate("hecho") == null ? null : rs.getBoolean("hecho"));
 
             Horario horario = horarioServices.getHorarioById(rs.getLong("horario"));
             turno.setHorario(horario);

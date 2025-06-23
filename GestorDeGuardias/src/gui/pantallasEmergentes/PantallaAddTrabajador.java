@@ -16,7 +16,7 @@ public class PantallaAddTrabajador extends PantallaAddPersona {
         try {
             Persona nuevaPersona = new Persona(boxID.getText(), boxNombre.getText(), boxApellidos.getText(), sexo, new TipoPersona("Trabajador"));
             ServicesLocator.getInstance().getPersonaServices().insertPersona(nuevaPersona);
-            Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Añadido Exitosamente", "Trabajador añadido Exitosamente", "Aceptar");
+            Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Añadido Exitosamente", "Trabajador añadido Exitosamente", "Aceptar", true);
             advertencia.setVisible(true);
             this.dispose();
         }catch (MultiplesErroresException e) {

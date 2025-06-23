@@ -5,7 +5,6 @@ import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import model.DiaGuardia;
-import services.Gestor;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 
@@ -61,16 +60,16 @@ public class AsistenciaPlanif extends JPanel {
         add(scrollPane, BorderLayout.CENTER);
     }
 
-    public void addPlanif(LocalDate fechaIncio) {
+    public PanelInterno addPlanif(LocalDate fechaIncio) {
         PanelInterno nuevoPanel = new PanelInterno(fechaIncio, panelDimension);
 
         panelInterior.add(nuevoPanel);
-        paneles.add(nuevoPanel);
         panelInterior.revalidate();
         panelInterior.repaint();
 
         // Calcula el tamaño preferido del panelInterior
         calculatePreferredSize();
+        return nuevoPanel;
     }
 
     public void actualizarPlanif() {
@@ -89,7 +88,7 @@ public class AsistenciaPlanif extends JPanel {
                 String claveMesAnno = annoPlanif + "-" + mesPlanif;
 
                 if (mesesArchivables.add(claveMesAnno)) {
-                    addPlanif(fechaAux);
+                    paneles.add(addPlanif(fechaAux));
                 }
             }
             if (paneles.isEmpty()) {

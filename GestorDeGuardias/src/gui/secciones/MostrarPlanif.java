@@ -44,7 +44,7 @@ public class MostrarPlanif extends JPanel {
 
     public MostrarPlanif() {
         setLayout(new BorderLayout());
-        setBackground(Color.GREEN);
+//        setBackground(Color.GREEN);
 
         paneles = new ArrayList<>();
         int opcionesAncho = 300;
@@ -123,8 +123,8 @@ public class MostrarPlanif extends JPanel {
                         ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardiaAPartirDe(getSeleccionado().getFechaInicio());
                     } catch (SqlServerCustomException | EntradaInvalidaException ex) {
                         String errorMsg = "<html><p>Ocurrió un error:<br>" + ex.getMessage() + "</p></html>";
-                        new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", errorMsg, "Aceptar");
-                        throw new RuntimeException(ex);
+                        new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", errorMsg, "Aceptar", true);
+//                        throw new RuntimeException(ex);
 
                     }
                     actualizarPlanif();
@@ -145,7 +145,7 @@ public class MostrarPlanif extends JPanel {
 
         panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
         panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
-        panelOpciones.getBotonCrearPlanif().setSeleccionable(false);
+        panelOpciones.getBotonCrearPlanif().setSeleccionable(true);
         panelOpciones.getBotonVerPlanif().setSeleccionable(false);
         panelOpciones.getBotonExport().setSeleccionable(false);
 

@@ -214,7 +214,7 @@ public class PantallaAddVolunt extends JDialog {
 
                 if (dia.getText().isEmpty() || mes.getText().isEmpty() || agno.getText().isEmpty()) {
                     String string = "<html><p style='text-align: center;'> ERROR <br><br><br> Debe rellenar todos los campos de fecha" + "</p></html>";
-                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
+                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar", true);
                 } else {
                     LocalDate fechaInicio = LocalDate.of(Integer.valueOf(agno.getText()), Integer.valueOf(mes.getText()), Integer.valueOf(dia.getText()));
 
