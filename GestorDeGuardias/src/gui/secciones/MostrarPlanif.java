@@ -276,8 +276,10 @@ public class MostrarPlanif extends JPanel {
             ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
             TablaBase tabla = new TablaBase(Ventana.getInstance().getPanelVacio().getSize(), Color.WHITE, diasAux);//, distX, distY, contenedor);
 //    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) JPanel contenedor, int distX, int distY
-
+            tabla.actualizarVistaTabla();
             Ventana.getInstance().getPanelVerPlanif().add(tabla, BorderLayout.CENTER);
+            Ventana.getInstance().getPanelVerPlanif().revalidate();
+            Ventana.getInstance().getPanelVerPlanif().repaint();
         }
     }
 
