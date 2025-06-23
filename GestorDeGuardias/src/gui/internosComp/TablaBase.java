@@ -81,7 +81,7 @@ public class TablaBase extends Cuadro implements IsTabla {
 
 
     //Metodos para dividir el Constructor
-    public void inicializarTitulo() {
+    private void inicializarTitulo() {
         titulo = new CuadroRectoAbajo(new Dimension(this.getWidth(), tituloLargo), redondez, paleta.getColorCaracteristico());
         titulo.setLayout(null);
 
@@ -134,7 +134,7 @@ public class TablaBase extends Cuadro implements IsTabla {
         panelTitulo.add(apellidos);
         panelTitulo.add(nombre);
 
-        int auxAgno = dias.get(0).getFecha().getYear();
+        int auxAgno = dias.getFirst().getFecha().getYear();
         Etiqueta planificacion = new Etiqueta(fuente, colorLetraTitulo, dias.get(0).getFecha().getMonth().name() + "  " + auxAgno);
         planificacion.setLocation(15, 10);
 

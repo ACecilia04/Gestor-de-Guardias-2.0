@@ -36,7 +36,7 @@ public class TablaTrabajadores extends CustomTablaComplex {
 
     @Override
     public String[] getColumnas() {
-        String[] aux = {"ID", "Apellidos", "Nombre", "Sexo", "Disponibilidad", "Cant Guardias"};
+        String[] aux = {"ID", "Apellidos", "Nombre", "Sexo", "Disponibilidad", "Asignaciones"};
         return aux;
     }
 

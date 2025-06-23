@@ -224,7 +224,7 @@ public class PanelOpcionesPlanif extends JPanel {
                                         ? getDiasSeleccionados()
                                         : tabla.getDias();
                     try {
-
+                        
                         ServicesLocator.getInstance().getPlantillaServices().crearPlanificacionAutomaticamente(diasAPlanificar);
 
                     } catch (MultiplesErroresException e1) {

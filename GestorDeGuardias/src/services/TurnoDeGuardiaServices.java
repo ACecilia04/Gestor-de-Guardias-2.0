@@ -135,7 +135,7 @@ public class TurnoDeGuardiaServices {
 
             turno.setId(rs.getLong("id"));
             turno.setFecha(rs.getDate("fecha") == null ? null : rs.getDate("fecha").toLocalDate());
-            turno.setHecho(rs.getDate("hecho") == null ? null : rs.getBoolean("hecho"));
+            turno.setHecho(rs.getObject("hecho") == null ? null : rs.getBoolean("hecho"));
 
             Horario horario = horarioServices.getHorarioById(rs.getLong("horario"));
             turno.setHorario(horario);

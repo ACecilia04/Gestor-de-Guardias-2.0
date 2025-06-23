@@ -35,11 +35,6 @@ public class BarraSuperior extends JPanel {
         Border bordeMargen = BorderFactory.createEmptyBorder(0, 10, 0, 0);
         panelOpciones.setPreferredSize(new Dimension(247, this.getPreferredSize().height));
 
-//        Etiqueta nombre = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Gestor de Guardias");
-//        nombre.setLocation(20, 15);
-//        panelOpciones.add(nombre);
-//        add(panelOpciones, BorderLayout.WEST);
-
 
         //panelEdicion
         //Crear PanelCambiante

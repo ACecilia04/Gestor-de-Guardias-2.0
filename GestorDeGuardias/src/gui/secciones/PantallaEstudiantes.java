@@ -49,21 +49,13 @@ public class PantallaEstudiantes extends JPanel {
 
         for (CustomCheckBox e : checks) {
             final CustomCheckBox aux = e;
-            aux.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    ArrayList<Persona> personaAux = checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante")));
-                    revalidarTabla(personaAux);
-                }
+            aux.addActionListener(e12 -> {
+                ArrayList<Persona> personaAux = checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante")));
+                revalidarTabla(personaAux);
             });
         }
 
-        tablaOpciones.getBotonAddEstud().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Ventana.getInstance().addPantallaAddEstudiante();
-            }
-        });
+        tablaOpciones.getBotonAddEstud().addActionListener(e -> Ventana.getInstance().addPantallaAddEstudiante());
 
         final Buscar buscarAux = tablaOpciones.getBuscar();
         buscarAux.getTextField().addKeyListener(new KeyListener() {
@@ -96,22 +88,19 @@ public class PantallaEstudiantes extends JPanel {
 
             }
         });
-        buscarAux.getBoton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Persona persona = null;
-                try {
-                    persona = buscarAux.buscar();
-                } catch (EntradaInvalidaException e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
-                }
-                ArrayList<Persona> personaUnica = new ArrayList<>();
-                if (persona != null && persona.getTipo().equals("Estudiante")) {
-                    personaUnica.add(persona);
-                }
-                revalidarTabla(personaUnica);
+        buscarAux.getBoton().addActionListener(e -> {
+            Persona persona = null;
+            try {
+                persona = buscarAux.buscar();
+            } catch (EntradaInvalidaException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
             }
+            ArrayList<Persona> personaUnica = new ArrayList<>();
+            if (persona != null && persona.getTipo().equals("Estudiante")) {
+                personaUnica.add(persona);
+            }
+            revalidarTabla(personaUnica);
         });
 
         tablaOpciones.getBotonEliminar().addActionListener(new ActionListener() {

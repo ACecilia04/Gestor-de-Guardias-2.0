@@ -8,6 +8,7 @@ import model.Usuario;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class Menu extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -47,7 +48,7 @@ public class Menu extends JPanel {
             btnMinimizar.addIcono("/iconos/MenuRayas.png");
             btnMinimizar.setSelectLetra(true);
 
-            btnMinimizar.addActionListener(new java.awt.event.ActionListener() {
+            btnMinimizar.addActionListener(new ActionListener() {
                 private boolean isMinimized = false;
                 @Override
                 public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -74,13 +75,13 @@ public class Menu extends JPanel {
             btnPlanifs.setSelectLetra(true);
             btnPlanifs.setLocation(x, y);
             y += btnPlanifs.getSize().height + separacion;
-            btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panel1"));
+            btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panelPlanificaciones"));
 
             btnActualizarAsist.addIcono("/iconos/Documento.png");
             btnActualizarAsist.setSelectLetra(true);
             btnActualizarAsist.setLocation(x, y);
             y += btnActualizarAsist.getSize().height + separacion * 2;
-            btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panel5"));
+            btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panelAsistencia"));
 
             panel1.add(btnPlanifs);
             panel1.add(btnActualizarAsist);
@@ -104,13 +105,13 @@ public class Menu extends JPanel {
             btnEstudiantes.setSelectLetra(true);
             btnEstudiantes.setLocation(x, y);
             y += btnEstudiantes.getSize().height + separacion;
-            btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panel2"));
+            btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panelEstudiantes"));
 
             btnTrabajadores.addIcono("/iconos/Profesor.png");
             btnTrabajadores.setSelectLetra(true);
             btnTrabajadores.setLocation(x, y);
             y += btnTrabajadores.getSize().height + separacion;
-            btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panel3"));
+            btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panelTrabajadores"));
 
             btnFacultad.addIcono("/iconos/Casa.png");
             btnFacultad.setSelectLetra(true);

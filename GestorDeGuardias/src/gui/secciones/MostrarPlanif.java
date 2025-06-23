@@ -5,6 +5,8 @@ import gui.auxiliares.PanelInterno;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.internosComp.PanelOpcionesMostrarP;
+import gui.internosComp.PanelOpcionesPlanif;
+import gui.internosComp.Tabla;
 import gui.internosComp.TablaBase;
 import gui.pantallasEmergentes.Advertencia;
 import model.DiaGuardia;
@@ -44,7 +46,6 @@ public class MostrarPlanif extends JPanel {
 
     public MostrarPlanif() {
         setLayout(new BorderLayout());
-//        setBackground(Color.GREEN);
 
         paneles = new ArrayList<>();
         int opcionesAncho = 300;
@@ -53,7 +54,7 @@ public class MostrarPlanif extends JPanel {
         panelOpciones.getBotonVerPlanif().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Ventana.getInstance().mostrarPanel("panel6");
+                Ventana.getInstance().mostrarPanel("panelVerPlanif");
                 mostrarTabla();
             }
 
@@ -97,7 +98,7 @@ public class MostrarPlanif extends JPanel {
         panelOpciones.getBotonCrearPlanif().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Ventana.getInstance().mostrarPanel("panel4");
+                Ventana.getInstance().mostrarPanel("panelAddPlanif");
             }
         });
 
@@ -106,7 +107,9 @@ public class MostrarPlanif extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (getSeleccionado() != null) {
-                    ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices().agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices().getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
+                    ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices()
+                            .agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices()
+                            .getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
                     Ventana.getInstance().editarPlanif(diasAux);
                 }
 
@@ -170,7 +173,7 @@ public class MostrarPlanif extends JPanel {
         actualizarPlanif();
     }
 
-    public void addPlanif(LocalDate fechaIncio) {
+    private void addPlanif(LocalDate fechaIncio) {
         PanelInterno nuevoPanel = new PanelInterno(fechaIncio, panelDimension);
 
         panelInterior.add(nuevoPanel);
@@ -199,8 +202,7 @@ public class MostrarPlanif extends JPanel {
 
             if (mesesArchivables.add(claveMesAnno)) {
                 addPlanif(fechaAux);
-            }
-        }
+            }}
         if (paneles.isEmpty()) {
             panelInterior.setLayout(layout2);
             Etiqueta error = new Etiqueta(fuente, Color.GRAY, "No hay planificaciones");
@@ -258,7 +260,7 @@ public class MostrarPlanif extends JPanel {
         }
     }
 
-    public PanelInterno getSeleccionado() {
+    private PanelInterno getSeleccionado() {
         PanelInterno aux = null;
         for (int i = 0; i < paneles.size() && aux == null; i++) {
             if (paneles.get(i).isSeleccionado()) {
@@ -270,10 +272,12 @@ public class MostrarPlanif extends JPanel {
 
     public void mostrarTabla() {
         if (getSeleccionado() != null) {
-            Ventana.getInstance().getPanel1().removeAll();
+            Ventana.getInstance().getPanelVerPlanif().removeAll();
             ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
-            TablaBase tabla = new TablaBase(Ventana.getInstance().getPanelVacio().getSize(), Color.WHITE, diasAux);
-            Ventana.getInstance().getPanel1().add(tabla, BorderLayout.CENTER);
+            TablaBase tabla = new TablaBase(Ventana.getInstance().getPanelVacio().getSize(), Color.WHITE, diasAux);//, distX, distY, contenedor);
+//    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) JPanel contenedor, int distX, int distY
+
+            Ventana.getInstance().getPanelVerPlanif().add(tabla, BorderLayout.CENTER);
         }
     }
 

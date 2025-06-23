@@ -190,7 +190,7 @@ public class Tabla extends Cuadro implements IsTabla {
         panelTitulo.add(nombre);
 
         int auxAgno = dias.getFirst().getFecha().getYear();
-        Etiqueta planificacion = new Etiqueta(fuente, colorLetraTitulo, traducDiaMes(dias.get(0).getFecha()) + "  " + auxAgno);
+        Etiqueta planificacion = new Etiqueta(fuente, colorLetraTitulo, traducDiaMes(dias.getFirst().getFecha()) + "  " + auxAgno);
         planificacion.setLocation(15, 10);
 
 

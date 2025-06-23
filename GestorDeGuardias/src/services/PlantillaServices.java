@@ -121,6 +121,7 @@ public class PlantillaServices {
                 errores.add("Fecha no especificada");
                 continue;
             }
+
             Boolean fechaEsReceso = periodoNoPlanificableServices.fechaEsNoPlanificable(fechaDia);
             List<Configuracion> configList = configuracionServices.getConfiguracionesDeFecha(fechaDia);
 
@@ -131,6 +132,7 @@ public class PlantillaServices {
                     errores.add(String.format("Horario no especificado. Fecha: %1$s", fechaDia));
                     continue;
                 }
+
                 Optional<Configuracion> configuracionDeTurno = configList.stream()
                         .filter(c -> c.getHorario().getId().equals(horario.getId()) && c.diaEsReceso().equals(fechaEsReceso))
                         .findFirst();
@@ -139,8 +141,10 @@ public class PlantillaServices {
                     errores.add(String.format("Configuración no encontrada. Fecha: %1$s, Horario: %2$s", fechaDia, horario));
                     continue;
                 }
+
                 int cantPersonasAsignables = configuracionServices.getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha());
                 while (turno.getPersonasAsignadas().size() < cantPersonasAsignables && hayPersonasDisponibles) {
+
                     personasDisponibles = getPersonasDisponibles2(fechaDia, dias, configuracionDeTurno.get().getTipoPersona(), configuracionDeTurno.get().getSexo());
                     if (!personasDisponibles.isEmpty()) {
                         turno.asignarPersona(personasDisponibles.getFirst());

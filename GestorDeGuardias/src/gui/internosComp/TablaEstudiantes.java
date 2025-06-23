@@ -40,7 +40,7 @@ public class TablaEstudiantes extends CustomTablaComplex {
 
     @Override
     public String[] getColumnas() {
-        return new String[]{"ID", "Apellidos", "Nombre", "Sexo", "Disponibilidad", "Cant Guardias"};
+        return new String[]{"ID", "Apellidos", "Nombre", "Sexo", "Disponibilidad", "Asignaciones"};
     }
 
     @Override

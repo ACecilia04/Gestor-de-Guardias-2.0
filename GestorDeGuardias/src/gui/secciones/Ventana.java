@@ -35,12 +35,12 @@ public class Ventana extends JFrame {
     private JPanel contentPane;
     private JPanel panelVacio;
     private Cuadro overlayPanel;
-    private JPanel panel1;
+    private JPanel panelVerPlanif;
     private AddPlanif panelAddPlanif;
     private PantallaEstudiantes pantallaEstudiantes;
     private PantallaTrabajadores pantallaTrabajadores;
     private MostrarPlanif pantallaPlanif;
-    private AsistenciaPlanif pantallaArchivar;
+    private AsistenciaPlanif pantallaAsistencia;
     private PantallaCump pantallaCump;
     private PantallaFacultad pantallaFacultad;
     @SuppressWarnings("unused")
@@ -112,8 +112,8 @@ public class Ventana extends JFrame {
         return ventana;
     }
 
-    public JPanel getPanel1() {
-        return panel1;
+    public JPanel getPanelVerPlanif() {
+        return panelVerPlanif;
     }
 
     private void inicializarCaractVentana() {
@@ -146,19 +146,19 @@ public class Ventana extends JFrame {
         inicializarTrabajadores();
         pantallaPlanif = new MostrarPlanif();
         panelAddPlanif = new AddPlanif(panelVacio);
-        pantallaArchivar = new AsistenciaPlanif();
+        pantallaAsistencia = new AsistenciaPlanif();
         pantallaCump = new PantallaCump();
 
-        panel1 = new JPanel();
-        panel1.setLayout(new BorderLayout());
+        panelVerPlanif = new JPanel();
+        panelVerPlanif.setLayout(new BorderLayout());
 
-        panelVacio.add(pantallaPlanif, "panel1");
-        panelVacio.add(pantallaEstudiantes, "panel2");
-        panelVacio.add(pantallaTrabajadores, "panel3");
-        panelVacio.add(panelAddPlanif, "panel4");
-        panelVacio.add(pantallaArchivar, "panel5");
-        panelVacio.add(panel1, "panel6");
-        panelVacio.add(pantallaCump, "panel7");
+        panelVacio.add(pantallaPlanif, "panelPlanificaciones");
+        panelVacio.add(pantallaEstudiantes, "panelEstudiantes");
+        panelVacio.add(pantallaTrabajadores, "panelTrabajadores");
+        panelVacio.add(panelAddPlanif, "panelAddPlanif");
+        panelVacio.add(pantallaAsistencia, "panelAsistencia");
+        panelVacio.add(panelVerPlanif, "panelVerPlanif");
+        panelVacio.add(pantallaCump, "panelCumplimiento");
     }
 
     private void redimensionar() {
@@ -175,7 +175,7 @@ public class Ventana extends JFrame {
         }
         if (pantallaPlanif != null) {
             pantallaPlanif.mostrarTabla();
-            if (Objects.equals(pantallaActual, "panel7")) {
+            if (Objects.equals(pantallaActual, "panelCump")) {
                 ArrayList<DiaGuardia> dias = this.getPantallaCump().getTabla().getDias();
                 getPantallaCump().setTabla(dias);
             }
@@ -187,9 +187,27 @@ public class Ventana extends JFrame {
 
 
     public void mostrarPanel(String nombrePanel) {
+//        String string1 = "<html><p>Procesando.....<br><br></p><html>";
+//        Notificacion notificacion = new Notificacion(new Dimension(300, 200), "Generar automáticamente", string1);
+//
+//        SwingWorker myWorker = new SwingWorker<String, Void>() {
+//            public String doInBackground() {
+//
+//
+//                notificacion.dispose();
+//                return null;
+//            }
+//
+//            public void done() {
+//            }
+//        };
+//        myWorker.execute();
+//        notificacion.setVisible(true);
+
         CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
         boolean cambiar = true;
-        if (Objects.equals(pantallaActual, "panel4") && !Objects.equals(nombrePanel, "panel4")) {
+
+        if (Objects.equals(pantallaActual, "panelAddPlanif") && !Objects.equals(nombrePanel, "panelAddPlanif")) {
             String string = "<html><p>Estás seguro de que quieres cambiar? <br> <br><br>Perderás la planifcacion no guardada</p><html>";
             Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Advertencia", string, "Cancelar", "Aceptar");
 
@@ -199,23 +217,23 @@ public class Ventana extends JFrame {
         }
 
         if (cambiar) {
-            if (Objects.equals(nombrePanel, "panel1") && !Objects.equals(pantallaActual, "panel1")) {
+            if (Objects.equals(nombrePanel, "panelPlanifs") && !Objects.equals(pantallaActual, "panelPlanifs")) {
                 pantallaPlanif.actualizarPlanif();
             }
 
 
-            if (Objects.equals(nombrePanel, "panel3") && !Objects.equals(pantallaActual, "panel3")) {
+            if (Objects.equals(nombrePanel, "panelTrab") && !Objects.equals(pantallaActual, "panelTrab")) {
                 pantallaTrabajadores.revalidarTabla();
             }
 
-            if (Objects.equals(nombrePanel, "panel5") && !Objects.equals(pantallaActual, "panel5")) {
+            if (Objects.equals(nombrePanel, "panelAsistencia") && !Objects.equals(pantallaActual, "panelAsistencia")) {
 
-                pantallaArchivar.actualizarPlanif();
+                pantallaAsistencia.actualizarPlanif();
 
             }
 
 
-            if (Objects.equals(nombrePanel, "panel4")) {
+            if (Objects.equals(nombrePanel, "panelAddPlanif")) {
                 ArrayList<DiaGuardia> dias;
                 boolean empezarHoy = false;
 
@@ -296,8 +314,8 @@ public class Ventana extends JFrame {
         Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), diasAux, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
         barraSup.mostrarPanel("panelEd1");
         CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
-        cardLayout.show(panelVacio, "panel4");
-        pantallaActual = "panel4";
+        cardLayout.show(panelVacio, "panelAddPlanif");
+        pantallaActual = "panelAddPlanif";
         panelAddPlanif.addTabla(tabla);
     }
 
