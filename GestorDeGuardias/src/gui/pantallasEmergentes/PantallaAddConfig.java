@@ -93,7 +93,7 @@ public class PantallaAddConfig extends JDialog {
             String diaSeleccionado = (String) comboDiasSemana.getSelectedItem();
             //List<Horario> horarios = listaHorarios.getSelectedValuesList();
             Horario horario = stringToHorario(listaHorarios.getSelectedValue());
-            ServicesLocator.getInstance().getConfiguracionServices().insertConfiguracion();
+            //ServicesLocator.getInstance().getConfiguracionServices().insertConfiguracion();
             dispose();
         });
 
@@ -224,7 +224,7 @@ public class PantallaAddConfig extends JDialog {
     // Suponiendo que esta función devuelve los días de la semana
     private ArrayList<String> getDiasSemana() {
         // TODO: Implementa según tu lógica real
-        ArrayList<String> Dias = new ArrayList<>();
+        ArrayList<String> dias = new ArrayList<>();
         return dias;
     }
 
