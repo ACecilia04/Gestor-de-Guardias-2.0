@@ -113,7 +113,7 @@ public class AsistenciaPlanif extends JPanel {
                 public void mousePressed(MouseEvent e) {
                     long currentClickTime = System.currentTimeMillis();
                     if (currentClickTime - lastClickTime <= DOUBLE_CLICK_DELAY) {
-                        Ventana.getInstance().mostrarPanel("panel7");
+                        Ventana.getInstance().mostrarPanel("panelCumplimiento");
                         panelSelec = aux;
                         mostrarTabla();
 
