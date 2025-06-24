@@ -88,17 +88,16 @@ public class Ventana extends JFrame {
         contReal.setSize(auxContReal);
         contReal.setBackground(getBackground());
 
-        barraSup = new BarraSuperior(contReal);
-        contReal.add(barraSup, BorderLayout.NORTH);
-
         zonaInferior = new JPanel(new BorderLayout());
-        zonaInferior.setPreferredSize(new Dimension(contReal.getSize().width, contReal.getSize().height - barraSup.getPreferredSize().height));
-        zonaInferior.setSize(new Dimension(contReal.getSize().width, contReal.getSize().height - barraSup.getPreferredSize().height));
+        zonaInferior.setPreferredSize(new Dimension(contReal.getSize().width, contReal.getSize().height - 85));
+        zonaInferior.setSize(new Dimension(contReal.getSize().width, contReal.getSize().height - 85));
         contReal.add(zonaInferior);
 
         // El menú ahora se instancia después del login
 
         inicializarPanelCambiante();
+        barraSup = new BarraSuperior(contReal, pantallaPlanif, pantallaAsistencia);
+        contReal.add(barraSup, BorderLayout.NORTH);
 
         zonaInferior.add(panelVacio, BorderLayout.CENTER);
         contentPane.add(contReal, BorderLayout.SOUTH);
@@ -115,6 +114,7 @@ public class Ventana extends JFrame {
     public JPanel getPanelVerPlanif() {
         return panelVerPlanif;
     }
+    public MostrarPlanif getPanelMostrarPlanif(){return pantallaPlanif;}
 
     private void inicializarCaractVentana() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -141,7 +141,7 @@ public class Ventana extends JFrame {
         panelVacio.setSize(zonaInferior.getWidth() - 247, zonaInferior.getHeight()); // 247 = ancho menú
 
         distX = 247;
-        distY = barraSup.getPreferredSize().height;
+        distY = 85;
         inicializarEstudiantes();
         inicializarTrabajadores();
         pantallaPlanif = new MostrarPlanif();
@@ -165,8 +165,8 @@ public class Ventana extends JFrame {
         Dimension frameSize = this.getSize();
 
         contReal.setSize(frameSize.width, frameSize.height);
-        zonaInferior.setPreferredSize(new Dimension(frameSize.width, frameSize.height - barraSup.getPreferredSize().height));
-        zonaInferior.setSize(new Dimension(frameSize.width, frameSize.height - barraSup.getPreferredSize().height));
+        zonaInferior.setPreferredSize(new Dimension(frameSize.width, frameSize.height - 85));
+        zonaInferior.setSize(new Dimension(frameSize.width, frameSize.height - 85));
         panelVacio.setSize(zonaInferior.getWidth() - 247, zonaInferior.getHeight());
         for (Component comp1 : panelVacio.getComponents()) {
             if (comp1 instanceof JPanel) {
@@ -192,7 +192,7 @@ public class Ventana extends JFrame {
 //
 //        SwingWorker myWorker = new SwingWorker<String, Void>() {
 //            public String doInBackground() {
-//
+//o
 //
 //                notificacion.dispose();
 //                return null;
@@ -219,7 +219,7 @@ public class Ventana extends JFrame {
         if (cambiar) {
             if (Objects.equals(nombrePanel, "panelPlanifs") && !Objects.equals(pantallaActual, "panelPlanifs")) {
                 pantallaPlanif.actualizarPlanif();
-                barraSup.mostrarPanel("");
+                barraSup.mostrarPanel("panelOpcionesPlanifs");
             }
 
 
@@ -228,8 +228,8 @@ public class Ventana extends JFrame {
             }
 
             if (Objects.equals(nombrePanel, "panelAsistencia") && !Objects.equals(pantallaActual, "panelAsistencia")) {
-
                 pantallaAsistencia.actualizarPlanif();
+                barraSup.mostrarPanel("panelOpcionesAsistencia");
 
             }
 

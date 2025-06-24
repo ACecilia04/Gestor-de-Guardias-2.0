@@ -22,7 +22,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         setBackground(new Paleta().getColorFondoTabla());
 
         Boton nuevoBtn = new Boton();
-        nuevoBtn.addIcono("/iconos/Crear.png");
+        nuevoBtn.addIcono("/iconos/Crear.jpg");
         nuevoBtn.setSelectLetra(true);
         nuevoBtn.cambiarIconTextGap(10);
         nuevoBtn.addActionListener(e -> Ventana.getInstance().mostrarPanel("panelAddPlanif"));

@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import static gui.auxiliares.ConvertidorFecha.traducDiaMes;
 
 
-public class PanelMesDeGuardias extends Cuadro {
+public class PanelMes extends Cuadro {
     private static final Paleta paleta = new Paleta();
     private static final Color colorCasual = paleta.getColorFondoTabla();
     private static final Color colorHoy = paleta.getColorCaracteristico();
@@ -27,7 +27,7 @@ public class PanelMesDeGuardias extends Cuadro {
     private boolean seleccionado = false;
 
 
-    public PanelMesDeGuardias(LocalDate fechaInicial, Dimension dim) {
+    public PanelMes(LocalDate fechaInicial, Dimension dim) {
         super(dim, Cuadro.redMED, Color.GRAY);
         setPreferredSize(dim);
         setMinimumSize(dim);

@@ -26,7 +26,7 @@ public class BarraSuperior extends JPanel {
 
 //    private final Font fuente = new Font("Arial", Font.PLAIN, 18);
 
-    public BarraSuperior(JPanel contenedor) {
+    public BarraSuperior(JPanel contenedor, MostrarPlanif panelMostrarPlanifs, AsistenciaPlanif panelAsistencia) {
         Dimension dim = new Dimension(contenedor.getSize().width, 85);
         setPreferredSize(new Dimension(dim));
         Paleta paleta = new Paleta();
@@ -34,13 +34,14 @@ public class BarraSuperior extends JPanel {
         setLayout(new BorderLayout());
 
         //panelOpciones
-// TODO: login and exit options
+//      TODO: login and exit options
         panelOpciones = new JPanel(null);
         panelOpciones.setBackground(this.getBackground());
         Border bordeMargen = BorderFactory.createEmptyBorder(0, 10, 0, 0);
         panelOpciones.setPreferredSize(new Dimension(247, this.getPreferredSize().height));
 
-
+        opcionesPlanif = new PanelSupOpcionesPlanifs(this.getPreferredSize().height,panelMostrarPlanifs);
+        opcionesAsistencia = new PanelSupOpcionesAsistencia(this.getPreferredSize().height,panelAsistencia);
         //panelEdicion
         //Crear PanelCambiante
         panelVacio = new JPanel(new CardLayout());
@@ -48,14 +49,15 @@ public class BarraSuperior extends JPanel {
         //Crear paneles que cambiar [BORRAR MIENTRAS SE CREEN LOS REALES]
         panelEdicion1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelEdicion1.setBackground(Color.WHITE);
-        new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         panelEd2 = new PanelEdicion2(this.getPreferredSize().height);
 
 
         panelVacio.add(panelEdicion1, "panelEd1");
         panelVacio.add(panelEd2, "panelEd2");
-        add(panelVacio, BorderLayout.CENTER);
+        panelVacio.add(opcionesPlanif,"panelOpcionesPlanifs");
+        panelVacio.add(opcionesAsistencia,"panelOpcionesAsistencia");
+        add(panelVacio, BorderLayout.EAST);
 
         //Bordes
         Border border = BorderFactory.createMatteBorder(0, 0, 4, 0, contenedor.getBackground());
