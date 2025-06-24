@@ -52,7 +52,7 @@ public class MostrarPlanif extends JPanel {
         panelOpciones.getBotonVerPlanif().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Ventana.getInstance().mostrarPanel("panelVerPlanif");
+                Ventana.getInstance().mostrarPanel("panelVerPlanificaciones");
                 mostrarTabla();
             }
 
@@ -186,8 +186,6 @@ public class MostrarPlanif extends JPanel {
 
     public void actualizarPlanif() {
         panelMeses.removeAll();
-//        HashSet<String> mesesPlanificados = new HashSet<>();
-
         ArrayList<DiaGuardia> dias = ServicesLocator.getInstance().getPlantillaServices().getPlanDeGuardias();
         panelMeses.setLayout(layout);
 
@@ -247,8 +245,6 @@ public class MostrarPlanif extends JPanel {
                 }
             });
         }
-
-
     }
 
     private void calculatePreferredSize() {

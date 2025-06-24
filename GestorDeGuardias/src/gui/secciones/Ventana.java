@@ -114,7 +114,10 @@ public class Ventana extends JFrame {
     public JPanel getPanelVerPlanif() {
         return panelVerPlanif;
     }
-    public MostrarPlanif getPanelMostrarPlanif(){return pantallaPlanif;}
+
+    public MostrarPlanif getPanelMostrarPlanif() {
+        return pantallaPlanif;
+    }
 
     private void inicializarCaractVentana() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -157,7 +160,7 @@ public class Ventana extends JFrame {
         panelVacio.add(pantallaTrabajadores, "panelTrabajadores");
         panelVacio.add(panelAddPlanif, "panelAddPlanif");
         panelVacio.add(pantallaAsistencia, "panelAsistencia");
-        panelVacio.add(panelVerPlanif, "panelVerPlanif");
+        panelVacio.add(panelVerPlanif, "panelVerPlanificaciones");
         panelVacio.add(pantallaCump, "panelCumplimiento");
     }
 
@@ -175,7 +178,7 @@ public class Ventana extends JFrame {
         }
         if (pantallaPlanif != null) {
             pantallaPlanif.mostrarTabla();
-            if (Objects.equals(pantallaActual, "panelCump")) {
+            if (Objects.equals(pantallaActual, "panelCumplimiento")) {
                 ArrayList<DiaGuardia> dias = this.getPantallaCump().getTabla().getDias();
                 getPantallaCump().setTabla(dias);
             }
@@ -217,24 +220,20 @@ public class Ventana extends JFrame {
         }
 
         if (cambiar) {
-            if (Objects.equals(nombrePanel, "panelPlanifs") && !Objects.equals(pantallaActual, "panelPlanifs")) {
+            if (Objects.equals(nombrePanel, "panelPlanificaciones") && !Objects.equals(pantallaActual, "panelPlanificaciones")) {
+
                 pantallaPlanif.actualizarPlanif();
-                barraSup.mostrarPanel("panelOpcionesPlanifs");
-            }
 
+            } else if (Objects.equals(nombrePanel, "panelTrab") && !Objects.equals(pantallaActual, "panelTrab")) {
 
-            if (Objects.equals(nombrePanel, "panelTrab") && !Objects.equals(pantallaActual, "panelTrab")) {
                 pantallaTrabajadores.revalidarTabla();
-            }
 
-            if (Objects.equals(nombrePanel, "panelAsistencia") && !Objects.equals(pantallaActual, "panelAsistencia")) {
+            } else if (Objects.equals(nombrePanel, "panelAsistencia") && !Objects.equals(pantallaActual, "panelAsistencia")) {
+
                 pantallaAsistencia.actualizarPlanif();
-                barraSup.mostrarPanel("panelOpcionesAsistencia");
 
-            }
+            } else if (Objects.equals(nombrePanel, "panelAddPlanif")) {
 
-
-            if (Objects.equals(nombrePanel, "panelAddPlanif")) {
                 ArrayList<DiaGuardia> dias;
                 boolean empezarHoy = false;
 
@@ -254,7 +253,12 @@ public class Ventana extends JFrame {
                 panelAddPlanif.getTablaOpciones().setTabla(tabla);
 
                 panelAddPlanif.addTabla(tabla);
+            }
 
+            if (Objects.equals(nombrePanel, "panelPlanificaciones")) {
+                barraSup.mostrarPanel("panelOpcionesPlanifs");
+            } else if (Objects.equals(nombrePanel, "panelAsistencia")) {
+                barraSup.mostrarPanel("panelOpcionesAsistencia");
             } else {
                 barraSup.mostrarPanel("panelEd1");
             }
@@ -269,14 +273,14 @@ public class Ventana extends JFrame {
     private void inicializarEstudiantes() {
         pantallaEstudiantes = new PantallaEstudiantes();
         TablaEstudiantes customTabla = new TablaEstudiantes();
-        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros((ArrayList<Persona>)servicesLocator.getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
+        customTabla.revalidarTabla(pantallaEstudiantes.checkFiltros((ArrayList<Persona>) servicesLocator.getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
         pantallaEstudiantes.addTabla(customTabla);
     }
 
     private void inicializarTrabajadores() {
         pantallaTrabajadores = new PantallaTrabajadores();
         TablaTrabajadores customTabla = new TablaTrabajadores();
-        customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros((ArrayList<Persona>)servicesLocator.getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador"))));
+        customTabla.revalidarTabla(pantallaTrabajadores.checkFiltros((ArrayList<Persona>) servicesLocator.getPersonaServices().getPersonasByTipo(new TipoPersona("Trabajador"))));
         pantallaTrabajadores.addTabla(customTabla);
     }
 

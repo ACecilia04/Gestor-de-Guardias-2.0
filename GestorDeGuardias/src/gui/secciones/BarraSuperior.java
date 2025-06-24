@@ -45,7 +45,6 @@ public class BarraSuperior extends JPanel {
         //panelEdicion
         //Crear PanelCambiante
         panelVacio = new JPanel(new CardLayout());
-
         //Crear paneles que cambiar [BORRAR MIENTRAS SE CREEN LOS REALES]
         panelEdicion1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelEdicion1.setBackground(Color.WHITE);
@@ -63,6 +62,9 @@ public class BarraSuperior extends JPanel {
         Border border = BorderFactory.createMatteBorder(0, 0, 4, 0, contenedor.getBackground());
         panelOpciones.setBorder(bordeMargen);
         setBorder(border);
+
+        CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
+        cardLayout.show(panelVacio, "panelOpcionesPlanifs");
     }
 
     public void mostrarPanel(String nombrePanel) {
