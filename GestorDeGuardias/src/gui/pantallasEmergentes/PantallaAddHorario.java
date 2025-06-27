@@ -15,7 +15,7 @@ public class PantallaAddHorario extends JDialog {
     protected JPanel panelTitulo, panelCampos, panelBotones;
     protected Paleta paleta = new Paleta();
 
-    protected Dimension dim = new Dimension(350, 210);
+    protected Dimension dim = new Dimension(360, 300); // Cambiado para ser más grande
     protected Dimension dimBoton = new Dimension(100, 36);
     protected Font fuente = new Font("Arial", Font.PLAIN, 14);
 
@@ -26,7 +26,7 @@ public class PantallaAddHorario extends JDialog {
 
     public PantallaAddHorario(Window parent) {
         super(parent, "Añadir Horario", ModalityType.APPLICATION_MODAL);
-        setResizable(false);
+        setResizable(false); // Cambiado para permitir redimensionar
         setSize(dim);
 
         contentPane = new JPanel();
