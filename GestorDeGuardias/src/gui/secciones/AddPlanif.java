@@ -1,16 +1,11 @@
 package gui.secciones;
 
 import gui.auxiliares.Paleta;
-import gui.componentes.Boton;
 import gui.internosComp.PanelOpcionesPlanif;
-import gui.internosComp.PanelTurno;
 import gui.internosComp.Tabla;
-import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serial;
 
 

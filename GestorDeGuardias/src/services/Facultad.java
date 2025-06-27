@@ -2,10 +2,7 @@ package services;
 
 import model.PeriodoNoPlanificable;
 import model.Persona;
-import utils.exceptions.EntradaInvalidaException;
-import utils.exceptions.MultiplesErroresException;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 

@@ -6,17 +6,10 @@ import gui.componentes.Cuadro;
 import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
-import gui.pantallasEmergentes.Advertencia;
-import gui.secciones.Ventana;
 import model.DiaGuardia;
-import services.ServicesLocator;
-import utils.exceptions.EntradaInvalidaException;
-import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;

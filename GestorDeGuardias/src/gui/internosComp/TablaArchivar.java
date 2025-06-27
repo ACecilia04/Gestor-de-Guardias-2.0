@@ -7,10 +7,6 @@ import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import model.DiaGuardia;
-import model.TurnoDeGuardia;
-import services.ServicesLocator;
-import utils.dao.SqlServerCustomException;
-import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import java.awt.*;

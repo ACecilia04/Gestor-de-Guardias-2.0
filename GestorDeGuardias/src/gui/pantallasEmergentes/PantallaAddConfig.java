@@ -7,13 +7,12 @@ import gui.secciones.Ventana;
 import model.Configuracion;
 import model.Horario;
 import services.ServicesLocator;
-import java.time.LocalTime;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class PantallaAddConfig extends JDialog {
     protected static final long serialVersionUID = 1L;
