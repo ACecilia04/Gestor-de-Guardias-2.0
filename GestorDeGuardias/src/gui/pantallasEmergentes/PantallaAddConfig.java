@@ -1,5 +1,6 @@
 package gui.pantallasEmergentes;
 
+import gui.auxiliares.ConvertidorFecha;
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.Etiqueta;
@@ -37,9 +38,21 @@ public class PantallaAddConfig extends JDialog {
 
     protected int margenIzquierdo = 40;
 
+    // Para saber si es edición
+    protected Configuracion configEditada;
+
     public PantallaAddConfig() {
-        super(Ventana.getInstance(), "Añadir Configuración", true);
-        setResizable(false); // Cambiado para permitir redimensionar
+        this(null);
+    }
+
+    /**
+     * Constructor para editar una configuración existente.
+     * @param config Configuracion a editar. Si es null, se comporta como alta.
+     */
+    public PantallaAddConfig(Configuracion config) {
+        super(Ventana.getInstance(), config == null ? "Añadir Configuración" : "Editar Configuración", true);
+        this.configEditada = config;
+        setResizable(false);
         setSize(dim);
         contentPane = new JPanel();
         setContentPane(contentPane);
@@ -63,6 +76,11 @@ public class PantallaAddConfig extends JDialog {
         contentPane.setBorder(border);
         panelInf.setBorder(border2);
         contentPane.requestFocus();
+
+        // Si viene config para editar, setear los valores en los campos
+        if (configEditada != null) {
+            setValoresConfiguracion(configEditada);
+        }
 
         setVisible(true);
     }
@@ -215,7 +233,7 @@ public class PantallaAddConfig extends JDialog {
         panelTitulo.setPreferredSize(panelTitulo.getSize());
         panelTitulo.setLayout(new BorderLayout());
 
-        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Configuración de Turno");
+        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), configEditada == null ? "Configuración de Turno" : "Editar Configuración");
         titulo.setBold(true);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         panelTitulo.add(titulo);
@@ -225,16 +243,56 @@ public class PantallaAddConfig extends JDialog {
     private ArrayList<String> getDiasSemana() {
         // TODO: Implementa según tu lógica real
         ArrayList<String> dias = new ArrayList<>();
+        dias.add("Lunes");
+        dias.add("Martes");
+        dias.add("Miércoles");
+        dias.add("Jueves");
+        dias.add("Viernes");
+        dias.add("Sábado");
+        dias.add("Domingo");
         return dias;
     }
 
     // Carga o recarga la lista de horarios
     private void recargarHorarios() {
         modeloHorarios.clear();
-        ArrayList<Horario> horarios = (ArrayList<Horario>) ServicesLocator.getInstance().getHorarioServices().getAllHorarios();;
+        ArrayList<Horario> horarios = (ArrayList<Horario>) ServicesLocator.getInstance().getHorarioServices().getAllHorarios();
         for (Horario h : horarios) {
             modeloHorarios.addElement(h.toString());
         }
+    }
+
+    private void setValoresConfiguracion(Configuracion config) {
+        // Ajusta los nombres de métodos según tu modelo Configuracion
+        if (config == null) return;
+        spinnerCantidad.setValue(config.getCantPersonas());
+
+        // Selecciona tipo de persona si existe
+        if (config.getTipoPersona() != null) {
+            comboTipoPersona.setSelectedItem(config.getTipoPersona());
+        }
+
+        // Selecciona sexo si existe
+        if (config.getSexo() != null) {
+            comboSexo.setSelectedItem(config.getSexo());
+        }
+
+        // Selecciona día de la semana si existe
+        if (ConvertidorFecha.traducDiaSemana(config.getDiaSemana()) != null) {
+            comboDiasSemana.setSelectedItem(ConvertidorFecha.traducDiaSemana(config.getDiaSemana()));
+        }
+
+        // Selecciona el horario, si existe y coincide
+        if (config.getHorario() != null) {
+            String horarioStr = config.getHorario().toString();
+            for (int i = 0; i < modeloHorarios.getSize(); i++) {
+                if (modeloHorarios.getElementAt(i).equals(horarioStr)) {
+                    listaHorarios.setSelectedIndex(i);
+                    break;
+                }
+            }
+        }
+        // Si tienes más campos (por ejemplo, receso), agrégalos aquí
     }
 
     public static Horario stringToHorario(String s) {

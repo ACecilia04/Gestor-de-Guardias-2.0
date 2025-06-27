@@ -1,5 +1,6 @@
 package gui.secciones;
 
+import gui.auxiliares.ConvertidorFecha;
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.Cuadro;
@@ -93,7 +94,11 @@ public class PanelConfig extends JPanel {
         // Acción de eliminar
         btnEliminar.addActionListener(e -> {
             if (seleccionada != null) {
-                eliminarConfiguracion(seleccionada);
+                try {
+                    eliminarConfiguracion(seleccionada);
+                } catch (SqlServerCustomException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }
@@ -127,7 +132,7 @@ public class PanelConfig extends JPanel {
         JPanel panelDia = null;
 
         for (Configuracion conf : listaConfiguraciones) {
-            String dia = conf.toString();
+            String dia = ConvertidorFecha.traducDiaSemana(conf.getDiaSemana());
             if (!dia.equals(diaActual)) {
                 // Día nuevo
                 if (panelDia != null) {
@@ -223,13 +228,15 @@ public class PanelConfig extends JPanel {
     // Métodos de acción (esqueleto)
     private void agregarConfiguracion() {
         // TODO: Implementar diálogo/agregado
-        JOptionPane.showMessageDialog(this, "Agregar configuración (no implementado)");
-        cargarConfiguraciones();
+          pantallaConfig = new PantallaAddConfig();
+          pantallaConfig.revalidate();
+          cargarConfiguraciones();
     }
 
     private void modificarConfiguracion(Configuracion conf) {
 
         pantallaConfig = new PantallaAddConfig(conf);
+        pantallaConfig.revalidate();
         cargarConfiguraciones();
     }
 
