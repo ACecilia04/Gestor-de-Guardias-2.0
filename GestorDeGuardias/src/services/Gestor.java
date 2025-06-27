@@ -1,23 +1,10 @@
 package services;
 
-import logica.principal.EsquemaGuardia;
 import model.DiaGuardia;
-import model.Horario;
-import model.Persona;
-import model.TurnoDeGuardia;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
-import static utils.Utilitarios.fechaEnSemanaPar;
-import static utils.Utilitarios.quickSort;
 
 
 public class Gestor {

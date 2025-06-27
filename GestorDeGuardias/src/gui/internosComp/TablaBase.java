@@ -5,11 +5,10 @@ import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
-import gui.componentes.Etiqueta;
 import model.DiaGuardia;
-import model.TurnoDeGuardia;
-import model.Persona;
 import model.Horario;
+import model.Persona;
+import model.TurnoDeGuardia;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

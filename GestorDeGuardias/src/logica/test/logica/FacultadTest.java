@@ -1,10 +1,10 @@
 package logica.test.logica;
 
-import utils.exceptions.EntradaInvalidaException;
-import utils.exceptions.MultiplesErroresException;
 import logica.principal.Facultad;
 import logica.principal.Sexo;
 import org.junit.Test;
+import utils.exceptions.EntradaInvalidaException;
+import utils.exceptions.MultiplesErroresException;
 
 import java.time.LocalDate;
 

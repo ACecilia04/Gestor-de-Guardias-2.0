@@ -8,7 +8,6 @@ import gui.componentes.Buscar;
 import gui.internosComp.PanelTurno;
 import gui.secciones.Ventana;
 import model.Persona;
-import services.Gestor;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;

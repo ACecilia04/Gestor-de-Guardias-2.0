@@ -9,7 +9,6 @@ import services.Gestor;
 import services.PeriodoNoPlanificableServices;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
-import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import javax.swing.border.Border;

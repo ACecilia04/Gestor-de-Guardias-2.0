@@ -6,7 +6,6 @@ import gui.componentes.CustomRadioButton;
 import gui.componentes.CustomTextField;
 import gui.componentes.Etiqueta;
 import gui.secciones.Ventana;
-import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import javax.swing.border.Border;

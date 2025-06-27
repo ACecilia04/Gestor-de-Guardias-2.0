@@ -1,12 +1,13 @@
 package services;
 
-import com.lowagie.text.*;
 import com.lowagie.text.Font;
-import com.lowagie.text.pdf.*;
-import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPRow;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import model.DiaGuardia;
-import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
 
@@ -17,7 +18,6 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 public class ReporteServices {
 

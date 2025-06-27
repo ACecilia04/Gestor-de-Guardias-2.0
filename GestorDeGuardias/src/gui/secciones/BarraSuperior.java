@@ -1,15 +1,12 @@
 package gui.secciones;
 
 import gui.auxiliares.Paleta;
-import gui.componentes.Etiqueta;
 import gui.internosComp.PanelEdicion2;
-import gui.internosComp.PanelOpcionesPlanif;
 import gui.internosComp.PanelSupOpcionesAsistencia;
 import gui.internosComp.PanelSupOpcionesPlanifs;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.Serial;
 

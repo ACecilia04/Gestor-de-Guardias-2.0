@@ -8,6 +8,7 @@ import model.Usuario;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Menu extends JPanel {
@@ -26,7 +27,7 @@ public class Menu extends JPanel {
     Boton btnEstudiantes = new Boton();
     Boton btnTrabajadores = new Boton();
 
-    Boton btnAddPlanif = new Boton();
+    Boton btnConfig = new Boton();
     Boton btnActualizarAsist = new Boton();
     Boton btnFacultad = new Boton();
 
@@ -51,7 +52,7 @@ public class Menu extends JPanel {
             btnMinimizar.addActionListener(new ActionListener() {
                 private boolean isMinimized = false;
                 @Override
-                public void actionPerformed(java.awt.event.ActionEvent e) {
+                public void actionPerformed(ActionEvent e) {
                     if (isMinimized) {
                         maximizarMenu();
                     } else {
@@ -95,12 +96,6 @@ public class Menu extends JPanel {
             panel2 = new JPanel(null);
             panel2.setBackground(getBackground());
 
-//            btnAddPlanif.addIcono("/iconos/Estrella.png");
-//            btnAddPlanif.setSelectLetra(true);
-//            btnAddPlanif.setLocation(x, y);
-//            y += btnAddPlanif.getSize().height + separacion;
-//            btnAddPlanif.addActionListener(e -> ventana.mostrarPanel("panel4"));
-
             btnEstudiantes.addIcono("/iconos/Estudiante.png");
             btnEstudiantes.setSelectLetra(true);
             btnEstudiantes.setLocation(x, y);
@@ -116,9 +111,15 @@ public class Menu extends JPanel {
             btnFacultad.addIcono("/iconos/Casa.png");
             btnFacultad.setSelectLetra(true);
             btnFacultad.setLocation(x, y);
+            y += btnFacultad.getSize().height + separacion;
             btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
 
-//            panel2.add(btnAddPlanif);
+            btnConfig.addIcono("/iconos/Config.png");
+            btnConfig.setSelectLetra(true);
+            btnConfig.setLocation(x, y);
+            btnConfig.addActionListener(e -> ventana.mostrarPanel("panel4"));
+
+            panel2.add(btnConfig);
             panel2.add(btnEstudiantes);
             panel2.add(btnTrabajadores);
             panel2.add(btnFacultad);
@@ -163,7 +164,7 @@ public class Menu extends JPanel {
                 btnPlanifs.setVisible(false);
                 btnEstudiantes.setVisible(false);
                 btnTrabajadores.setVisible(false);
-//                btnAddPlanif.setVisible(false);
+                btnConfig.setVisible(false);
                 btnFacultad.setVisible(false);
                 break;
             default:
@@ -171,7 +172,7 @@ public class Menu extends JPanel {
                 btnPlanifs.setVisible(false);
                 btnEstudiantes.setVisible(false);
                 btnTrabajadores.setVisible(false);
-//                btnAddPlanif.setVisible(false);
+                btnConfig.setVisible(false);
                 btnActualizarAsist.setVisible(false);
                 btnFacultad.setVisible(false);
         }
@@ -191,8 +192,8 @@ public class Menu extends JPanel {
         btnTrabajadores.setText("");
         btnTrabajadores.setLocation(10, btnTrabajadores.getY());
 
-//        btnAddPlanif.setText("");
-//        btnAddPlanif.setLocation(10, btnAddPlanif.getY());
+        btnConfig.setText("");
+        btnConfig.setLocation(10, btnConfig.getY());
 
         btnFacultad.setText("");
         btnFacultad.setLocation(10, btnFacultad.getY());
@@ -209,8 +210,8 @@ public class Menu extends JPanel {
         btnTrabajadores.setText("Trabajadores");
         btnTrabajadores.setLocation(x, btnTrabajadores.getY());
 
-//        btnAddPlanif.setText("Añadir Planificación");
-//        btnAddPlanif.setLocation(x, btnAddPlanif.getY());
+        btnConfig.setText("Configuración");
+        btnConfig.setLocation(x, btnConfig.getY());
 
         btnActualizarAsist.setText("Actualizar Asistencias");
         btnActualizarAsist.setLocation(x, btnActualizarAsist.getY());

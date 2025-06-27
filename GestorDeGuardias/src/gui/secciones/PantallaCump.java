@@ -1,14 +1,10 @@
 package gui.secciones;
 
-import gui.internosComp.PanelOpcionesArchivar;
 import gui.internosComp.TablaArchivar;
 import model.DiaGuardia;
-import services.ServicesLocator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PantallaCump extends JPanel {

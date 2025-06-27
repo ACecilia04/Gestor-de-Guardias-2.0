@@ -7,26 +7,26 @@ import gui.componentes.Cuadro;
 import gui.componentes.CustomPopupMenu;
 import gui.componentes.Etiqueta;
 import model.DiaGuardia;
-import model.TurnoDeGuardia;
-import services.ServicesLocator;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.Serial;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 import static gui.auxiliares.ConvertidorFecha.traducDiaSemana;
 
 public abstract class PanelDiaBase extends Cuadro implements Actualizable {
-    protected static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
     //Casillas
     protected static int casillaLargo = 50;
     protected static int largoComun = 54;
-    protected static int largoDoble = 80;
-    protected static int largoTriple = 110;
+//    protected static int largoDoble = 80;
+//    protected static int largoTriple = 110;
     protected Paleta paleta = new Paleta();
     protected DiaGuardia dia;
     protected Cuadro myself;
@@ -108,7 +108,7 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
         colorPasada = colorFondo.darker();
         colorSelec = paleta.getColorCaracteristico();
         colorLetra = paleta.getColorLetraMenu();
-        panelesTurno = new ArrayList<PanelTurno>();
+        panelesTurno = new ArrayList<>();
 
         seleccionado = false;
 
@@ -182,7 +182,8 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
     protected abstract void iniciarCasilla();
 
     protected MouseAdapter popupTurno() {
-        MouseAdapter nuevo = new MouseAdapter() {
+
+        return new MouseAdapter() {
             public void mousePressed(MouseEvent evt) {
                 if (evt.isPopupTrigger()) {
                     mostrarPopup(evt);
@@ -195,8 +196,6 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
                 }
             }
         };
-
-        return nuevo;
     }
 
     protected int getAncho() {
@@ -204,7 +203,7 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
 //ahora son lo mismo xq se asigna 1 persona por turno, luego cambiará
 //        for(TurnoDeGuardia turno : dia.getTurnos())
 //                ancho += ServicesLocator.getInstance().getConfiguracionServices().getCantPersonasAsignables(turno.getHorario().getId(), dia.getFecha()) * largoComun;
-            ancho += dia.getTurnos().size() * largoComun;
+        ancho += dia.getTurnos().size() * largoComun;
 
         return ancho;
     }
@@ -256,7 +255,7 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
 
     public void cambiarColorMini(Color colorSelec, Color colorLetraSelec, Color color, Color colorLetra) {
         for (PanelTurno e : panelesTurno) {
-            if (e instanceof PanelTurno) {
+            if (e != null) {
                 if (e.isSeleccionado()) {
                     e.cambiar(colorSelec, colorLetraSelec);
                 } else {
