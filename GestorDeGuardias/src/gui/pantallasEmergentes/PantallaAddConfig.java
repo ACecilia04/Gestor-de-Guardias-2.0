@@ -148,7 +148,7 @@ public class PantallaAddConfig extends JDialog {
 
         // Suponemos que hay una función getDiasSemana()
         ArrayList<String> diasSemana = getDiasSemana();
-        comboDiasSemana = new JComboBox<>((ComboBoxModel) diasSemana);
+        comboDiasSemana = new JComboBox<>(new DefaultComboBoxModel<>(diasSemana.toArray(new String[0])));
         comboDiasSemana.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboDiasSemana);
         y += 40;
