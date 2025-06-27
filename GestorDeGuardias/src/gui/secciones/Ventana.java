@@ -43,7 +43,7 @@ public class Ventana extends JFrame {
     private AsistenciaPlanif pantallaAsistencia;
     private PantallaCump pantallaCump;
     private PantallaFacultad pantallaFacultad;
-    @SuppressWarnings("unused")
+    private PanelConfig pantallaConfig;
     private Login login;
     private PantallaAddPersona pantallaAddPersona;
     private LocalDate inicio;
@@ -151,6 +151,7 @@ public class Ventana extends JFrame {
         panelAddPlanif = new AddPlanif(panelVacio);
         pantallaAsistencia = new AsistenciaPlanif();
         pantallaCump = new PantallaCump();
+        pantallaConfig = new PanelConfig();
 
         panelVerPlanif = new JPanel();
         panelVerPlanif.setLayout(new BorderLayout());
@@ -162,6 +163,7 @@ public class Ventana extends JFrame {
         panelVacio.add(pantallaAsistencia, "panelAsistencia");
         panelVacio.add(panelVerPlanif, "panelVerPlanificaciones");
         panelVacio.add(pantallaCump, "panelCumplimiento");
+        panelVacio.add(pantallaConfig, "panelConfig");
     }
 
     private void redimensionar() {
@@ -253,6 +255,8 @@ public class Ventana extends JFrame {
                 panelAddPlanif.getTablaOpciones().setTabla(tabla);
 
                 panelAddPlanif.addTabla(tabla);
+            } else if (Objects.equals(nombrePanel, "panelConfig") && !Objects.equals(pantallaActual, "panelConfig")){
+                pantallaConfig.cargarConfiguraciones();
             }
 
             if (Objects.equals(nombrePanel, "panelPlanificaciones")) {

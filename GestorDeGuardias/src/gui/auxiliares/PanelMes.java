@@ -33,6 +33,8 @@ public class PanelMes extends Cuadro {
         setMinimumSize(dim);
         setMaximumSize(dim);
         setLayout(null);
+        setToolTipText("Doble clic para ver más");
+
         this.fechaInicio = fechaInicial;
 
         Color colorLetra;

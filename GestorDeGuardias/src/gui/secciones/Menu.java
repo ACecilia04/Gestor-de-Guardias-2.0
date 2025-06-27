@@ -117,7 +117,7 @@ public class Menu extends JPanel {
             btnConfig.addIcono("/iconos/Config.png");
             btnConfig.setSelectLetra(true);
             btnConfig.setLocation(x, y);
-            btnConfig.addActionListener(e -> ventana.mostrarPanel("panel4"));
+            btnConfig.addActionListener(e -> ventana.mostrarPanel("panelConfig"));
 
             panel2.add(btnConfig);
             panel2.add(btnEstudiantes);
@@ -139,7 +139,7 @@ public class Menu extends JPanel {
         superior.setBorder(margenDoubleBorder);
         setBorder(border);
         deshabilitarOpcionesPorRol(usuario.getRol().getNombre());
-        maximizarMenu();
+        minimizarMenu();
 
         // Aquí: deshabilitar botones según el rol
 
@@ -213,7 +213,7 @@ public class Menu extends JPanel {
         btnConfig.setText("Configuración");
         btnConfig.setLocation(x, btnConfig.getY());
 
-        btnActualizarAsist.setText("Actualizar Asistencias");
+        btnActualizarAsist.setText("Asistencias");
         btnActualizarAsist.setLocation(x, btnActualizarAsist.getY());
 
         btnFacultad.setText("Facultad");
