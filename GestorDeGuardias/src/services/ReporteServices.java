@@ -199,7 +199,8 @@ public class ReporteServices {
                             tabla.addCell(new PdfPCell(new Phrase(p.getApellido(), fontNormal)));
                             tabla.addCell(new PdfPCell(new Phrase(p.getNombre(), fontNormal)));
                             Boolean hecho = turno.getCumplimiento();
-                            tabla.addCell(new PdfPCell(new Phrase((hecho != null && hecho) ? "Sí" : "No", fontNormal)));
+                            tabla.addCell(new PdfPCell(new Phrase(
+                                    (hecho == null) ? "" : (hecho ? "Sí" : "No"), fontNormal)));
                             horarioStr = ""; // para no repetir el horario
                         }
                     } else if (turno.getPersonaAsignada() != null) {
@@ -209,7 +210,8 @@ public class ReporteServices {
                         tabla.addCell(new PdfPCell(new Phrase(p.getApellido(), fontNormal)));
                         tabla.addCell(new PdfPCell(new Phrase(p.getNombre(), fontNormal)));
                         Boolean hecho = turno.getCumplimiento();
-                        tabla.addCell(new PdfPCell(new Phrase((hecho != null && hecho) ? "Sí" : "No", fontNormal)));
+                        tabla.addCell(new PdfPCell(new Phrase(
+                                (hecho == null) ? "" : (hecho ? "Sí" : "No"), fontNormal)));;
                     }
                 }
 
