@@ -35,6 +35,7 @@ public class PantallaAddConfig extends JDialog {
     protected JComboBox<String> comboDiasSemana;
     protected DefaultListModel<String> modeloHorarios;
     protected JList<String> listaHorarios;
+    protected JCheckBox checkReceso;
 
     protected int margenIzquierdo = 40;
 
@@ -111,6 +112,9 @@ public class PantallaAddConfig extends JDialog {
             String diaSeleccionado = (String) comboDiasSemana.getSelectedItem();
             //List<Horario> horarios = listaHorarios.getSelectedValuesList();
             Horario horario = stringToHorario(listaHorarios.getSelectedValue());
+            boolean esReceso = checkReceso.isSelected();
+            // Aquí puedes usar esReceso para guardar/actualizar la configuración
+            // Ejemplo: record.setReceso(esReceso);
             //ServicesLocator.getInstance().getConfiguracionServices().insertConfiguracion();
             dispose();
         });
@@ -216,6 +220,15 @@ public class PantallaAddConfig extends JDialog {
         });
         panelInf.add(botonAddHorario);
 
+        y += 110;
+
+        // Checkbox de receso
+        checkReceso = new JCheckBox("¿Es receso?");
+        checkReceso.setFont(fuente);
+        checkReceso.setBackground(contentPane.getBackground());
+        checkReceso.setBounds(margenIzquierdo, y, 160, 28);
+        panelInf.add(checkReceso);
+
         // Al cambiar el día, refresca la lista de horarios
         comboDiasSemana.addActionListener(e -> recargarHorarios());
 
@@ -223,7 +236,7 @@ public class PantallaAddConfig extends JDialog {
         recargarHorarios();
 
         // Altura dinámica del panel
-        panelInf.setPreferredSize(new Dimension(this.getSize().width, y + 150));
+        panelInf.setPreferredSize(new Dimension(this.getSize().width, y + 70));
     }
 
     private void inicializarTitulo() {
@@ -253,7 +266,6 @@ public class PantallaAddConfig extends JDialog {
         return dias;
     }
 
-    // Carga o recarga la lista de horarios
     private void recargarHorarios() {
         modeloHorarios.clear();
         ArrayList<Horario> horarios = (ArrayList<Horario>) ServicesLocator.getInstance().getHorarioServices().getAllHorarios();
@@ -263,26 +275,21 @@ public class PantallaAddConfig extends JDialog {
     }
 
     private void setValoresConfiguracion(Configuracion config) {
-        // Ajusta los nombres de métodos según tu modelo Configuracion
         if (config == null) return;
         spinnerCantidad.setValue(config.getCantPersonas());
 
-        // Selecciona tipo de persona si existe
         if (config.getTipoPersona() != null) {
             comboTipoPersona.setSelectedItem(config.getTipoPersona());
         }
 
-        // Selecciona sexo si existe
         if (config.getSexo() != null) {
             comboSexo.setSelectedItem(config.getSexo());
         }
 
-        // Selecciona día de la semana si existe
         if (ConvertidorFecha.traducDiaSemana(config.getDiaSemana()) != null) {
             comboDiasSemana.setSelectedItem(ConvertidorFecha.traducDiaSemana(config.getDiaSemana()));
         }
 
-        // Selecciona el horario, si existe y coincide
         if (config.getHorario() != null) {
             String horarioStr = config.getHorario().toString();
             for (int i = 0; i < modeloHorarios.getSize(); i++) {
@@ -292,7 +299,9 @@ public class PantallaAddConfig extends JDialog {
                 }
             }
         }
-        // Si tienes más campos (por ejemplo, receso), agrégalos aquí
+
+        // Marca el checkbox si es receso
+        checkReceso.setSelected(config.diaEsReceso());
     }
 
     public static Horario stringToHorario(String s) {
@@ -304,7 +313,6 @@ public class PantallaAddConfig extends JDialog {
             LocalTime fin = LocalTime.parse(partes[1]);
             return new Horario(inicio, fin);
         } catch (Exception e) {
-            // Si el formato es inválido
             return null;
         }
     }
