@@ -3,6 +3,7 @@ package gui.secciones;
 import gui.auxiliares.Paleta;
 import gui.internosComp.PanelEdicion2;
 import gui.internosComp.PanelSupOpcionesAsistencia;
+import gui.internosComp.PanelSupOpcionesConfig;
 import gui.internosComp.PanelSupOpcionesPlanifs;
 
 import javax.swing.*;
@@ -21,11 +22,12 @@ public class BarraSuperior extends JPanel {
     private final PanelEdicion2 panelEd2;
     private PanelSupOpcionesPlanifs opcionesPlanif;
     private PanelSupOpcionesAsistencia opcionesAsistencia;
+    private PanelSupOpcionesConfig opcionesConfig;
 
 //    private final Font fuente = new Font("Arial", Font.PLAIN, 18);
 
-    public BarraSuperior(JPanel contenedor, MostrarPlanif panelMostrarPlanifs, PantallaCump panelCumplimiento) {
-        Dimension dim = new Dimension(contenedor.getSize().width, 85);
+    public BarraSuperior(JPanel contenedor, MostrarPlanif panelMostrarPlanifs, PantallaCump panelCumplimiento, PanelConfig panelConfig) {
+        Dimension dim = new Dimension(contenedor.getWidth(), 85);
         setPreferredSize(new Dimension(dim));
         Paleta paleta = new Paleta();
         setBackground(paleta.getColorFondoTabla());
@@ -39,8 +41,9 @@ public class BarraSuperior extends JPanel {
         Border bordeMargen = BorderFactory.createEmptyBorder(0, 10, 0, 0);
         panelOpciones.setPreferredSize(new Dimension(247, this.getPreferredSize().height));
 
-        opcionesPlanif = new PanelSupOpcionesPlanifs(this.getPreferredSize().height,panelMostrarPlanifs);
-        opcionesAsistencia = new PanelSupOpcionesAsistencia(this.getPreferredSize().height,panelCumplimiento);
+        opcionesPlanif = new PanelSupOpcionesPlanifs(this.getPreferredSize().height, panelMostrarPlanifs);
+        opcionesAsistencia = new PanelSupOpcionesAsistencia(this.getPreferredSize().height, panelCumplimiento);
+        opcionesConfig = new PanelSupOpcionesConfig(this.getPreferredSize().height, panelConfig);
         //panelEdicion
         //Crear PanelCambiante
         panelVacio = new JPanel(new CardLayout());
@@ -55,6 +58,7 @@ public class BarraSuperior extends JPanel {
         panelVacio.add(panelEd2, "panelEd2");
         panelVacio.add(opcionesPlanif,"panelOpcionesPlanifs");
         panelVacio.add(opcionesAsistencia,"panelOpcionesAsistencia");
+        panelVacio.add(opcionesConfig, "panelOpcionesConfig");
         add(panelVacio, BorderLayout.EAST);
 
         //Bordes

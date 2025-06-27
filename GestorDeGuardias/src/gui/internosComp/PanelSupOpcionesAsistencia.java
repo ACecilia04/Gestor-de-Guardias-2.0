@@ -44,11 +44,10 @@ public class PanelSupOpcionesAsistencia extends JPanel {
         add(reiniciarBtn);
         add(guardarBtn);
 
-        FlowLayout miLayout = new FlowLayout(FlowLayout.LEFT, 5, alto - todosCumpBtn.getHeight() - 8);
+        FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - todosCumpBtn.getHeight() - 8);
         setLayout(miLayout);
     }
         public void setTodosCumplidos(){
-
             if (panelAfectado != null) {
                 panelAfectado.getTabla().setCumplimiento(1);
                 panelAfectado.getTabla().actualizarVistaTabla();
@@ -69,6 +68,5 @@ public class PanelSupOpcionesAsistencia extends JPanel {
         public void guardar(){
             ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarCumplimientoTurnos(panelAfectado.getTabla().getDias());
         }
-
 
 }

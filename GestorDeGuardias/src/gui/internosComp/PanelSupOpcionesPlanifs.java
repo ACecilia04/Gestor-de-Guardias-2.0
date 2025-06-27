@@ -51,7 +51,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         add(borrarBtn);
         add(pdfBtn);
 
-        FlowLayout miLayout = new FlowLayout(FlowLayout.LEFT, 5, alto - nuevoBtn.getHeight() - 8);
+        FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - nuevoBtn.getHeight() - 8);
         setLayout(miLayout);
         /*
         borrarBtn.setSeleccionable(false);
