@@ -37,32 +37,32 @@ public class PanelConfig extends JPanel {
     public PanelConfig() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
-
+        seleccionada = null;
         // Panel superior de botones alineados a la derecha
         panelBotones = new JPanel(new FlowLayout(FlowLayout.RIGHT, 16, 16));
         panelBotones.setOpaque(false);
 
-        Boton btnAgregar = new Boton("Agregar");
-        Boton btnModificar = new Boton("Modificar");
-        Boton btnEliminar = new Boton("Eliminar");
+//        Boton btnAgregar = new Boton("Agregar");
+//        Boton btnModificar = new Boton("Modificar");
+//        Boton btnEliminar = new Boton("Eliminar");
+//
+//        btnAgregar.setColorFondo(new Color(37, 97, 209));
+//        btnAgregar.setColorLetra(Color.WHITE);
+//
+//        btnModificar.setColorFondo(new Color(37, 97, 209));
+//        btnModificar.setColorLetra(Color.WHITE);
+//
+//        btnEliminar.setColorFondo(new Color(220, 53, 69));
+//        btnEliminar.setColorLetra(Color.WHITE);
+//
+//        btnModificar.setEnabled(false);
+//        btnEliminar.setEnabled(false);
+//
+//        panelBotones.add(btnAgregar);
+//        panelBotones.add(btnModificar);
+//        panelBotones.add(btnEliminar);
 
-        btnAgregar.setColorFondo(new Color(37, 97, 209));
-        btnAgregar.setColorLetra(Color.WHITE);
-
-        btnModificar.setColorFondo(new Color(37, 97, 209));
-        btnModificar.setColorLetra(Color.WHITE);
-
-        btnEliminar.setColorFondo(new Color(220, 53, 69));
-        btnEliminar.setColorLetra(Color.WHITE);
-
-        btnModificar.setEnabled(false);
-        btnEliminar.setEnabled(false);
-
-        panelBotones.add(btnAgregar);
-        panelBotones.add(btnModificar);
-        panelBotones.add(btnEliminar);
-
-        add(panelBotones, BorderLayout.NORTH);
+//        add(panelBotones, BorderLayout.NORTH);
 
         // Panel de tabla
         panelTabla = new JPanel();
@@ -80,30 +80,9 @@ public class PanelConfig extends JPanel {
 
         // Carga datos inicial
         cargarConfiguraciones();
-
-        // Acción de agregar
-        btnAgregar.addActionListener(e -> agregarConfiguracion());
-
-        // Acción de modificar
-        btnModificar.addActionListener(e -> {
-            if (seleccionada != null) {
-                modificarConfiguracion(seleccionada);
-            }
-        });
-
-        // Acción de eliminar
-        btnEliminar.addActionListener(e -> {
-            if (seleccionada != null) {
-                try {
-                    eliminarConfiguracion(seleccionada);
-                } catch (SqlServerCustomException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
     }
 
-    private void cargarConfiguraciones() {
+    public void cargarConfiguraciones() {
         // Obtiene la lista desde el servicio (ajusta el método a tu caso)
         listaConfiguraciones = (ArrayList<Configuracion>) ServicesLocator.getInstance()
                 .getConfiguracionServices().getAllConfiguraciones();
@@ -194,13 +173,11 @@ public class PanelConfig extends JPanel {
         // Selección visual
         fila.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                seleccionada = conf;
-                // Habilita los botones según selección
-                habilitarBotones(true);
+            public void mouseClicked(MouseEvent e) {// Habilita los botones según selección
+                habilitarBotones();
                 // Doble click
                 if (e.getClickCount() == 2) {
-                    modificarConfiguracion(conf);
+                    modificarConfiguracion();
                 }
                 // Visual feedback
                 for (Component comp : panelTabla.getComponents()) {
@@ -214,40 +191,41 @@ public class PanelConfig extends JPanel {
         return fila;
     }
 
-    private void habilitarBotones(boolean habilitar) {
+    private void habilitarBotones() {
         for (Component c : panelBotones.getComponents()) {
-            if (c instanceof Boton) {
-                Boton b = (Boton) c;
-                if (b.getEtiqueta().equals("Modificar") || b.getEtiqueta().equals("Eliminar")) {
-                    b.setEnabled(habilitar);
+            if (c instanceof Boton b) {
+                if (b.getEtiqueta().getText().equals("Modificar") || b.getEtiqueta().getText().equals("Eliminar")) {
+                    b.setEnabled(true);
                 }
             }
         }
     }
 
     // Métodos de acción (esqueleto)
-    private void agregarConfiguracion() {
-        // TODO: Implementar diálogo/agregado
-          pantallaConfig = new PantallaAddConfig();
-          pantallaConfig.revalidate();
-          cargarConfiguraciones();
-    }
-
-    private void modificarConfiguracion(Configuracion conf) {
-
-        pantallaConfig = new PantallaAddConfig(conf);
-        pantallaConfig.revalidate();
-        cargarConfiguraciones();
-    }
-
-    private void eliminarConfiguracion(Configuracion conf) throws SqlServerCustomException {
-        // TODO: Implementar eliminación
-        int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar esta configuración?", "Eliminar", JOptionPane.YES_NO_OPTION);
-        if (res == JOptionPane.YES_OPTION) {
-            // Lógica de borrado
-            ServicesLocator.getInstance().getConfiguracionServices().deleteConfiguracion(conf.getId());
-            JOptionPane.showMessageDialog(this, "Configuración eliminada");
+    public void agregarConfiguracion() {
+            // TODO: Implementar diálogo/agregado
+            pantallaConfig = new PantallaAddConfig();
+            pantallaConfig.revalidate();
             cargarConfiguraciones();
+    }
+
+    public void modificarConfiguracion() {
+        if(seleccionada != null) {
+            pantallaConfig = new PantallaAddConfig(seleccionada);
+            pantallaConfig.revalidate();
+            cargarConfiguraciones();
+        }
+    }
+
+    public void eliminarConfiguracion() throws SqlServerCustomException {
+        if(seleccionada != null) {
+            int res = JOptionPane.showConfirmDialog(this, "¿Seguro que desea eliminar esta configuración?", "Eliminar", JOptionPane.YES_NO_OPTION);
+            if (res == JOptionPane.YES_OPTION) {
+                // Lógica de borrado
+                ServicesLocator.getInstance().getConfiguracionServices().deleteConfiguracion(seleccionada.getId());
+                JOptionPane.showMessageDialog(this, "Configuración eliminada");
+                cargarConfiguraciones();
+            }
         }
     }
 }

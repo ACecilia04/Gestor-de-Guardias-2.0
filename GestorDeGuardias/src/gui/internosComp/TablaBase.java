@@ -82,8 +82,8 @@ public class TablaBase extends Cuadro implements IsTabla {
         // Etiqueta de mes y año alineada a la izquierda
         String mesAgno = "";
         if (dias != null && !dias.isEmpty()) {
-            mesAgno = dias.get(0).getFecha().getMonth().getDisplayName(TextStyle.FULL, new Locale("es"))
-                    + " " + dias.get(0).getFecha().getYear();
+            mesAgno = dias.getFirst().getFecha().getMonth().getDisplayName(TextStyle.FULL, new Locale("es"))
+                    + " " + dias.getFirst().getFecha().getYear();
         }
         JLabel lblMes = new JLabel(mesAgno, SwingConstants.LEFT);
         lblMes.setFont(fuenteCabecera);
@@ -113,45 +113,48 @@ public class TablaBase extends Cuadro implements IsTabla {
         boolean alt = false;
         for (DiaGuardia dia : dias) {
             ArrayList<TurnoDeGuardia> turnos = dia.getTurnos();
-            if (turnos == null || turnos.isEmpty()) continue;
+            if (turnos != null || !turnos.isEmpty()) {
 
-            // Panel para el día completo
-            JPanel panelDia = new JPanel();
-            panelDia.setLayout(new BoxLayout(panelDia, BoxLayout.Y_AXIS));
-            panelDia.setBackground(alt ? colorDiaFondo : Color.WHITE);
-            panelDia.setBorder(new EmptyBorder(PAD, PAD, PAD, PAD));
+                // Panel para el día completo
+                JPanel panelDia = new JPanel();
+                panelDia.setLayout(new BoxLayout(panelDia, BoxLayout.Y_AXIS));
+                panelDia.setBackground(alt ? colorDiaFondo : Color.WHITE);
+                panelDia.setBorder(new EmptyBorder(PAD, PAD, PAD, PAD));
 
-            // Nombre del día
-            JLabel labDia = new JLabel(String.format("%d %s",
-                    dia.getFecha().getDayOfMonth(),
-                    dia.getFecha().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es"))));
-            labDia.setFont(fuenteNormal.deriveFont(Font.BOLD));
-            panelDia.add(labDia);
+                // Nombre del día
+                JLabel labDia = new JLabel(String.format("%d %s",
+                        dia.getFecha().getDayOfMonth(),
+                        dia.getFecha().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es"))));
+                labDia.setFont(fuenteNormal.deriveFont(Font.BOLD));
+                labDia.setAlignmentX(Component.LEFT_ALIGNMENT);
+                panelDia.add(labDia);
 
-            // Horas y personas del día
-            boolean subAlt = false;
-            for (TurnoDeGuardia turno : turnos) {
-                ArrayList<Persona> personas = turno.getPersonasAsignadas();
-                // Si no hay lista de personas asignadas, usar getPersonaAsignada
-                if (personas == null || personas.isEmpty()) {
-                    Persona persona = turno.getPersonaAsignada();
-                    if (persona != null) {
-                        JPanel fila = filaTurno(turno.getHorario(), persona, subAlt);
-                        panelDia.add(fila);
-                        subAlt = !subAlt;
-                    }
-                } else {
-                    for (Persona persona : personas) {
-                        JPanel fila = filaTurno(turno.getHorario(), persona, subAlt);
-                        panelDia.add(fila);
-                        subAlt = !subAlt;
+
+                // Horas y personas del día
+                boolean subAlt = false;
+                for (TurnoDeGuardia turno : turnos) {
+                    ArrayList<Persona> personas = turno.getPersonasAsignadas();
+                    // Si no hay lista de personas asignadas, usar getPersonaAsignada
+                    if (personas == null || personas.isEmpty()) {
+                        Persona persona = turno.getPersonaAsignada();
+                        if (persona != null) {
+                            JPanel fila = filaTurno(turno.getHorario(), persona, subAlt);
+                            panelDia.add(fila);
+                            subAlt = !subAlt;
+                        }
+                    } else {
+                        for (Persona persona : personas) {
+                            JPanel fila = filaTurno(turno.getHorario(), persona, subAlt);
+                            panelDia.add(fila);
+                            subAlt = !subAlt;
+                        }
                     }
                 }
-            }
 
-            panelDia.add(Box.createVerticalStrut(10));
-            panelCasillas.add(panelDia);
-            alt = !alt;
+                panelDia.add(Box.createVerticalStrut(10));
+                panelCasillas.add(panelDia);
+                alt = !alt;
+            }
         }
     }
 
