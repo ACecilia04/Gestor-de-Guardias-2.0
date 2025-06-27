@@ -22,7 +22,7 @@ public class PantallaAddConfig extends JDialog {
     protected JPanel panelTitulo, panelInf, panelBotones;
     protected Paleta paleta = new Paleta();
 
-    protected Dimension dim = new Dimension(500, 500);
+    protected Dimension dim = new Dimension(700, 600); // Cambiado para ser más grande
     protected Dimension dimBoton = new Dimension(120, 40);
 
     protected Font fuente = new Font("Arial", Font.PLAIN, 14);
@@ -39,7 +39,7 @@ public class PantallaAddConfig extends JDialog {
 
     public PantallaAddConfig() {
         super(Ventana.getInstance(), "Añadir Configuración", true);
-        setResizable(false);
+        setResizable(false); // Cambiado para permitir redimensionar
         setSize(dim);
         contentPane = new JPanel();
         setContentPane(contentPane);
@@ -236,7 +236,6 @@ public class PantallaAddConfig extends JDialog {
             modeloHorarios.addElement(h.toString());
         }
     }
-
 
     public static Horario stringToHorario(String s) {
         if (s == null || !s.contains("-")) return null;
