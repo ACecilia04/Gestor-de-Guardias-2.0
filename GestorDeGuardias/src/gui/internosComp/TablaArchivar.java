@@ -178,7 +178,6 @@ public class TablaArchivar extends Cuadro implements IsTabla {
                 ArrayList<PanelTurno> paneles = e.getPanelesTurno();
                 for (PanelTurno a : paneles) {
                     if (a instanceof PanelTurnoArch a1) {
-                        TurnoDeGuardia turno = a1.getTurno();
 
                         switch (b) {
                             case 0:
@@ -189,26 +188,12 @@ public class TablaArchivar extends Cuadro implements IsTabla {
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getCumplido().setSelected(true);
                                     a1.getTurno().actualizarCumplimiento(true);
-                                    try {
-                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(a1.getTurno());
-                                    } catch (SqlServerCustomException ex) {
-                                        throw new RuntimeException(ex);
-                                    } catch (MultiplesErroresException ex) {
-                                        throw new RuntimeException(ex);
-                                    }
                                 }
                                 break;
                             case 2:
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getNoCumplido().setSelected(true);
                                     a1.getTurno().actualizarCumplimiento(false);
-                                    try {
-                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(a1.getTurno());
-                                    } catch (SqlServerCustomException ex) {
-                                        throw new RuntimeException(ex);
-                                    } catch (MultiplesErroresException ex) {
-                                        throw new RuntimeException(ex);
-                                    }
                                 }
                                 break;
                         }

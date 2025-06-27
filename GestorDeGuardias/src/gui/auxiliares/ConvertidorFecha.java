@@ -4,9 +4,8 @@ import java.time.LocalDate;
 
 public class ConvertidorFecha {
 
-    public static String traducDiaSemana(LocalDate fecha) {
+    public static String traducDiaSemana(int fechaSem) {
         String fechaSemana = "NO_ENCONTRADO";
-        int fechaSem = fecha.getDayOfWeek().getValue();
         switch (fechaSem) {
             case 1:
                 fechaSemana = "Lunes";

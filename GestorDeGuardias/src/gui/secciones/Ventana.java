@@ -96,7 +96,7 @@ public class Ventana extends JFrame {
         // El menú ahora se instancia después del login
 
         inicializarPanelCambiante();
-        barraSup = new BarraSuperior(contReal, pantallaPlanif, pantallaAsistencia);
+        barraSup = new BarraSuperior(contReal, pantallaPlanif, pantallaCump);
         contReal.add(barraSup, BorderLayout.NORTH);
 
         zonaInferior.add(panelVacio, BorderLayout.CENTER);
@@ -167,7 +167,7 @@ public class Ventana extends JFrame {
     private void redimensionar() {
         Dimension frameSize = this.getSize();
 
-        contReal.setSize(frameSize.width, frameSize.height);
+        contReal.setPreferredSize(frameSize);
         zonaInferior.setPreferredSize(new Dimension(frameSize.width, frameSize.height - 85));
         zonaInferior.setSize(new Dimension(frameSize.width, frameSize.height - 85));
         panelVacio.setSize(zonaInferior.getWidth() - 247, zonaInferior.getHeight());
@@ -257,7 +257,7 @@ public class Ventana extends JFrame {
 
             if (Objects.equals(nombrePanel, "panelPlanificaciones")) {
                 barraSup.mostrarPanel("panelOpcionesPlanifs");
-            } else if (Objects.equals(nombrePanel, "panelAsistencia")) {
+            } else if (Objects.equals(nombrePanel, "panelCumplimiento")) {
                 barraSup.mostrarPanel("panelOpcionesAsistencia");
             } else {
                 barraSup.mostrarPanel("panelEd1");

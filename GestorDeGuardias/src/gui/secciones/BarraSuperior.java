@@ -9,6 +9,7 @@ import gui.internosComp.PanelSupOpcionesPlanifs;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.Serial;
 
@@ -26,7 +27,7 @@ public class BarraSuperior extends JPanel {
 
 //    private final Font fuente = new Font("Arial", Font.PLAIN, 18);
 
-    public BarraSuperior(JPanel contenedor, MostrarPlanif panelMostrarPlanifs, AsistenciaPlanif panelAsistencia) {
+    public BarraSuperior(JPanel contenedor, MostrarPlanif panelMostrarPlanifs, PantallaCump panelCumplimiento) {
         Dimension dim = new Dimension(contenedor.getSize().width, 85);
         setPreferredSize(new Dimension(dim));
         Paleta paleta = new Paleta();
@@ -37,11 +38,12 @@ public class BarraSuperior extends JPanel {
 //      TODO: login and exit options
         panelOpciones = new JPanel(null);
         panelOpciones.setBackground(this.getBackground());
+
         Border bordeMargen = BorderFactory.createEmptyBorder(0, 10, 0, 0);
         panelOpciones.setPreferredSize(new Dimension(247, this.getPreferredSize().height));
 
         opcionesPlanif = new PanelSupOpcionesPlanifs(this.getPreferredSize().height,panelMostrarPlanifs);
-        opcionesAsistencia = new PanelSupOpcionesAsistencia(this.getPreferredSize().height,panelAsistencia);
+        opcionesAsistencia = new PanelSupOpcionesAsistencia(this.getPreferredSize().height,panelCumplimiento);
         //panelEdicion
         //Crear PanelCambiante
         panelVacio = new JPanel(new CardLayout());

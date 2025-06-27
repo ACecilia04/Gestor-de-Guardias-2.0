@@ -79,7 +79,7 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
 
         LocalDate auxFecha = dia.getFecha();
         fechaNumero = Integer.toString(dia.getFecha().getDayOfMonth());
-        fechaSemana = traducDiaSemana(auxFecha);
+        fechaSemana = traducDiaSemana(auxFecha.getDayOfWeek().getValue());
 
         String textoHtml = "<html><p><b><font face='Arial' size='5'>"
                 + fechaNumero + "</font></b> <font face='Arial' size='4'>"

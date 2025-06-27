@@ -2,57 +2,73 @@ package gui.internosComp;
 
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
-import gui.secciones.AsistenciaPlanif;
-import gui.secciones.MostrarPlanif;
-import gui.secciones.Ventana;
+import gui.secciones.PantallaCump;
+import services.ServicesLocator;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PanelSupOpcionesAsistencia extends JPanel {
-    AsistenciaPlanif panelAfectado;
-    public PanelSupOpcionesAsistencia(int alto, AsistenciaPlanif panelAfectado) {
+    PantallaCump panelAfectado;
+
+    public PanelSupOpcionesAsistencia(int alto, PantallaCump panelAfectado) {
         this.panelAfectado = panelAfectado;
         setBackground(new Paleta().getColorFondoTabla());
 
-        Boton nuevoBtn = new Boton();
-        nuevoBtn.addIcono("/iconos/Crear.png");
-        nuevoBtn.setSelectLetra(true);
-        nuevoBtn.cambiarIconTextGap(10);
-        nuevoBtn.addActionListener(e -> Ventana.getInstance().mostrarPanel("panelAddPlanif"));
+        Boton todosCumpBtn = new Boton();
+        todosCumpBtn.addIcono("/iconos/Check.png");
+        todosCumpBtn.setSelectLetra(true);
+        todosCumpBtn.cambiarIconTextGap(10);
+        todosCumpBtn.addActionListener(e -> setTodosCumplidos());
 
+        Boton todosIncumpBtn = new Boton();
+        todosIncumpBtn.addIcono("/iconos/XInSquare.png");
+        todosIncumpBtn.setSelectLetra(true);
+        todosIncumpBtn.cambiarIconTextGap(10);
+        todosIncumpBtn.addActionListener(e -> setTodosIncumplidos());
 
-        Boton editarBtn = new Boton();
-        editarBtn.addIcono("/iconos/Editar.png");
-        editarBtn.setSelectLetra(true);
-        editarBtn.cambiarIconTextGap(10);
-//        editarBtn.addActionListener(e -> editar());
+        Boton reiniciarBtn = new Boton();
+        reiniciarBtn.addIcono("/iconos/Restart.png");
+        reiniciarBtn.setSelectLetra(true);
+        reiniciarBtn.cambiarIconTextGap(10);
+        reiniciarBtn.addActionListener(e -> reiniciar());
 
-        Boton borrarBtn = new Boton();
-        borrarBtn.addIcono("/iconos/Borrar.png");
-        borrarBtn.setSelectLetra(true);
-        borrarBtn.cambiarIconTextGap(10);
-//        borrarBtn.addActionListener(e -> borrar());
+        Boton guardarBtn = new Boton();
+        guardarBtn.addIcono("/iconos/Guardar.png");
+        guardarBtn.setSelectLetra(true);
+        guardarBtn.cambiarIconTextGap(10);
+        guardarBtn.addActionListener(e -> guardar());
 
-        Boton pdfBtn = new Boton();
-        pdfBtn.addIcono("/iconos/PDF.png");
-        pdfBtn.setSelectLetra(true);
-        pdfBtn.cambiarIconTextGap(10);
-//        pdfBtn.addActionListener(e -> exportar());
+        add(todosCumpBtn);
+        add(todosIncumpBtn);
+        add(reiniciarBtn);
+        add(guardarBtn);
 
-        add(nuevoBtn);
-        add(editarBtn);
-        add(borrarBtn);
-        add(pdfBtn);
-
-        FlowLayout miLayout = new FlowLayout(FlowLayout.LEFT, 5, alto - nuevoBtn.getHeight() - 8);
+        FlowLayout miLayout = new FlowLayout(FlowLayout.LEFT, 5, alto - todosCumpBtn.getHeight() - 8);
         setLayout(miLayout);
-        /*
-        borrarBtn.setSeleccionable(false);
-        editarBtn.setSeleccionable(false);
-        nuevoBtn.setSeleccionable(true);
-        pdfBtn.setSeleccionable(false);
-         */
     }
+        public void setTodosCumplidos(){
+
+            if (panelAfectado != null) {
+                panelAfectado.getTabla().setCumplimiento(1);
+                panelAfectado.getTabla().actualizarVistaTabla();
+            }
+        }
+        public void setTodosIncumplidos(){
+            if (panelAfectado != null) {
+                panelAfectado.getTabla().setCumplimiento(2);
+                panelAfectado.getTabla().actualizarVistaTabla();
+            }
+        }
+        public void reiniciar(){
+            if (panelAfectado != null) {
+                panelAfectado.getTabla().setCumplimiento(0);
+                panelAfectado.getTabla().actualizarVistaTabla();
+            }
+        }
+        public void guardar(){
+            ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarCumplimientoTurnos(panelAfectado.getTabla().getDias());
+        }
+
 
 }
