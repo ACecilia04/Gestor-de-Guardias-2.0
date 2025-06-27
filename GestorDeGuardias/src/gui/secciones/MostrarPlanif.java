@@ -27,14 +27,14 @@ import java.util.HashSet;
 public class MostrarPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-    private static final int PANEL_WIDTH = 300;
-    private static final int PANEL_HEIGHT = 200;
+    private static final int PANEL_WIDTH = 230;
+    private static final int PANEL_HEIGHT = 150;
     private static final int HORIZONTAL_GAP = 30;
     private static final int VERTICAL_GAP = 20;
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
     private final JPanel panelMeses;
     private final ArrayList<PanelMes> paneles;
-    private final PanelOpcionesMostrarP panelOpciones;
+//    private final PanelOpcionesMostrarP panelOpciones;
     private final Font fuente = new Font("Arial", Font.PLAIN, 14);
     private final LayoutManager layout = new FlowLayout(FlowLayout.LEFT, HORIZONTAL_GAP, VERTICAL_GAP);
     private final LayoutManager layout2 = new FlowLayout(FlowLayout.CENTER, 0, 100);
@@ -45,111 +45,111 @@ public class MostrarPlanif extends JPanel {
         paneles = new ArrayList<>();
 
         // Panel opciones
-        {
-        int opcionesAncho = 300;
-        panelOpciones = new PanelOpcionesMostrarP(new Dimension(opcionesAncho, 100));
-
-        panelOpciones.getBotonVerPlanif().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Ventana.getInstance().mostrarPanel("panelVerPlanificaciones");
-                mostrarTabla();
-            }
-
-        });
-
-        panelOpciones.getBotonExport().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                // 1. Obtener los trabajadores filtrados
-
-//            if (filtrados.isEmpty()) {
-//                JOptionPane.showMessageDialog(this, "No hay trabajadores para exportar con los filtros actuales.", "Sin datos", JOptionPane.WARNING_MESSAGE);
-//                return;
+//        {
+//        int opcionesAncho = 300;
+//        panelOpciones = new PanelOpcionesMostrarP(new Dimension(opcionesAncho, 100));
+//
+//        panelOpciones.getBotonVerPlanif().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Ventana.getInstance().mostrarPanel("panelVerPlanificaciones");
+//                mostrarTabla();
 //            }
-
-                // 2. Dialogo para elegir donde guardar
-                JFileChooser chooser = new JFileChooser();
-                chooser.setDialogTitle("Guardar reporte PDF");
-                chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("PDF", "pdf"));
-                int seleccion = chooser.showSaveDialog(MostrarPlanif.this);
-
-                if (seleccion == JFileChooser.APPROVE_OPTION) {
-                    String path = chooser.getSelectedFile().getAbsolutePath();
-                    if (!path.toLowerCase().endsWith(".pdf")) path += ".pdf";
-
-                    // Obtiene todos los turnos a partir de la fecha de inicio seleccionada
-                    ArrayList<DiaGuardia> diasGuardia = ServicesLocator.getInstance()
-                            .getPlantillaServices()
-                            .getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
-                    // 3. Llamar al servicio de reporte
-
-                    new ReporteServices().generarReportePlantilla(diasGuardia, path);
-
-                    JOptionPane.showMessageDialog(MostrarPlanif.this, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
-                }
-
-            }
-        });
-
-        panelOpciones.getBotonCrearPlanif().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Ventana.getInstance().mostrarPanel("panelAddPlanif");
-            }
-        });
-
-
-        panelOpciones.getBotonEditarPlanif().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (getSeleccionado() != null) {
-                    ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices()
-                            .agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices()
-                                    .getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
-                    Ventana.getInstance().editarPlanif(diasAux);
-                }
-
-            }
-        });
-
-        panelOpciones.getBotonBorrarPlanif().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String string = "<html><p>Si borras una planificación las posteriores <br>tambien se perderan. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
-                Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
-                if (!advertencia.getEleccion()) {
-                    try {
-                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardiaAPartirDe(getSeleccionado().getFechaInicio());
-                    } catch (SqlServerCustomException | EntradaInvalidaException ex) {
-                        String errorMsg = "<html><p>Ocurrió un error:<br>" + ex.getMessage() + "</p></html>";
-                        new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", errorMsg, "Aceptar", true);
-//                        throw new RuntimeException(ex);
-
-                    }
-                    actualizarPlanif();
-                    getSeleccionado().setSeleccionado(false);
-
-                    panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
-                    panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
-                    panelOpciones.getBotonCrearPlanif().setSeleccionable(false);
-                    panelOpciones.getBotonVerPlanif().setSeleccionable(false);
-                    panelOpciones.getBotonExport().setSeleccionable(false);
-
-                    revalidate();
-                    repaint();
-                }
-            }
-        });
-
-
-        panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
-        panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
-        panelOpciones.getBotonCrearPlanif().setSeleccionable(true);
-        panelOpciones.getBotonVerPlanif().setSeleccionable(false);
-        panelOpciones.getBotonExport().setSeleccionable(false);
-    }
+//
+//        });
+//
+//        panelOpciones.getBotonExport().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//
+//                // 1. Obtener los trabajadores filtrados
+//
+////            if (filtrados.isEmpty()) {
+////                JOptionPane.showMessageDialog(this, "No hay trabajadores para exportar con los filtros actuales.", "Sin datos", JOptionPane.WARNING_MESSAGE);
+////                return;
+////            }
+//
+//                // 2. Dialogo para elegir donde guardar
+//                JFileChooser chooser = new JFileChooser();
+//                chooser.setDialogTitle("Guardar reporte PDF");
+//                chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("PDF", "pdf"));
+//                int seleccion = chooser.showSaveDialog(MostrarPlanif.this);
+//
+//                if (seleccion == JFileChooser.APPROVE_OPTION) {
+//                    String path = chooser.getSelectedFile().getAbsolutePath();
+//                    if (!path.toLowerCase().endsWith(".pdf")) path += ".pdf";
+//
+//                    // Obtiene todos los turnos a partir de la fecha de inicio seleccionada
+//                    ArrayList<DiaGuardia> diasGuardia = ServicesLocator.getInstance()
+//                            .getPlantillaServices()
+//                            .getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
+//                    // 3. Llamar al servicio de reporte
+//
+//                    new ReporteServices().generarReportePlantilla(diasGuardia, path);
+//
+//                    JOptionPane.showMessageDialog(MostrarPlanif.this, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+//                }
+//
+//            }
+//        });
+//
+//        panelOpciones.getBotonCrearPlanif().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                Ventana.getInstance().mostrarPanel("panelAddPlanif");
+//            }
+//        });
+//
+//
+//        panelOpciones.getBotonEditarPlanif().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                if (getSeleccionado() != null) {
+//                    ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices()
+//                            .agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices()
+//                                    .getTurnosAPartirDe(getSeleccionado().getFechaInicio()));
+//                    Ventana.getInstance().editarPlanif(diasAux);
+//                }
+//
+//            }
+//        });
+//
+//        panelOpciones.getBotonBorrarPlanif().addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                String string = "<html><p>Si borras una planificación las posteriores <br>tambien se perderan. Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
+//                Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
+//                if (!advertencia.getEleccion()) {
+//                    try {
+//                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardiaAPartirDe(getSeleccionado().getFechaInicio());
+//                    } catch (SqlServerCustomException | EntradaInvalidaException ex) {
+//                        String errorMsg = "<html><p>Ocurrió un error:<br>" + ex.getMessage() + "</p></html>";
+//                        new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", errorMsg, "Aceptar", true);
+////                        throw new RuntimeException(ex);
+//
+//                    }
+//                    actualizarPlanif();
+//                    getSeleccionado().setSeleccionado(false);
+//
+//                    panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
+//                    panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
+//                    panelOpciones.getBotonCrearPlanif().setSeleccionable(false);
+//                    panelOpciones.getBotonVerPlanif().setSeleccionable(false);
+//                    panelOpciones.getBotonExport().setSeleccionable(false);
+//
+//                    revalidate();
+//                    repaint();
+//                }
+//            }
+//        });
+//
+//
+//        panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
+//        panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
+//        panelOpciones.getBotonCrearPlanif().setSeleccionable(true);
+//        panelOpciones.getBotonVerPlanif().setSeleccionable(false);
+//        panelOpciones.getBotonExport().setSeleccionable(false);
+//    }
 
         // Crea el panelInterior
         panelMeses = new JPanel();
@@ -167,7 +167,7 @@ public class MostrarPlanif extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         add(scrollPane, BorderLayout.CENTER);
-        add(panelOpciones, BorderLayout.EAST);
+//        add(panelOpciones, BorderLayout.EAST);
         actualizarPlanif();
     }
 
@@ -199,7 +199,8 @@ public class MostrarPlanif extends JPanel {
 
             if (mesesArchivables.add(claveMesAnno)) {
                 addPlanif(fechaAux);
-            }}
+            }
+        }
         if (paneles.isEmpty()) {
             panelMeses.setLayout(layout2);
             Etiqueta error = new Etiqueta(fuente, Color.GRAY, "No hay planificaciones");
@@ -221,23 +222,24 @@ public class MostrarPlanif extends JPanel {
                     aux.setSeleccionado();
                     calcularSeleccionados(aux);
 
-                    if (getSeleccionado() != null) {
-                        panelOpciones.getBotonBorrarPlanif().setSeleccionable(true);
-                        panelOpciones.getBotonEditarPlanif().setSeleccionable(true);
-                        panelOpciones.getBotonCrearPlanif().setSeleccionable(true);
-                        panelOpciones.getBotonVerPlanif().setSeleccionable(true);
-                        panelOpciones.getBotonExport().setSeleccionable(true);
-                    } else {
-                        panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
-                        panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
-                        panelOpciones.getBotonCrearPlanif().setSeleccionable(false);
-                        panelOpciones.getBotonVerPlanif().setSeleccionable(false);
-                        panelOpciones.getBotonExport().setSeleccionable(false);
-                    }
-                    revalidate();
-                    repaint();
+//                    if (getSeleccionado() != null) {
+//                        panelOpciones.getBotonBorrarPlanif().setSeleccionable(true);
+//                        panelOpciones.getBotonEditarPlanif().setSeleccionable(true);
+//                        panelOpciones.getBotonCrearPlanif().setSeleccionable(true);
+//                        panelOpciones.getBotonVerPlanif().setSeleccionable(true);
+//                        panelOpciones.getBotonExport().setSeleccionable(true);
+//                    } else {
+//                        panelOpciones.getBotonBorrarPlanif().setSeleccionable(false);
+//                        panelOpciones.getBotonEditarPlanif().setSeleccionable(false);
+//                        panelOpciones.getBotonCrearPlanif().setSeleccionable(false);
+//                        panelOpciones.getBotonVerPlanif().setSeleccionable(false);
+//                        panelOpciones.getBotonExport().setSeleccionable(false);
+//                    }
+//                    revalidate();
+//                    repaint();
                     if (currentClickTime - lastClickTime <= DOUBLE_CLICK_DELAY) {
-                        Ventana.getInstance().mostrarPanel("panelVerPlanif");
+                        aux.setSeleccionado();
+                        Ventana.getInstance().mostrarPanel("panelVerPlanificaciones");
                         mostrarTabla();
                     }
 
@@ -284,6 +286,7 @@ public class MostrarPlanif extends JPanel {
             Ventana.getInstance().getPanelVerPlanif().add(tabla, BorderLayout.CENTER);
             Ventana.getInstance().getPanelVerPlanif().revalidate();
             Ventana.getInstance().getPanelVerPlanif().repaint();
+
         }
     }
 
