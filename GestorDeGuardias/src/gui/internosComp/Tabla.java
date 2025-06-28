@@ -25,7 +25,6 @@ public class Tabla extends Cuadro implements IsTabla {
     //Tamanos
     private final int tituloLargo = 67;
     private final ArrayList<PanelDiaBase> panelesCasillas = new ArrayList<>();
-    private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
     private final Font fuente = new Font("Arial", Font.BOLD, 13);
     private final int distX;
@@ -41,6 +40,7 @@ public class Tabla extends Cuadro implements IsTabla {
 
     public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias,PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) {
         super(dimension, redondez, color);
+        int sepIzquierda = 46;
         PanelDia.setCasillaLargo(dimension.width - sepIzquierda * 2);
         this.setLayout(null);
         myself = this;
@@ -74,7 +74,7 @@ public class Tabla extends Cuadro implements IsTabla {
 
         JScrollPane scrollPane = new JScrollPane(panelCasillas);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBar(new CustomScrollBar());
 
         CustomScrollBar sp = new CustomScrollBar();
@@ -151,7 +151,6 @@ public class Tabla extends Cuadro implements IsTabla {
 
 
         Etiqueta ID = new Etiqueta(fuente, colorLetraTitulo, "Carnet");
-        int auxY = (panelTitulo.getSize().height - ID.getSize().height) / 2;
 
         Etiqueta diaT = new Etiqueta(fuente, colorLetraTitulo, "Dia");
         diaT.setPreferredSize(diaT.getSize());
@@ -165,13 +164,14 @@ public class Tabla extends Cuadro implements IsTabla {
         Etiqueta horario = new Etiqueta(fuente, colorLetraTitulo, "Horario");
         horario.setPreferredSize(horario.getSize());
 
-        int sepHorario = 120, sepID = 90, sepApellidos = 130, sepNombre = 170;
+        int auxY = (panelTitulo.getSize().height - ID.getSize().height) / 2;
+        int sepDiaHorario = 120, sepHorarioCarnet = 80, sepCarnetApellidos = 130, sepApellidosNombre = 170;
 
         diaT.setLocation(0, auxY);
-        horario.setLocation(diaT.getWidth() + sepHorario, auxY);
-        ID.setLocation(horario.getLocation().x + horario.getWidth() + sepID, auxY);
-        apellidos.setLocation(ID.getLocation().x + ID.getWidth() + sepApellidos, auxY);
-        nombre.setLocation(apellidos.getLocation().x + apellidos.getWidth() + sepNombre, auxY);
+        horario.setLocation(diaT.getWidth() + sepDiaHorario, auxY);
+        ID.setLocation(horario.getLocation().x + horario.getWidth() + sepHorarioCarnet, auxY);
+        apellidos.setLocation(ID.getLocation().x + ID.getWidth() + sepCarnetApellidos, auxY);
+        nombre.setLocation(apellidos.getLocation().x + apellidos.getWidth() + sepApellidosNombre, auxY);
 
 
         panelTitulo.add(diaT);

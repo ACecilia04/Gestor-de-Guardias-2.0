@@ -3,19 +3,19 @@ package gui.internosComp;
 import gui.auxiliares.IsTabla;
 import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
-import gui.componentes.CuadroRectoAbajo;
 import gui.componentes.CustomScrollBar;
 import model.DiaGuardia;
-import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class TablaBase extends Cuadro implements IsTabla {
     private static final long serialVersionUID = 1L;
@@ -26,163 +26,212 @@ public class TablaBase extends Cuadro implements IsTabla {
     private final Color colorCabecera = new Color(37, 97, 209);
     private final Color colorCabeceraLetra = Color.WHITE;
     private final Color colorDiaFondo = new Color(237, 239, 244);
-    private final Color colorFila1 = new Color(245, 247, 250);
-    private final Color colorFila2 = new Color(230, 233, 238);
     private final Font fuenteCabecera = new Font("Arial", Font.BOLD, 15);
     private final Font fuenteNormal = new Font("Arial", Font.PLAIN, 14);
     private final int PAD = 9;
 
-    CuadroRectoAbajo titulo;
-    JPanel panelCasillas;
-    Cuadro myself;
-    ArrayList<DiaGuardia> dias;
 
     public TablaBase(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias) {
         super(dimension, redondez, color);
         this.setLayout(new BorderLayout());
-        myself = this;
         this.setColorBorde(paleta.getColorCaracteristico());
-        dias = estosDias;
 
-        inicializarCabecera();
-
-        panelCasillas = new JPanel();
-        panelCasillas.setBackground(Color.WHITE);
-        panelCasillas.setLayout(new BoxLayout(panelCasillas, BoxLayout.Y_AXIS));
-        panelCasillas.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-        construirFilas();
-
-        JScrollPane scrollPane = new JScrollPane(panelCasillas);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBar(new CustomScrollBar());
-        CustomScrollBar sp = new CustomScrollBar();
-        sp.setOrientation(JScrollBar.HORIZONTAL);
-        scrollPane.setHorizontalScrollBar(sp);
-        scrollPane.setBorder(null);
-
-        add(titulo, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
-    }
-
-    private void inicializarCabecera() {
-        titulo = new CuadroRectoAbajo(new Dimension(this.getWidth(), 67), redondez, colorCabecera);
-        titulo.setLayout(new BorderLayout());
-        JPanel panelTitulo = new JPanel(new GridLayout(1, 5));
-        panelTitulo.setOpaque(false);
-        panelTitulo.setBorder(new EmptyBorder(PAD, PAD, PAD, PAD));
-
-        panelTitulo.add(colHeader("Día"));
-        panelTitulo.add(colHeader("Horario"));
-        panelTitulo.add(colHeader("Carnet"));
-        panelTitulo.add(colHeader("Apellidos"));
-        panelTitulo.add(colHeader("Nombre"));
-
-        // Etiqueta de mes y año alineada a la izquierda
         String mesAgno = "";
-        if (dias != null && !dias.isEmpty()) {
-            mesAgno = dias.getFirst().getFecha().getMonth().getDisplayName(TextStyle.FULL, new Locale("es"))
-                    + " " + dias.getFirst().getFecha().getYear();
+        if (estosDias != null && !estosDias.isEmpty()) {
+            mesAgno = estosDias.getFirst().getFecha().getMonth().getDisplayName(TextStyle.FULL, new Locale("es"))
+                    + " " + estosDias.getFirst().getFecha().getYear();
         }
-        JLabel lblMes = new JLabel(mesAgno, SwingConstants.LEFT);
-        lblMes.setFont(fuenteCabecera);
-        lblMes.setForeground(colorCabeceraLetra);
-        lblMes.setBorder(new EmptyBorder(0, PAD, 0, 0));
 
-        JPanel panelMes = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 16));
-        panelMes.setOpaque(false);
-        panelMes.add(lblMes);
+        JPanel encabezado = imprimirEncabezado(mesAgno);
+        JPanel cuerpo = imprimirCuerpo(estosDias);
 
-        JPanel north = new JPanel(new BorderLayout());
-        north.setOpaque(false);
-        north.add(panelMes, BorderLayout.WEST);
-        north.add(panelTitulo, BorderLayout.SOUTH);
-
-        titulo.add(north, BorderLayout.CENTER);
+        add(encabezado, BorderLayout.NORTH);
+        add(cuerpo, BorderLayout.CENTER);
     }
 
-    private JLabel colHeader(String text) {
+    private JPanel imprimirEncabezado(String mesAgno)  {
+        JPanel encabezado = new JPanel(new GridBagLayout());
+        encabezado.setPreferredSize(new Dimension(0, 67));
+        encabezado.setBorder(new EmptyBorder(PAD, 0, PAD, 0));
+        encabezado.setBackground(colorCabecera);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1.0;
+        gbc.weightx = 1.0;
+
+        // Fila 1, Columna 0: "A"
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        encabezado.add(celdaEncabezado(mesAgno), gbc);
+
+        // Fila 1, Columnas 1–4: celdas unidas
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridwidth = 4;
+        encabezado.add(celdaEncabezado(""), gbc);
+
+        // Textos de la fila 2
+        String[] textos = { "Día", "Horario", "Carnet", "Apellidos", "Nombre" };
+        gbc.gridy = 1;
+        gbc.gridwidth = 1; // De nuevo una celda por columna
+
+        for (int i = 0; i < textos.length; i++) {
+            gbc.gridx = i;
+            encabezado.add(celdaEncabezado(textos[i]), gbc);
+        }
+
+        return encabezado;
+    }
+
+    private JLabel celdaEncabezado(String text) {
         JLabel lbl = new JLabel(text, SwingConstants.LEFT);
         lbl.setForeground(colorCabeceraLetra);
         lbl.setFont(fuenteCabecera);
+        lbl.setBorder(new EmptyBorder(0, PAD, 0, 0));
+        lbl.setPreferredSize(new Dimension(20, 20)); // esto es para forzar que funcione gbc.weightx y gbc.weighty = 1.0
         return lbl;
     }
 
-    private void construirFilas() {
-        boolean alt = false;
-        for (DiaGuardia dia : dias) {
+    private JPanel imprimirCuerpo(ArrayList<DiaGuardia> estosDias){
+        JPanel cuerpo = new JPanel();
+        cuerpo.setBackground(Color.WHITE);
+        cuerpo.setLayout(new BoxLayout(cuerpo, BoxLayout.Y_AXIS));
+
+        AtomicBoolean alt = new AtomicBoolean(false);
+        for (DiaGuardia dia : estosDias) {
             ArrayList<TurnoDeGuardia> turnos = dia.getTurnos();
             if (turnos != null || !turnos.isEmpty()) {
-
-                // Panel para el día completo
-                JPanel panelDia = new JPanel();
-                panelDia.setLayout(new BoxLayout(panelDia, BoxLayout.Y_AXIS));
-                panelDia.setBackground(alt ? colorDiaFondo : Color.WHITE);
-                panelDia.setBorder(new EmptyBorder(PAD, PAD, PAD, PAD));
-
-                // Nombre del día
-                JLabel labDia = new JLabel(String.format("%d %s",
+                String nombreDia = String.format("%d %s",
                         dia.getFecha().getDayOfMonth(),
-                        dia.getFecha().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es"))));
-                labDia.setFont(fuenteNormal.deriveFont(Font.BOLD));
-                labDia.setAlignmentX(Component.LEFT_ALIGNMENT);
-                panelDia.add(labDia);
+                        dia.getFecha().getDayOfWeek().getDisplayName(TextStyle.FULL, new Locale("es")));
 
-
-                // Horas y personas del día
-                boolean subAlt = false;
-                for (TurnoDeGuardia turno : turnos) {
-                    ArrayList<Persona> personas = turno.getPersonasAsignadas();
-                    // Si no hay lista de personas asignadas, usar getPersonaAsignada
-                    if (personas == null || personas.isEmpty()) {
-                        Persona persona = turno.getPersonaAsignada();
-                        if (persona != null) {
-                            JPanel fila = filaTurno(turno.getHorario(), persona, subAlt);
-                            panelDia.add(fila);
-                            subAlt = !subAlt;
-                        }
-                    } else {
-                        for (Persona persona : personas) {
-                            JPanel fila = filaTurno(turno.getHorario(), persona, subAlt);
-                            panelDia.add(fila);
-                            subAlt = !subAlt;
-                        }
-                    }
-                }
-
-                panelDia.add(Box.createVerticalStrut(10));
-                panelCasillas.add(panelDia);
-                alt = !alt;
+                JPanel fila = construirFila(turnos, nombreDia, alt);
+                cuerpo.add(fila);
             }
         }
+
+        JScrollPane scrollPane = new JScrollPane(cuerpo);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setVerticalScrollBar(new CustomScrollBar());
+
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        CustomScrollBar sp = new CustomScrollBar();
+        sp.setOrientation(JScrollBar.HORIZONTAL);
+        scrollPane.setHorizontalScrollBar(sp);
+
+        scrollPane.setBorder(new LineBorder(Color.BLACK));
+
+        return cuerpo;
     }
 
-    private JPanel filaTurno(Horario horario, Persona persona, boolean alt) {
-        JPanel fila = new JPanel(new GridLayout(1, 5));
-        fila.setBackground(alt ? colorFila2 : colorFila1);
-        fila.setOpaque(true);
+    private JPanel construirFila(ArrayList<TurnoDeGuardia> turnos, String nombreDia, AtomicBoolean alt){
+        // Es necesario saber cuantas personas hay en el dia para determinar la cantidad de filas del dia
+        int cantPersonas = 0;
+        for (TurnoDeGuardia turno : turnos){
+            ArrayList<Persona> personas = turno.getPersonasAsignadas();
+            if (personas == null || personas.isEmpty()) {
+                Persona persona = turno.getPersonaAsignada();
+                if (persona != null) {
+                    cantPersonas++;
+                }
+            } else {
+                cantPersonas += personas.size();
+            }
+        }
+        int cantFilas = cantPersonas + (cantPersonas % 2 == 1 ? 0 : 1); // forzar a que las filas sean siempre un numero impar para que se vea cambio de color de fondo de una fecha a otra
 
-        String horarioStr = horario != null ? horario.toString() : "";
-        String carnet = persona != null && persona.getCarnet() != null ? persona.getCarnet() : "";
-        String apellidos = persona != null && persona.getApellido() != null ? persona.getApellido() : "";
-        String nombre = persona != null && persona.getNombre() != null ? persona.getNombre() : "";
+        JPanel fila = new JPanel(new GridBagLayout());
 
-        fila.add(cell("", fuenteNormal)); // Columna Día vacía, porque el día se muestra arriba
-        fila.add(cell(horarioStr, fuenteNormal));
-        fila.add(cell(carnet, fuenteNormal));
-        fila.add(cell(apellidos, fuenteNormal));
-        fila.add(cell(nombre, fuenteNormal));
-        fila.setBorder(new EmptyBorder(3, 0, 3, 0));
+        int maxHeight = 40 * cantFilas;
+        fila.setPreferredSize(new Dimension(Short.MAX_VALUE, maxHeight));
+        fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, maxHeight));
+
+        Color bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
+        fila.setBackground(bgColor);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1.0;
+        gbc.weightx = 1.0; // todas las celdas deben tener el mismo ancho y alto => pesoX y pesoY = 1
+
+        // Celda unida verticalmente en la primera columna
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridheight = cantFilas;
+        fila.add(celdaCuerpo(nombreDia, fuenteNormal.deriveFont(Font.BOLD), bgColor), gbc);
+
+        // Celdas restantes: columnas 1–4, filas 0–4
+        gbc.gridheight = 1; // Importante: resetear altura unificada
+
+        //boolean subAlt = false;
+        // Horas y personas del día
+        int i = 0; // filas
+        for (TurnoDeGuardia turno : turnos) {
+            String horarioStr = turno.getHorario() != null ? turno.getHorario().toString() : "";
+            ArrayList<Persona> personas = turno.getPersonasAsignadas();
+            if (personas == null || personas.isEmpty()){
+                Persona persona = turno.getPersonaAsignada();
+                if (persona != null) {
+                    //Color bgColor = subAlt ? colorFila2 : colorFila1;
+                    bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
+                    String[] textos = {
+                            horarioStr,
+                            persona != null && persona.getCarnet() != null ? persona.getCarnet() : "",
+                            persona != null && persona.getApellido() != null ? persona.getApellido() : "",
+                            persona != null && persona.getNombre() != null ? persona.getNombre() : ""
+                    };
+                    for (int j = 0; j < textos.length; j++) {
+                        gbc.gridx = j + 1; // empieza en 1 porque la columna 0 ya tiene el dia
+                        gbc.gridy = i;
+                        fila.add(celdaCuerpo(textos[j], fuenteNormal, bgColor), gbc);
+                    }
+                    i++;
+                    alt.set(!alt.get());
+                }
+            } else {
+                for (Persona persona : personas) {
+                    bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
+                    String[] textos = {
+                            horarioStr,
+                            persona != null && persona.getCarnet() != null ? persona.getCarnet() : "",
+                            persona != null && persona.getApellido() != null ? persona.getApellido() : "",
+                            persona != null && persona.getNombre() != null ? persona.getNombre() : ""
+                    };
+                    for (int j = 0; j < textos.length; j++) {
+                        gbc.gridx = j + 1; // empieza en 1 porque la columna 0 ya tiene el dia
+                        gbc.gridy = i;
+                        fila.add(celdaCuerpo(textos[j], fuenteNormal, bgColor), gbc);
+                    }
+                    i++;
+                    alt.set(!alt.get());
+                }
+            }
+        }
+
+        if (i < cantFilas){ // hay menos personas que filas, añadir una fila vacia para garantizar el cambio de color de fondo a la siguiente fecha
+            bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
+            gbc.gridx = 1;
+            gbc.gridy = i;
+            gbc.gridwidth = 4;
+            fila.add(celdaCuerpo("", fuenteNormal, bgColor), gbc);
+            alt.set(!alt.get());
+        }
+
         return fila;
     }
 
-    private JLabel cell(String text, Font font) {
-        JLabel lbl = new JLabel(text != null ? text : "", SwingConstants.LEFT);
+    private JLabel celdaCuerpo(String text, Font font, Color bgColor) {
+        JLabel lbl = new JLabel(text, SwingConstants.LEFT);
         lbl.setFont(font);
-        lbl.setBorder(new EmptyBorder(0, 6, 0, 0));
+        lbl.setBackground(bgColor);
+        lbl.setOpaque(true);
+        lbl.setBorder(new EmptyBorder(0, PAD, 0, 0));
+        lbl.setPreferredSize(new Dimension(20, 20)); // esto es para forzar que funcione gbc.weightx y gbc.weighty = 1.0
         return lbl;
     }
+
 
     @Override
     public void actualizar() {}

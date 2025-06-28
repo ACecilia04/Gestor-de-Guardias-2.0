@@ -16,14 +16,12 @@ import java.util.ArrayList;
 public class TablaArchivar extends Cuadro implements IsTabla {
     private static final long serialVersionUID = 1L;
 
-    private static final int redondez = 0;
+    private static final int redondez = Cuadro.redMED;
     private final Paleta paleta = new Paleta();
-    private final JPanel panelCasillas;
     //Tamanos
     private final int tituloLargo = 67;
     private final ArrayList<PanelDiaBase> panelesCasillas = new ArrayList<>();
     private final ArrayList<DiaGuardia> dias;
-    private final int sepIzquierda = 46;
     private final Color colorLetraTitulo = Color.WHITE;
     private final Font fuente = new Font("Arial", Font.BOLD, 14);
     //Secciones
@@ -31,6 +29,7 @@ public class TablaArchivar extends Cuadro implements IsTabla {
 
     public TablaArchivar(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias) {
         super(dimension, redondez, color);
+        int sepIzquierda = 46;
         PanelDia.setCasillaLargo(dimension.width - sepIzquierda * 2);
         this.setLayout(null);
         this.setColorBorde(paleta.getColorCaracteristico());
@@ -40,7 +39,7 @@ public class TablaArchivar extends Cuadro implements IsTabla {
         // Agregar MouseListener y MouseMotionListener al panel t�tulo
         inicializarTitulo();
 
-        panelCasillas = new JPanel();
+        JPanel panelCasillas = new JPanel();
         panelCasillas.setBackground(Color.WHITE);
         panelCasillas.setLayout(new BoxLayout(panelCasillas, BoxLayout.Y_AXIS));
         panelCasillas.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 0));
@@ -143,8 +142,8 @@ public class TablaArchivar extends Cuadro implements IsTabla {
         panelTitulo.add(nombre);
         panelTitulo.add(cumplimiento);
 
-        int auxAgno = dias.get(0).getFecha().getYear();
-        Etiqueta planificacion = new Etiqueta(fuente, colorLetraTitulo, dias.get(0).getFecha().getMonth().name() + "  " + auxAgno);
+        int auxAgno = dias.getFirst().getFecha().getYear();
+        Etiqueta planificacion = new Etiqueta(fuente, colorLetraTitulo, dias.getFirst().getFecha().getMonth().name() + "  " + auxAgno);
         planificacion.setLocation(15, 10);
 
 

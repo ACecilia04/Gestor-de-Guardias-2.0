@@ -52,6 +52,7 @@ public class Ventana extends JFrame {
     private String pantallaActual = "panel1";
     private PantallaSelecPersona nuevaPantalla;
     private ServicesLocator servicesLocator;
+    private Usuario usuarioLogueado;
 
     private Ventana() {
         paleta = new Paleta();
@@ -63,7 +64,7 @@ public class Ventana extends JFrame {
             public void actionPerformed(ActionEvent e) {
 //                setVisible(false);
 //                login = new Login(overlayPanel);
-//                Usuario usuarioLogueado = login.getUsuarioLogueado();
+//                usuarioLogueado = login.getUsuarioLogueado();
 //                if (usuarioLogueado == null) System.exit(0);
 
                 // Instanciar el menú pasando el usuario logueado
@@ -90,7 +91,7 @@ public class Ventana extends JFrame {
 
         zonaInferior = new JPanel(new BorderLayout());
         zonaInferior.setPreferredSize(new Dimension(contReal.getSize().width, contReal.getSize().height - 85));
-//        zonaInferior.setSize(new Dimension(contReal.getSize().width, contReal.getSize().height - 85));
+        zonaInferior.setSize(new Dimension(contReal.getSize().width, contReal.getSize().height - 85));
         contReal.add(zonaInferior);
 
         // El menú ahora se instancia después del login
@@ -259,14 +260,11 @@ public class Ventana extends JFrame {
                 pantallaConfig.cargarConfiguraciones();
             }
 
-            if (Objects.equals(nombrePanel, "panelPlanificaciones")) {
-                barraSup.mostrarPanel("panelOpcionesPlanifs");
-            } else if (Objects.equals(nombrePanel, "panelCumplimiento")) {
-                barraSup.mostrarPanel("panelOpcionesAsistencia");
-            }else if (Objects.equals(nombrePanel, "panelConfig")){
-                barraSup.mostrarPanel("panelOpcionesConfig");
-            } else {
-                barraSup.mostrarPanel("panelEd1");
+            switch (nombrePanel) {
+                case "panelPlanificaciones" -> barraSup.mostrarPanel("panelOpcionesPlanifs");
+                case "panelCumplimiento" -> barraSup.mostrarPanel("panelOpcionesAsistencia");
+                case "panelConfig" -> barraSup.mostrarPanel("panelOpcionesConfig");
+                case null, default -> barraSup.mostrarPanel("panelEd1");
             }
 
             if (!Objects.equals(pantallaActual, nombrePanel)) {
@@ -332,5 +330,14 @@ public class Ventana extends JFrame {
 
     public PantallaCump getPantallaCump() {
         return pantallaCump;
+    }
+
+    public void cerrarSesion() {
+        usuarioLogueado = null;
+        getContentPane().removeAll();
+        login = new Login(overlayPanel);
+        getContentPane().add(login, BorderLayout.CENTER);
+        revalidate();
+        repaint();
     }
 }

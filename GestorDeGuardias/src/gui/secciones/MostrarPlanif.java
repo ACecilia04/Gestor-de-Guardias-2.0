@@ -1,7 +1,7 @@
 package gui.secciones;
 
 import gui.auxiliares.Paleta;
-import gui.auxiliares.PanelMes;
+import gui.componentes.PanelMes;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.internosComp.TablaBase;

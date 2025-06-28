@@ -33,9 +33,6 @@ public class AddPlanif extends JPanel {
 
         tablaOpciones = new PanelOpcionesPlanif(dimTablaOpciones);
 
-        // Esto no se usa, lo quitamos
-        //x = (contenedor.getWidth() - dimTablaOpciones.width - tablaDim.width) / 2;
-
         add(tablaOpciones, BorderLayout.EAST);
         add(backdropPane, BorderLayout.CENTER);
     }

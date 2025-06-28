@@ -1,7 +1,7 @@
 package gui.secciones;
 
 import gui.auxiliares.Paleta;
-import gui.auxiliares.PanelMes;
+import gui.componentes.PanelMes;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import model.DiaGuardia;
@@ -20,8 +20,8 @@ import java.util.HashSet;
 public class AsistenciaPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-    private static final int PANEL_WIDTH = 300;
-    private static final int PANEL_HEIGHT = 200;
+    private static final int PANEL_WIDTH = 230;
+    private static final int PANEL_HEIGHT = 150;
     private static final int HORIZONTAL_GAP = 30;
     private static final int VERTICAL_GAP = 20;
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);

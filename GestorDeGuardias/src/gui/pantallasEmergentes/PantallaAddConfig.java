@@ -2,8 +2,7 @@ package gui.pantallasEmergentes;
 
 import gui.auxiliares.ConvertidorFecha;
 import gui.auxiliares.Paleta;
-import gui.componentes.Boton;
-import gui.componentes.Etiqueta;
+import gui.componentes.*;
 import gui.secciones.Ventana;
 import model.Configuracion;
 import model.Horario;
@@ -33,9 +32,9 @@ public class PantallaAddConfig extends JDialog {
 
     // Campos de configuración
     protected JSpinner spinnerCantidad;
-    protected JComboBox<String> comboTipoPersona;
-    protected JComboBox<String> comboSexo;
-    protected JComboBox<String> comboDiasSemana;
+    protected CustomComboBoxV2 comboTipoPersona;
+    protected CustomComboBoxV2 comboSexo;
+    protected CustomComboBoxV2 comboDiasSemana;
     protected JComboBox<String> comboHorarios; // Cambiado de JList a JComboBox
     protected JCheckBox checkReceso;
 
@@ -137,8 +136,9 @@ public class PantallaAddConfig extends JDialog {
         etiquetaTipo.setLocation(margenIzquierdo, y);
         etiquetaTipo.setSize(new Dimension(220, 25));
         panelInf.add(etiquetaTipo);
+        Dimension dimCombo = new Dimension(120, 25);
 
-        comboTipoPersona = new JComboBox<>(new String[]{"Estudiante", "Trabajador"});
+        comboTipoPersona = new CustomComboBoxV2(new String[]{"Estudiante", "Trabajador"},dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
         comboTipoPersona.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboTipoPersona);
         y += 40;
@@ -149,7 +149,7 @@ public class PantallaAddConfig extends JDialog {
         etiquetaSexo.setSize(new Dimension(220, 25));
         panelInf.add(etiquetaSexo);
 
-        comboSexo = new JComboBox<>(new String[]{"Ambos", "F", "M"});
+        comboSexo = new CustomComboBoxV2(new String[]{"Ambos", "Femenino", "Masculino"},dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
         comboSexo.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboSexo);
         y += 40;
@@ -162,7 +162,7 @@ public class PantallaAddConfig extends JDialog {
 
         // Suponemos que hay una función getDiasSemana()
         ArrayList<String> diasSemana = getDiasSemana();
-        comboDiasSemana = new JComboBox<>(new DefaultComboBoxModel<>(diasSemana.toArray(new String[0])));
+        comboDiasSemana = new CustomComboBoxV2(diasSemana.toArray(new String[0]),dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
         comboDiasSemana.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboDiasSemana);
         y += 40;
@@ -202,7 +202,6 @@ public class PantallaAddConfig extends JDialog {
                     }
                     if (!existe) {
                         comboHorarios.addItem(horario);
-                        // Opcionalmente deberías agregarlo a la listaHorariosOriginal si quieres poder seleccionarlo luego
                     } else {
                         JOptionPane.showMessageDialog(this, "Ese horario ya está registrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                     }

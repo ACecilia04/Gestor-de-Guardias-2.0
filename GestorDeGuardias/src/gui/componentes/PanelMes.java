@@ -1,5 +1,6 @@
-package gui.auxiliares;
+package gui.componentes;
 
+import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.Etiqueta;
 
