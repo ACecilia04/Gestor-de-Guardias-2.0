@@ -3,10 +3,13 @@ package gui.pantallasEmergentes;
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.Etiqueta;
+import services.ServicesLocator;
+import model.Horario;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.time.LocalTime;
 
 public class PantallaAddHorario extends JDialog {
     protected static final long serialVersionUID = 1L;
@@ -23,6 +26,9 @@ public class PantallaAddHorario extends JDialog {
     protected JTextField txtHoraFin;
 
     private boolean aceptado = false;
+
+    // Nuevo: para devolver el horario creado
+    private Horario horarioGuardado = null;
 
     public PantallaAddHorario(Window parent) {
         super(parent, "Añadir Horario", ModalityType.APPLICATION_MODAL);
@@ -105,6 +111,7 @@ public class PantallaAddHorario extends JDialog {
         btnCancelar.setColorFondo(paleta.getColorCasillaTabla());
         btnCancelar.addActionListener(e -> {
             aceptado = false;
+            horarioGuardado = null;
             dispose();
         });
 
@@ -125,6 +132,20 @@ public class PantallaAddHorario extends JDialog {
                 JOptionPane.showMessageDialog(this, "Formato de hora inválido. Use HH:mm", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
+            // Aquí llamas a la lógica de guardado
+            try {
+                LocalTime inicio = LocalTime.parse(horaInicio);
+                LocalTime fin = LocalTime.parse(horaFin);
+                Horario nuevoHorario = new Horario(inicio, fin);
+                // Guardar en base de datos
+                ServicesLocator.getInstance().getHorarioServices().insertHorario(nuevoHorario);
+                horarioGuardado = nuevoHorario;
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this, "Error al guardar el horario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             aceptado = true;
             dispose();
         });
@@ -142,5 +163,10 @@ public class PantallaAddHorario extends JDialog {
     }
     public String getHoraFin() {
         return txtHoraFin.getText().trim();
+    }
+
+    // Nuevo: para recuperar el horario guardado desde fuera
+    public Horario getHorarioGuardado() {
+        return horarioGuardado;
     }
 }
