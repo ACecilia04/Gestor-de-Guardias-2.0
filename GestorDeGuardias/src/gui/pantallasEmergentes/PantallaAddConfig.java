@@ -138,7 +138,7 @@ public class PantallaAddConfig extends JDialog {
         etiquetaTipo.setSize(new Dimension(220, 25));
         panelInf.add(etiquetaTipo);
 
-        comboTipoPersona = new JComboBox<>(new String[]{"Cualquiera", "Estudiante", "Trabajador"});
+        comboTipoPersona = new JComboBox<>(new String[]{"Estudiante", "Trabajador"});
         comboTipoPersona.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboTipoPersona);
         y += 40;
@@ -316,7 +316,11 @@ public class PantallaAddConfig extends JDialog {
     private void actionPerformed(ActionEvent e) {
         Integer cant = (Integer) spinnerCantidad.getValue();
         String tipo = (String) comboTipoPersona.getSelectedItem();
-        String sexo = (String) comboSexo.getSelectedItem();
+        String sexoSeleccionado = (String) comboSexo.getSelectedItem();
+        String sexo = null;
+        if ("F".equals(sexoSeleccionado) || "M".equals(sexoSeleccionado)) {
+            sexo = sexoSeleccionado;
+        }
         Integer diasem = ConvertidorFecha.traducDiaSemana((String) comboDiasSemana.getSelectedItem());
 
         int horarioIdx = comboHorarios.getSelectedIndex();
