@@ -7,11 +7,15 @@ import gui.componentes.Etiqueta;
 import gui.secciones.Ventana;
 import model.Configuracion;
 import model.Horario;
+import model.TipoPersona;
 import services.ServicesLocator;
+import utils.dao.SqlServerCustomException;
+import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -32,14 +36,16 @@ public class PantallaAddConfig extends JDialog {
     protected JComboBox<String> comboTipoPersona;
     protected JComboBox<String> comboSexo;
     protected JComboBox<String> comboDiasSemana;
-    protected DefaultListModel<String> modeloHorarios;
-    protected JList<String> listaHorarios;
+    protected JComboBox<String> comboHorarios; // Cambiado de JList a JComboBox
     protected JCheckBox checkReceso;
 
     protected int margenIzquierdo = 40;
 
     // Para saber si es edición
     protected Configuracion configEditada;
+
+    // Lista auxiliar para mapear selección a objeto Horario
+    protected ArrayList<Horario> listaHorariosOriginal;
 
     public PantallaAddConfig() {
         this(null);
@@ -64,7 +70,13 @@ public class PantallaAddConfig extends JDialog {
         setLocation(x, y);
 
         inicializarTitulo();
-        inicializarPanelInf();
+        inicializarPanelInf(); // <-- SIEMPRE inicializa los campos primero
+
+        // Si viene config para editar, setear los valores en los campos
+        if (configEditada != null) {
+            setValoresConfiguracion(configEditada);
+        }
+
         inicializarPanelBotones();
 
         contentPane.add(panelTitulo, BorderLayout.NORTH);
@@ -76,11 +88,6 @@ public class PantallaAddConfig extends JDialog {
         contentPane.setBorder(border);
         panelInf.setBorder(border2);
         contentPane.requestFocus();
-
-        // Si viene config para editar, setear los valores en los campos
-        if (configEditada != null) {
-            setValoresConfiguracion(configEditada);
-        }
 
         setVisible(true);
     }
@@ -102,21 +109,7 @@ public class PantallaAddConfig extends JDialog {
         botonAceptar.setColorLetra(Color.WHITE);
         botonAceptar.setColorFondo(paleta.getColorCaracteristico());
 
-        botonAceptar.addActionListener(e -> {
-            Configuracion record = new Configuracion();
-            // Aquí puedes agregar la lógica de aceptar y guardar la configuración
-            int cantidad = (Integer) spinnerCantidad.getValue();
-            String tipoPersona = (String) comboTipoPersona.getSelectedItem();
-            String sexoSeleccionado = (String) comboSexo.getSelectedItem();
-            String diaSeleccionado = (String) comboDiasSemana.getSelectedItem();
-            //List<Horario> horarios = listaHorarios.getSelectedValuesList();
-            Horario horario = stringToHorario(listaHorarios.getSelectedValue());
-            boolean esReceso = checkReceso.isSelected();
-            // Aquí puedes usar esReceso para guardar/actualizar la configuración
-            // Ejemplo: record.setReceso(esReceso);
-            //ServicesLocator.getInstance().getConfiguracionServices().insertConfiguracion();
-            dispose();
-        });
+        botonAceptar.addActionListener(this::actionPerformed);
 
         panelBotones.add(botonCancelar);
         panelBotones.add(botonAceptar);
@@ -156,7 +149,7 @@ public class PantallaAddConfig extends JDialog {
         etiquetaSexo.setSize(new Dimension(220, 25));
         panelInf.add(etiquetaSexo);
 
-        comboSexo = new JComboBox<>(new String[]{"Ambos", "Femenino", "Masculino"});
+        comboSexo = new JComboBox<>(new String[]{"Ambos", "F", "M"});
         comboSexo.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboSexo);
         y += 40;
@@ -174,17 +167,15 @@ public class PantallaAddConfig extends JDialog {
         panelInf.add(comboDiasSemana);
         y += 40;
 
-        // Lista de horarios
+        // Horarios registrados - AHORA CON JComboBox
         Etiqueta etiquetaHorarios = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Horarios registrados:");
         etiquetaHorarios.setLocation(margenIzquierdo, y);
         etiquetaHorarios.setSize(new Dimension(220, 25));
         panelInf.add(etiquetaHorarios);
 
-        modeloHorarios = new DefaultListModel<>();
-        listaHorarios = new JList<>(modeloHorarios);
-        JScrollPane scrollHorarios = new JScrollPane(listaHorarios);
-        scrollHorarios.setBounds(margenIzquierdo, y + 30, 320, 70);
-        panelInf.add(scrollHorarios);
+        comboHorarios = new JComboBox<>();
+        comboHorarios.setBounds(margenIzquierdo, y + 30, 320, 25);
+        panelInf.add(comboHorarios);
 
         // Botón añadir horario
         Boton botonAddHorario = new Boton("Añadir horario");
@@ -203,14 +194,15 @@ public class PantallaAddConfig extends JDialog {
                     String horario = inicio + "-" + fin;
                     // Evitar duplicados en la lista
                     boolean existe = false;
-                    for (int i = 0; i < modeloHorarios.getSize(); i++) {
-                        if (modeloHorarios.getElementAt(i).equals(horario)) {
+                    for (int i = 0; i < comboHorarios.getItemCount(); i++) {
+                        if (comboHorarios.getItemAt(i).equals(horario)) {
                             existe = true;
                             break;
                         }
                     }
                     if (!existe) {
-                        modeloHorarios.addElement(horario);
+                        comboHorarios.addItem(horario);
+                        // Opcionalmente deberías agregarlo a la listaHorariosOriginal si quieres poder seleccionarlo luego
                     } else {
                         JOptionPane.showMessageDialog(this, "Ese horario ya está registrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                     }
@@ -228,8 +220,8 @@ public class PantallaAddConfig extends JDialog {
         checkReceso.setBounds(margenIzquierdo, y, 160, 28);
         panelInf.add(checkReceso);
 
-        // Al cambiar el día, refresca la lista de horarios
-        comboDiasSemana.addActionListener(e -> recargarHorarios());
+        // Al cambiar el día, refresca la lista de horarios (opcional, si quieres filtrar por día)
+        // comboDiasSemana.addActionListener(e -> recargarHorarios());
 
         // Primera carga de horarios para el día seleccionado por defecto
         recargarHorarios();
@@ -253,7 +245,6 @@ public class PantallaAddConfig extends JDialog {
 
     // Suponiendo que esta función devuelve los días de la semana
     private ArrayList<String> getDiasSemana() {
-        // TODO: Implementa según tu lógica real
         ArrayList<String> dias = new ArrayList<>();
         dias.add("Lunes");
         dias.add("Martes");
@@ -266,19 +257,24 @@ public class PantallaAddConfig extends JDialog {
     }
 
     private void recargarHorarios() {
-        modeloHorarios.clear();
+        comboHorarios.removeAllItems();
+        listaHorariosOriginal = new ArrayList<>();
         ArrayList<Horario> horarios = (ArrayList<Horario>) ServicesLocator.getInstance().getHorarioServices().getAllHorarios();
         for (Horario h : horarios) {
-            modeloHorarios.addElement(h.toString());
+            comboHorarios.addItem(h.toString());
+            listaHorariosOriginal.add(h);
+        }
+        if (comboHorarios.getItemCount() > 0) {
+            comboHorarios.setSelectedIndex(0);
         }
     }
 
     private void setValoresConfiguracion(Configuracion config) {
         if (config == null) return;
-        spinnerCantidad.setValue(config.getCantPersonas());
+        spinnerCantidad.setValue(configEditada.getCantPersonas());
 
         if (config.getTipoPersona() != null) {
-            comboTipoPersona.setSelectedItem(config.getTipoPersona());
+            comboTipoPersona.setSelectedItem(config.getTipoPersona().getNombre());
         }
 
         if (config.getSexo() != null) {
@@ -289,11 +285,12 @@ public class PantallaAddConfig extends JDialog {
             comboDiasSemana.setSelectedItem(ConvertidorFecha.traducDiaSemana(config.getDiaSemana()));
         }
 
+        // Buscar el horario correspondiente en la lista y seleccionarlo
         if (config.getHorario() != null) {
             String horarioStr = config.getHorario().toString();
-            for (int i = 0; i < modeloHorarios.getSize(); i++) {
-                if (modeloHorarios.getElementAt(i).equals(horarioStr)) {
-                    listaHorarios.setSelectedIndex(i);
+            for (int i = 0; i < comboHorarios.getItemCount(); i++) {
+                if (comboHorarios.getItemAt(i).equals(horarioStr)) {
+                    comboHorarios.setSelectedIndex(i);
                     break;
                 }
             }
@@ -308,11 +305,45 @@ public class PantallaAddConfig extends JDialog {
         String[] partes = s.split("-");
         if (partes.length != 2) return null;
         try {
-            LocalTime inicio = LocalTime.parse(partes[0]);
-            LocalTime fin = LocalTime.parse(partes[1]);
+            LocalTime inicio = LocalTime.parse(partes[0].trim());
+            LocalTime fin = LocalTime.parse(partes[1].trim());
             return new Horario(inicio, fin);
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private void actionPerformed(ActionEvent e) {
+        Integer cant = (Integer) spinnerCantidad.getValue();
+        String tipo = (String) comboTipoPersona.getSelectedItem();
+        String sexo = (String) comboSexo.getSelectedItem();
+        Integer diasem = ConvertidorFecha.traducDiaSemana((String) comboDiasSemana.getSelectedItem());
+
+        int horarioIdx = comboHorarios.getSelectedIndex();
+        Horario horario = null;
+        if (horarioIdx >= 0 && listaHorariosOriginal != null && horarioIdx < listaHorariosOriginal.size()) {
+            horario = listaHorariosOriginal.get(horarioIdx);
+        } else {
+            String horarioStr = (String) comboHorarios.getSelectedItem();
+            horario = stringToHorario(horarioStr);
+        }
+        Boolean receso = checkReceso.isSelected();
+
+        Configuracion record = new Configuracion(diasem, receso, horario, tipo, sexo, cant);
+
+        try {
+            if (configEditada == null) {
+                // Crear nueva configuración
+                ServicesLocator.getInstance().getConfiguracionServices().insertConfiguracion(record);
+            } else {
+                // Actualizar configuración existente
+                record.setId(configEditada.getId());
+                ServicesLocator.getInstance().getConfiguracionServices().updateConfiguracion(record);
+            }
+        } catch (MultiplesErroresException | SqlServerCustomException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        dispose();
     }
 }

@@ -81,6 +81,30 @@ public class ConvertidorFecha {
 
         return fechaMes;
     }
+
+    public static int traducDiaSemana(String dia) {
+        if (dia == null) return -1;
+        switch (dia.toLowerCase()) {
+            case "lunes":
+                return 1;
+            case "martes":
+                return 2;
+            case "miercoles":
+            case "miércoles":
+                return 3;
+            case "jueves":
+                return 4;
+            case "viernes":
+                return 5;
+            case "sabado":
+            case "sábado":
+                return 6;
+            case "domingo":
+                return 7;
+            default:
+                return -1;
+        }
+    }
 }
 
 
