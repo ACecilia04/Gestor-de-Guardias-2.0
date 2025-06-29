@@ -142,10 +142,11 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
 
     private FilaInteractiva construirFila(Usuario usuario, AtomicBoolean alt) {
         FilaInteractiva fila = new FilaInteractiva(alt.get(),
-                paleta.getColorCaracteristico(),
-                Color.WHITE,
-                paleta.getColorLetraMenu(),
-                colorDiaFondo,
+
+                new Color(187, 222, 251),     // selection background
+                Color.WHITE,                         // selection text color
+                paleta.getColorLetraMenu(),          // normal text color
+                colorDiaFondo,                       // alternate background
                 Color.WHITE  );
         fila.setMinimumSize(new Dimension(Integer.MAX_VALUE, rowHeight));
         fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, rowHeight));

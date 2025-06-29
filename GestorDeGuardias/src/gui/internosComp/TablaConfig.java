@@ -61,7 +61,7 @@ public class TablaConfig extends Cuadro {
         gbc.weighty = 1.0;
         gbc.weightx = 1.0;
 
-        String[] textos = { "Día", "Horario", "Cantidad", "Sexo", "Receso" };
+        String[] textos = { "Día", "Horario", "Personas", "Sexo", "Receso" };
         gbc.gridy = 0;
         gbc.gridwidth = 1;
 

@@ -3,44 +3,46 @@ package gui.internosComp;
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.secciones.PanelConfig;
-import gui.secciones.PantallaCump;
-import gui.secciones.Ventana;
-import services.ServicesLocator;
+import gui.secciones.PantallaUsuarios;
 import utils.dao.SqlServerCustomException;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PanelSupOpcionesConfig extends JPanel {
-    PanelConfig panelAfectado;
+    PanelConfig panelReferencia;
+    Boton nuevoBtn;
+    Boton editarBtn;
+    Boton borrarBtn;
+    private boolean algunaConfigSeleccionada;
 
-    public PanelSupOpcionesConfig(int alto, PanelConfig panelAfectado) {
-        this.panelAfectado = panelAfectado;
+
+    public PanelSupOpcionesConfig(int alto) {
         setBackground(new Paleta().getColorFondoTabla());
 
-        Boton nuevoBtn = new Boton();
+        nuevoBtn = new Boton();
         nuevoBtn.addIcono("/iconos/Crear.png");
         nuevoBtn.setSelectLetra(true);
         nuevoBtn.cambiarIconTextGap(10);
         nuevoBtn.setToolTipText("Crear Nuevo");
-        nuevoBtn.addActionListener(e -> panelAfectado.agregarConfiguracion());
+        nuevoBtn.addActionListener(e -> panelReferencia.agregarConfiguracion());
 
 
-        Boton editarBtn = new Boton();
+        editarBtn = new Boton();
         editarBtn.addIcono("/iconos/Editar.png");
         editarBtn.setSelectLetra(true);
         editarBtn.cambiarIconTextGap(10);
         editarBtn.setToolTipText("Editar");
-        editarBtn.addActionListener(e -> panelAfectado.modificarConfiguracion());
+        editarBtn.addActionListener(e -> panelReferencia.modificarConfiguracion());
 
-        Boton borrarBtn = new Boton();
+        borrarBtn = new Boton();
         borrarBtn.addIcono("/iconos/Borrar.png");
         borrarBtn.setSelectLetra(true);
         borrarBtn.cambiarIconTextGap(10);
         borrarBtn.setToolTipText("Borrar");
         borrarBtn.addActionListener(e -> {
             try {
-                panelAfectado.eliminarConfiguracion();
+                panelReferencia.eliminarConfiguracion();
             } catch (SqlServerCustomException ex) {
                 throw new RuntimeException(ex);
             }
@@ -53,6 +55,16 @@ public class PanelSupOpcionesConfig extends JPanel {
         FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - nuevoBtn.getHeight() - 8);
         setLayout(miLayout);
     }
+    public void setAlgunaConfigSeleccionada(boolean algunaConfigSeleccionada) {
+        this.algunaConfigSeleccionada = algunaConfigSeleccionada;
+        editarBtn.setEnabled(algunaConfigSeleccionada);
+        borrarBtn.setEnabled(algunaConfigSeleccionada);
 
+    }
+
+
+    public void setPanelReferencia(PanelConfig panelReferencia) {
+        this.panelReferencia = panelReferencia;
+    }
 }
 

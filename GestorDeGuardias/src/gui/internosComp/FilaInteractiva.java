@@ -56,11 +56,11 @@ public class FilaInteractiva extends JPanel {
         this.seleccionado = selected;
         Color bg = seleccionado ? colorSeleccionado : getNormalBackground();
         applyRowBackground(bg);
-        for (Component comp : getComponents()) {
-            if (comp instanceof JLabel lbl) {
-                lbl.setForeground(seleccionado ? colorTextoSeleccionado : colorTextoNormal);
-            }
-        }
+//        for (Component comp : getComponents()) {
+//            if (comp instanceof JLabel lbl) {
+//                lbl.setForeground(seleccionado ? colorTextoSeleccionado : colorTextoNormal);
+//            }
+//        }
         repaint();
     }
 

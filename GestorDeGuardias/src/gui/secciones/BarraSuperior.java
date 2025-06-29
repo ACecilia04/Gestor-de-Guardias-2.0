@@ -32,12 +32,6 @@ public class BarraSuperior extends JPanel {
         setBackground(paleta.getColorFondoTabla());
         setLayout(new BorderLayout());
 
-        opcionesPlanif = new PanelSupOpcionesPlanifs(this.getPreferredSize().height, panelMostrarPlanifs);
-        opcionesAsistencia = new PanelSupOpcionesAsistencia(this.getPreferredSize().height, panelCumplimiento);
-        opcionesConfig = new PanelSupOpcionesConfig(this.getPreferredSize().height, panelConfig);
-        opcionesUsuarios = new PanelSupOpcionesUsuarios(this.getPreferredSize().height, panelUsuarios);
-        //panelEdicion
-
         //Panel Izq
         {
 
@@ -48,6 +42,21 @@ public class BarraSuperior extends JPanel {
         }
 //        Panel Derecha
         {
+            opcionesPlanif = new PanelSupOpcionesPlanifs(this.getPreferredSize().height);
+            opcionesPlanif.setPanelReferencia(panelMostrarPlanifs);
+            panelMostrarPlanifs.setOpcionesReferencia(opcionesPlanif);
+
+            opcionesAsistencia = new PanelSupOpcionesAsistencia(this.getPreferredSize().height);
+            opcionesAsistencia.setPanelReferencia(panelCumplimiento);
+
+            opcionesConfig = new PanelSupOpcionesConfig(this.getPreferredSize().height);
+            opcionesConfig.setPanelReferencia(panelConfig);
+//            panelConfig.setOpcionesReferencia(opcionesConfig);
+
+            opcionesUsuarios = new PanelSupOpcionesUsuarios(this.getPreferredSize().height);
+            opcionesUsuarios.setPanelReferencia(panelUsuarios);
+//            panelUsuarios.setOpcionesReferencia(opcionesUsuarios);
+
             panelDerecha = new JPanel(new CardLayout());
             panelEdicion1 = new JPanel(new FlowLayout(FlowLayout.LEFT));
             panelEdicion1.setBackground(Color.WHITE);

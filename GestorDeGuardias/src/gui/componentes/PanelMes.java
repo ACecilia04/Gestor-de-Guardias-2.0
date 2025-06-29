@@ -1,8 +1,8 @@
 package gui.componentes;
 
 import gui.auxiliares.Paleta;
-import gui.componentes.Cuadro;
-import gui.componentes.Etiqueta;
+import gui.secciones.MostrarPlanif;
+import gui.secciones.Ventana;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -25,8 +25,8 @@ public class PanelMes extends Cuadro {
 
     private final Color colorFondo;
 
-    private boolean seleccionado = false;
-
+    private boolean seleccionado;
+    private Object parent;
 
     public PanelMes(LocalDate fechaInicial, Dimension dim) {
         super(dim, Cuadro.redMED, Color.GRAY);
@@ -57,7 +57,6 @@ public class PanelMes extends Cuadro {
         int espacioY = 20;
         titulo.setLocation(espacioX, espacioY);
 
-
         String stringFechaInicio = "INICIO: " + fechaInicial.getDayOfMonth() + "  " + traducDiaMes(fechaInicial) + "  " + fechaInicial.getYear();
         titulo2 = new Etiqueta(fuente, colorLetra, stringFechaInicio);
         titulo2.setLocation(espacioX, espacioY * 2 + titulo.getSize().height);
@@ -67,7 +66,13 @@ public class PanelMes extends Cuadro {
 
         this.setColorBorde(colorFondo.darker());
 
+        this.setSeleccionado(false);
+
+        PanelMes aux = this;
         this.addMouseListener(new MouseAdapter() {
+            private static final long DOUBLE_CLICK_DELAY = 500;
+            private long lastClickTime = 0;
+
             @Override
             public void mouseEntered(MouseEvent e) {
                 // Cambiar el color y el cursor cuando el raton entra en el panel
@@ -89,27 +94,49 @@ public class PanelMes extends Cuadro {
                 setCursor(Cursor.getDefaultCursor());
                 setColorBorde(paleta.getColorCaracteristico().darker());
             }
-        });
 
+            @Override
+            public void mousePressed(MouseEvent e) {
+                long currentClickTime = System.currentTimeMillis();
+
+                if (e.getClickCount() == 2) {
+                    if (parent != null && parent instanceof MostrarPlanif)
+                        ((MostrarPlanif) parent).mostrarTabla();
+
+                    Ventana.getInstance().mostrarPanel("panelVerPlanificaciones");
+                    setSeleccionado(false);
+                } else {
+
+                    if (parent != null && parent instanceof MostrarPlanif && ((MostrarPlanif) parent).getSeleccionado() != null && !((MostrarPlanif) parent).getSeleccionado().equals(aux))
+                        ((MostrarPlanif) parent).setSeleccionado(null);
+
+                    setSeleccionado(!seleccionado);
+                }
+
+                lastClickTime = currentClickTime;
+            }
+
+        });
     }
 
     public LocalDate getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setSeleccionado(boolean x) {
-        seleccionado = x;
-        this.setBorde(x);
-        revalidate();
-        repaint();
-    }
-
-    public void setSeleccionado() {
-        seleccionado = !seleccionado;
+    public void setSeleccionado(boolean seleccionado) {
+        this.seleccionado = seleccionado;
         this.setBorde(seleccionado);
         revalidate();
         repaint();
+        if (parent != null && parent instanceof MostrarPlanif)
+            if (seleccionado)
+                ((MostrarPlanif) parent).setSeleccionado(this);
+            else
+                ((MostrarPlanif) parent).setSeleccionado(null);
     }
 
+    public void setParent(Object parent) {
+        this.parent = parent;
+    }
 }
 

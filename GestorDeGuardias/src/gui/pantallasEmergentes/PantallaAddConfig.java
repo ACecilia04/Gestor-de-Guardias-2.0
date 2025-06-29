@@ -6,7 +6,6 @@ import gui.componentes.*;
 import gui.secciones.Ventana;
 import model.Configuracion;
 import model.Horario;
-import model.TipoPersona;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
 import utils.exceptions.MultiplesErroresException;
@@ -15,11 +14,13 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.Serial;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class PantallaAddConfig extends JDialog {
-    protected static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     protected JPanel contentPane;
     protected JPanel panelTitulo, panelInf, panelBotones;
@@ -275,12 +276,12 @@ public class PantallaAddConfig extends JDialog {
         if (config.getTipoPersona() != null) {
             comboTipoPersona.setSelectedItem(config.getTipoPersona().getNombre());
         }
-        
-            if (config.getSexo() != null) {
-                comboSexo.setSelectedItem(sexoVisualParaCombo(config.getSexo()));
-            } else {
-                comboSexo.setSelectedItem("Ambos");
-            }
+
+        if (config.getSexo() != null) {
+            comboSexo.setSelectedItem(sexoVisualParaCombo(config.getSexo()));
+        } else {
+            comboSexo.setSelectedItem("Ambos");
+        }
 
         if (ConvertidorFecha.traducDiaSemana(config.getDiaSemana()) != null) {
             comboDiasSemana.setSelectedItem(ConvertidorFecha.traducDiaSemana(config.getDiaSemana()));
@@ -323,7 +324,7 @@ public class PantallaAddConfig extends JDialog {
         Integer diasem = ConvertidorFecha.traducDiaSemana((String) comboDiasSemana.getSelectedItem());
 
         int horarioIdx = comboHorarios.getSelectedIndex();
-        Horario horario = null;
+        Horario horario;
         if (horarioIdx >= 0 && listaHorariosOriginal != null && horarioIdx < listaHorariosOriginal.size()) {
             horario = listaHorariosOriginal.get(horarioIdx);
         } else {

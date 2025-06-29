@@ -16,38 +16,43 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class PanelSupOpcionesPlanifs extends JPanel{
-    MostrarPlanif panelAfectado;
-    public PanelSupOpcionesPlanifs(int alto, MostrarPlanif panelAfectado) {
-        this.panelAfectado = panelAfectado;
+
+    private MostrarPlanif panelReferencia;
+
+    private Boton nuevoBtn;
+    private Boton editarBtn;
+    private Boton borrarBtn;
+    private Boton pdfBtn;
+    private boolean algunMesSeleccionado;
+
+    public PanelSupOpcionesPlanifs(int alto) {
         setBackground(new Paleta().getColorFondoTabla());
 
-        Boton nuevoBtn = new Boton();
+        nuevoBtn = new Boton();
         nuevoBtn.addIcono("/iconos/Crear.png");
         nuevoBtn.setSelectLetra(true);
         nuevoBtn.cambiarIconTextGap(10);
-        nuevoBtn.setToolTipText("Crear Nuevo");
         nuevoBtn.addActionListener(e -> Ventana.getInstance().mostrarPanel("panelAddPlanif"));
 
-
-        Boton editarBtn = new Boton();
+        editarBtn = new Boton();
         editarBtn.addIcono("/iconos/Editar.png");
         editarBtn.setSelectLetra(true);
         editarBtn.cambiarIconTextGap(10);
-        editarBtn.setToolTipText("Editar");
+        editarBtn.setEnabled(algunMesSeleccionado);
         editarBtn.addActionListener(e -> editar());
 
-        Boton borrarBtn = new Boton();
+        borrarBtn = new Boton();
         borrarBtn.addIcono("/iconos/Borrar.png");
         borrarBtn.setSelectLetra(true);
         borrarBtn.cambiarIconTextGap(10);
-        borrarBtn.setToolTipText("Borrar");
+        borrarBtn.setEnabled(algunMesSeleccionado);
         borrarBtn.addActionListener(e -> borrar());
 
-        Boton pdfBtn = new Boton();
+        pdfBtn = new Boton();
         pdfBtn.addIcono("/iconos/PDF.png");
         pdfBtn.setSelectLetra(true);
         pdfBtn.cambiarIconTextGap(10);
-        pdfBtn.setToolTipText("Exportar PDF");
+        pdfBtn.setEnabled(algunMesSeleccionado);
         pdfBtn.addActionListener(e -> exportar());
 
         add(nuevoBtn);
@@ -57,7 +62,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
 
         FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - nuevoBtn.getHeight() - 8);
         setLayout(miLayout);
-/*
+        /*
         borrarBtn.setSeleccionable(false);
         editarBtn.setSeleccionable(false);
         nuevoBtn.setSeleccionable(true);
@@ -70,14 +75,14 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Cancelar", "Aceptar");
         if (!advertencia.getEleccion()) {
             try {
-                ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardiaAPartirDe(panelAfectado.getSeleccionado().getFechaInicio());
+                ServicesLocator.getInstance().getTurnoDeGuardiaServices().deleteTurnosDeGuardiaAPartirDe(panelReferencia.getSeleccionado().getFechaInicio());
             } catch (SqlServerCustomException | EntradaInvalidaException ex) {
                 String errorMsg = "<html><p>Ocurrió un error:<br>" + ex.getMessage() + "</p></html>";
                 new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", errorMsg, "Aceptar", true);
 
             }
-            panelAfectado.actualizarPlanif();
-            panelAfectado.getSeleccionado().setSeleccionado(false);
+            panelReferencia.actualizarPlanif();
+            panelReferencia.setSeleccionado(null);
         /*
         borrarBtn.setSeleccionable(false);
         editarBtn.setSeleccionable(false);
@@ -93,7 +98,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogTitle("Guardar reporte PDF");
         chooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("PDF", "pdf"));
-        int seleccion = chooser.showSaveDialog(panelAfectado);
+        int seleccion = chooser.showSaveDialog(panelReferencia);
 
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             String path = chooser.getSelectedFile().getAbsolutePath();
@@ -102,24 +107,33 @@ public class PanelSupOpcionesPlanifs extends JPanel{
             // Obtiene todos los turnos a partir de la fecha de inicio seleccionada
             ArrayList<DiaGuardia> diasGuardia = ServicesLocator.getInstance()
                     .getPlantillaServices()
-                    .getPlanificacionesAPartirDe(panelAfectado.getSeleccionado().getFechaInicio());
+                    .getPlanificacionesAPartirDe(panelReferencia.getSeleccionado().getFechaInicio());
             // 3. Llamar al servicio de reporte
 
             new ReporteServices().generarReportePlantilla(diasGuardia, path);
 
-            JOptionPane.showMessageDialog(panelAfectado, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(panelReferencia, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     public void editar(){
-        if (panelAfectado.getSeleccionado() != null) {
+        if (panelReferencia.getSeleccionado() != null) {
             ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices()
                     .agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices()
-                            .getTurnosAPartirDe(panelAfectado.getSeleccionado().getFechaInicio()));
+                            .getTurnosAPartirDe(panelReferencia.getSeleccionado().getFechaInicio()));
             Ventana.getInstance().editarPlanif(diasAux);
         }
+    }
 
+    public void setAlgunMesSeleccionado(boolean algunMesSeleccionado) {
+        this.algunMesSeleccionado = algunMesSeleccionado;
+        editarBtn.setEnabled(algunMesSeleccionado);
+        borrarBtn.setEnabled(algunMesSeleccionado);
+        pdfBtn.setEnabled(algunMesSeleccionado);
     }
 
 
+    public void setPanelReferencia(MostrarPlanif panelReferencia) {
+        this.panelReferencia = panelReferencia;
+    }
 }

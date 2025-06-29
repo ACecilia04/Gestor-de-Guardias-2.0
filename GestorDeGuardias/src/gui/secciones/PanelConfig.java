@@ -12,17 +12,14 @@ import utils.dao.SqlServerCustomException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.Serial;
 import java.util.ArrayList;
 
 public class PanelConfig extends JPanel {
+    @Serial
     private static final long serialVersionUID = 1L;
-
-    private final Font fuenteCabecera = new Font("Arial", Font.BOLD, 15);
-    private final Font fuenteNormal = new Font("Arial", Font.PLAIN, 14);
-    private final Paleta paleta = new Paleta();
-
     private ArrayList<Configuracion> listaConfiguraciones;
-    private JScrollPane scrollPane;
+    private final JScrollPane scrollPane;
     private Configuracion seleccionada;
     private TablaConfig tablaConfig;
     private PantallaAddConfig pantallaConfig;
@@ -73,9 +70,7 @@ public class PanelConfig extends JPanel {
         repaint();
     }
 
-    // Métodos de acción (esqueleto)
     public void agregarConfiguracion() {
-        // TODO: Implementar diálogo/agregado
          pantallaConfig = new PantallaAddConfig();
          pantallaConfig.revalidate();
         cargarConfiguraciones();

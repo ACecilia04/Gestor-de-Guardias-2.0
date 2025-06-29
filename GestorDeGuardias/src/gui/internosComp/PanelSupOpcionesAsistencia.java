@@ -2,6 +2,7 @@ package gui.internosComp;
 
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
+import gui.secciones.PanelConfig;
 import gui.secciones.PantallaCump;
 import services.ServicesLocator;
 
@@ -9,10 +10,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PanelSupOpcionesAsistencia extends JPanel {
-    PantallaCump panelAfectado;
+    PantallaCump panelReferencia;
 
-    public PanelSupOpcionesAsistencia(int alto, PantallaCump panelAfectado) {
-        this.panelAfectado = panelAfectado;
+    public PanelSupOpcionesAsistencia(int alto  ) {
         setBackground(new Paleta().getColorFondoTabla());
 
         Boton todosCumpBtn = new Boton();
@@ -27,7 +27,6 @@ public class PanelSupOpcionesAsistencia extends JPanel {
         todosIncumpBtn.setSelectLetra(true);
         todosIncumpBtn.cambiarIconTextGap(10);
         todosIncumpBtn.setToolTipText("Todos Incumplidos");
-
         todosIncumpBtn.addActionListener(e -> setTodosIncumplidos());
 
         Boton reiniciarBtn = new Boton();
@@ -35,7 +34,6 @@ public class PanelSupOpcionesAsistencia extends JPanel {
         reiniciarBtn.setSelectLetra(true);
         reiniciarBtn.cambiarIconTextGap(10);
         reiniciarBtn.setToolTipText("Reiniciar");
-
         reiniciarBtn.addActionListener(e -> reiniciar());
 
         Boton guardarBtn = new Boton();
@@ -54,25 +52,28 @@ public class PanelSupOpcionesAsistencia extends JPanel {
         setLayout(miLayout);
     }
         public void setTodosCumplidos(){
-            if (panelAfectado != null) {
-                panelAfectado.getTabla().setCumplimiento(1);
-                panelAfectado.getTabla().actualizarVistaTabla();
+            if (panelReferencia != null) {
+                panelReferencia.getTabla().setCumplimiento(1);
+                panelReferencia.getTabla().actualizarVistaTabla();
             }
         }
         public void setTodosIncumplidos(){
-            if (panelAfectado != null) {
-                panelAfectado.getTabla().setCumplimiento(2);
-                panelAfectado.getTabla().actualizarVistaTabla();
+            if (panelReferencia != null) {
+                panelReferencia.getTabla().setCumplimiento(2);
+                panelReferencia.getTabla().actualizarVistaTabla();
             }
         }
         public void reiniciar(){
-            if (panelAfectado != null) {
-                panelAfectado.getTabla().setCumplimiento(0);
-                panelAfectado.getTabla().actualizarVistaTabla();
+            if (panelReferencia != null) {
+                panelReferencia.getTabla().setCumplimiento(0);
+                panelReferencia.getTabla().actualizarVistaTabla();
             }
         }
         public void guardar(){
-            ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarCumplimientoTurnos(panelAfectado.getTabla().getDias());
+            ServicesLocator.getInstance().getTurnoDeGuardiaServices().guardarCumplimientoTurnos(panelReferencia.getTabla().getDias());
         }
 
+    public void setPanelReferencia(PantallaCump panelReferencia) {
+        this.panelReferencia = panelReferencia;
+    }
 }
