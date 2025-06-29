@@ -41,7 +41,9 @@ public class CustomComboBox extends Cuadro {
         // Texto
         info = new Etiqueta(titulo);
         info.setSize(new Dimension(this.getSize().width - separacion * 2 - separacionBoton - botSel.getSize().width, info.getSize().height));
-        info.setLocation(separacion, (this.getSize().height - info.getSize().height) / 2);
+        int botonCenterY = botSel.getY() + botSel.getHeight() / 2;
+        int infoY = botonCenterY - info.getHeight() / 2;
+        info.setLocation(separacion, infoY);
         botSel.setLocation(info.getLocation().x + info.getSize().width + separacionBoton, (this.getSize().height - botSel.getSize().height) / 2);
 
         add(info);
@@ -127,6 +129,10 @@ public class CustomComboBox extends Cuadro {
             }
         });
     }
+    public CustomComboBox(final String[] opc, Dimension dimension, int redondez, Color color) {
+        this(opc, "", dimension, redondez, color);
+
+    }
 
     public Etiqueta getEtiqueta() {
         return info;
@@ -144,6 +150,12 @@ public class CustomComboBox extends Cuadro {
         this.opciones = opciones;
         info.setText(titulo);
 
+    }
+    public void setSeleccionado(String text){
+        info.setText(titulo);
+    }
+    public String getSeleccionado(){
+       return info.getText();
     }
 
     //Listeners

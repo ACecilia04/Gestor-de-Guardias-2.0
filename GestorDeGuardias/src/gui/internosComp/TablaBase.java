@@ -171,9 +171,9 @@ public class TablaBase extends Cuadro implements IsTabla {
                     bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
                     String[] textos = {
                             horarioStr,
-                            persona != null && persona.getCarnet() != null ? persona.getCarnet() : "",
-                            persona != null && persona.getApellido() != null ? persona.getApellido() : "",
-                            persona != null && persona.getNombre() != null ? persona.getNombre() : ""
+                            persona.getCarnet() != null ? persona.getCarnet() : "",
+                            persona.getApellido() != null ? persona.getApellido() : "",
+                            persona.getNombre() != null ? persona.getNombre() : ""
                     };
                     for (int j = 0; j < textos.length; j++) {
                         gbc.gridx = j + 1; // empieza en 1 porque la columna 0 ya tiene el dia

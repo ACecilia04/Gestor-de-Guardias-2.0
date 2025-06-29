@@ -25,6 +25,7 @@ import java.awt.event.KeyListener;
 import java.io.Serial;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PantallaEstudiantes extends JPanel {
     @Serial
@@ -48,8 +49,7 @@ public class PantallaEstudiantes extends JPanel {
 
 
         for (CustomCheckBox e : checks) {
-            final CustomCheckBox aux = e;
-            aux.addActionListener(e12 -> {
+            e.addActionListener(e12 -> {
                 ArrayList<Persona> personaAux = checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante")));
                 revalidarTabla(personaAux);
             });
@@ -238,12 +238,12 @@ public class PantallaEstudiantes extends JPanel {
 
         for (Persona e : personas) {
             boolean selec = true;
-//            if (!tablaOpciones.getCheckDisp().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.DISPONIBLE && selec) {
-//                selec = false;
-//            }
-//            if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
-//                selec = false;
-//            }
+            if (!tablaOpciones.getCheckDisp().isSelected() && Objects.equals(e.getDisponibilidad(LocalDate.now()), "Disponible")) {
+                selec = false;
+            }
+            if (!tablaOpciones.getCheckBaja().isSelected() && Objects.equals(e.getDisponibilidad(LocalDate.now()), "Baja") && selec) {
+                selec = false;
+            }
             if (!tablaOpciones.getCheckMasc().isSelected() && e.getSexo().equalsIgnoreCase("masculino")) {
                 selec = false;
             }

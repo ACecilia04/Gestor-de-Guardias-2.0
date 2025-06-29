@@ -42,14 +42,15 @@ public class Ventana extends JFrame {
     private MostrarPlanif pantallaPlanif;
     private AsistenciaPlanif pantallaAsistencia;
     private PantallaCump pantallaCump;
-    private PantallaFacultad pantallaFacultad;
     private PanelConfig pantallaConfig;
+    private PantallaUsuarios pantallaUsuarios;
     private Login login;
     private PantallaAddPersona pantallaAddPersona;
     private LocalDate inicio;
     private int distX;
     private int distY;
-    private String pantallaActual = "panel1";
+    private String pantallaActual = "panelPlanificaciones";
+//    private String pantallaAnterior;
     private PantallaSelecPersona nuevaPantalla;
     private ServicesLocator servicesLocator;
     private Usuario usuarioLogueado;
@@ -153,7 +154,7 @@ public class Ventana extends JFrame {
         pantallaAsistencia = new AsistenciaPlanif();
         pantallaCump = new PantallaCump();
         pantallaConfig = new PanelConfig();
-
+        pantallaUsuarios = new PantallaUsuarios();
         panelVerPlanif = new JPanel();
         panelVerPlanif.setLayout(new BorderLayout());
 
@@ -165,6 +166,7 @@ public class Ventana extends JFrame {
         panelVacio.add(panelVerPlanif, "panelVerPlanificaciones");
         panelVacio.add(pantallaCump, "panelCumplimiento");
         panelVacio.add(pantallaConfig, "panelConfig");
+        panelVacio.add(pantallaUsuarios, "panelUsuarios");
     }
 
     private void redimensionar() {
@@ -258,6 +260,8 @@ public class Ventana extends JFrame {
                 panelAddPlanif.addTabla(tabla);
             } else if (Objects.equals(nombrePanel, "panelConfig") && !Objects.equals(pantallaActual, "panelConfig")){
                 pantallaConfig.cargarConfiguraciones();
+            } else if(Objects.equals(nombrePanel, "panelUsuarios") && !Objects.equals(pantallaActual, "panelUsuarios")){
+                pantallaUsuarios.setTabla((ArrayList<Usuario>)ServicesLocator.getInstance().getUsuarioServices().getAllUsuarios());
             }
 
             switch (nombrePanel) {
@@ -269,6 +273,7 @@ public class Ventana extends JFrame {
 
             if (!Objects.equals(pantallaActual, nombrePanel)) {
                 cardLayout.show(panelVacio, nombrePanel);
+//                pantallaAnterior = pantallaPlanif;
                 pantallaActual = nombrePanel;
             }
         }
@@ -315,7 +320,7 @@ public class Ventana extends JFrame {
     }
 
     public void mostrarFacultad() {
-        pantallaFacultad = new PantallaFacultad();
+        PantallaFacultad pantallaFacultad = new PantallaFacultad();
     }
 
     public void editarPlanif(ArrayList<DiaGuardia> diasAux) {

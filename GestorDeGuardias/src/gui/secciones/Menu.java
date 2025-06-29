@@ -138,6 +138,7 @@ public class Menu extends JPanel {
             panel2.add(btnEstudiantes);
             panel2.add(btnTrabajadores);
             panel2.add(btnFacultad);
+            panel2.add(btnUsuarios);
 
             panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
         }
@@ -212,6 +213,9 @@ public class Menu extends JPanel {
 
         btnFacultad.setText("");
         btnFacultad.setLocation(10, btnFacultad.getY());
+
+        btnUsuarios.setText("");
+        btnUsuarios.setLocation(10, btnUsuarios.getY());
     }
 
     private void maximizarMenu(){
@@ -233,5 +237,9 @@ public class Menu extends JPanel {
 
         btnFacultad.setText("Facultad");
         btnFacultad.setLocation(x, btnFacultad.getY());
+
+        btnUsuarios.setText("Usuarios");
+        btnUsuarios.setLocation(x, btnUsuarios.getY());
+
     }
 }

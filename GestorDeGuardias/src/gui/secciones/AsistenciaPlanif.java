@@ -36,7 +36,6 @@ public class AsistenciaPlanif extends JPanel {
     public AsistenciaPlanif() {
 
         setLayout(new BorderLayout());
-        setBackground(Color.GREEN);
 
         paneles = new ArrayList<>();
 

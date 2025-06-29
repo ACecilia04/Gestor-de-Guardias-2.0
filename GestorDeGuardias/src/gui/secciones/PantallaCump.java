@@ -11,7 +11,6 @@ public class PantallaCump extends JPanel {
     //    private JPanel contentPane;
 //    private final PanelOpcionesArchivar tablaOpciones;
 
-    private final int opcionesAncho = 200;
 
 //    private final int margen = 25;
 
