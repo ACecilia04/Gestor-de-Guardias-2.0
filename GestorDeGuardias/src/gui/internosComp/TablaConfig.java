@@ -95,17 +95,25 @@ public class TablaConfig extends Cuadro {
             mapaDias.computeIfAbsent(dia, k -> new ArrayList<>()).add(conf);
         }
 
-        boolean alt = false;
+        // Crear mapa de color alternado por día
+        LinkedHashMap<String, Color> colorPorDia = new LinkedHashMap<>();
+        boolean altColor = false;
+        for (String dia : mapaDias.keySet()) {
+            colorPorDia.put(dia, altColor ? colorDiaFondo : Color.WHITE);
+            altColor = !altColor;
+        }
+
         for (String dia : mapaDias.keySet()) {
             ArrayList<Configuracion> confsDia = mapaDias.get(dia);
+            Color colorDia = colorPorDia.get(dia);
 
             for (int i = 0; i < confsDia.size(); i++) {
                 Configuracion conf = confsDia.get(i);
-                Color rowBgColor = conf.equals(seleccionada) ? colorSeleccion : (alt ? colorDiaFondo : Color.WHITE);
+                boolean esSeleccionada = conf.equals(seleccionada);
+                Color rowBgColor = esSeleccionada ? colorSeleccion : colorDia;
 
                 JPanel panelFila = new JPanel(new GridLayout(1, 5));
                 panelFila.setOpaque(true);
-                panelFila.setBackground(rowBgColor);
 
                 // Solo la primera fila del día muestra el texto del día, las demás quedan vacías
                 String diaCol = (i == 0) ? dia : "";
@@ -114,15 +122,21 @@ public class TablaConfig extends Cuadro {
                         diaCol,
                         conf.getHorario() != null ? conf.getHorario().toString() : "",
                         String.valueOf(conf.getCantPersonas()),
-                        conf.getSexo() != null ? conf.getSexo().toString() : "",
+                        sexoToString(conf.getSexo()),
                         conf.diaEsReceso() != null ? (conf.diaEsReceso() ? "Sí" : "No") : ""
                 };
 
                 for (int j = 0; j < textos.length; j++) {
+                    Color celdaColor;
+                    if (j == 0) { // columna "Día" SIEMPRE usa colorDia
+                        celdaColor = colorDia;
+                    } else {
+                        celdaColor = rowBgColor;
+                    }
                     JLabel celda = celdaCuerpo(
                             textos[j],
                             (j == 0 && i == 0 && !diaCol.isEmpty()) ? fuenteNormal.deriveFont(Font.BOLD) : fuenteNormal,
-                            rowBgColor
+                            celdaColor
                     );
                     panelFila.add(celda);
                 }
@@ -132,7 +146,6 @@ public class TablaConfig extends Cuadro {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
                         if (evt.getClickCount() == 1) {
                             seleccionada = conf;
-                            onDoubleClick.accept(conf);
                             actualizarSeleccion();
                         }
                         if (evt.getClickCount() == 2 && onDoubleClick != null) {
@@ -143,7 +156,6 @@ public class TablaConfig extends Cuadro {
                 panelesFilas.add(panelFila);
 
                 cuerpo.add(panelFila);
-                alt = !alt;
             }
         }
 
@@ -157,26 +169,40 @@ public class TablaConfig extends Cuadro {
 
     // Actualiza el color de la fila seleccionada
     private void actualizarSeleccion() {
-        int idx = 0;
-        boolean alt = false;
-        // Creamos el mismo agrupamiento para recorrer en el mismo orden de filas
+        // Agrupar configuraciones por día de la semana
         LinkedHashMap<String, ArrayList<Configuracion>> mapaDias = new LinkedHashMap<>();
         for (Configuracion conf : configuraciones) {
             String dia = traducDiaSemana(conf.getDiaSemana());
             mapaDias.computeIfAbsent(dia, k -> new ArrayList<>()).add(conf);
         }
+
+        // Crear mapa de color alternado por día
+        LinkedHashMap<String, Color> colorPorDia = new LinkedHashMap<>();
+        boolean altColor = false;
+        for (String dia : mapaDias.keySet()) {
+            colorPorDia.put(dia, altColor ? colorDiaFondo : Color.WHITE);
+            altColor = !altColor;
+        }
+
+        int idx = 0;
         for (String dia : mapaDias.keySet()) {
             ArrayList<Configuracion> confsDia = mapaDias.get(dia);
+            Color colorDia = colorPorDia.get(dia);
             for (int i = 0; i < confsDia.size(); i++) {
                 Configuracion conf = confsDia.get(i);
                 JPanel panelFila = panelesFilas.get(idx++);
-                Color baseColor = (alt ? colorDiaFondo : Color.WHITE);
-                Color bgColor = conf.equals(seleccionada) ? colorSeleccion : baseColor;
-                panelFila.setBackground(bgColor);
-                for (Component c : panelFila.getComponents()) {
-                    c.setBackground(bgColor);
+                boolean esSeleccionada = conf.equals(seleccionada);
+                Color baseColor = colorDia;
+                Color bgColor = esSeleccionada ? colorSeleccion : baseColor;
+                Component[] celdas = panelFila.getComponents();
+                for (int j = 0; j < celdas.length; j++) {
+                    if (j == 0) { // columna "Día" SIEMPRE usa colorDia
+                        celdas[j].setBackground(colorDia);
+                    } else {
+                        celdas[j].setBackground(bgColor);
+                    }
                 }
-                alt = !alt;
+                panelFila.setBackground(bgColor); // Por compatibilidad visual
             }
         }
         repaint();
@@ -192,4 +218,12 @@ public class TablaConfig extends Cuadro {
         return lbl;
     }
 
+    // Utilidad para mostrar "femenino", "masculino" o "ambos"
+    private String sexoToString(Object sexo) {
+        if (sexo == null) return "Ambos";
+        String s = sexo.toString();
+        if (s.equalsIgnoreCase("F")) return "Femenino";
+        if (s.equalsIgnoreCase("M")) return "Masculino";
+        return s;
+    }
 }
