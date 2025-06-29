@@ -13,7 +13,7 @@ public class Cuadro extends JPanel {
     public static final int transMED = 20;
     public static final int transALTA = 50;
     private final int bordeGrosor = 5;
-    protected int redondez = 0;
+    protected int redondez;
     protected int transparencia = 0;
     private Color colorFondo;
     private Color colorBorde = Color.GRAY;

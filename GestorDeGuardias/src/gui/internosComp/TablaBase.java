@@ -43,7 +43,7 @@ public class TablaBase extends Cuadro implements IsTabla {
         }
 
         JPanel encabezado = imprimirEncabezado(mesAgno);
-        JPanel cuerpo = imprimirCuerpo(estosDias);
+        JScrollPane cuerpo = imprimirCuerpo(estosDias);
 
         add(encabezado, BorderLayout.NORTH);
         add(cuerpo, BorderLayout.CENTER);
@@ -94,12 +94,12 @@ public class TablaBase extends Cuadro implements IsTabla {
         return lbl;
     }
 
-    private JPanel imprimirCuerpo(ArrayList<DiaGuardia> estosDias){
+    private JScrollPane imprimirCuerpo(ArrayList<DiaGuardia> estosDias){
         JPanel cuerpo = new JPanel();
         cuerpo.setBackground(Color.WHITE);
         cuerpo.setLayout(new BoxLayout(cuerpo, BoxLayout.Y_AXIS));
 
-        AtomicBoolean alt = new AtomicBoolean(false);
+        AtomicBoolean alt = new AtomicBoolean(false); // AtomicBoolean en lugar de Boolean para poder pasar la variable por referencia
         for (DiaGuardia dia : estosDias) {
             ArrayList<TurnoDeGuardia> turnos = dia.getTurnos();
             if (turnos != null || !turnos.isEmpty()) {
@@ -109,21 +109,19 @@ public class TablaBase extends Cuadro implements IsTabla {
 
                 JPanel fila = construirFila(turnos, nombreDia, alt);
                 cuerpo.add(fila);
+                cuerpo.setPreferredSize(null);
             }
         }
 
         JScrollPane scrollPane = new JScrollPane(cuerpo);
+
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBar(new CustomScrollBar());
 
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        CustomScrollBar sp = new CustomScrollBar();
-        sp.setOrientation(JScrollBar.HORIZONTAL);
-        scrollPane.setHorizontalScrollBar(sp);
+        scrollPane.setBorder(null);
 
-        scrollPane.setBorder(new LineBorder(Color.BLACK));
-
-        return cuerpo;
+        return scrollPane;
     }
 
     private JPanel construirFila(ArrayList<TurnoDeGuardia> turnos, String nombreDia, AtomicBoolean alt){
@@ -145,7 +143,8 @@ public class TablaBase extends Cuadro implements IsTabla {
         JPanel fila = new JPanel(new GridBagLayout());
 
         int maxHeight = 40 * cantFilas;
-        fila.setPreferredSize(new Dimension(Short.MAX_VALUE, maxHeight));
+//        fila.setPreferredSize(new Dimension(Integer.MAX_VALUE, maxHeight));
+        fila.setMinimumSize(new Dimension(Integer.MAX_VALUE, maxHeight));
         fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, maxHeight));
 
         Color bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
@@ -165,16 +164,13 @@ public class TablaBase extends Cuadro implements IsTabla {
         // Celdas restantes: columnas 1–4, filas 0–4
         gbc.gridheight = 1; // Importante: resetear altura unificada
 
-        //boolean subAlt = false;
-        // Horas y personas del día
-        int i = 0; // filas
+        int i = 0;
         for (TurnoDeGuardia turno : turnos) {
             String horarioStr = turno.getHorario() != null ? turno.getHorario().toString() : "";
             ArrayList<Persona> personas = turno.getPersonasAsignadas();
             if (personas == null || personas.isEmpty()){
                 Persona persona = turno.getPersonaAsignada();
                 if (persona != null) {
-                    //Color bgColor = subAlt ? colorFila2 : colorFila1;
                     bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
                     String[] textos = {
                             horarioStr,
@@ -218,6 +214,10 @@ public class TablaBase extends Cuadro implements IsTabla {
             fila.add(celdaCuerpo("", fuenteNormal, bgColor), gbc);
             alt.set(!alt.get());
         }
+
+        fila.setPreferredSize(null);
+
+        System.out.println(fila.getHeight());
 
         return fila;
     }
