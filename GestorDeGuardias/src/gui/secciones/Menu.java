@@ -174,6 +174,7 @@ public class Menu extends JPanel {
                 btnTrabajadores.setVisible(false);
                 btnActualizarAsist.setVisible(false);
                 btnFacultad.setVisible(false);
+                btnUsuarios.setVisible(false);
                 break;
             case "controlador":
                 // Solo deja asistencia
@@ -182,6 +183,7 @@ public class Menu extends JPanel {
                 btnTrabajadores.setVisible(false);
                 btnConfig.setVisible(false);
                 btnFacultad.setVisible(false);
+                btnUsuarios.setVisible(false);
                 break;
             default:
                 // Si el rol no se reconoce, deshabilita todo
