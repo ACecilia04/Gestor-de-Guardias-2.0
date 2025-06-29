@@ -78,10 +78,10 @@ public class PanelOpcionesTrabajador extends JPanel {
 
         y += disponibilidad.getSize().height + separacion;
 
-        checkDisp = new CustomCheckBox("Disponible    ");
-        checkBaja = new CustomCheckBox("Baja     ");
+        checkDisp = new CustomCheckBox("Disponible");
+        checkBaja = new CustomCheckBox("Baja");
 
-        checkMasc = new CustomCheckBox("Masculino     ");
+        checkMasc = new CustomCheckBox("Masculino");
         checkFem = new CustomCheckBox("Femenino");
 
         checkDisp.setSelected(true);
@@ -121,9 +121,9 @@ public class PanelOpcionesTrabajador extends JPanel {
         panelBotones = new JPanel();
         panelBotones.setLayout(null);
 
-        botonBaja = new Boton("Dar Baja     ");
-        botonExport = new Boton("Exportar PDF    ");
-        botonEliminar = new Boton("Eliminar Trabajador    ");
+        botonBaja = new Boton("Dar Baja");
+        botonExport = new Boton("Exportar PDF");
+        botonEliminar = new Boton("Eliminar Trabajador");
 
         ArrayList<Boton> botones = new ArrayList<>();
         botones.add(botonBaja);
