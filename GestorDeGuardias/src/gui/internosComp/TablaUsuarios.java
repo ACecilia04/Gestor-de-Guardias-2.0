@@ -4,9 +4,6 @@ import gui.auxiliares.IsTabla;
 import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.CustomScrollBar;
-import model.DiaGuardia;
-import model.Persona;
-import model.TurnoDeGuardia;
 import model.Usuario;
 
 import javax.swing.*;
@@ -14,10 +11,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 public class TablaUsuarios extends Cuadro implements IsTabla {
     private static final long serialVersionUID = 1L;
@@ -33,6 +29,8 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
     private final int PAD = 9;
     private final int rowHeight = 40;
 
+    private Usuario usuarioSeleccionado = null;
+    private Consumer<Usuario> seleccionListener = null; // Para notificar cambios de selección
 
     public TablaUsuarios(final Dimension dimension, Color color, ArrayList<Usuario> usuarios) {
         super(dimension, redondez, color);
@@ -46,6 +44,15 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         add(cuerpo, BorderLayout.CENTER);
     }
 
+    // NUEVO: Permitir setear un listener para cambios de selección
+    public void setSeleccionListener(Consumer<Usuario> listener) {
+        this.seleccionListener = listener;
+    }
+
+    // NUEVO: Permitir obtener el usuario seleccionado
+    public Usuario getUsuarioSeleccionado() {
+        return usuarioSeleccionado;
+    }
 
     private JPanel imprimirEncabezado()  {
         JPanel encabezado = new JPanel(new GridBagLayout());
@@ -58,22 +65,19 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         gbc.weighty = 1.0;
         gbc.weightx = 1.0;
 
-        // Fila 1, Columna 0: "A"
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 1;
         encabezado.add(celdaEncabezado("Usuarios"), gbc);
 
-        // Fila 1, Columnas 1–4: celdas unidas
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 4;
         encabezado.add(celdaEncabezado(""), gbc);
 
-        // Textos de la fila 2
         String[] textos = { "Usuario", "Rol"};
         gbc.gridy = 1;
-        gbc.gridwidth = 1; // De nuevo una celda por columna
+        gbc.gridwidth = 1;
 
         for (int i = 0; i < textos.length; i++) {
             gbc.gridx = i;
@@ -89,7 +93,7 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         lbl.setForeground(colorCabeceraLetra);
         lbl.setFont(fuenteCabecera);
         lbl.setBorder(new EmptyBorder(0, PAD, 0, 0));
-        lbl.setPreferredSize(new Dimension(20, 20)); // esto es para forzar que funcione gbc.weightx y gbc.weighty = 1.0
+        lbl.setPreferredSize(new Dimension(20, 20));
         return lbl;
     }
 
@@ -97,10 +101,9 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         JPanel cuerpo = new JPanel();
         cuerpo.setBackground(Color.WHITE);
         cuerpo.setLayout(new BoxLayout(cuerpo, BoxLayout.Y_AXIS));
-        final FilaInteractiva[] currentSelected = {null};
-
+        final FilaInteractiva[] filaSeleccionada = {null};
+        final Usuario[] usuarioSeleccionadoRef = {null};
         AtomicBoolean alt = new AtomicBoolean(false);
-        FilaInteractiva[] filaSeleccionada = {null};
 
         for (Usuario usuario : usuarios) {
             FilaInteractiva fila = construirFila(usuario, alt);
@@ -108,12 +111,20 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
             fila.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
+                    // Deseleccionar la fila anterior
                     if (filaSeleccionada[0] != null && filaSeleccionada[0] != fila) {
                         filaSeleccionada[0].setSeleccionado(false);
-                        filaSeleccionada[0].resetColor(!alt.get()); // flip back to old bg
+                        filaSeleccionada[0].resetColor(!alt.get());
                     }
+                    // Seleccionar la nueva fila
                     fila.setSeleccionado(true);
                     filaSeleccionada[0] = fila;
+                    usuarioSeleccionado = usuario;
+                    usuarioSeleccionadoRef[0] = usuario;
+                    // Notificar si hay listener
+                    if (seleccionListener != null) {
+                        seleccionListener.accept(usuarioSeleccionado);
+                    }
                 }
             });
 
@@ -131,10 +142,10 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
 
     private FilaInteractiva construirFila(Usuario usuario, AtomicBoolean alt) {
         FilaInteractiva fila = new FilaInteractiva(alt.get(),
-                paleta.getColorCaracteristico(),     // selection background
-                Color.WHITE,                         // selection text color
-                paleta.getColorLetraMenu(),          // normal text color
-                colorDiaFondo,                       // alternate background
+                paleta.getColorCaracteristico(),
+                Color.WHITE,
+                paleta.getColorLetraMenu(),
+                colorDiaFondo,
                 Color.WHITE  );
         fila.setMinimumSize(new Dimension(Integer.MAX_VALUE, rowHeight));
         fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, rowHeight));
@@ -147,15 +158,9 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         gbc.weighty = 1.0;
         gbc.weightx = 1.0;
 
-        // Celda para el día
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridheight = 1;
-
-        // Celdas para el nombre y rol del usuario
         String[] textos = {
-                 usuario.getNombre() != null ? usuario.getNombre() : "",
-                 usuario.getRol() != null ? usuario.getRol().getNombre() : ""
+                usuario.getNombre() != null ? usuario.getNombre() : "",
+                usuario.getRol() != null ? usuario.getRol().getNombre() : ""
         };
 
         for (int j = 0; j < textos.length; j++) {
@@ -166,7 +171,6 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
             fila.add(label, gbc);
         }
 
-        // Si necesitas mantener el aspecto de alternancia de fondo para próximas filas
         alt.set(!alt.get());
 
         return fila;
@@ -178,10 +182,9 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         lbl.setBackground(bgColor);
         lbl.setOpaque(true);
         lbl.setBorder(new EmptyBorder(0, PAD, 0, 0));
-        lbl.setPreferredSize(new Dimension(20, rowHeight)); // esto es para forzar que funcione gbc.weightx y gbc.weighty = 1.0
+        lbl.setPreferredSize(new Dimension(20, rowHeight));
         return lbl;
     }
-
 
     @Override
     public void actualizar() {}

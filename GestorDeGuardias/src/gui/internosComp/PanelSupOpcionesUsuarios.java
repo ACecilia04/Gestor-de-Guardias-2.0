@@ -9,6 +9,8 @@ import java.awt.*;
 
 public class PanelSupOpcionesUsuarios extends JPanel {
     PantallaUsuarios panelAfectado;
+    private final Boton editarBtn;
+    private final Boton borrarBtn;
 
     public PanelSupOpcionesUsuarios(int alto, PantallaUsuarios panelAfectado) {
         this.panelAfectado = panelAfectado;
@@ -21,14 +23,14 @@ public class PanelSupOpcionesUsuarios extends JPanel {
         nuevoBtn.setToolTipText("Crear Nuevo Usuario");
         nuevoBtn.addActionListener(e -> panelAfectado.agregarUsuario());
 
-        Boton editarBtn = new Boton();
+        editarBtn = new Boton();
         editarBtn.addIcono("/iconos/Editar.png");
         editarBtn.setSelectLetra(true);
         editarBtn.cambiarIconTextGap(10);
         editarBtn.setToolTipText("Editar Usuario");
         editarBtn.addActionListener(e -> panelAfectado.modificarUsuario());
 
-        Boton borrarBtn = new Boton();
+        borrarBtn = new Boton();
         borrarBtn.addIcono("/iconos/Borrar.png");
         borrarBtn.setSelectLetra(true);
         borrarBtn.cambiarIconTextGap(10);
@@ -41,5 +43,13 @@ public class PanelSupOpcionesUsuarios extends JPanel {
 
         FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - nuevoBtn.getHeight() - 8);
         setLayout(miLayout);
+
+        // Inicialmente deshabilitados
+        setEdicionHabilitada(true);
+    }
+
+    public void setEdicionHabilitada(boolean enabled) {
+        editarBtn.setEnabled(enabled);
+        borrarBtn.setEnabled(enabled);
     }
 }
