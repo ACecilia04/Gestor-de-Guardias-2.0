@@ -10,6 +10,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.*;
+import java.util.List;
 
 public class Menu extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -18,21 +20,62 @@ public class Menu extends JPanel {
     private final CustomSplitPane splitPanel;
     private final JPanel panel1;
     private final JPanel panel2;
-    private final int separacion = 30;
-    private final int x = 30;
-    private int y = separacion - 10;
 
-    Boton btnMinimizar = new Boton();
-    Boton btnPlanifs = new Boton();
-    Boton btnEstudiantes = new Boton();
-    Boton btnTrabajadores = new Boton();
+    // Botones del menú
+    private final Boton btnMinimizar = new Boton();
+    private final Boton btnPlanifs = new Boton();
+    private final Boton btnActualizarAsist = new Boton();
+    private final Boton btnEstudiantes = new Boton();
+    private final Boton btnTrabajadores = new Boton();
+    private final Boton btnFacultad = new Boton();
+    private final Boton btnConfig = new Boton();
+    private final Boton btnUsuarios = new Boton();
 
-    Boton btnConfig = new Boton();
-    Boton btnUsuarios = new Boton();
-    Boton btnActualizarAsist = new Boton();
-    Boton btnFacultad = new Boton();
+    // Asociación de botones a sus textos para maximizar
+    private final Map<Boton, String> textosBotones = new HashMap<>();
 
-    public Menu (JPanel contenedor, final Ventana ventana, Usuario usuario) {
+    // Configuración de botones por rol
+    private static final Map<String, List<BotonRef>> botonesPanel1PorRol = new HashMap<>();
+    private static final Map<String, List<BotonRef>> botonesPanel2PorRol = new HashMap<>();
+    static {
+        // Panel1: Planificaciones, Asistencias
+        botonesPanel1PorRol.put("administrador", Arrays.asList(
+                BotonRef.PLANIFS, BotonRef.ACTUALIZAR_ASIST
+        ));
+        botonesPanel1PorRol.put("planificador", Arrays.asList(
+                BotonRef.PLANIFS, BotonRef.ACTUALIZAR_ASIST
+        ));
+        botonesPanel1PorRol.put("controlador", Arrays.asList(
+                BotonRef.ACTUALIZAR_ASIST
+        ));
+        botonesPanel1PorRol.put("usuario", Collections.emptyList());
+
+        // Panel2: Estudiantes, Trabajadores, Facultad, Config, Usuarios
+        botonesPanel2PorRol.put("administrador", Arrays.asList(
+                BotonRef.ESTUDIANTES, BotonRef.TRABAJADORES, BotonRef.FACULTAD, BotonRef.CONFIG, BotonRef.USUARIOS
+        ));
+        botonesPanel2PorRol.put("planificador", Collections.emptyList());
+        botonesPanel2PorRol.put("controlador", Collections.emptyList());
+        botonesPanel2PorRol.put("usuario", Collections.emptyList());
+    }
+    // Referencias para mapear las listas anteriores a instancias reales
+    private enum BotonRef {
+        PLANIFS, ACTUALIZAR_ASIST, ESTUDIANTES, TRABAJADORES, FACULTAD, CONFIG, USUARIOS
+    }
+    private Boton getBotonFromRef(BotonRef ref) {
+        switch (ref) {
+            case PLANIFS: return btnPlanifs;
+            case ACTUALIZAR_ASIST: return btnActualizarAsist;
+            case ESTUDIANTES: return btnEstudiantes;
+            case TRABAJADORES: return btnTrabajadores;
+            case FACULTAD: return btnFacultad;
+            case CONFIG: return btnConfig;
+            case USUARIOS: return btnUsuarios;
+        }
+        return null;
+    }
+
+    public Menu(JPanel contenedor, final Ventana ventana, Usuario usuario) {
         paleta = new Paleta();
         setBackground(paleta.getColorFondoTabla());
 
@@ -40,7 +83,7 @@ public class Menu extends JPanel {
         setSize(new Dimension(247, contenedor.getSize().height));
         setLayout(new BorderLayout());
 
-        //Superior
+        // Superior
         {
             superior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
             superior.setSize(new Dimension(this.getPreferredSize().width, 50));
@@ -49,7 +92,6 @@ public class Menu extends JPanel {
 
             btnMinimizar.addIcono("/iconos/MenuRayas.png");
             btnMinimizar.setSelectLetra(true);
-
             btnMinimizar.addActionListener(new ActionListener() {
                 private boolean isMinimized = false;
                 @Override
@@ -68,80 +110,49 @@ public class Menu extends JPanel {
             superior.add(btnMinimizar);
         }
 
-        //Panel1
-        {
-            panel1 = new JPanel(null);
-            panel1.setBackground(getBackground());
+        // Panel1 y Panel2 con BoxLayout
+        panel1 = new JPanel();
+        panel1.setBackground(getBackground());
+        panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+        panel2 = new JPanel();
+        panel2.setBackground(getBackground());
+        panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
 
-            btnPlanifs.addIcono("/iconos/Calendar.png");
-            btnPlanifs.setSelectLetra(true);
-            btnPlanifs.setLocation(x, y);
-//            btnPlanifs.setToolTipText("Planificaciones");
-            y += btnPlanifs.getSize().height + separacion;
-            btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panelPlanificaciones"));
+        // Configurar botones: icono, texto y acciones
+        btnPlanifs.addIcono("/iconos/Calendar.png");
+        btnPlanifs.setSelectLetra(true);
+        btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panelPlanificaciones"));
+        textosBotones.put(btnPlanifs, "Planificaciones");
 
-            btnActualizarAsist.addIcono("/iconos/Documento.png");
-            btnActualizarAsist.setSelectLetra(true);
-            btnActualizarAsist.setLocation(x, y);
-//            btnActualizarAsist.setToolTipText("Asistencias");
-            y += btnActualizarAsist.getSize().height + separacion * 2;
-            btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panelAsistencia"));
+        btnActualizarAsist.addIcono("/iconos/Documento.png");
+        btnActualizarAsist.setSelectLetra(true);
+        btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panelAsistencia"));
+        textosBotones.put(btnActualizarAsist, "Asistencias");
 
-            panel1.add(btnPlanifs);
-            panel1.add(btnActualizarAsist);
-            panel1.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
-        }
+        btnEstudiantes.addIcono("/iconos/Estudiante.png");
+        btnEstudiantes.setSelectLetra(true);
+        btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panelEstudiantes"));
+        textosBotones.put(btnEstudiantes, "Estudiantes");
 
-        y = separacion;
+        btnTrabajadores.addIcono("/iconos/Profesor.png");
+        btnTrabajadores.setSelectLetra(true);
+        btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panelTrabajadores"));
+        textosBotones.put(btnTrabajadores, "Trabajadores");
 
-        //Panel2
-        {
-            panel2 = new JPanel(null);
-            panel2.setBackground(getBackground());
+        btnFacultad.addIcono("/iconos/Casa.png");
+        btnFacultad.setSelectLetra(true);
+        btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
+        textosBotones.put(btnFacultad, "Facultad");
 
-            btnEstudiantes.addIcono("/iconos/Estudiante.png");
-            btnEstudiantes.setSelectLetra(true);
-            btnEstudiantes.setLocation(x, y);
-//            btnEstudiantes.setToolTipText("Estudiantes");
-            y += btnEstudiantes.getSize().height + separacion;
-            btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panelEstudiantes"));
+        btnConfig.addIcono("/iconos/Config.png");
+        btnConfig.setSelectLetra(true);
+        btnConfig.addActionListener(e -> ventana.mostrarPanel("panelConfig"));
+        textosBotones.put(btnConfig, "Configuración");
 
-            btnTrabajadores.addIcono("/iconos/Profesor.png");
-            btnTrabajadores.setSelectLetra(true);
-            btnTrabajadores.setLocation(x, y);
-//            btnTrabajadores.setToolTipText("Trabajadores");
-            y += btnTrabajadores.getSize().height + separacion;
-            btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panelTrabajadores"));
-
-            btnFacultad.addIcono("/iconos/Casa.png");
-            btnFacultad.setSelectLetra(true);
-            btnFacultad.setLocation(x, y);
-//            btnFacultad.setToolTipText("Facultad");
-            y += btnFacultad.getSize().height + separacion;
-            btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
-
-            btnConfig.addIcono("/iconos/Config.png");
-            btnConfig.setSelectLetra(true);
-            btnConfig.setLocation(x, y);
-//            btnConfig.setToolTipText("Configuración");
-            y += btnConfig.getSize().height + separacion;
-            btnConfig.addActionListener(e -> ventana.mostrarPanel("panelConfig"));
-
-            btnUsuarios.addIcono("/iconos/Community.png");
-            btnUsuarios.setSelectLetra(true);
-            btnUsuarios.setLocation(x, y);
-//            btnUsuarios.setToolTipText("Usuarios");
-            y += btnUsuarios.getSize().height + separacion;
-            btnUsuarios.addActionListener(e -> ventana.mostrarPanel("panelUsuarios"));
-
-            panel2.add(btnConfig);
-            panel2.add(btnEstudiantes);
-            panel2.add(btnTrabajadores);
-            panel2.add(btnFacultad);
-            panel2.add(btnUsuarios);
-
-            panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
-        }
+        btnUsuarios.addIcono("/iconos/Community.png");
+        btnUsuarios.setSelectLetra(true);
+        btnUsuarios.addActionListener(e -> ventana.mostrarPanel("panelUsuarios"));
+        textosBotones.put(btnUsuarios, "Usuarios");
 
         splitPanel = new CustomSplitPane(panel1, panel2, JSplitPane.VERTICAL_SPLIT);
         add(splitPanel, BorderLayout.CENTER);
@@ -154,92 +165,79 @@ public class Menu extends JPanel {
         panel2.setBorder(border);
         superior.setBorder(margenDoubleBorder);
         setBorder(border);
-        deshabilitarOpcionesPorRol(usuario.getRol().getNombre());
+
+        // Mostrar solo los botones permitidos según el rol
+        reconstruirSegunRol(usuario.getRol().getNombre().toLowerCase());
+
         minimizarMenu();
-
-        // Aquí: deshabilitar botones según el rol
-
     }
 
-    private void deshabilitarOpcionesPorRol(String rolNombre) {
-        rolNombre = rolNombre.toLowerCase();
+    private void reconstruirSegunRol(String rol) {
+        // Limpiar paneles
+        panel1.removeAll();
+        panel2.removeAll();
 
-        switch (rolNombre) {
-            case "administrador":
-                // No deshabilitar nada TODO: cambiar acceso de admin y ver si setVisible funciona como pienso
-                break;
-            case "planificador":
-                // Solo deja planificación y añadir planificación
-                btnEstudiantes.setVisible(false);
-                btnTrabajadores.setVisible(false);
-                btnActualizarAsist.setVisible(false);
-                btnFacultad.setVisible(false);
-                break;
-            case "controlador":
-                // Solo deja asistencia
-                btnPlanifs.setVisible(false);
-                btnEstudiantes.setVisible(false);
-                btnTrabajadores.setVisible(false);
-                btnConfig.setVisible(false);
-                btnFacultad.setVisible(false);
-                break;
-            default:
-                // Si el rol no se reconoce, deshabilita todo
-                btnPlanifs.setVisible(false);
-                btnEstudiantes.setVisible(false);
-                btnTrabajadores.setVisible(false);
-                btnConfig.setVisible(false);
-                btnActualizarAsist.setVisible(false);
-                btnFacultad.setVisible(false);
+        // Panel1
+        List<BotonRef> refsPanel1 = botonesPanel1PorRol.getOrDefault(rol, Collections.emptyList());
+        for (BotonRef ref : refsPanel1) {
+            Boton btn = getBotonFromRef(ref);
+            if (btn != null) {
+                btn.setText(textosBotones.get(btn));
+                btn.setVisible(true);
+                panel1.add(btn);
+                panel1.add(Box.createVerticalStrut(20));
+            }
+        }
+        // Panel2
+        List<BotonRef> refsPanel2 = botonesPanel2PorRol.getOrDefault(rol, Collections.emptyList());
+        for (BotonRef ref : refsPanel2) {
+            Boton btn = getBotonFromRef(ref);
+            if (btn != null) {
+                btn.setText(textosBotones.get(btn));
+                btn.setVisible(true);
+                panel2.add(btn);
+                panel2.add(Box.createVerticalStrut(20));
+            }
+        }
+
+        // Refrescar
+        panel1.revalidate();
+        panel1.repaint();
+        panel2.revalidate();
+        panel2.repaint();
+    }
+
+    private void minimizarMenu() {
+        setPreferredSize(new Dimension(70, getHeight()));
+        // Panel1
+        for (Component c : panel1.getComponents()) {
+            if (c instanceof Boton) {
+                ((Boton) c).setText("");
+            }
+        }
+        // Panel2
+        for (Component c : panel2.getComponents()) {
+            if (c instanceof Boton) {
+                ((Boton) c).setText("");
+            }
         }
     }
 
-    private void minimizarMenu(){
-        setPreferredSize(new Dimension(70, getHeight()));
-        btnPlanifs.setText("");
-        btnPlanifs.setLocation(10, btnPlanifs.getY());
-
-        btnActualizarAsist.setText("");
-        btnActualizarAsist.setLocation(10, btnActualizarAsist.getY());
-
-        btnEstudiantes.setText("");
-        btnEstudiantes.setLocation(10, btnEstudiantes.getY());
-
-        btnTrabajadores.setText("");
-        btnTrabajadores.setLocation(10, btnTrabajadores.getY());
-
-        btnConfig.setText("");
-        btnConfig.setLocation(10, btnConfig.getY());
-
-        btnFacultad.setText("");
-        btnFacultad.setLocation(10, btnFacultad.getY());
-
-        btnUsuarios.setText("");
-        btnUsuarios.setLocation(10, btnUsuarios.getY());
-    }
-
-    private void maximizarMenu(){
+    private void maximizarMenu() {
         setPreferredSize(new Dimension(247, getHeight()));
-        btnPlanifs.setText("Planificaciones");
-        btnPlanifs.setLocation(x, btnPlanifs.getY());
-
-        btnEstudiantes.setText("Estudiantes");
-        btnEstudiantes.setLocation(x, btnEstudiantes.getY());
-
-        btnTrabajadores.setText("Trabajadores");
-        btnTrabajadores.setLocation(x, btnTrabajadores.getY());
-
-        btnConfig.setText("Configuración");
-        btnConfig.setLocation(x, btnConfig.getY());
-
-        btnActualizarAsist.setText("Asistencias");
-        btnActualizarAsist.setLocation(x, btnActualizarAsist.getY());
-
-        btnFacultad.setText("Facultad");
-        btnFacultad.setLocation(x, btnFacultad.getY());
-
-        btnUsuarios.setText("Usuarios");
-        btnUsuarios.setLocation(x, btnUsuarios.getY());
-
+        // Panel1
+        for (Component c : panel1.getComponents()) {
+            if (c instanceof Boton) {
+                Boton btn = (Boton) c;
+                btn.setText(textosBotones.getOrDefault(btn, ""));
+            }
+        }
+        // Panel2
+        for (Component c : panel2.getComponents()) {
+            if (c instanceof Boton) {
+                Boton btn = (Boton) c;
+                btn.setText(textosBotones.getOrDefault(btn, ""));
+            }
+        }
     }
 }
