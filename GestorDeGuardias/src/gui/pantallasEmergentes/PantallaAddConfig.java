@@ -35,7 +35,7 @@ public class PantallaAddConfig extends JDialog {
     protected CustomComboBoxV2 comboTipoPersona;
     protected CustomComboBoxV2 comboSexo;
     protected CustomComboBoxV2 comboDiasSemana;
-    protected JComboBox<String> comboHorarios; // Cambiado de JList a JComboBox
+    protected CustomComboBoxV2 comboHorarios; // <-- cambiado a CustomComboBoxV2
     protected JCheckBox checkReceso;
 
     protected int margenIzquierdo = 40;
@@ -167,13 +167,13 @@ public class PantallaAddConfig extends JDialog {
         panelInf.add(comboDiasSemana);
         y += 40;
 
-        // Horarios registrados - AHORA CON JComboBox
+        // Horarios registrados - AHORA CON CustomComboBoxV2
         Etiqueta etiquetaHorarios = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Horarios registrados:");
         etiquetaHorarios.setLocation(margenIzquierdo, y);
         etiquetaHorarios.setSize(new Dimension(220, 25));
         panelInf.add(etiquetaHorarios);
 
-        comboHorarios = new JComboBox<>();
+        comboHorarios = new CustomComboBoxV2(new String[]{}, new Dimension(320, 25), Cuadro.redBAJA, paleta.getColorCasillaTabla());
         comboHorarios.setBounds(margenIzquierdo, y + 30, 320, 25);
         panelInf.add(comboHorarios);
 
@@ -275,10 +275,12 @@ public class PantallaAddConfig extends JDialog {
         if (config.getTipoPersona() != null) {
             comboTipoPersona.setSelectedItem(config.getTipoPersona().getNombre());
         }
-
-        if (config.getSexo() != null) {
-            comboSexo.setSelectedItem(config.getSexo());
-        }
+        
+            if (config.getSexo() != null) {
+                comboSexo.setSelectedItem(sexoVisualParaCombo(config.getSexo()));
+            } else {
+                comboSexo.setSelectedItem("Ambos");
+            }
 
         if (ConvertidorFecha.traducDiaSemana(config.getDiaSemana()) != null) {
             comboDiasSemana.setSelectedItem(ConvertidorFecha.traducDiaSemana(config.getDiaSemana()));
@@ -316,10 +318,8 @@ public class PantallaAddConfig extends JDialog {
         Integer cant = (Integer) spinnerCantidad.getValue();
         String tipo = (String) comboTipoPersona.getSelectedItem();
         String sexoSeleccionado = (String) comboSexo.getSelectedItem();
-        String sexo = null;
-        if ("F".equals(sexoSeleccionado) || "M".equals(sexoSeleccionado)) {
-            sexo = sexoSeleccionado;
-        }
+        String sexo = sexoEstandarizado(sexoSeleccionado); // <-- aquí aplicas la función
+
         Integer diasem = ConvertidorFecha.traducDiaSemana((String) comboDiasSemana.getSelectedItem());
 
         int horarioIdx = comboHorarios.getSelectedIndex();
@@ -349,4 +349,22 @@ public class PantallaAddConfig extends JDialog {
 
         dispose();
     }
+
+    private String sexoEstandarizado(String sexo) {
+        if (sexo == null) return null;
+        sexo = sexo.trim();
+        if (sexo.equalsIgnoreCase("F") || sexo.equalsIgnoreCase("Femenino")) return "F";
+        if (sexo.equalsIgnoreCase("M") || sexo.equalsIgnoreCase("Masculino")) return "M";
+        // "Ambos" o cualquier otro caso
+        return null;
+    }
+
+    private String sexoVisualParaCombo(Object sexo) {
+        if (sexo == null || sexo.toString().equalsIgnoreCase("Ambos")) return "Ambos";
+        String s = sexo.toString();
+        if (s.equalsIgnoreCase("F") || s.equalsIgnoreCase("Femenino")) return "Femenino";
+        if (s.equalsIgnoreCase("M") || s.equalsIgnoreCase("Masculino")) return "Masculino";
+        return "Ambos";
+    }
+
 }
