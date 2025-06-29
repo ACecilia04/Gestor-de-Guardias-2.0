@@ -22,6 +22,7 @@ public class PanelSupOpcionesConfig extends JPanel {
         nuevoBtn.addIcono("/iconos/Crear.png");
         nuevoBtn.setSelectLetra(true);
         nuevoBtn.cambiarIconTextGap(10);
+        nuevoBtn.setToolTipText("Crear Nuevo");
         nuevoBtn.addActionListener(e -> panelAfectado.agregarConfiguracion());
 
 
@@ -29,12 +30,14 @@ public class PanelSupOpcionesConfig extends JPanel {
         editarBtn.addIcono("/iconos/Editar.png");
         editarBtn.setSelectLetra(true);
         editarBtn.cambiarIconTextGap(10);
+        editarBtn.setToolTipText("Editar");
         editarBtn.addActionListener(e -> panelAfectado.modificarConfiguracion());
 
         Boton borrarBtn = new Boton();
         borrarBtn.addIcono("/iconos/Borrar.png");
         borrarBtn.setSelectLetra(true);
         borrarBtn.cambiarIconTextGap(10);
+        borrarBtn.setToolTipText("Borrar");
         borrarBtn.addActionListener(e -> {
             try {
                 panelAfectado.eliminarConfiguracion();

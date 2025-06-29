@@ -2,10 +2,7 @@ package gui.secciones;
 
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
-import gui.internosComp.PanelEdicion2;
-import gui.internosComp.PanelSupOpcionesAsistencia;
-import gui.internosComp.PanelSupOpcionesConfig;
-import gui.internosComp.PanelSupOpcionesPlanifs;
+import gui.internosComp.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -19,11 +16,14 @@ public class BarraSuperior extends JPanel {
     private JPanel panelUsuario;
 //    private final JPanel panelOpciones;
     private final JPanel panelDerecha;
+    private final JPanel panelIzquierda;
+
     private final JPanel panelEdicion1;
     private final PanelEdicion2 panelEd2;
     private PanelSupOpcionesPlanifs opcionesPlanif;
     private PanelSupOpcionesAsistencia opcionesAsistencia;
     private PanelSupOpcionesConfig opcionesConfig;
+    private PanelSupCerrarSesion cerrarSesionPnl;
 
 //    private final Font fuente = new Font("Arial", Font.PLAIN, 18);
 
@@ -54,12 +54,10 @@ public class BarraSuperior extends JPanel {
 
         panelEd2 = new PanelEdicion2(this.getPreferredSize().height);
 
-        Boton cerrarSesionBtn = new Boton();
-        cerrarSesionBtn.addIcono("/iconos/Exit.png");
-        cerrarSesionBtn.setSelectLetra(true);
-        cerrarSesionBtn.cambiarIconTextGap(10);
-        cerrarSesionBtn.addActionListener(e -> Ventana.getInstance().cerrarSesion());
-        add(cerrarSesionBtn, BorderLayout.WEST);
+        cerrarSesionPnl  = new PanelSupCerrarSesion(this.getPreferredSize().height);
+        panelIzquierda = new JPanel(new CardLayout());
+        panelIzquierda.add(cerrarSesionPnl, "panelCerrarSesion");
+        add(panelIzquierda, BorderLayout.WEST);
 
         panelDerecha.add(panelEdicion1, "panelEd1");
         panelDerecha.add(panelEd2, "panelEd2");
@@ -77,6 +75,8 @@ public class BarraSuperior extends JPanel {
 
         CardLayout cardLayout = (CardLayout) panelDerecha.getLayout();
         cardLayout.show(panelDerecha, "panelOpcionesPlanifs");
+        cardLayout = (CardLayout) panelIzquierda.getLayout();
+        cardLayout.show(panelIzquierda,"panelCerrarSesion" );
     }
 
     public void mostrarPanel(String nombrePanel) {

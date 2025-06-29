@@ -29,6 +29,7 @@ public class TablaBase extends Cuadro implements IsTabla {
     private final Font fuenteCabecera = new Font("Arial", Font.BOLD, 15);
     private final Font fuenteNormal = new Font("Arial", Font.PLAIN, 14);
     private final int PAD = 9;
+    private final int rowHeight = 40;
 
 
     public TablaBase(final Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias) {
@@ -109,7 +110,6 @@ public class TablaBase extends Cuadro implements IsTabla {
 
                 JPanel fila = construirFila(turnos, nombreDia, alt);
                 cuerpo.add(fila);
-                cuerpo.setPreferredSize(null);
             }
         }
 
@@ -118,8 +118,6 @@ public class TablaBase extends Cuadro implements IsTabla {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setVerticalScrollBar(new CustomScrollBar());
-
-        scrollPane.setBorder(null);
 
         return scrollPane;
     }
@@ -142,8 +140,7 @@ public class TablaBase extends Cuadro implements IsTabla {
 
         JPanel fila = new JPanel(new GridBagLayout());
 
-        int maxHeight = 40 * cantFilas;
-//        fila.setPreferredSize(new Dimension(Integer.MAX_VALUE, maxHeight));
+        int maxHeight = rowHeight * cantFilas;
         fila.setMinimumSize(new Dimension(Integer.MAX_VALUE, maxHeight));
         fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, maxHeight));
 
@@ -215,10 +212,6 @@ public class TablaBase extends Cuadro implements IsTabla {
             alt.set(!alt.get());
         }
 
-        fila.setPreferredSize(null);
-
-        System.out.println(fila.getHeight());
-
         return fila;
     }
 
@@ -228,7 +221,7 @@ public class TablaBase extends Cuadro implements IsTabla {
         lbl.setBackground(bgColor);
         lbl.setOpaque(true);
         lbl.setBorder(new EmptyBorder(0, PAD, 0, 0));
-        lbl.setPreferredSize(new Dimension(20, 20)); // esto es para forzar que funcione gbc.weightx y gbc.weighty = 1.0
+        lbl.setPreferredSize(new Dimension(20, rowHeight)); // esto es para forzar que funcione gbc.weightx y gbc.weighty = 1.0
         return lbl;
     }
 

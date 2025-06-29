@@ -25,6 +25,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         nuevoBtn.addIcono("/iconos/Crear.png");
         nuevoBtn.setSelectLetra(true);
         nuevoBtn.cambiarIconTextGap(10);
+        nuevoBtn.setToolTipText("Crear Nuevo");
         nuevoBtn.addActionListener(e -> Ventana.getInstance().mostrarPanel("panelAddPlanif"));
 
 
@@ -32,18 +33,21 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         editarBtn.addIcono("/iconos/Editar.png");
         editarBtn.setSelectLetra(true);
         editarBtn.cambiarIconTextGap(10);
+        editarBtn.setToolTipText("Editar");
         editarBtn.addActionListener(e -> editar());
 
         Boton borrarBtn = new Boton();
         borrarBtn.addIcono("/iconos/Borrar.png");
         borrarBtn.setSelectLetra(true);
         borrarBtn.cambiarIconTextGap(10);
+        borrarBtn.setToolTipText("Borrar");
         borrarBtn.addActionListener(e -> borrar());
 
         Boton pdfBtn = new Boton();
         pdfBtn.addIcono("/iconos/PDF.png");
         pdfBtn.setSelectLetra(true);
         pdfBtn.cambiarIconTextGap(10);
+        pdfBtn.setToolTipText("Exportar PDF");
         pdfBtn.addActionListener(e -> exportar());
 
         add(nuevoBtn);
@@ -53,7 +57,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
 
         FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - nuevoBtn.getHeight() - 8);
         setLayout(miLayout);
-        /*
+/*
         borrarBtn.setSeleccionable(false);
         editarBtn.setSeleccionable(false);
         nuevoBtn.setSeleccionable(true);

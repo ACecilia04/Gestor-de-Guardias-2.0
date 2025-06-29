@@ -28,6 +28,7 @@ public class Menu extends JPanel {
     Boton btnTrabajadores = new Boton();
 
     Boton btnConfig = new Boton();
+    Boton btnUsuarios = new Boton();
     Boton btnActualizarAsist = new Boton();
     Boton btnFacultad = new Boton();
 
@@ -75,12 +76,14 @@ public class Menu extends JPanel {
             btnPlanifs.addIcono("/iconos/Calendar.png");
             btnPlanifs.setSelectLetra(true);
             btnPlanifs.setLocation(x, y);
+//            btnPlanifs.setToolTipText("Planificaciones");
             y += btnPlanifs.getSize().height + separacion;
             btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panelPlanificaciones"));
 
             btnActualizarAsist.addIcono("/iconos/Documento.png");
             btnActualizarAsist.setSelectLetra(true);
             btnActualizarAsist.setLocation(x, y);
+//            btnActualizarAsist.setToolTipText("Asistencias");
             y += btnActualizarAsist.getSize().height + separacion * 2;
             btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panelAsistencia"));
 
@@ -99,25 +102,37 @@ public class Menu extends JPanel {
             btnEstudiantes.addIcono("/iconos/Estudiante.png");
             btnEstudiantes.setSelectLetra(true);
             btnEstudiantes.setLocation(x, y);
+//            btnEstudiantes.setToolTipText("Estudiantes");
             y += btnEstudiantes.getSize().height + separacion;
             btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panelEstudiantes"));
 
             btnTrabajadores.addIcono("/iconos/Profesor.png");
             btnTrabajadores.setSelectLetra(true);
             btnTrabajadores.setLocation(x, y);
+//            btnTrabajadores.setToolTipText("Trabajadores");
             y += btnTrabajadores.getSize().height + separacion;
             btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panelTrabajadores"));
 
             btnFacultad.addIcono("/iconos/Casa.png");
             btnFacultad.setSelectLetra(true);
             btnFacultad.setLocation(x, y);
+//            btnFacultad.setToolTipText("Facultad");
             y += btnFacultad.getSize().height + separacion;
             btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
 
             btnConfig.addIcono("/iconos/Config.png");
             btnConfig.setSelectLetra(true);
             btnConfig.setLocation(x, y);
+//            btnConfig.setToolTipText("Configuración");
+            y += btnConfig.getSize().height + separacion;
             btnConfig.addActionListener(e -> ventana.mostrarPanel("panelConfig"));
+
+            btnUsuarios.addIcono("/iconos/Community.png");
+            btnUsuarios.setSelectLetra(true);
+            btnUsuarios.setLocation(x, y);
+//            btnUsuarios.setToolTipText("Usuarios");
+            y += btnUsuarios.getSize().height + separacion;
+            btnUsuarios.addActionListener(e -> ventana.mostrarPanel("panelUsuarios"));
 
             panel2.add(btnConfig);
             panel2.add(btnEstudiantes);

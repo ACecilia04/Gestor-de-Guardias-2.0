@@ -19,24 +19,30 @@ public class PanelSupOpcionesAsistencia extends JPanel {
         todosCumpBtn.addIcono("/iconos/Check.png");
         todosCumpBtn.setSelectLetra(true);
         todosCumpBtn.cambiarIconTextGap(10);
+        todosCumpBtn.setToolTipText("Todos Cumplidos");
         todosCumpBtn.addActionListener(e -> setTodosCumplidos());
 
         Boton todosIncumpBtn = new Boton();
         todosIncumpBtn.addIcono("/iconos/XInSquare.png");
         todosIncumpBtn.setSelectLetra(true);
         todosIncumpBtn.cambiarIconTextGap(10);
+        todosIncumpBtn.setToolTipText("Todos Incumplidos");
+
         todosIncumpBtn.addActionListener(e -> setTodosIncumplidos());
 
         Boton reiniciarBtn = new Boton();
         reiniciarBtn.addIcono("/iconos/Restart.png");
         reiniciarBtn.setSelectLetra(true);
         reiniciarBtn.cambiarIconTextGap(10);
+        reiniciarBtn.setToolTipText("Reiniciar");
+
         reiniciarBtn.addActionListener(e -> reiniciar());
 
         Boton guardarBtn = new Boton();
         guardarBtn.addIcono("/iconos/Guardar.png");
         guardarBtn.setSelectLetra(true);
         guardarBtn.cambiarIconTextGap(10);
+        guardarBtn.setToolTipText("Guardar");
         guardarBtn.addActionListener(e -> guardar());
 
         add(todosCumpBtn);

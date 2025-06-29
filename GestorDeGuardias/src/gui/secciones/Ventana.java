@@ -334,10 +334,12 @@ public class Ventana extends JFrame {
 
     public void cerrarSesion() {
         usuarioLogueado = null;
-        getContentPane().removeAll();
         login = new Login(overlayPanel);
-        getContentPane().add(login, BorderLayout.CENTER);
-        revalidate();
-        repaint();
+        usuarioLogueado = login.getUsuarioLogueado();
+        if (usuarioLogueado == null) System.exit(0);
+
+        // Instanciar el menú pasando el usuario logueado
+        menu = new Menu(zonaInferior, Ventana.this, new Usuario());
+        zonaInferior.add(menu, BorderLayout.WEST);
     }
 }
