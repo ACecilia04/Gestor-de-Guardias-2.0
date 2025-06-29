@@ -17,10 +17,6 @@ public class PantallaUsuarios extends JPanel {
 
     public PantallaUsuarios() {
         setLayout(new BorderLayout());
-
-        // Barra de botones en parte superior (idéntica a la de config)
-        PanelSupOpcionesUsuarios barraUsuarios = new PanelSupOpcionesUsuarios(56, this);
-        add(barraUsuarios, BorderLayout.NORTH);
     }
 
     public TablaUsuarios getTabla() {
