@@ -98,7 +98,7 @@ public class Ventana extends JFrame {
         // El menú ahora se instancia después del login
 
         inicializarPanelCambiante();
-        barraSup = new BarraSuperior(contReal, pantallaPlanif, pantallaCump, pantallaConfig);
+        barraSup = new BarraSuperior(contReal, pantallaPlanif, pantallaCump, pantallaConfig, pantallaUsuarios);
         contReal.add(barraSup, BorderLayout.NORTH);
 
         zonaInferior.add(panelVacio, BorderLayout.CENTER);
@@ -262,12 +262,14 @@ public class Ventana extends JFrame {
                 pantallaConfig.cargarConfiguraciones();
             } else if(Objects.equals(nombrePanel, "panelUsuarios") && !Objects.equals(pantallaActual, "panelUsuarios")){
                 pantallaUsuarios.setTabla((ArrayList<Usuario>)ServicesLocator.getInstance().getUsuarioServices().getAllUsuarios());
+
             }
 
             switch (nombrePanel) {
                 case "panelPlanificaciones" -> barraSup.mostrarPanel("panelOpcionesPlanifs");
                 case "panelCumplimiento" -> barraSup.mostrarPanel("panelOpcionesAsistencia");
                 case "panelConfig" -> barraSup.mostrarPanel("panelOpcionesConfig");
+                case "panelUsuarios" -> barraSup.mostrarPanel("panelOpcionesUsuarios");
                 case null, default -> barraSup.mostrarPanel("panelEd1");
             }
 

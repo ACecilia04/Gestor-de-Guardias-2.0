@@ -1,5 +1,6 @@
 package gui.secciones;
 
+import gui.internosComp.PanelSupOpcionesUsuarios;
 import gui.internosComp.TablaUsuarios;
 import model.Usuario;
 
@@ -14,9 +15,14 @@ public class PantallaUsuarios extends JPanel {
 
     private TablaUsuarios tabla;
 
-    PantallaUsuarios() {
+    public PantallaUsuarios() {
         setLayout(new BorderLayout());
+
+        // Barra de botones en parte superior (idéntica a la de config)
+        PanelSupOpcionesUsuarios barraUsuarios = new PanelSupOpcionesUsuarios(56, this);
+        add(barraUsuarios, BorderLayout.NORTH);
     }
+
     public TablaUsuarios getTabla() {
         return tabla;
     }
@@ -35,5 +41,21 @@ public class PantallaUsuarios extends JPanel {
 
         revalidate();
         repaint();
+    }
+
+    // Métodos para los botones de la barra superior
+    public void agregarUsuario() {
+        // TODO: lógica para agregar usuario
+        JOptionPane.showMessageDialog(this, "Agregar usuario (implementa la lógica aquí)");
+    }
+
+    public void modificarUsuario() {
+        // TODO: lógica para modificar usuario seleccionado
+        JOptionPane.showMessageDialog(this, "Modificar usuario (implementa la lógica aquí)");
+    }
+
+    public void eliminarUsuario() {
+        // TODO: lógica para eliminar usuario seleccionado
+        JOptionPane.showMessageDialog(this, "Eliminar usuario (implementa la lógica aquí)");
     }
 }
