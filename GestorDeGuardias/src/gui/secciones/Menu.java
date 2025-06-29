@@ -31,6 +31,7 @@ public class Menu extends JPanel {
     Boton btnUsuarios = new Boton();
     Boton btnActualizarAsist = new Boton();
     Boton btnFacultad = new Boton();
+    String usuarioRol;
 
     public Menu (JPanel contenedor, final Ventana ventana, Usuario usuario) {
         paleta = new Paleta();
@@ -39,7 +40,7 @@ public class Menu extends JPanel {
         setPreferredSize(new Dimension(247, contenedor.getSize().height));
         setSize(new Dimension(247, contenedor.getSize().height));
         setLayout(new BorderLayout());
-
+        usuarioRol = usuario.getRol().getNombre().toLowerCase();
         //Superior
         {
             superior = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -47,11 +48,13 @@ public class Menu extends JPanel {
             superior.setBackground(getBackground());
             add(superior, BorderLayout.NORTH);
 
+            btnMinimizar = new Boton();
             btnMinimizar.addIcono("/iconos/MenuRayas.png");
             btnMinimizar.setSelectLetra(true);
 
             btnMinimizar.addActionListener(new ActionListener() {
                 private boolean isMinimized = false;
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (isMinimized) {
@@ -73,72 +76,85 @@ public class Menu extends JPanel {
             panel1 = new JPanel(null);
             panel1.setBackground(getBackground());
 
-            btnPlanifs.addIcono("/iconos/Calendar.png");
-            btnPlanifs.setSelectLetra(true);
-            btnPlanifs.setLocation(x, y);
-//            btnPlanifs.setToolTipText("Planificaciones");
-            y += btnPlanifs.getSize().height + separacion;
-            btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panelPlanificaciones"));
+            if (puedeVer(usuarioRol, "planifs")) {
+                btnPlanifs = new Boton();
+                btnPlanifs.addIcono("/iconos/Calendar.png");
+                btnPlanifs.setSelectLetra(true);
+                btnPlanifs.setLocation(x, y);
+                btnPlanifs.addActionListener(e -> ventana.mostrarPanel("panelPlanificaciones"));
+                panel1.add(btnPlanifs);
+                y += btnPlanifs.getSize().height + separacion;
+            }
 
-            btnActualizarAsist.addIcono("/iconos/Documento.png");
-            btnActualizarAsist.setSelectLetra(true);
-            btnActualizarAsist.setLocation(x, y);
-//            btnActualizarAsist.setToolTipText("Asistencias");
-            y += btnActualizarAsist.getSize().height + separacion * 2;
-            btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panelAsistencia"));
+            if (puedeVer(usuarioRol, "asist")) {
+                btnActualizarAsist = new Boton();
+                btnActualizarAsist.addIcono("/iconos/Documento.png");
+                btnActualizarAsist.setSelectLetra(true);
+                btnActualizarAsist.setLocation(x, y);
+                btnActualizarAsist.addActionListener(e -> ventana.mostrarPanel("panelAsistencia"));
+                panel1.add(btnActualizarAsist);
+                y += btnActualizarAsist.getSize().height + separacion * 2;
+            }
 
-            panel1.add(btnPlanifs);
-            panel1.add(btnActualizarAsist);
             panel1.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
         }
 
-        y = separacion;
+        y = panel1.getY() + separacion;
 
         //Panel2
         {
             panel2 = new JPanel(null);
             panel2.setBackground(getBackground());
 
-            btnEstudiantes.addIcono("/iconos/Estudiante.png");
-            btnEstudiantes.setSelectLetra(true);
-            btnEstudiantes.setLocation(x, y);
-//            btnEstudiantes.setToolTipText("Estudiantes");
-            y += btnEstudiantes.getSize().height + separacion;
-            btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panelEstudiantes"));
+            if (puedeVer(usuarioRol, "estudiantes")) {
+                btnEstudiantes = new Boton();
+                btnEstudiantes.addIcono("/iconos/Estudiante.png");
+                btnEstudiantes.setSelectLetra(true);
+                btnEstudiantes.setLocation(x, y);
+                btnEstudiantes.addActionListener(e -> ventana.mostrarPanel("panelEstudiantes"));
+                panel2.add(btnEstudiantes);
+                y += btnEstudiantes.getSize().height + separacion;
+            }
 
-            btnTrabajadores.addIcono("/iconos/Profesor.png");
-            btnTrabajadores.setSelectLetra(true);
-            btnTrabajadores.setLocation(x, y);
-//            btnTrabajadores.setToolTipText("Trabajadores");
-            y += btnTrabajadores.getSize().height + separacion;
-            btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panelTrabajadores"));
+            if (puedeVer(usuarioRol, "trabajadores")) {
+                btnTrabajadores = new Boton();
+                btnTrabajadores.addIcono("/iconos/Profesor.png");
+                btnTrabajadores.setSelectLetra(true);
+                btnTrabajadores.setLocation(x, y);
+                btnTrabajadores.addActionListener(e -> ventana.mostrarPanel("panelTrabajadores"));
+                panel2.add(btnTrabajadores);
+                y += btnTrabajadores.getSize().height + separacion;
+            }
 
-            btnFacultad.addIcono("/iconos/Casa.png");
-            btnFacultad.setSelectLetra(true);
-            btnFacultad.setLocation(x, y);
-//            btnFacultad.setToolTipText("Facultad");
-            y += btnFacultad.getSize().height + separacion;
-            btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
+            if (puedeVer(usuarioRol, "facultad")) {
+                btnFacultad = new Boton();
+                btnFacultad.addIcono("/iconos/Casa.png");
+                btnFacultad.setSelectLetra(true);
+                btnFacultad.setLocation(x, y);
+                btnFacultad.addActionListener(e -> Ventana.getInstance().mostrarFacultad());
+                panel2.add(btnFacultad);
+                y += btnFacultad.getSize().height + separacion;
+            }
 
-            btnConfig.addIcono("/iconos/Config.png");
-            btnConfig.setSelectLetra(true);
-            btnConfig.setLocation(x, y);
-//            btnConfig.setToolTipText("Configuración");
-            y += btnConfig.getSize().height + separacion;
-            btnConfig.addActionListener(e -> ventana.mostrarPanel("panelConfig"));
+            if (puedeVer(usuarioRol, "config")) {
+                btnConfig = new Boton();
+                btnConfig.addIcono("/iconos/Config.png");
+                btnConfig.setSelectLetra(true);
+                btnConfig.setLocation(x, y);
+                btnConfig.addActionListener(e -> ventana.mostrarPanel("panelConfig"));
+                panel2.add(btnConfig);
+                y += btnConfig.getSize().height + separacion;
+            }
 
-            btnUsuarios.addIcono("/iconos/Community.png");
-            btnUsuarios.setSelectLetra(true);
-            btnUsuarios.setLocation(x, y);
-//            btnUsuarios.setToolTipText("Usuarios");
-            y += btnUsuarios.getSize().height + separacion;
-            btnUsuarios.addActionListener(e -> ventana.mostrarPanel("panelUsuarios"));
-
-            panel2.add(btnConfig);
-            panel2.add(btnEstudiantes);
-            panel2.add(btnTrabajadores);
-            panel2.add(btnFacultad);
-            panel2.add(btnUsuarios);
+            if (puedeVer(usuarioRol, "usuarios")) {
+                btnUsuarios = new Boton();
+                btnUsuarios.addIcono("/iconos/Community.png");
+                btnUsuarios.setSelectLetra(true);
+                btnUsuarios.setLocation(x, y);
+                btnUsuarios.addActionListener(e -> ventana.mostrarPanel("panelUsuarios"));
+                panel2.add(btnUsuarios);
+                y += btnUsuarios.getSize().height + separacion;
+            }
 
             panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
         }
@@ -154,94 +170,97 @@ public class Menu extends JPanel {
         panel2.setBorder(border);
         superior.setBorder(margenDoubleBorder);
         setBorder(border);
-        deshabilitarOpcionesPorRol(usuario.getRol().getNombre());
         minimizarMenu();
-
-        // Aquí: deshabilitar botones según el rol
-
     }
+    
+    private boolean puedeVer(String rol, String clave) {
+        rol = rol.toLowerCase();
+        if (rol.equalsIgnoreCase("administrador"))
+            return true;
+        if (rol.equals("planificador"))
+            return clave.equalsIgnoreCase("planifs");
 
-    private void deshabilitarOpcionesPorRol(String rolNombre) {
-        rolNombre = rolNombre.toLowerCase();
+        if (rol.equals("controlador"))
+            return clave.equalsIgnoreCase("asist");
 
-        switch (rolNombre) {
-            case "administrador":
-                // No deshabilitar nada TODO: cambiar acceso de admin y ver si setVisible funciona como pienso
-                break;
-            case "planificador":
-                // Solo deja planificación y añadir planificación
-                btnEstudiantes.setVisible(false);
-                btnTrabajadores.setVisible(false);
-                btnActualizarAsist.setVisible(false);
-                btnFacultad.setVisible(false);
-                btnUsuarios.setVisible(false);
-                break;
-            case "controlador":
-                // Solo deja asistencia
-                btnPlanifs.setVisible(false);
-                btnEstudiantes.setVisible(false);
-                btnTrabajadores.setVisible(false);
-                btnConfig.setVisible(false);
-                btnFacultad.setVisible(false);
-                btnUsuarios.setVisible(false);
-                break;
-            default:
-                // Si el rol no se reconoce, deshabilita todo
-                btnPlanifs.setVisible(false);
-                btnEstudiantes.setVisible(false);
-                btnTrabajadores.setVisible(false);
-                btnConfig.setVisible(false);
-                btnActualizarAsist.setVisible(false);
-                btnFacultad.setVisible(false);
-        }
+        return false;
     }
 
     private void minimizarMenu(){
         setPreferredSize(new Dimension(70, getHeight()));
-        btnPlanifs.setText("");
-        btnPlanifs.setLocation(10, btnPlanifs.getY());
 
-        btnActualizarAsist.setText("");
-        btnActualizarAsist.setLocation(10, btnActualizarAsist.getY());
+        if (puedeVer(usuarioRol, "planifs")) {
+            btnPlanifs.setText("");
+            btnPlanifs.setLocation(10, btnPlanifs.getY());
+        }
 
-        btnEstudiantes.setText("");
-        btnEstudiantes.setLocation(10, btnEstudiantes.getY());
+        if (puedeVer(usuarioRol, "asist")) {
+            btnActualizarAsist.setText("");
+            btnActualizarAsist.setLocation(10, btnActualizarAsist.getY());
+        }
 
-        btnTrabajadores.setText("");
-        btnTrabajadores.setLocation(10, btnTrabajadores.getY());
+        if (puedeVer(usuarioRol, "estudiantes")) {
+            btnEstudiantes.setText("");
+            btnEstudiantes.setLocation(10, btnEstudiantes.getY());
+        }
 
-        btnConfig.setText("");
-        btnConfig.setLocation(10, btnConfig.getY());
+        if (puedeVer(usuarioRol, "trabajadores")) {
+            btnTrabajadores.setText("");
+            btnTrabajadores.setLocation(10, btnTrabajadores.getY());
+        }
 
-        btnFacultad.setText("");
-        btnFacultad.setLocation(10, btnFacultad.getY());
+        if (puedeVer(usuarioRol, "config")) {
+            btnConfig.setText("");
+            btnConfig.setLocation(10, btnConfig.getY());
+        }
 
-        btnUsuarios.setText("");
-        btnUsuarios.setLocation(10, btnUsuarios.getY());
+        if (puedeVer(usuarioRol, "facultad")) {
+            btnFacultad.setText("");
+            btnFacultad.setLocation(10, btnFacultad.getY());
+        }
+
+        if (puedeVer(usuarioRol, "usuarios")) {
+            btnUsuarios.setText("");
+            btnUsuarios.setLocation(10, btnUsuarios.getY());
+        }
     }
-
     private void maximizarMenu(){
         setPreferredSize(new Dimension(247, getHeight()));
-        btnPlanifs.setText("Planificaciones");
-        btnPlanifs.setLocation(x, btnPlanifs.getY());
 
-        btnEstudiantes.setText("Estudiantes");
-        btnEstudiantes.setLocation(x, btnEstudiantes.getY());
+        if (puedeVer(usuarioRol, "planifs")) {
+            btnPlanifs.setText("Planificaciones");
+            btnPlanifs.setLocation(x, btnPlanifs.getY());
+        }
 
-        btnTrabajadores.setText("Trabajadores");
-        btnTrabajadores.setLocation(x, btnTrabajadores.getY());
+        if (puedeVer(usuarioRol, "asist")) {
+            btnActualizarAsist.setText("Asistencias");
+            btnActualizarAsist.setLocation(x, btnActualizarAsist.getY());
+        }
 
-        btnConfig.setText("Configuración");
-        btnConfig.setLocation(x, btnConfig.getY());
+        if (puedeVer(usuarioRol, "estudiantes")) {
+            btnEstudiantes.setText("Estudiantes");
+            btnEstudiantes.setLocation(x, btnEstudiantes.getY());
+        }
 
-        btnActualizarAsist.setText("Asistencias");
-        btnActualizarAsist.setLocation(x, btnActualizarAsist.getY());
+        if (puedeVer(usuarioRol, "trabajadores")) {
+            btnTrabajadores.setText("Trabajadores");
+            btnTrabajadores.setLocation(x, btnTrabajadores.getY());
+        }
 
-        btnFacultad.setText("Facultad");
-        btnFacultad.setLocation(x, btnFacultad.getY());
+        if (puedeVer(usuarioRol, "config")) {
+            btnConfig.setText("Configuración");
+            btnConfig.setLocation(x, btnConfig.getY());
+        }
 
-        btnUsuarios.setText("Usuarios");
-        btnUsuarios.setLocation(x, btnUsuarios.getY());
+        if (puedeVer(usuarioRol, "facultad")) {
+            btnFacultad.setText("Facultad");
+            btnFacultad.setLocation(x, btnFacultad.getY());
+        }
+
+        if (puedeVer(usuarioRol, "usuarios")) {
+            btnUsuarios.setText("Usuarios");
+            btnUsuarios.setLocation(x, btnUsuarios.getY());
+        }
 
     }
 }

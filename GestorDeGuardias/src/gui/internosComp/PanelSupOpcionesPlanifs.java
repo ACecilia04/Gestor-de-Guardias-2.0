@@ -32,6 +32,8 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         nuevoBtn.addIcono("/iconos/Crear.png");
         nuevoBtn.setSelectLetra(true);
         nuevoBtn.cambiarIconTextGap(10);
+        nuevoBtn.setToolTipText("Crear Nuevo");
+
         nuevoBtn.addActionListener(e -> Ventana.getInstance().mostrarPanel("panelAddPlanif"));
 
         editarBtn = new Boton();
@@ -39,6 +41,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         editarBtn.setSelectLetra(true);
         editarBtn.cambiarIconTextGap(10);
         editarBtn.setEnabled(algunMesSeleccionado);
+        editarBtn.setToolTipText("Editar");
         editarBtn.addActionListener(e -> editar());
 
         borrarBtn = new Boton();
@@ -46,6 +49,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         borrarBtn.setSelectLetra(true);
         borrarBtn.cambiarIconTextGap(10);
         borrarBtn.setEnabled(algunMesSeleccionado);
+        borrarBtn.setToolTipText("Borrar");
         borrarBtn.addActionListener(e -> borrar());
 
         pdfBtn = new Boton();
@@ -53,6 +57,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         pdfBtn.setSelectLetra(true);
         pdfBtn.cambiarIconTextGap(10);
         pdfBtn.setEnabled(algunMesSeleccionado);
+        pdfBtn.setToolTipText("Exportar PDF");
         pdfBtn.addActionListener(e -> exportar());
 
         add(nuevoBtn);

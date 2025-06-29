@@ -346,6 +346,7 @@ public class Ventana extends JFrame {
         if (usuarioLogueado == null) System.exit(0);
 
         // Instanciar el menú pasando el usuario logueado
+        zonaInferior.remove(menu);
         menu = new Menu(zonaInferior, Ventana.this, usuarioLogueado);
         zonaInferior.add(menu, BorderLayout.WEST);
     }

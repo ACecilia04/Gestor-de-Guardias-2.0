@@ -2,6 +2,8 @@ package gui.secciones;
 
 import gui.auxiliares.Paleta;
 import gui.componentes.CustomScrollBar;
+import gui.componentes.PanelMes;
+import gui.internosComp.PanelSupOpcionesPlanifs;
 import gui.internosComp.TablaConfig;
 import gui.pantallasEmergentes.PantallaAddConfig;
 import model.Configuracion;
@@ -23,7 +25,7 @@ public class PanelConfig extends JPanel {
     private Configuracion seleccionada;
     private TablaConfig tablaConfig;
     private PantallaAddConfig pantallaConfig;
-
+    private Object opcionesReferencia;
     public PanelConfig() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
@@ -95,4 +97,16 @@ public class PanelConfig extends JPanel {
             }
         }
     }
+//    public Configuracion getSeleccionada() {
+//        return seleccionada;
+//    }
+//    public void setSeleccionada(PanelMes seleccionado) {
+//        if (seleccionado == null){
+//            if (this.seleccionada != null && this.seleccionada.isSeleccionado())
+//                this.seleccionada.setSeleccionado(false);
+//        }
+//        this.seleccionado = seleccionado;
+//        if (opcionesReferencia != null && opcionesReferencia instanceof PanelSupOpcionesPlanifs)
+//            ((PanelSupOpcionesPlanifs)opcionesReferencia).setAlgunMesSeleccionado(seleccionado != null);
+//    }
 }

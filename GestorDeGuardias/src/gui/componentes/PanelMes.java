@@ -36,7 +36,7 @@ public class PanelMes extends Cuadro {
         setLayout(null);
         setToolTipText("Doble clic para ver más");
 
-        this.fechaInicio = fechaInicial;
+        fechaInicio = fechaInicial;
 
         Color colorLetra;
         if (fechaInicial.getMonth() == LocalDate.now().getMonth() && fechaInicial.getYear() == LocalDate.now().getYear()) {
@@ -47,8 +47,8 @@ public class PanelMes extends Cuadro {
             colorLetra = colorLetraCasual;
         }
 
-        this.setColorFondo(colorFondo);
-        this.setBackground(colorFondo);
+        setColorFondo(colorFondo);
+        setBackground(colorFondo);
 
         String stringMesYAnno = traducDiaMes(fechaInicial) + "  " + fechaInicial.getYear();
         Font fuente = new Font("Arial", Font.BOLD, 14);
@@ -61,17 +61,15 @@ public class PanelMes extends Cuadro {
         titulo2 = new Etiqueta(fuente, colorLetra, stringFechaInicio);
         titulo2.setLocation(espacioX, espacioY * 2 + titulo.getSize().height);
 
-        this.add(titulo);
-        this.add(titulo2);
+        add(titulo);
+        add(titulo2);
 
-        this.setColorBorde(colorFondo.darker());
+        setColorBorde(colorFondo.darker());
 
-        this.setSeleccionado(false);
+        setSeleccionado(false);
 
         PanelMes aux = this;
-        this.addMouseListener(new MouseAdapter() {
-            private static final long DOUBLE_CLICK_DELAY = 500;
-            private long lastClickTime = 0;
+        addMouseListener(new MouseAdapter() {
 
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -97,7 +95,6 @@ public class PanelMes extends Cuadro {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                long currentClickTime = System.currentTimeMillis();
 
                 if (e.getClickCount() == 2) {
                     if (parent != null && parent instanceof MostrarPlanif)
@@ -113,9 +110,7 @@ public class PanelMes extends Cuadro {
                     setSeleccionado(!seleccionado);
                 }
 
-                lastClickTime = currentClickTime;
             }
-
         });
     }
 
@@ -125,7 +120,7 @@ public class PanelMes extends Cuadro {
 
     public void setSeleccionado(boolean seleccionado) {
         this.seleccionado = seleccionado;
-        this.setBorde(seleccionado);
+        setBorde(seleccionado);
         revalidate();
         repaint();
         if (parent != null && parent instanceof MostrarPlanif)

@@ -3,6 +3,7 @@ package gui.internosComp;
 import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.CustomScrollBar;
+import gui.componentes.PanelMes;
 import model.Configuracion;
 
 import javax.swing.*;
@@ -34,6 +35,9 @@ public class TablaConfig extends Cuadro {
 
     // Para mantener el seleccionado
     private Configuracion seleccionada;
+    private JPanel panelSeleccionado;
+    private Object opcionesReferencia;
+
     private java.util.List<JPanel> panelesFilas = new ArrayList<>();
 
     public TablaConfig(Dimension dimension, Color color, ArrayList<Configuracion> configuraciones, Consumer<Configuracion> onDoubleClick) {
@@ -146,6 +150,7 @@ public class TablaConfig extends Cuadro {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
                         if (evt.getClickCount() == 1) {
                             seleccionada = conf;
+                            panelSeleccionado = panelFila;
                             actualizarSeleccion();
                         }
                         if (evt.getClickCount() == 2 && onDoubleClick != null) {
@@ -188,12 +193,10 @@ public class TablaConfig extends Cuadro {
         for (String dia : mapaDias.keySet()) {
             ArrayList<Configuracion> confsDia = mapaDias.get(dia);
             Color colorDia = colorPorDia.get(dia);
-            for (int i = 0; i < confsDia.size(); i++) {
-                Configuracion conf = confsDia.get(i);
+            for (Configuracion conf : confsDia) {
                 JPanel panelFila = panelesFilas.get(idx++);
                 boolean esSeleccionada = conf.equals(seleccionada);
-                Color baseColor = colorDia;
-                Color bgColor = esSeleccionada ? colorSeleccion : baseColor;
+                Color bgColor = esSeleccionada ? colorSeleccion : colorDia;
                 Component[] celdas = panelFila.getComponents();
                 for (int j = 0; j < celdas.length; j++) {
                     if (j == 0) { // columna "Día" SIEMPRE usa colorDia
@@ -225,5 +228,21 @@ public class TablaConfig extends Cuadro {
         if (s.equalsIgnoreCase("F")) return "Femenino";
         if (s.equalsIgnoreCase("M")) return "Masculino";
         return s;
+    }
+    public void setOpcionesReferencia(Object opcionesReferencia) {
+        this.opcionesReferencia = opcionesReferencia;
+    }
+    public JPanel getSeleccionado() {
+        return panelSeleccionado;
+    }
+
+    public void setSeleccionado(JPanel seleccionado) {
+        if (seleccionado == null){
+//            if (this.panelSeleccionado != null && this.panelSeleccionado.isSeleccionado())
+//                this.panelSeleccionado.setSeleccionado(false);
+        }
+        this.panelSeleccionado = seleccionado;
+        if (opcionesReferencia != null && opcionesReferencia instanceof PanelSupOpcionesPlanifs)
+            ((PanelSupOpcionesPlanifs)opcionesReferencia).setAlgunMesSeleccionado(seleccionado != null);
     }
 }
