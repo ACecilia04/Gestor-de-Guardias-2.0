@@ -42,6 +42,37 @@ public class Login extends JDialog {
         contentPane.setBackground(paleta.getColorFondoTabla());
         contentPane.setLayout(new BorderLayout());
 
+        // ===== NUEVO: Panel de encabezado branding centrado =====
+        JPanel panelHeader = new JPanel();
+        panelHeader.setBackground(contentPane.getBackground());
+        panelHeader.setLayout(new BoxLayout(panelHeader, BoxLayout.Y_AXIS));
+        panelHeader.setBorder(BorderFactory.createEmptyBorder(36, 0, 20, 0));
+
+        // Logo centrado
+        JPanel logoRow = new JPanel();
+        logoRow.setBackground(contentPane.getBackground());
+        logoRow.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        Cuadro logo = new Cuadro(new Dimension(60, 60), Cuadro.redBAJA, paleta.getColorCaracteristico());
+        logoRow.add(logo);
+
+        // Textos branding centrados
+        JLabel appName = new JLabel("Gestor de Guardias");
+        appName.setFont(new Font("Arial", Font.BOLD, 22));
+        appName.setForeground(paleta.getColorCaracteristico());
+        appName.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel appSub = new JLabel("Proyecto Final");
+        appSub.setFont(new Font("Arial", Font.PLAIN, 16));
+        appSub.setForeground(paleta.getColorLetraMenu());
+        appSub.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        panelHeader.add(logoRow);
+        panelHeader.add(Box.createVerticalStrut(10));
+        panelHeader.add(appName);
+        panelHeader.add(appSub);
+
+        contentPane.add(panelHeader, BorderLayout.NORTH);
+
         //PanelBotones panel2
         panel2 = new JPanel(null);
         panel2.setBackground(contentPane.getBackground());
@@ -83,24 +114,14 @@ public class Login extends JDialog {
         //panel1 Todo lo demas
         panel1 = new JPanel(null);
         panel1.setBackground(contentPane.getBackground());
-        Cuadro logo = new Cuadro(new Dimension(60, 60), Cuadro.redBAJA, paleta.getColorCaracteristico());
-
-        logo.setLocation(margen, espacioInicial);
-        panel1.add(logo);
-
-        //Pequenos textos junto al logo
-        Etiqueta texto1 = new Etiqueta("<html>" +
-                "<span style='font-size:17px; color:" + toHex(paleta.getColorCaracteristico()) + ";'>Gestor de Guardias</span><br>" +
-                "<span style='font-size:16px; color:" + toHex(paleta.getColorLetraMenu()) + ";'>Proyecto Final</span>" +
-                "</html>");
-        y = logo.getLocation().y + (logo.getSize().height - texto1.getSize().height) / 2;
-        texto1.setLocation(logo.getLocation().x + logo.getWidth() + 10, y);
-        panel1.add(texto1);
 
         //Incia sesion
         Etiqueta etiqueta = new Etiqueta("Iniciar Sesión");
-        etiqueta.setLocation(margen, 190);
-        etiqueta.setNuevoSizeLetra((float) 14);
+
+        etiqueta.setLocation(margen, 20);
+        etiqueta.setNuevoSizeLetra((float) 20);
+        etiqueta.setNuevoSizeLetra(24f);
+        etiqueta.setSize(300, etiqueta.getPreferredSize().height);
         etiqueta.setForeground(paleta.getColorLetraMenu());
         panel1.add(etiqueta);
 
