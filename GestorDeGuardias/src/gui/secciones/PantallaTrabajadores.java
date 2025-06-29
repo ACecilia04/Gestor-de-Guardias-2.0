@@ -4,6 +4,7 @@ import gui.auxiliares.CustomTablaComplex;
 import gui.componentes.Buscar;
 import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesTrabajador;
+import gui.internosComp.TablaTrabajadores;
 import gui.pantallasEmergentes.Advertencia;
 import model.Persona;
 import model.TipoPersona;
@@ -34,7 +35,7 @@ public class PantallaTrabajadores extends JPanel {
     private final PanelOpcionesTrabajador tablaOpciones;
     private final int opcionesAncho = 300;
     private final int margen = 25;
-    private CustomTablaComplex tabla;
+    private TablaTrabajadores tabla;
 
     public PantallaTrabajadores() {
         this.setLayout(new BorderLayout());
@@ -134,7 +135,10 @@ public class PantallaTrabajadores extends JPanel {
         tablaOpciones.getBotonBajaMini().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String ID = tabla.getCarnet();
+                System.out.println(ID);
+
                 LocalDate fechaAux = tablaOpciones.getCalendario().getFechaSelec();
                 if (ID != null) {
                     String string = "<html><p>Estas Seguro? <br>Esta accion no se puede retroceder<br><br>Presione aceptar para continuar</p></html>";
@@ -143,7 +147,9 @@ public class PantallaTrabajadores extends JPanel {
                         try {
                             ServicesLocator.getInstance().getPersonaServices().darBaja(ID, fechaAux);
                         } catch (MultiplesErroresException | SqlServerCustomException ex) {
-                            throw new RuntimeException(ex);
+                            // Aquí manejas la excepción de forma amigable
+                            new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", "No se pudo dar de baja: " + ex.getMessage(), "Aceptar");
+                            return;
                         }
                         revalidarTabla();
                     }
@@ -164,12 +170,11 @@ public class PantallaTrabajadores extends JPanel {
                         try {
                             ServicesLocator.getInstance().getPersonaServices().deletePersonaByCi(ID);
                         } catch (SqlServerCustomException | EntradaInvalidaException ex) {
-                            throw new RuntimeException(ex);
+                            new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", "No se pudo eliminar: " + ex.getMessage(), "Aceptar");
+                            return;
                         }
                         revalidarTabla();
                     }
-
-
                 }
                 tablaOpciones.mostrarPanel("panel1");
             }
@@ -187,7 +192,7 @@ public class PantallaTrabajadores extends JPanel {
 
 
     public void addTabla(final CustomTablaComplex tabla) {
-        this.tabla = tabla;
+        this.tabla = (TablaTrabajadores) tabla;
         Border border = BorderFactory.createMatteBorder(margen, margen, margen, margen, Color.WHITE);
         tabla.setBorder(border);
         contentPane.add(tabla, BorderLayout.CENTER);

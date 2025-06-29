@@ -206,7 +206,7 @@ public class PantallaEstudiantes extends JPanel {
                 if (!e.getValueIsAdjusting()) {
                     boolean hasSelection = tabla.getTabla().getSelectedRowCount() > 0;
                     tablaOpciones.getBotonEliminar().setSeleccionable(hasSelection);
-                    tablaOpciones.getBotonExport().setSeleccionable(hasSelection);
+                    tablaOpciones.getBotonBaja().setSeleccionable(hasSelection);
                     revalidate();
                     repaint();
                 }
