@@ -21,6 +21,7 @@ public class PanelSupOpcionesUsuarios extends JPanel {
         nuevoBtn.setToolTipText("Crear Nuevo Usuario");
         nuevoBtn.addActionListener(e -> panelAfectado.agregarUsuario());
 
+
         Boton editarBtn = new Boton();
         editarBtn.addIcono("/iconos/Editar.png");
         editarBtn.setSelectLetra(true);
@@ -35,6 +36,7 @@ public class PanelSupOpcionesUsuarios extends JPanel {
         borrarBtn.setToolTipText("Borrar Usuario");
         borrarBtn.addActionListener(e -> panelAfectado.eliminarUsuario());
 
+
         add(nuevoBtn);
         add(editarBtn);
         add(borrarBtn);
@@ -43,3 +45,4 @@ public class PanelSupOpcionesUsuarios extends JPanel {
         setLayout(miLayout);
     }
 }
+
