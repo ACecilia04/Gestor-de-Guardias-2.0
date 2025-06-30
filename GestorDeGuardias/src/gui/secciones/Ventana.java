@@ -51,7 +51,7 @@ public class Ventana extends JFrame {
     private LocalDate inicio;
     private int distX;
     private int distY;
-    private String pantallaActual = "panelPlanificaciones";
+    private String pantallaActual = "panelHome";
     private final ServicesLocator servicesLocator;
     private Usuario usuarioLogueado;
 
@@ -130,6 +130,8 @@ public class Ventana extends JFrame {
         setBackground(paleta.getColorFondo());
         setMinimumSize(new Dimension(800, 600));
         setTitle("Gestor de Guardias");
+        ImageIcon logo = new ImageIcon(getClass().getResource("/iconos/Logo.png"));
+        setIconImage(logo.getImage());
 
         overlayPanel = new Cuadro(this.getSize(), 0, Color.BLACK);
         overlayPanel.setTransparencia(Cuadro.transALTA);

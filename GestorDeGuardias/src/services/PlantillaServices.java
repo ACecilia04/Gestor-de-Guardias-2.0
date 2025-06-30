@@ -22,6 +22,7 @@ public class PlantillaServices {
         personaServices = sl.getPersonaServices();
         periodoNoPlanificableServices = sl.getPeriodoNoPlanificableServices();
     }
+
     /**
      * Crea la plantilla de guardias y sus datos sin asignar personas para
      * cumplir las guardias. El parametro empezarHoy determina si la primera
@@ -49,7 +50,9 @@ public class PlantillaServices {
             List<Horario> horarios = horarioServices.getHorariosDeFecha(fecha);
             ArrayList<TurnoDeGuardia> turnos = new ArrayList<>();
             for (Horario horario : horarios) {
-                turnos.add(new TurnoDeGuardia(horario));
+                int j = configuracionServices.getCantPersonasAsignables(horario.getId(), fecha);
+                for (int k = 0; k < j; k++)
+                    turnos.add(new TurnoDeGuardia(horario));
             }
             dias.add(new DiaGuardia(fecha, turnos));
         }
@@ -157,8 +160,8 @@ public class PlantillaServices {
             throw new MultiplesErroresException("Datos incorrectos:", errores);
     }
 
-    public List<Persona> getPersonasDisponibles2(LocalDate fecha, ArrayList<DiaGuardia> diasEnPantalla,TipoPersona tipoPersona, String sexo) {
-        List<Persona> personasDisponibles = personaServices.getPersonasDisponibles(fecha, tipoPersona,sexo);
+    public List<Persona> getPersonasDisponibles2(LocalDate fecha, ArrayList<DiaGuardia> diasEnPantalla, TipoPersona tipoPersona, String sexo) {
+        List<Persona> personasDisponibles = personaServices.getPersonasDisponibles(fecha, tipoPersona, sexo);
 
         personasDisponibles.removeAll(getPersonasEnPantalla(diasEnPantalla));
         return personasDisponibles;
@@ -182,6 +185,7 @@ public class PlantillaServices {
 
         return diasGuardia;
     }
+
     public ArrayList<DiaGuardia> getPlanDeGuardias() {
         return agruparPorDia(turnoDeGuardiaServices.getAllTurnosDeGuardia());
     }

@@ -52,11 +52,11 @@ public class PanelTurno extends Cuadro implements Actualizable {
     public PanelTurno(int ancho, Color color, TurnoDeGuardia turno, DiaGuardia fecha, final Actualizable act) {
         super(new Dimension(ancho, alto), 0, color);
         this.fecha = fecha;
-        this.setPreferredSize(this.getSize());
-        this.setMaximumSize(this.getSize());
-        this.setMinimumSize(this.getSize());
-        this.setAlignmentX(Component.LEFT_ALIGNMENT);
-        this.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 3));
+        setPreferredSize(getSize());
+        setMaximumSize(getSize());
+        setMinimumSize(getSize());
+        setAlignmentX(Component.LEFT_ALIGNMENT);
+        setLayout(new FlowLayout(FlowLayout.LEFT, 30, 3));
         this.turno = turno;
 
         colorFondo = color;

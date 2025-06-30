@@ -75,9 +75,7 @@ public class BarraSuperior extends JPanel {
         Border border = BorderFactory.createMatteBorder(0, 0, 4, 0, contenedor.getBackground());
         setBorder(border);
 
-        CardLayout cardLayout = (CardLayout) panelDerecha.getLayout();
-        cardLayout.show(panelDerecha, "panelOpcionesPlanifs");
-        cardLayout = (CardLayout) panelIzquierda.getLayout();
+        CardLayout cardLayout = (CardLayout) panelIzquierda.getLayout();
         cardLayout.show(panelIzquierda,"panelCerrarSesion" );
     }
 

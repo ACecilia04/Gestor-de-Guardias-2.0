@@ -39,7 +39,7 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
     protected Color colorLetra;
     protected boolean entrado = false;
     protected Etiqueta fecha;
-    protected int anchoFecha = 128;
+    protected int anchoFecha = 140;
     protected int margen = 10;
     protected IsTabla tabla;
 
@@ -72,7 +72,7 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
         this.setLayout(null);
         myself.setAgrandarCuandoBorde(true);
 
-        panelFecha.setSize(new Dimension(anchoFecha, this.getHeight()));
+        panelFecha.setSize(new Dimension(anchoFecha - margen, this.getHeight() - 10));
         panelFecha.setLocation(margen, 5);
         panelFecha.setLayout(null);
 
