@@ -41,7 +41,6 @@ public class AsistenciaPlanif extends JPanel {
 
         // Crea el panelInterior
         panelInterior = new JPanel();
-        //    private static final Dimension tablaDim = new Dimension(1200, 745);
         Paleta paleta = new Paleta();
         panelInterior.setBackground(paleta.getColorFondo());
 
@@ -90,6 +89,7 @@ public class AsistenciaPlanif extends JPanel {
                     paneles.add(addPlanif(fechaAux));
                 }
             }
+
             if (paneles.isEmpty()) {
                 panelInterior.setLayout(layout2);
                 Etiqueta error = new Etiqueta(fuente, Color.GRAY, "No hay planificación cuya asistencia pueda ser actualizada.");
@@ -101,25 +101,8 @@ public class AsistenciaPlanif extends JPanel {
             panelInterior.add(error);
         }
 
-
         for (PanelMes e : paneles) {
-            final PanelMes aux = e;
-            aux.addMouseListener(new MouseAdapter() {
-                private static final long DOUBLE_CLICK_DELAY = 500;
-                private long lastClickTime = 0;
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-                    long currentClickTime = System.currentTimeMillis();
-                    if (currentClickTime - lastClickTime <= DOUBLE_CLICK_DELAY) {
-                        Ventana.getInstance().mostrarPanel("panelCumplimiento");
-                        panelSelec = aux;
-                        mostrarTabla();
-
-                    }
-                    lastClickTime = currentClickTime;
-                }
-            });
+            e.setParent(this);
         }
 
     }
@@ -166,4 +149,7 @@ public class AsistenciaPlanif extends JPanel {
         }
     }
 
+    public void setPanelSelec(PanelMes panelSelec) {
+        this.panelSelec = panelSelec;
+    }
 }

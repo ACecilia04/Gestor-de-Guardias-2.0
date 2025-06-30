@@ -13,9 +13,7 @@ public class AddPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
     private Dimension tablaDim ;
-//            = new Dimension(1200, 745);
     private final JPanel backdropPane;
-    //int x;
     private PanelOpcionesPlanif tablaOpciones;
     private Tabla tabla;
 

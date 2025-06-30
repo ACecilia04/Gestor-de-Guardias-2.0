@@ -18,7 +18,7 @@ public class PantallaUsuarios extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private TablaUsuarios tabla;
-    private PanelSupOpcionesUsuarios panelBotones;
+    private PanelSupOpcionesUsuarios opcionesReferencia;
 
     public PantallaUsuarios() {
         setLayout(new BorderLayout());
@@ -39,8 +39,8 @@ public class PantallaUsuarios extends JPanel {
 
         // Listener de selección
         tabla.setSeleccionListener(usuario -> {
-            if (panelBotones != null) {
-                panelBotones.setEdicionHabilitada(usuario != null);
+            if (opcionesReferencia != null) {
+                opcionesReferencia.setAlgunUsuarioSeleccionado(usuario != null);
             }
         });
 
@@ -48,7 +48,8 @@ public class PantallaUsuarios extends JPanel {
         this.tabla.actualizarVistaTabla();
 
         // Al cargar, deshabilita edición
-        if (panelBotones != null) panelBotones.setEdicionHabilitada(false);
+        if (opcionesReferencia != null)
+            opcionesReferencia.setAlgunUsuarioSeleccionado(false);
 
         revalidate();
         repaint();
@@ -109,5 +110,9 @@ public class PantallaUsuarios extends JPanel {
         } catch (Exception ex) {
             new Advertencia(new Dimension(400, 150), "Error", "No se pudo eliminar el usuario: " + ex.getMessage(), "Aceptar");
         }
+    }
+
+    public void setOpcionesReferencia(PanelSupOpcionesUsuarios opcionesUsuarios) {
+        this.opcionesReferencia = opcionesUsuarios;
     }
 }

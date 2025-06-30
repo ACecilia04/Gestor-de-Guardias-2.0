@@ -34,6 +34,8 @@ public class Ventana extends JFrame {
     private Menu menu;
     private JPanel contentPane;
     private JPanel panelVacio;
+    private JPanel panelHome;
+
     private Cuadro overlayPanel;
     private JPanel panelVerPlanif;
     private AddPlanif panelAddPlanif;
@@ -50,9 +52,7 @@ public class Ventana extends JFrame {
     private int distX;
     private int distY;
     private String pantallaActual = "panelPlanificaciones";
-//    private String pantallaAnterior;
-    private PantallaSelecPersona nuevaPantalla;
-    private ServicesLocator servicesLocator;
+    private final ServicesLocator servicesLocator;
     private Usuario usuarioLogueado;
 
     private Ventana() {
@@ -124,7 +124,8 @@ public class Ventana extends JFrame {
     private void inicializarCaractVentana() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        setSize(Ventana.SIZE_VENTANA);
+        setPreferredSize(Ventana.SIZE_VENTANA);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocation(0, 0);
         setBackground(paleta.getColorFondo());
         setMinimumSize(new Dimension(800, 600));
@@ -157,7 +158,9 @@ public class Ventana extends JFrame {
         pantallaUsuarios = new PantallaUsuarios();
         panelVerPlanif = new JPanel();
         panelVerPlanif.setLayout(new BorderLayout());
+        panelHome = new JPanel();
 
+        panelVacio.add(panelHome, "panelHome");
         panelVacio.add(pantallaPlanif, "panelPlanificaciones");
         panelVacio.add(pantallaEstudiantes, "panelEstudiantes");
         panelVacio.add(pantallaTrabajadores, "panelTrabajadores");
@@ -213,16 +216,7 @@ public class Ventana extends JFrame {
 //        notificacion.setVisible(true);
 
         CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
-        boolean cambiar = true;
-
-        if (Objects.equals(pantallaActual, "panelAddPlanif") && !Objects.equals(nombrePanel, "panelAddPlanif")) {
-            String string = "<html><p>Estás seguro de que quieres cambiar? <br> <br><br>Perderás la planifcacion no guardada</p><html>";
-            Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Advertencia", string, "Cancelar", "Aceptar");
-
-            if (advertencia.getEleccion()) {
-                cambiar = false;
-            }
-        }
+        boolean cambiar = isCambiar(nombrePanel);
 
         if (cambiar) {
             if (Objects.equals(nombrePanel, "panelPlanificaciones") && !Objects.equals(pantallaActual, "panelPlanificaciones")) {
@@ -261,9 +255,12 @@ public class Ventana extends JFrame {
             } else if (Objects.equals(nombrePanel, "panelConfig") && !Objects.equals(pantallaActual, "panelConfig")){
                 pantallaConfig.cargarConfiguraciones();
             } else if(Objects.equals(nombrePanel, "panelUsuarios") && !Objects.equals(pantallaActual, "panelUsuarios")){
-                pantallaUsuarios.setTabla((ArrayList<Usuario>)ServicesLocator.getInstance().getUsuarioServices().getAllUsuarios());
+                ArrayList<Usuario> usuarios = (ArrayList<Usuario>) servicesLocator.getUsuarioServices().getAllUsuarios();
+                usuarios.removeIf(usuario -> usuario.getId().equals(usuarioLogueado.getId()));
+                pantallaUsuarios.setTabla(usuarios);
 
-            }
+            } else if(Objects.equals(nombrePanel, "panelCumplimiento") && !Objects.equals(pantallaActual, "panelCumplimiento"))
+                pantallaAsistencia.mostrarTabla();
 
             switch (nombrePanel) {
                 case "panelPlanificaciones" -> barraSup.mostrarPanel("panelOpcionesPlanifs");
@@ -275,10 +272,24 @@ public class Ventana extends JFrame {
 
             if (!Objects.equals(pantallaActual, nombrePanel)) {
                 cardLayout.show(panelVacio, nombrePanel);
-//                pantallaAnterior = pantallaPlanif;
+//                pantallaAnterior = pantallAactual;
                 pantallaActual = nombrePanel;
             }
         }
+    }
+
+    private boolean isCambiar(String nombrePanel) {
+        boolean cambiar = true;
+
+        if (Objects.equals(pantallaActual, "panelAddPlanif") && !Objects.equals(nombrePanel, "panelAddPlanif")) {
+            String string = "<html><p>Estás seguro de que quieres cambiar? <br> <br><br>Perderás la planifcacion no guardada</p><html>";
+            Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Advertencia", string, "Cancelar", "Aceptar");
+
+            if (advertencia.getEleccion()) {
+                cambiar = false;
+            }
+        }
+        return cambiar;
     }
 
     private void inicializarEstudiantes() {
@@ -301,7 +312,8 @@ public class Ventana extends JFrame {
             DiaGuardia fechaAux = turno.getFecha();
             Horario horarioAux = turno.getTurno().getHorario();
 
-            nuevaPantalla = new PantallaSelecPersona(tablaP, (ArrayList<Persona>) servicesLocator.getPlantillaServices().getPersonasDisponibles(fechaAux.getFecha(), horarioAux, diasEnPantalla), turno);
+            //    private String pantallaAnterior;
+            PantallaSelecPersona nuevaPantalla = new PantallaSelecPersona(tablaP, (ArrayList<Persona>) servicesLocator.getPlantillaServices().getPersonasDisponibles(fechaAux.getFecha(), horarioAux, diasEnPantalla), turno);
         } catch (MultiplesErroresException e) {
             e.printStackTrace();
         }
@@ -349,5 +361,6 @@ public class Ventana extends JFrame {
         zonaInferior.remove(menu);
         menu = new Menu(zonaInferior, Ventana.this, usuarioLogueado);
         zonaInferior.add(menu, BorderLayout.WEST);
+        mostrarPanel("panelHome");
     }
 }

@@ -102,7 +102,6 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         cuerpo.setBackground(Color.WHITE);
         cuerpo.setLayout(new BoxLayout(cuerpo, BoxLayout.Y_AXIS));
         final FilaInteractiva[] filaSeleccionada = {null};
-        final Usuario[] usuarioSeleccionadoRef = {null};
         AtomicBoolean alt = new AtomicBoolean(false);
 
         for (Usuario usuario : usuarios) {
@@ -120,7 +119,6 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
                     fila.setSeleccionado(true);
                     filaSeleccionada[0] = fila;
                     usuarioSeleccionado = usuario;
-                    usuarioSeleccionadoRef[0] = usuario;
                     // Notificar si hay listener
                     if (seleccionListener != null) {
                         seleccionListener.accept(usuarioSeleccionado);

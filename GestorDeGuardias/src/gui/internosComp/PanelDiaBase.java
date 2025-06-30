@@ -72,7 +72,7 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
         this.setLayout(null);
         myself.setAgrandarCuandoBorde(true);
 
-        panelFecha.setSize(new Dimension(anchoFecha - margen, this.getHeight() - 10));
+        panelFecha.setSize(new Dimension(anchoFecha, this.getHeight()));
         panelFecha.setLocation(margen, 5);
         panelFecha.setLayout(null);
 

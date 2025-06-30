@@ -1,6 +1,7 @@
 package gui.componentes;
 
 import gui.auxiliares.Paleta;
+import gui.secciones.AsistenciaPlanif;
 import gui.secciones.MostrarPlanif;
 import gui.secciones.Ventana;
 
@@ -97,10 +98,13 @@ public class PanelMes extends Cuadro {
             public void mousePressed(MouseEvent e) {
 
                 if (e.getClickCount() == 2) {
-                    if (parent != null && parent instanceof MostrarPlanif)
-                        ((MostrarPlanif) parent).mostrarTabla();
-
-                    Ventana.getInstance().mostrarPanel("panelVerPlanificaciones");
+                    if (parent != null)
+                        if (parent instanceof MostrarPlanif)
+                            ((MostrarPlanif) parent).mostrarTabla();
+                        else if (parent instanceof AsistenciaPlanif) {
+                            ((AsistenciaPlanif) parent).setPanelSelec(aux);
+                            Ventana.getInstance().mostrarPanel("panelCumplimiento");
+                        }
                     setSeleccionado(false);
                 } else {
 

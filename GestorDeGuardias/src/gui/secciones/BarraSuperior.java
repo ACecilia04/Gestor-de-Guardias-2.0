@@ -55,7 +55,7 @@ public class BarraSuperior extends JPanel {
 
             opcionesUsuarios = new PanelSupOpcionesUsuarios(this.getPreferredSize().height);
             opcionesUsuarios.setPanelReferencia(panelUsuarios);
-//            panelUsuarios.setOpcionesReferencia(opcionesUsuarios);
+            panelUsuarios.setOpcionesReferencia(opcionesUsuarios);
 
             panelDerecha = new JPanel(new CardLayout());
             panelEdicion1 = new JPanel(new FlowLayout(FlowLayout.LEFT));

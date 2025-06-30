@@ -30,12 +30,14 @@ public class PanelSupOpcionesUsuarios extends JPanel {
         editarBtn.setSelectLetra(true);
         editarBtn.cambiarIconTextGap(10);
         editarBtn.setToolTipText("Editar Usuario");
+        editarBtn.setEnabled(algunUsuarioSeleccionado);
         editarBtn.addActionListener(e -> panelReferencia.modificarUsuario());
 
         borrarBtn = new Boton();
         borrarBtn.addIcono("/iconos/Borrar.png");
         borrarBtn.setSelectLetra(true);
         borrarBtn.cambiarIconTextGap(10);
+        borrarBtn.setEnabled(algunUsuarioSeleccionado);
         borrarBtn.setToolTipText("Borrar Usuario");
         borrarBtn.addActionListener(e -> panelReferencia.eliminarUsuario());
 
@@ -45,7 +47,7 @@ public class PanelSupOpcionesUsuarios extends JPanel {
 
         FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - nuevoBtn.getHeight() - 8);
         setLayout(miLayout);
-        setEdicionHabilitada(true);
+        setAlgunUsuarioSeleccionado(false);
     }
 
 
@@ -61,9 +63,4 @@ public class PanelSupOpcionesUsuarios extends JPanel {
         this.panelReferencia = panelReferencia;
     }
 
-
-    public void setEdicionHabilitada(boolean enabled) {
-        editarBtn.setEnabled(enabled);
-        borrarBtn.setEnabled(enabled);
-    }
 }

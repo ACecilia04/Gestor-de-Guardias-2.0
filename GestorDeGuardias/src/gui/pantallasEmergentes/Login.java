@@ -78,36 +78,36 @@ public class Login extends JDialog {
         panel2.setBackground(contentPane.getBackground());
         panel2.setPreferredSize(new Dimension(this.getWidth(), 200));
 
-        Boton boton1 = new Boton("Iniciar sesion");
-        boton1.setBordeado(true);
-        boton1.setNuevoSize(new Dimension(330, 54));
-        boton1.setColorPresionado(paleta.getColorCaracteristico());
-        boton1.setColorLetra(paleta.getColorCaracteristico());
+        Boton iniciarSesionBtn = new Boton("Iniciar sesion");
+        iniciarSesionBtn.setBordeado(true);
+        iniciarSesionBtn.setNuevoSize(new Dimension(330, 54));
+        iniciarSesionBtn.setColorPresionado(paleta.getColorCaracteristico());
+        iniciarSesionBtn.setColorLetra(paleta.getColorCaracteristico());
 
-        x = (panel2.getPreferredSize().width - boton1.getWidth()) / 2;
+        x = (panel2.getPreferredSize().width - iniciarSesionBtn.getWidth()) / 2;
         y = 0;
-        boton1.setLocation(x, 30);
+        iniciarSesionBtn.setLocation(x, 30);
 
-        Boton boton2 = new Boton("Cerrar Programa");
-        boton2.setColorFondo(paleta.getColorCaracteristico());
-        boton2.setColorLetraPres(Color.WHITE);
-        boton2.setNuevoSize(new Dimension(330, 54));
+        Boton cerrarBtn = new Boton("Cerrar Programa");
+        cerrarBtn.setColorFondo(paleta.getColorCaracteristico());
+        cerrarBtn.setColorLetraPres(Color.WHITE);
+        cerrarBtn.setNuevoSize(new Dimension(330, 54));
 
-        x = (panel2.getPreferredSize().width - boton2.getWidth()) / 2;
-        y += boton1.getHeight() * 2;
+        x = (panel2.getPreferredSize().width - cerrarBtn.getWidth()) / 2;
+        y += iniciarSesionBtn.getHeight() * 2;
 
-        boton2.setLocation(x, y);
-        boton2.setColorLetra(Color.WHITE);
+        cerrarBtn.setLocation(x, y);
+        cerrarBtn.setColorLetra(Color.WHITE);
 
-        boton2.addActionListener(new ActionListener() {
+        cerrarBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Ventana.getInstance().dispose(); // Cerrar el JDialog
             }
         });
 
-        panel2.add(boton1);
-        panel2.add(boton2);
+        panel2.add(iniciarSesionBtn);
+        panel2.add(cerrarBtn);
 
         add(panel2, BorderLayout.SOUTH);
 
@@ -116,19 +116,19 @@ public class Login extends JDialog {
         panel1.setBackground(contentPane.getBackground());
 
         //Incia sesion
-        Etiqueta etiqueta = new Etiqueta("Iniciar Sesión");
+        Etiqueta iniciarSesionLbl = new Etiqueta("Iniciar Sesión");
 
-        etiqueta.setLocation(margen, 20);
-        etiqueta.setNuevoSizeLetra((float) 20);
-        etiqueta.setNuevoSizeLetra(24f);
-        etiqueta.setSize(300, etiqueta.getPreferredSize().height);
-        etiqueta.setForeground(paleta.getColorLetraMenu());
-        panel1.add(etiqueta);
+        iniciarSesionLbl.setLocation(margen, 20);
+        iniciarSesionLbl.setNuevoSizeLetra((float) 20);
+        iniciarSesionLbl.setNuevoSizeLetra(24f);
+        iniciarSesionLbl.setSize(300, iniciarSesionLbl.getPreferredSize().height);
+        iniciarSesionLbl.setForeground(paleta.getColorLetraMenu());
+        panel1.add(iniciarSesionLbl);
 
         //Ingresar Textos
         final CustomTextField inicio = new CustomTextField(new Dimension(370, 47), "Ingresa tu Nombre", 40, Color.LIGHT_GRAY);
         int sepTextField = 50;
-        inicio.setLocation(margen, etiqueta.getLocation().y + etiqueta.getSize().height + sepTextField);
+        inicio.setLocation(margen, iniciarSesionLbl.getLocation().y + iniciarSesionLbl.getSize().height + sepTextField);
         panel1.add(inicio);
 
         final CustomPasswordField contrasena = new CustomPasswordField(new Dimension(370, 47), "Contraseña", Cuadro.redBAJA, 40, Color.LIGHT_GRAY);
@@ -152,7 +152,7 @@ public class Login extends JDialog {
         panel1.add(inicioIncorrecto);
         panel1.add(contrasenaIncorrecta);
 
-        boton1.addActionListener(new ActionListener() {
+        iniciarSesionBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean correcto = true;
@@ -192,7 +192,7 @@ public class Login extends JDialog {
             }
         });
 
-        inicioIncorrecto.requestFocusInWindow();
+//        inicioIncorrecto.requestFocusInWindow();
 
         contentPane.add(panel1, BorderLayout.CENTER);
         setShape(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), Cuadro.redMED, Cuadro.redMED));

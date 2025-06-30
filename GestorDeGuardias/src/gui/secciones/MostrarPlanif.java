@@ -6,6 +6,7 @@ import gui.componentes.Etiqueta;
 import gui.componentes.PanelMes;
 import gui.internosComp.PanelSupOpcionesPlanifs;
 import gui.internosComp.TablaBase;
+import gui.pantallasEmergentes.Notificacion;
 import model.DiaGuardia;
 import services.ServicesLocator;
 
@@ -121,14 +122,33 @@ public class MostrarPlanif extends JPanel {
 
 
     public void mostrarTabla() {
-        if (getSeleccionado() != null) {
-            Ventana.getInstance().getPanelVerPlanif().removeAll();
-            ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices().getPlanificacionesAPartirDe(getSeleccionado().getFechaInicio());
-            TablaBase tabla = new TablaBase(Ventana.getInstance().getPanelVacio().getSize(), Color.WHITE, diasAux);
-            tabla.actualizarVistaTabla();
-            Ventana.getInstance().getPanelVerPlanif().add(tabla, BorderLayout.CENTER);
-            Ventana.getInstance().getPanelVerPlanif().revalidate();
-            Ventana.getInstance().getPanelVerPlanif().repaint();
+        if (seleccionado != null) {
+            String string1 = "<html><p>Procesando.....<br><br></p><html>";
+            Notificacion notificacion = new Notificacion(new Dimension(300, 200), "Mostrar planificación", string1);
+
+            SwingWorker<String, Void> myWorker = new SwingWorker<>() {
+                public String doInBackground() {
+
+                    Ventana ventana = Ventana.getInstance();
+                    ventana.getPanelVerPlanif().removeAll();
+                    ArrayList<DiaGuardia> diasAux =
+                            ServicesLocator.getInstance().getPlantillaServices().getPlanificacionesAPartirDe(seleccionado.getFechaInicio());
+                    TablaBase tabla = new TablaBase(ventana.getPanelVacio().getSize(), Color.WHITE, diasAux);
+                    tabla.actualizarVistaTabla();
+                    ventana.getPanelVerPlanif().add(tabla, BorderLayout.CENTER);
+                    ventana.getPanelVerPlanif().revalidate();
+                    ventana.getPanelVerPlanif().repaint();
+                    ventana.mostrarPanel("panelVerPlanificaciones");
+
+                    notificacion.dispose();
+                    return null;
+                }
+
+                public void done() {
+                }
+            };
+            myWorker.execute();
+            notificacion.setVisible(true);
         }
     }
 
