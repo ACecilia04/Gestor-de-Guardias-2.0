@@ -172,7 +172,7 @@ public class Menu extends JPanel {
         setBorder(border);
         minimizarMenu();
     }
-    
+
     private boolean puedeVer(String rol, String clave) {
         rol = rol.toLowerCase();
         if (rol.equalsIgnoreCase("administrador"))

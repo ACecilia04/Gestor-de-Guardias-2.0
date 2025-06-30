@@ -63,11 +63,11 @@ public class Ventana extends JFrame {
         Timer timer = new Timer(delayInSeconds * 500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                login = new Login(overlayPanel);
-                usuarioLogueado = login.getUsuarioLogueado();
-                if (usuarioLogueado == null) System.exit(0);
-
+//                setVisible(false);
+//                login = new Login(overlayPanel);
+//                usuarioLogueado = login.getUsuarioLogueado();
+//                if (usuarioLogueado == null) System.exit(0);
+                usuarioLogueado = new Usuario("administrador","administrador", new Rol("Administrador"));
                 // Instanciar el menú pasando el usuario logueado
                 menu = new Menu(zonaInferior, Ventana.this, usuarioLogueado);
                 zonaInferior.add(menu, BorderLayout.WEST);

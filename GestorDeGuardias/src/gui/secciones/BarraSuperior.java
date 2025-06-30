@@ -51,7 +51,7 @@ public class BarraSuperior extends JPanel {
 
             opcionesConfig = new PanelSupOpcionesConfig(this.getPreferredSize().height);
             opcionesConfig.setPanelReferencia(panelConfig);
-//            panelConfig.setOpcionesReferencia(opcionesConfig);
+            panelConfig.setOpcionesReferencia(opcionesConfig);
 
             opcionesUsuarios = new PanelSupOpcionesUsuarios(this.getPreferredSize().height);
             opcionesUsuarios.setPanelReferencia(panelUsuarios);

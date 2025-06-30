@@ -67,12 +67,6 @@ public class PanelSupOpcionesPlanifs extends JPanel{
 
         FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - nuevoBtn.getHeight() - 8);
         setLayout(miLayout);
-        /*
-        borrarBtn.setSeleccionable(false);
-        editarBtn.setSeleccionable(false);
-        nuevoBtn.setSeleccionable(true);
-        pdfBtn.setSeleccionable(false);
-         */
     }
 
     private void borrar() {
@@ -88,12 +82,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
             }
             panelReferencia.actualizarPlanif();
             panelReferencia.setSeleccionado(null);
-        /*
-        borrarBtn.setSeleccionable(false);
-        editarBtn.setSeleccionable(false);
-        nuevoBtn.setSeleccionable(true);
-        pdfBtn.setSeleccionable(false);
-         */
+
             revalidate();
             repaint();
         }

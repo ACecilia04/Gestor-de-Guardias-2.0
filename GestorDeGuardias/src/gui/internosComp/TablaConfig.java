@@ -3,7 +3,6 @@ package gui.internosComp;
 import gui.auxiliares.Paleta;
 import gui.componentes.Cuadro;
 import gui.componentes.CustomScrollBar;
-import gui.componentes.PanelMes;
 import model.Configuracion;
 
 import javax.swing.*;
@@ -35,7 +34,7 @@ public class TablaConfig extends Cuadro {
 
     // Para mantener el seleccionado
     private Configuracion seleccionada;
-    private JPanel panelSeleccionado;
+    //    private JPanel panelSeleccionado;
     private Object opcionesReferencia;
 
     private java.util.List<JPanel> panelesFilas = new ArrayList<>();
@@ -65,7 +64,7 @@ public class TablaConfig extends Cuadro {
         gbc.weighty = 1.0;
         gbc.weightx = 1.0;
 
-        String[] textos = { "Día", "Horario", "Personas", "Sexo", "Receso" };
+        String[] textos = {"Día", "Horario", "Personas", "Sexo", "Receso"};
         gbc.gridy = 0;
         gbc.gridwidth = 1;
 
@@ -91,7 +90,6 @@ public class TablaConfig extends Cuadro {
         cuerpo.setBackground(Color.WHITE);
         cuerpo.setLayout(new BoxLayout(cuerpo, BoxLayout.Y_AXIS));
         panelesFilas.clear();
-
         // Agrupar configuraciones por día de la semana
         LinkedHashMap<String, ArrayList<Configuracion>> mapaDias = new LinkedHashMap<>();
         for (Configuracion conf : configuraciones) {
@@ -148,9 +146,9 @@ public class TablaConfig extends Cuadro {
                 // Click para seleccionar
                 panelFila.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        setSeleccionado(null);
                         if (evt.getClickCount() == 1) {
-                            seleccionada = conf;
-                            panelSeleccionado = panelFila;
+                            setSeleccionado(conf);
                             actualizarSeleccion();
                         }
                         if (evt.getClickCount() == 2 && onDoubleClick != null) {
@@ -229,20 +227,22 @@ public class TablaConfig extends Cuadro {
         if (s.equalsIgnoreCase("M")) return "Masculino";
         return s;
     }
+
     public void setOpcionesReferencia(Object opcionesReferencia) {
         this.opcionesReferencia = opcionesReferencia;
     }
-    public JPanel getSeleccionado() {
-        return panelSeleccionado;
+
+    public Configuracion getSeleccionado() {
+        return seleccionada;
     }
 
-    public void setSeleccionado(JPanel seleccionado) {
-        if (seleccionado == null){
-//            if (this.panelSeleccionado != null && this.panelSeleccionado.isSeleccionado())
+    public void setSeleccionado(Configuracion seleccionada) {
+//        if (seleccionada == null){
 //                this.panelSeleccionado.setSeleccionado(false);
-        }
-        this.panelSeleccionado = seleccionado;
-        if (opcionesReferencia != null && opcionesReferencia instanceof PanelSupOpcionesPlanifs)
-            ((PanelSupOpcionesPlanifs)opcionesReferencia).setAlgunMesSeleccionado(seleccionado != null);
+//        }
+        this.seleccionada = seleccionada;
+        if (opcionesReferencia != null && opcionesReferencia instanceof PanelSupOpcionesConfig)
+            ((PanelSupOpcionesConfig) opcionesReferencia).setAlgunaConfigSeleccionada(seleccionada != null);
     }
+
 }
