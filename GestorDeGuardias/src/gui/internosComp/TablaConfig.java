@@ -146,10 +146,12 @@ public class TablaConfig extends Cuadro {
                 // Click para seleccionar
                 panelFila.addMouseListener(new java.awt.event.MouseAdapter() {
                     public void mouseClicked(java.awt.event.MouseEvent evt) {
-                        setSeleccionado(null);
                         if (evt.getClickCount() == 1) {
                             setSeleccionado(conf);
                             actualizarSeleccion();
+                            if (onDoubleClick != null) {
+                                onDoubleClick.accept(conf); // ← this keeps PanelConfig.seleccionada in sync
+                            }
                         }
                         if (evt.getClickCount() == 2 && onDoubleClick != null) {
                             onDoubleClick.accept(conf);
