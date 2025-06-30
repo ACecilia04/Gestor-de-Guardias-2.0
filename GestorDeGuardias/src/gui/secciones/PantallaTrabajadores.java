@@ -6,6 +6,7 @@ import gui.componentes.CustomCheckBox;
 import gui.internosComp.PanelOpcionesTrabajador;
 import gui.internosComp.TablaTrabajadores;
 import gui.pantallasEmergentes.Advertencia;
+import logica.principal.Disponibilidad;
 import model.Persona;
 import model.TipoPersona;
 import services.ReporteServices;
@@ -233,18 +234,32 @@ public class PantallaTrabajadores extends JPanel {
         ArrayList<Persona> aux = new ArrayList<>();
 
         for (Persona e : personas) {
-            boolean selec = tablaOpciones.getCheckDisp().isSelected();
-//                    || e.getDisponibilidadParaFecha(LocalDate.now()) != Disponibilidad.DISPONIBLE;
-//            if (!tablaOpciones.getCheckBaja().isSelected() && e.getDisponibilidadParaFecha(LocalDate.now()) == Disponibilidad.BAJA && selec) {
-//                selec = false;
-//            }
-            if (!tablaOpciones.getCheckMasc().isSelected() && e.getSexo().equalsIgnoreCase("masculino") && selec) {
+            boolean selec = true;
+
+            // Filtro de disponibilidad general (si existe)
+            if (!tablaOpciones.getCheckDisp().isSelected()
+                    && e.getDisponibilidad(LocalDate.now()).equalsIgnoreCase("Disponible")) {
                 selec = false;
             }
-            if (!tablaOpciones.getCheckFem().isSelected() && e.getSexo().equalsIgnoreCase("femenino") && selec) {
+            // Filtro de baja
+            if (!tablaOpciones.getCheckBaja().isSelected()
+                    && e.getDisponibilidad(LocalDate.now()).equalsIgnoreCase("Baja")) {
                 selec = false;
             }
 
+            // Filtro de masculino
+            if (!tablaOpciones.getCheckMasc().isSelected()
+                    && e.getSexo().equalsIgnoreCase("masculino")) {
+                selec = false;
+            }
+
+            // Filtro de femenino
+            if (!tablaOpciones.getCheckFem().isSelected()
+                    && e.getSexo().equalsIgnoreCase("femenino")) {
+                selec = false;
+            }
+
+            // Si pasa todos los filtros, se añade
             if (selec) {
                 aux.add(e);
             }
@@ -252,6 +267,5 @@ public class PantallaTrabajadores extends JPanel {
 
         return aux;
     }
-
 
 }
