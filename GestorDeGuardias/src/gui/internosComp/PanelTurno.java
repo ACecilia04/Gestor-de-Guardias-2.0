@@ -72,9 +72,9 @@ public class PanelTurno extends Cuadro implements Actualizable {
         horarioPanel.setBackground(getBackground());
         add(horarioPanel);
 
-        nombre = new Etiqueta(fuente, colorLetra, "");
-        apellido = new Etiqueta(fuente, colorLetra, "");
-        ID = new Etiqueta(fuente, colorLetra, "");
+        nombre = new Etiqueta(fuente, colorLetra, turno.getPersonaAsignada().getNombre());
+        apellido = new Etiqueta(fuente, colorLetra, turno.getPersonaAsignada().getApellido());
+        ID = new Etiqueta(fuente, colorLetra, turno.getPersonaAsignada().getCarnet());
 //TODO : fix panelTurno so that we can show the assigned ppl
 
         if (!this.turno.getPersonasAsignadas().isEmpty()) {
