@@ -10,7 +10,7 @@ import java.awt.event.*;
 @SuppressWarnings("serial")
 public class CustomTextField extends Cuadro {
     private static final int redondez = Cuadro.redBAJA;
-    private final String textoPorDefecto;
+    private String textoPorDefecto;
     private final Font fuente = new Font("Arial", Font.PLAIN, 14);
     private final Cuadro myself;
     private final int maxCaracteres;
@@ -252,6 +252,19 @@ public class CustomTextField extends Cuadro {
 
         private boolean isLetter(String text) {
             return text.matches("[a-zA-Z������������ ]*");
+        }
+    }
+
+    public void setTextoPorDefecto(String texto){
+        textField.setText(texto);
+    }
+    public void setEditable(boolean editable) {
+        textField.setEditable(editable);
+        textField.setFocusable(editable);
+        if (!editable) {
+            textField.setForeground(Color.DARK_GRAY); // Optional: visually signal non-editability
+        } else if (!textField.getText().equals(textoPorDefecto)) {
+            textField.setForeground(colorLetra); // Restore normal text color
         }
     }
 }

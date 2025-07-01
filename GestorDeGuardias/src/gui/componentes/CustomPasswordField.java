@@ -15,7 +15,7 @@ public class CustomPasswordField extends Cuadro {
     private static final int sepLargo = 5;
     private static final int espBoton = 40;
     //Utiles
-    private final String textoPorDefecto;
+    private String textoPorDefecto;
     //Componentes
     private final Cuadro myself;
     private final JPasswordField textField;
@@ -161,6 +161,10 @@ public class CustomPasswordField extends Cuadro {
         return new String(textField.getPassword());
     }
 
+    public void setTextoPorDefecto(String texto) {
+        textField.setText(texto);
+    }
+
     private static class LimitedDocument extends PlainDocument {
         private final int limit;
 
@@ -175,7 +179,15 @@ public class CustomPasswordField extends Cuadro {
             }
         }
     }
-
+    public void setEditable(boolean editable) {
+        textField.setEditable(editable);
+        textField.setFocusable(editable);
+        if (!editable) {
+            textField.setForeground(Color.DARK_GRAY); // Optional: visually signal non-editability
+        } else if (!textField.getText().equals(textoPorDefecto)) {
+            textField.setForeground(colorLetra); // Restore normal text color
+        }
+    }
 }
 
 

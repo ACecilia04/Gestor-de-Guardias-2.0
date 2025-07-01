@@ -110,15 +110,6 @@ public abstract class CustomTablaComplex extends JPanel {
 
     public abstract void actualizar();
 
-
-//    public void limpiarTabla() {
-//        modelo.setRowCount(0);
-//    }
-//
-//    public int getCantFilas() {
-//        return modelo.getRowCount();
-//    }
-
     public ArrayList<Component> getComponentes() {
         return componentes;
     }
@@ -134,14 +125,6 @@ public abstract class CustomTablaComplex extends JPanel {
     public int getColumnaSelec() {
         return columnaSelec;
     }
-
-//    public void setColumnaSelec(int x) {
-//        columnaSelec = x;
-//    }
-//
-//    public ArrayList<Actualizable> getActualizables() {
-//        return actualizables;
-//    }
 
     public void setActualizables(ArrayList<Actualizable> actualizables) {
         this.actualizables = actualizables;

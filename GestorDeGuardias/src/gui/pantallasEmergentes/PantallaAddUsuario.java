@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class PantallaAddUsuario extends JDialog {
     protected static final long serialVersionUID = 1L;
+    private Usuario usuario;
 
     protected JPanel contentPane;
     protected JPanel panelTitulo, panelInf, panelBotones;
@@ -32,8 +33,9 @@ public class PantallaAddUsuario extends JDialog {
 
     protected ArrayList<Rol> listaRoles;
 
-    public PantallaAddUsuario(ArrayList<Rol> rolesDisponibles) {
-        super(Ventana.getInstance(), "Crear Usuario", true);
+    public PantallaAddUsuario(ArrayList<Rol> rolesDisponibles, Usuario usuario) {
+        super(Ventana.getInstance(), usuario == null ? "Crear Usuario" : "Modificar Usuario", true);
+        this.usuario = usuario;
         this.listaRoles = rolesDisponibles;
         setResizable(false);
         setSize(dim);
@@ -60,6 +62,22 @@ public class PantallaAddUsuario extends JDialog {
         panelInf.setBorder(border2);
         contentPane.requestFocus();
 
+        if (usuario != null) {
+            fieldUsuario.setTextoPorDefecto(usuario.getNombre());
+            fieldUsuario.setEditable(false);
+
+            fieldPassword.setTextoPorDefecto(usuario.getContrasenna());
+            fieldPassword.setEditable(false);
+
+            int index = 0;
+            for (int i = 0; i < listaRoles.size(); i++) {
+                if (listaRoles.get(i).getNombre().equals(usuario.getRol().getNombre())) {
+                    index = i;
+                    break;
+                }
+            }
+            comboRoles.setSelectedIndex(index);
+        }
         setVisible(true);
     }
 
@@ -70,7 +88,7 @@ public class PantallaAddUsuario extends JDialog {
         panelTitulo.setPreferredSize(panelTitulo.getSize());
         panelTitulo.setLayout(new BorderLayout());
 
-        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Crear Usuario");
+        Etiqueta titulo = new Etiqueta(fuente, paleta.getColorLetraMenu(), getTitle());
         titulo.setBold(true);
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         panelTitulo.add(titulo);
@@ -152,28 +170,47 @@ public class PantallaAddUsuario extends JDialog {
     }
 
     private void actionPerformed(ActionEvent e) {
-        String usuario = fieldUsuario.getText().trim();
-        String pass = fieldPassword.getText();
         int rolIdx = comboRoles.getSelectedIndex();
 
-        if (usuario.isEmpty() || pass.isEmpty() || rolIdx < 0) {
-            new Advertencia(new Dimension(400, 250), "Campos requeridos", "Debe ingresar usuario, contraseña y rol.", "Aceptar");
+        if (rolIdx < 0) {
+            new Advertencia(new Dimension(400, 250), "Campos requeridos", "Debe seleccionar un rol.", "Aceptar");
             return;
         }
 
         Rol rolSeleccionado = listaRoles.get(rolIdx);
 
-        Usuario newUser = new Usuario();
-        newUser.setNombre(usuario);
-        newUser.setContrasenna(pass);
-        newUser.setRol(rolSeleccionado);
+        if (usuario == null) {
+            String usuario = fieldUsuario.getText().trim();
+            String pass = fieldPassword.getText();
 
-        try {
-            ServicesLocator.getInstance().getUsuarioServices().insertUsuario(newUser);
-            new Advertencia(new Dimension(400, 250), "Éxito", "Usuario creado correctamente.", "Aceptar");
-            dispose();
-        } catch (MultiplesErroresException | SqlServerCustomException ex) {
-            new Advertencia(new Dimension(400, 250), "Error", "Error al crear usuario: " + ex.getMessage(), "Aceptar");
+            if (usuario.isEmpty() || pass.isEmpty()) {
+                new Advertencia(new Dimension(400, 250), "Campos requeridos", "Debe ingresar usuario y contraseña.", "Aceptar");
+                return;
+            }
+
+            Usuario newUser = new Usuario();
+            newUser.setNombre(usuario);
+            newUser.setContrasenna(pass);
+            newUser.setRol(rolSeleccionado);
+
+            try {
+                ServicesLocator.getInstance().getUsuarioServices().insertUsuario(newUser);
+                new Advertencia(new Dimension(400, 250), "Éxito", "Usuario creado correctamente.", "Aceptar");
+                dispose();
+            } catch (MultiplesErroresException | SqlServerCustomException ex) {
+                new Advertencia(new Dimension(400, 250), "Error", "Error al crear usuario: " + ex.getMessage(), "Aceptar");
+            }
+        } else {
+            usuario.setRol(rolSeleccionado);
+            try {
+                ServicesLocator.getInstance().getUsuarioServices().updateUsuario(usuario);
+                new Advertencia(new Dimension(400, 250), "Éxito", "Usuario actualizado correctamente.", "Aceptar");
+                dispose();
+            } catch (MultiplesErroresException | SqlServerCustomException ex) {
+                new Advertencia(new Dimension(400, 250), "Error", "Error al actualizar usuario: " + ex.getMessage(), "Aceptar");
+            }
         }
     }
+
+
 }

@@ -63,26 +63,19 @@ public class PantallaUsuarios extends JPanel {
     // Métodos para los botones de la barra superior
     public void agregarUsuario() {
         ArrayList<Rol> roles = (ArrayList<Rol>) ServicesLocator.getInstance().getRolServices().getAllRoles();
-        new PantallaAddUsuario(roles);
+        new PantallaAddUsuario(roles, getUsuarioSeleccionado());
         setTabla((ArrayList<Usuario>) ServicesLocator.getInstance().getUsuarioServices().getAllUsuarios());
     }
 
     public void modificarUsuario() {
-        Usuario seleccionado = getUsuarioSeleccionado();
-        if (seleccionado == null) {
-            new Advertencia(new Dimension(400, 250), "Advertencia", "Seleccione un usuario para modificar.", "Aceptar");
-            return;
-        }
-        new Advertencia(new Dimension(400, 250), "Modificar usuario", "Modificar usuario: " + seleccionado.getNombre(), "Aceptar");
-        // Aquí iría la lógica real
+        ArrayList<Rol> roles = (ArrayList<Rol>) ServicesLocator.getInstance().getRolServices().getAllRoles();
+        new PantallaAddUsuario(roles, this.getUsuarioSeleccionado());
+
     }
 
     public void eliminarUsuario() {
         Usuario seleccionado = getUsuarioSeleccionado();
-        if (seleccionado == null) {
-            new Advertencia(new Dimension(400, 250), "Advertencia", "Seleccione un usuario para eliminar.", "Aceptar");
-            return;
-        }
+
         if (seleccionado.getRol() != null &&
                 seleccionado.getRol().getNombre() != null &&
                 seleccionado.getRol().getNombre().equalsIgnoreCase("Administrador")) {
