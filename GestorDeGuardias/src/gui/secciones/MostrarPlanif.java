@@ -1,7 +1,7 @@
 package gui.secciones;
 
 import gui.auxiliares.Paleta;
-import gui.auxiliares.PanelInterno;
+import gui.auxiliares.PanelMesDeGuardias;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
 import gui.internosComp.PanelOpcionesMostrarP;
@@ -33,7 +33,7 @@ public class MostrarPlanif extends JPanel {
     private static final int VERTICAL_GAP = 20;
     private final Dimension panelDimension = new Dimension(PANEL_WIDTH, PANEL_HEIGHT);
     private final JPanel panelMeses;
-    private final ArrayList<PanelInterno> paneles;
+    private final ArrayList<PanelMesDeGuardias> paneles;
 
     private final PanelOpcionesMostrarP panelOpciones;
 
@@ -175,7 +175,7 @@ public class MostrarPlanif extends JPanel {
     }
 
     private void addPlanif(LocalDate fechaIncio) {
-        PanelInterno nuevoPanel = new PanelInterno(fechaIncio, panelDimension);
+        PanelMesDeGuardias nuevoPanel = new PanelMesDeGuardias(fechaIncio, panelDimension);
 
         panelMeses.add(nuevoPanel);
         paneles.add(nuevoPanel);
@@ -211,8 +211,8 @@ public class MostrarPlanif extends JPanel {
         }
 
 
-        for (PanelInterno e : paneles) {
-            final PanelInterno aux = e;
+        for (PanelMesDeGuardias e : paneles) {
+            final PanelMesDeGuardias aux = e;
             aux.addMouseListener(new MouseAdapter() {
 
                 private static final long DOUBLE_CLICK_DELAY = 500;
@@ -263,16 +263,16 @@ public class MostrarPlanif extends JPanel {
         panelMeses.setPreferredSize(new Dimension(600, preferredHeight));
     }
 
-    private void calcularSeleccionados(PanelInterno aux) {
-        for (PanelInterno e : paneles) {
+    private void calcularSeleccionados(PanelMesDeGuardias aux) {
+        for (PanelMesDeGuardias e : paneles) {
             if (e != aux) {
                 e.setSeleccionado(false);
             }
         }
     }
 
-    public PanelInterno getSeleccionado() {
-        PanelInterno aux = null;
+    public PanelMesDeGuardias getSeleccionado() {
+        PanelMesDeGuardias aux = null;
         for (int i = 0; i < paneles.size() && aux == null; i++) {
             if (paneles.get(i).isSeleccionado()) {
                 aux = paneles.get(i);
