@@ -2,8 +2,8 @@ package gui.secciones;
 
 import gui.internosComp.PanelSupOpcionesUsuarios;
 import gui.internosComp.TablaUsuarios;
-import gui.pantallasEmergentes.PantallaAddUsuario;
 import gui.pantallasEmergentes.Advertencia;
+import gui.pantallasEmergentes.PantallaAddUsuario;
 import model.Rol;
 import model.Usuario;
 import services.ServicesLocator;
@@ -34,7 +34,7 @@ public class PantallaUsuarios extends JPanel {
         }
 
         Ventana venAux = Ventana.getInstance();
-        Dimension auxDim = new Dimension(venAux.getPanelVacio().getSize().width , venAux.getPanelVacio().getSize().height);
+        Dimension auxDim = new Dimension(venAux.getPanelVacio().getSize().width, venAux.getPanelVacio().getSize().height);
         this.tabla = new TablaUsuarios(auxDim, Color.WHITE, usuarios);
 
         // Listener de selección
@@ -64,29 +64,29 @@ public class PantallaUsuarios extends JPanel {
     public void agregarUsuario() {
         ArrayList<Rol> roles = (ArrayList<Rol>) ServicesLocator.getInstance().getRolServices().getAllRoles();
         new PantallaAddUsuario(roles);
-        setTabla((ArrayList<Usuario>)ServicesLocator.getInstance().getUsuarioServices().getAllUsuarios());
+        setTabla((ArrayList<Usuario>) ServicesLocator.getInstance().getUsuarioServices().getAllUsuarios());
     }
 
     public void modificarUsuario() {
         Usuario seleccionado = getUsuarioSeleccionado();
         if (seleccionado == null) {
-            new Advertencia(new Dimension(400, 150), "Advertencia", "Seleccione un usuario para modificar.", "Aceptar");
+            new Advertencia(new Dimension(400, 250), "Advertencia", "Seleccione un usuario para modificar.", "Aceptar");
             return;
         }
-        new Advertencia(new Dimension(400, 150), "Modificar usuario", "Modificar usuario: " + seleccionado.getNombre(), "Aceptar");
+        new Advertencia(new Dimension(400, 250), "Modificar usuario", "Modificar usuario: " + seleccionado.getNombre(), "Aceptar");
         // Aquí iría la lógica real
     }
 
     public void eliminarUsuario() {
         Usuario seleccionado = getUsuarioSeleccionado();
         if (seleccionado == null) {
-            new Advertencia(new Dimension(400, 150), "Advertencia", "Seleccione un usuario para eliminar.", "Aceptar");
+            new Advertencia(new Dimension(400, 250), "Advertencia", "Seleccione un usuario para eliminar.", "Aceptar");
             return;
         }
         if (seleccionado.getRol() != null &&
                 seleccionado.getRol().getNombre() != null &&
                 seleccionado.getRol().getNombre().equalsIgnoreCase("Administrador")) {
-            new Advertencia(new Dimension(400, 150), "Operación no permitida", "No se puede eliminar el usuario administrador.", "Aceptar");
+            new Advertencia(new Dimension(400, 250), "Operación no permitida", "No se puede eliminar el usuario administrador.", "Aceptar");
             return;
         }
 
@@ -106,9 +106,9 @@ public class PantallaUsuarios extends JPanel {
             ServicesLocator.getInstance().getUsuarioServices().deleteUsuario(seleccionado.getId());
             // Refresca la tabla después de eliminar
             setTabla((ArrayList<Usuario>) ServicesLocator.getInstance().getUsuarioServices().getAllUsuarios());
-            new Advertencia(new Dimension(400, 150), "Eliminación exitosa", "Usuario eliminado correctamente.", "Aceptar");
+            new Advertencia(new Dimension(400, 250), "Eliminación exitosa", "Usuario eliminado correctamente.", "Aceptar");
         } catch (Exception ex) {
-            new Advertencia(new Dimension(400, 150), "Error", "No se pudo eliminar el usuario: " + ex.getMessage(), "Aceptar");
+            new Advertencia(new Dimension(400, 250), "Error", "No se pudo eliminar el usuario: " + ex.getMessage(), "Aceptar");
         }
     }
 

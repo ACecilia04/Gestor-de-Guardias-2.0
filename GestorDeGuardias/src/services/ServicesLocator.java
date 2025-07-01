@@ -68,7 +68,9 @@ public class ServicesLocator {
         return rolServices;
     }
 
-    public PlantillaServices getPlantillaServices(){ return plantillaServices;}
+    public PlantillaServices getPlantillaServices() {
+        return plantillaServices;
+    }
 
     public Usuario getUsuarioActual() {
         return usuarioActual;

@@ -1,7 +1,6 @@
 package gui.secciones;
 
 import gui.auxiliares.Paleta;
-import gui.componentes.Boton;
 import gui.internosComp.*;
 
 import javax.swing.*;
@@ -12,18 +11,16 @@ import java.io.Serial;
 public class BarraSuperior extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-
-    private JPanel panelUsuario;
     private final JPanel panelDerecha;
     private final JPanel panelIzquierda;
-
     private final JPanel panelEdicion1;
     private final PanelEdicion2 panelEd2;
-    private PanelSupOpcionesPlanifs opcionesPlanif;
-    private PanelSupOpcionesAsistencia opcionesAsistencia;
-    private PanelSupOpcionesConfig opcionesConfig;
-    private PanelSupCerrarSesion cerrarSesionPnl;
-    private PanelSupOpcionesUsuarios opcionesUsuarios;
+    private JPanel panelUsuario;
+    private final PanelSupOpcionesPlanifs opcionesPlanif;
+    private final PanelSupOpcionesAsistencia opcionesAsistencia;
+    private final PanelSupOpcionesConfig opcionesConfig;
+    private final PanelSupCerrarSesion cerrarSesionPnl;
+    private final PanelSupOpcionesUsuarios opcionesUsuarios;
 
     public BarraSuperior(JPanel contenedor, MostrarPlanif panelMostrarPlanifs, PantallaCump panelCumplimiento, PanelConfig panelConfig, PantallaUsuarios panelUsuarios) {
         Dimension dim = new Dimension(contenedor.getWidth(), 85);
@@ -76,7 +73,7 @@ public class BarraSuperior extends JPanel {
         setBorder(border);
 
         CardLayout cardLayout = (CardLayout) panelIzquierda.getLayout();
-        cardLayout.show(panelIzquierda,"panelCerrarSesion" );
+        cardLayout.show(panelIzquierda, "panelCerrarSesion");
     }
 
     public void mostrarPanel(String nombrePanel) {

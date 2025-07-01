@@ -50,7 +50,7 @@ public class PantallaEstudiantes extends JPanel {
 
         for (CustomCheckBox e : checks) {
             e.addActionListener(e12 -> {
-                ArrayList<Persona> personaAux = checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante")));
+                ArrayList<Persona> personaAux = checkFiltros((ArrayList<Persona>) ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante")));
                 revalidarTabla(personaAux);
             });
         }
@@ -138,7 +138,7 @@ public class PantallaEstudiantes extends JPanel {
                     if (!advertencia.getEleccion()) {
 //                        System.out.println(fechaAux);
                         try {
-                            ServicesLocator.getInstance().getPersonaServices().darBaja(ID,fechaAux);
+                            ServicesLocator.getInstance().getPersonaServices().darBaja(ID, fechaAux);
                         } catch (MultiplesErroresException | SqlServerCustomException ex) {
 //                            TODO: create error pane
 
@@ -156,7 +156,7 @@ public class PantallaEstudiantes extends JPanel {
         tablaOpciones.getBotonExport().addActionListener(e -> {
             // 1. Obtener los trabajadores filtrados
             ArrayList<Persona> filtrados = checkFiltros(
-                    (ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))
+                    (ArrayList<Persona>) ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))
             );
             if (filtrados.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No hay trabajadores para exportar con los filtros actuales.", "Sin datos", JOptionPane.WARNING_MESSAGE);
@@ -175,7 +175,7 @@ public class PantallaEstudiantes extends JPanel {
                 if (!path.toLowerCase().endsWith(".pdf")) path += ".pdf";
 
                 // 3. Llamar al servicio de reporte
-                new ReporteServices().generarReporteTodasLasPersonas(filtrados, path,title);
+                new ReporteServices().generarReporteTodasLasPersonas(filtrados, path, title);
 
                 JOptionPane.showMessageDialog(this, "PDF generado exitosamente:\n" + path, "Éxito", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -226,7 +226,7 @@ public class PantallaEstudiantes extends JPanel {
     }
 
     public void revalidarTabla() {
-        this.tabla.revalidarTabla(checkFiltros((ArrayList<Persona>)ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
+        this.tabla.revalidarTabla(checkFiltros((ArrayList<Persona>) ServicesLocator.getInstance().getPersonaServices().getPersonasByTipo(new TipoPersona("Estudiante"))));
 
         revalidate();
         repaint();
@@ -237,10 +237,7 @@ public class PantallaEstudiantes extends JPanel {
         ArrayList<Persona> aux = new ArrayList<>();
 
         for (Persona e : personas) {
-            boolean selec = true;
-            if (!tablaOpciones.getCheckDisp().isSelected() && Objects.equals(e.getDisponibilidad(LocalDate.now()), "Disponible")) {
-                selec = false;
-            }
+            boolean selec = tablaOpciones.getCheckDisp().isSelected() || !Objects.equals(e.getDisponibilidad(LocalDate.now()), "Disponible");
             if (!tablaOpciones.getCheckBaja().isSelected() && Objects.equals(e.getDisponibilidad(LocalDate.now()), "Baja") && selec) {
                 selec = false;
             }

@@ -426,7 +426,6 @@ public class Gestor {
 ////        return indice == -1 ? null : planDeGuardias.get(indice);
 //        return null;
 //    }
-
     public Facultad getFacultad() {
         return facultad;
     }

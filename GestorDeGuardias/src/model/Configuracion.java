@@ -24,24 +24,69 @@ public class Configuracion {
     }
 
 
+    public Long getId() {
+        return id;
+    }
 
-    public Long getId() { return id;}
-    public Integer getDiaSemana() { return diaSemana; }
-    public Boolean diaEsReceso() { return diaEsReceso; }
-    public Horario getHorario() { return horario; }
-    public TipoPersona getTipoPersona() { return tipoPersona; }
-    public String getSexo() { return sexo; }
-    public Integer getCantPersonas() { return cantPersonas; }
-    public Boolean isBorrado() { return borrado; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public void setId(Long id) {this.id = id;}
-    public void setDiaSemana(Integer diaSemana) { this.diaSemana = diaSemana; }
-    public void setDiaEsReceso(Boolean diaEsReceso) { this.diaEsReceso = diaEsReceso; }
-    public void setHorario(Horario horario) { this.horario = horario; }
-    public void setTipoPersona(TipoPersona tipoPersona) { this.tipoPersona = tipoPersona; }
-    public void setSexo(String sexo) { this.sexo = sexo; }
-    public void setCantPersonas(Integer cantPersonas) { this.cantPersonas = cantPersonas; }
-    public void setBorrado(Boolean borrado) { this.borrado = borrado; }
+    public Integer getDiaSemana() {
+        return diaSemana;
+    }
+
+    public void setDiaSemana(Integer diaSemana) {
+        this.diaSemana = diaSemana;
+    }
+
+    public Boolean diaEsReceso() {
+        return diaEsReceso;
+    }
+
+    public Horario getHorario() {
+        return horario;
+    }
+
+    public void setHorario(Horario horario) {
+        this.horario = horario;
+    }
+
+    public TipoPersona getTipoPersona() {
+        return tipoPersona;
+    }
+
+    public void setTipoPersona(TipoPersona tipoPersona) {
+        this.tipoPersona = tipoPersona;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public Integer getCantPersonas() {
+        return cantPersonas;
+    }
+
+    public void setCantPersonas(Integer cantPersonas) {
+        this.cantPersonas = cantPersonas;
+    }
+
+    public Boolean isBorrado() {
+        return borrado;
+    }
+
+    public void setDiaEsReceso(Boolean diaEsReceso) {
+        this.diaEsReceso = diaEsReceso;
+    }
+
+    public void setBorrado(Boolean borrado) {
+        this.borrado = borrado;
+    }
 
     // Display
     @Override

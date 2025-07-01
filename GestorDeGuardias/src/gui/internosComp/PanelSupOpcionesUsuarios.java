@@ -2,7 +2,6 @@ package gui.internosComp;
 
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
-import gui.secciones.MostrarPlanif;
 import gui.secciones.PantallaUsuarios;
 
 import javax.swing.*;

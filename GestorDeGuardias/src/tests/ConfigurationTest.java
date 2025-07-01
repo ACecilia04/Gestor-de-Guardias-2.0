@@ -373,7 +373,7 @@ public class ConfigurationTest {
     public void getAll_success() {
         List<Configuracion> records = configuracionServices.getAllConfiguraciones();
         assertNotNull(records);
-        assertTrue(records.size() > 0);
+        assertFalse(records.isEmpty());
     }
 
     @Test

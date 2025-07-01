@@ -10,7 +10,6 @@ import model.TurnoDeGuardia;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class TablaBase extends Cuadro implements IsTabla {
         add(cuerpo, BorderLayout.CENTER);
     }
 
-    private JPanel imprimirEncabezado(String mesAgno)  {
+    private JPanel imprimirEncabezado(String mesAgno) {
         JPanel encabezado = new JPanel(new GridBagLayout());
         encabezado.setPreferredSize(new Dimension(0, 67));
         encabezado.setBorder(new EmptyBorder(PAD, 0, PAD, 0));
@@ -74,7 +73,7 @@ public class TablaBase extends Cuadro implements IsTabla {
         encabezado.add(celdaEncabezado(""), gbc);
 
         // Textos de la fila 2
-        String[] textos = { "Día", "Horario", "Carnet", "Apellidos", "Nombre" };
+        String[] textos = {"Día", "Horario", "Carnet", "Apellidos", "Nombre"};
         gbc.gridy = 1;
         gbc.gridwidth = 1; // De nuevo una celda por columna
 
@@ -95,7 +94,7 @@ public class TablaBase extends Cuadro implements IsTabla {
         return lbl;
     }
 
-    private JScrollPane imprimirCuerpo(ArrayList<DiaGuardia> estosDias){
+    private JScrollPane imprimirCuerpo(ArrayList<DiaGuardia> estosDias) {
         JPanel cuerpo = new JPanel();
         cuerpo.setBackground(Color.WHITE);
         cuerpo.setLayout(new BoxLayout(cuerpo, BoxLayout.Y_AXIS));
@@ -122,10 +121,10 @@ public class TablaBase extends Cuadro implements IsTabla {
         return scrollPane;
     }
 
-    private JPanel construirFila(ArrayList<TurnoDeGuardia> turnos, String nombreDia, AtomicBoolean alt){
+    private JPanel construirFila(ArrayList<TurnoDeGuardia> turnos, String nombreDia, AtomicBoolean alt) {
         // Es necesario saber cuantas personas hay en el dia para determinar la cantidad de filas del dia
         int cantPersonas = 0;
-        for (TurnoDeGuardia turno : turnos){
+        for (TurnoDeGuardia turno : turnos) {
             ArrayList<Persona> personas = turno.getPersonasAsignadas();
             if (personas == null || personas.isEmpty()) {
                 Persona persona = turno.getPersonaAsignada();
@@ -165,7 +164,7 @@ public class TablaBase extends Cuadro implements IsTabla {
         for (TurnoDeGuardia turno : turnos) {
             String horarioStr = turno.getHorario() != null ? turno.getHorario().toString() : "";
             ArrayList<Persona> personas = turno.getPersonasAsignadas();
-            if (personas == null || personas.isEmpty()){
+            if (personas == null || personas.isEmpty()) {
                 Persona persona = turno.getPersonaAsignada();
                 if (persona != null) {
                     bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
@@ -203,7 +202,7 @@ public class TablaBase extends Cuadro implements IsTabla {
             }
         }
 
-        if (i < cantFilas){ // hay menos personas que filas, añadir una fila vacia para garantizar el cambio de color de fondo a la siguiente fecha
+        if (i < cantFilas) { // hay menos personas que filas, añadir una fila vacia para garantizar el cambio de color de fondo a la siguiente fecha
             bgColor = alt.get() ? colorDiaFondo : Color.WHITE;
             gbc.gridx = 1;
             gbc.gridy = i;
@@ -227,8 +226,10 @@ public class TablaBase extends Cuadro implements IsTabla {
 
 
     @Override
-    public void actualizar() {}
+    public void actualizar() {
+    }
 
     @Override
-    public void actualizarVistaTabla() {}
+    public void actualizarVistaTabla() {
+    }
 }

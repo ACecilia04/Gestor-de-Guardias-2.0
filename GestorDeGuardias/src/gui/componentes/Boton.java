@@ -43,7 +43,7 @@ public class Boton extends JPanel implements Actualizable {
     private Color colorLetra = paleta.getColorLetraMenu();
     private Color colorLetraPres = paleta.getColorLetraSelec();
     private boolean select = false;
-    private Font fuente = new Font("Arial", Font.PLAIN, 14);
+    private final Font fuente = new Font("Arial", Font.PLAIN, 14);
 
     /**
      * Este es para Botones simples
@@ -115,12 +115,14 @@ public class Boton extends JPanel implements Actualizable {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (!isEnabled() || !seleccionable) return;
+                if (!isEnabled() || !seleccionable) {
+                }
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                if (!isEnabled() || !seleccionable) return;
+                if (!isEnabled() || !seleccionable) {
+                }
             }
         };
         addMouseListener(adaptador);
@@ -386,7 +388,7 @@ public class Boton extends JPanel implements Actualizable {
 
     }
 
-    public void actualizar(boolean minimizar){
+    public void actualizar(boolean minimizar) {
         if (minimizar) {
             etiqueta.setText("");
             redondez = 0;

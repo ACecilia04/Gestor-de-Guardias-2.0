@@ -30,12 +30,12 @@ public class Ventana extends JFrame {
     private final Paleta paleta;
     private final JPanel contReal;
     private final JPanel zonaInferior;
-    private BarraSuperior barraSup;
+    private final ServicesLocator servicesLocator;
+    private final BarraSuperior barraSup;
     private Menu menu;
     private JPanel contentPane;
     private JPanel panelVacio;
     private JPanel panelHome;
-
     private Cuadro overlayPanel;
     private JPanel panelVerPlanif;
     private AddPlanif panelAddPlanif;
@@ -52,7 +52,6 @@ public class Ventana extends JFrame {
     private int distX;
     private int distY;
     private String pantallaActual = "panelHome";
-    private final ServicesLocator servicesLocator;
     private Usuario usuarioLogueado;
 
     private Ventana() {
@@ -67,7 +66,7 @@ public class Ventana extends JFrame {
 //                login = new Login(overlayPanel);
 //                usuarioLogueado = login.getUsuarioLogueado();
 //                if (usuarioLogueado == null) System.exit(0);
-                usuarioLogueado = new Usuario("administrador","administrador", new Rol("Administrador"));
+                usuarioLogueado = new Usuario("administrador", "administrador", new Rol("Administrador"));
                 // Instanciar el menú pasando el usuario logueado
                 menu = new Menu(zonaInferior, Ventana.this, usuarioLogueado);
                 zonaInferior.add(menu, BorderLayout.WEST);
@@ -250,18 +249,18 @@ public class Ventana extends JFrame {
                 dias = servicesLocator.getPlantillaServices().crearPLantilla(empezarHoy);
 
                 Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
-                Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(),distX, distY, panelAddPlanif);
+                Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
                 panelAddPlanif.getTablaOpciones().setTabla(tabla);
 
                 panelAddPlanif.addTabla(tabla);
-            } else if (Objects.equals(nombrePanel, "panelConfig") && !Objects.equals(pantallaActual, "panelConfig")){
+            } else if (Objects.equals(nombrePanel, "panelConfig") && !Objects.equals(pantallaActual, "panelConfig")) {
                 pantallaConfig.cargarConfiguraciones();
-            } else if(Objects.equals(nombrePanel, "panelUsuarios") && !Objects.equals(pantallaActual, "panelUsuarios")){
+            } else if (Objects.equals(nombrePanel, "panelUsuarios") && !Objects.equals(pantallaActual, "panelUsuarios")) {
                 ArrayList<Usuario> usuarios = (ArrayList<Usuario>) servicesLocator.getUsuarioServices().getAllUsuarios();
                 usuarios.removeIf(usuario -> usuario.getId().equals(usuarioLogueado.getId()));
                 pantallaUsuarios.setTabla(usuarios);
 
-            } else if(Objects.equals(nombrePanel, "panelCumplimiento") && !Objects.equals(pantallaActual, "panelCumplimiento"))
+            } else if (Objects.equals(nombrePanel, "panelCumplimiento") && !Objects.equals(pantallaActual, "panelCumplimiento"))
                 pantallaAsistencia.mostrarTabla();
 
             switch (nombrePanel) {

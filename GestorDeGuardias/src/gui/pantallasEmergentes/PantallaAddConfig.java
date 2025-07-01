@@ -37,7 +37,7 @@ public class PantallaAddConfig extends JDialog {
     protected CustomComboBoxV2 comboSexo;
     protected CustomComboBoxV2 comboDiasSemana;
     protected CustomComboBoxV2 comboHorarios; // <-- cambiado a CustomComboBoxV2
-    protected JCheckBox checkReceso;
+    protected CustomCheckBox checkReceso;
 
     protected int margenIzquierdo = 40;
 
@@ -53,6 +53,7 @@ public class PantallaAddConfig extends JDialog {
 
     /**
      * Constructor para editar una configuración existente.
+     *
      * @param config Configuracion a editar. Si es null, se comporta como alta.
      */
     public PantallaAddConfig(Configuracion config) {
@@ -92,6 +93,19 @@ public class PantallaAddConfig extends JDialog {
         setVisible(true);
     }
 
+    public static Horario stringToHorario(String s) {
+        if (s == null || !s.contains("-")) return null;
+        String[] partes = s.split("-");
+        if (partes.length != 2) return null;
+        try {
+            LocalTime inicio = LocalTime.parse(partes[0].trim());
+            LocalTime fin = LocalTime.parse(partes[1].trim());
+            return new Horario(inicio, fin);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     private void inicializarPanelBotones() {
         panelBotones = new JPanel();
         panelBotones.setBackground(contentPane.getBackground());
@@ -103,11 +117,13 @@ public class PantallaAddConfig extends JDialog {
         botonCancelar.setColorLetra(paleta.getColorLetraMenu());
         botonCancelar.setColorFondo(paleta.getColorCasillaTabla());
         botonCancelar.addActionListener(e -> dispose());
+        botonCancelar.setColorLetraPres(Color.WHITE);
 
         Boton botonAceptar = new Boton("Aceptar");
         botonAceptar.setNuevoSize(dimBoton);
         botonAceptar.setColorLetra(Color.WHITE);
         botonAceptar.setColorFondo(paleta.getColorCaracteristico());
+        botonAceptar.setColorLetraPres(Color.WHITE);
 
         botonAceptar.addActionListener(this::actionPerformed);
 
@@ -139,7 +155,7 @@ public class PantallaAddConfig extends JDialog {
         panelInf.add(etiquetaTipo);
         Dimension dimCombo = new Dimension(120, 25);
 
-        comboTipoPersona = new CustomComboBoxV2(new String[]{"Estudiante", "Trabajador"},dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
+        comboTipoPersona = new CustomComboBoxV2(new String[]{"Estudiante", "Trabajador"}, dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
         comboTipoPersona.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboTipoPersona);
         y += 40;
@@ -150,7 +166,7 @@ public class PantallaAddConfig extends JDialog {
         etiquetaSexo.setSize(new Dimension(220, 25));
         panelInf.add(etiquetaSexo);
 
-        comboSexo = new CustomComboBoxV2(new String[]{"Ambos", "Femenino", "Masculino"},dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
+        comboSexo = new CustomComboBoxV2(new String[]{"Ambos", "Femenino", "Masculino"}, dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
         comboSexo.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboSexo);
         y += 40;
@@ -163,7 +179,7 @@ public class PantallaAddConfig extends JDialog {
 
         // Suponemos que hay una función getDiasSemana()
         ArrayList<String> diasSemana = getDiasSemana();
-        comboDiasSemana = new CustomComboBoxV2(diasSemana.toArray(new String[0]),dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
+        comboDiasSemana = new CustomComboBoxV2(diasSemana.toArray(new String[0]), dimCombo, Cuadro.redBAJA, paleta.getColorCasillaTabla());
         comboDiasSemana.setBounds(margenIzquierdo + 230, y, 120, 25);
         panelInf.add(comboDiasSemana);
         y += 40;
@@ -184,6 +200,7 @@ public class PantallaAddConfig extends JDialog {
         botonAddHorario.setLocation(margenIzquierdo + 340, y + 30);
         botonAddHorario.setColorLetra(Color.WHITE);
         botonAddHorario.setColorFondo(paleta.getColorCaracteristico());
+        botonAddHorario.setColorLetraPres(Color.WHITE);
 
         // INTEGRACIÓN: abrir la pantalla de añadir horario y agregar a la lista
         botonAddHorario.addActionListener(e -> {
@@ -204,7 +221,9 @@ public class PantallaAddConfig extends JDialog {
                     if (!existe) {
                         comboHorarios.addItem(horario);
                     } else {
-                        JOptionPane.showMessageDialog(this, "Ese horario ya está registrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+                        new Advertencia(Ventana.SIZE_ADVERTENCIA, "Aviso", "Ese horario ya está registrado.", "Aceptar");
+
+//                        JOptionPane.showMessageDialog(this, "Ese horario ya está registrado.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
                     }
                 }
             }
@@ -214,7 +233,7 @@ public class PantallaAddConfig extends JDialog {
         y += 110;
 
         // Checkbox de receso
-        checkReceso = new JCheckBox("¿Es receso?");
+        checkReceso = new CustomCheckBox("¿Es receso?");
         checkReceso.setFont(fuente);
         checkReceso.setBackground(contentPane.getBackground());
         checkReceso.setBounds(margenIzquierdo, y, 160, 28);
@@ -302,19 +321,6 @@ public class PantallaAddConfig extends JDialog {
         checkReceso.setSelected(config.diaEsReceso());
     }
 
-    public static Horario stringToHorario(String s) {
-        if (s == null || !s.contains("-")) return null;
-        String[] partes = s.split("-");
-        if (partes.length != 2) return null;
-        try {
-            LocalTime inicio = LocalTime.parse(partes[0].trim());
-            LocalTime fin = LocalTime.parse(partes[1].trim());
-            return new Horario(inicio, fin);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     private void actionPerformed(ActionEvent e) {
         Integer cant = (Integer) spinnerCantidad.getValue();
         String tipo = (String) comboTipoPersona.getSelectedItem();
@@ -345,7 +351,8 @@ public class PantallaAddConfig extends JDialog {
                 ServicesLocator.getInstance().getConfiguracionServices().updateConfiguracion(record);
             }
         } catch (MultiplesErroresException | SqlServerCustomException ex) {
-            throw new RuntimeException(ex);
+            new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", "No se pudieron hacer los cambios: " + ex.getMessage(), "Aceptar");
+
         }
 
         dispose();

@@ -20,8 +20,8 @@ import static utils.Utilitarios.stringSoloNumeros;
 
 public class PersonaServices {
 
+    private static final TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
     private final MainBaseDao baseDao;
-    private static TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
 
     public PersonaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -57,7 +57,7 @@ public class PersonaServices {
         return baseDao.spQuery("sp_persona_read_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
     }
 
-    public int getPersonaCountByTipo(String tipoPersona){
+    public int getPersonaCountByTipo(String tipoPersona) {
         return baseDao.spQuerySingleObject("sp_persona_count_by_tipo(?)", new IntegerMapper("total"), tipoPersona);
     }
 
@@ -71,7 +71,7 @@ public class PersonaServices {
                 record.getApellido(),
                 record.getSexo().toLowerCase().substring(0, 1),
                 record.getCarnet(),
-                record.getUltimaGuardiaHecha(),
+                record.getUltimaGuardiaAsignada(),
                 record.getGuardiasDeRecuperacion(),
                 record.getBaja(),
                 record.getReincorporacion(),
@@ -95,7 +95,7 @@ public class PersonaServices {
         baseDao.spUpdate("sp_persona_update_baja(?, ?)", ci, fechaBaja);
     }
 
-    public void darFechaDeReincorporacion(String ci, LocalDate fechaReincorporacion){
+    public void darFechaDeReincorporacion(String ci, LocalDate fechaReincorporacion) {
 
     }
 
@@ -117,35 +117,10 @@ public class PersonaServices {
         baseDao.spUpdate("sp_persona_delete_by_id(?)", id);
     }
 
-
-
-    // Internal Mapper
-    private static class PersonaMapper implements RowMapper<Persona> {
-        @Override
-        public Persona mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Persona p = new Persona();
-
-            p.setId(rs.getLong("id"));
-            p.setNombre(rs.getString("nombre"));
-            p.setApellido(rs.getString("apellido"));
-            p.setSexo(rs.getString("sexo"));
-            p.setCarnet(rs.getString("carnet"));
-            p.setTipo(new TipoPersona(rs.getString("tipo")));
-            p.setUltimaGuardiaHecha(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
-            p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
-            p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
-            p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
-
-            return p;
-        }
-    }
-
-    public List<Persona> getPersonasDisponibles(LocalDate fecha, TipoPersona tipo, String sexo){
-        String actualSexo = sexo == null ? null : sexo.toLowerCase().substring(0,1);
+    public List<Persona> getPersonasDisponibles(LocalDate fecha, TipoPersona tipo, String sexo) {
+        String actualSexo = sexo == null ? null : sexo.toLowerCase().substring(0, 1);
         return baseDao.spQuery("sp_persona_get_disponible_para_turno(?, ?, ?)", new PersonaMapper(), fecha, tipo.toString(), actualSexo);
     }
-
-
 
     // VALIDACIONES
     private void validarBaja(String ci, LocalDate fechaBaja) throws MultiplesErroresException {
@@ -188,11 +163,11 @@ public class PersonaServices {
                 errores.add("Sexo seleccionado no coincide con la información del carnet de identidad.");
         }
 
-        if (record.getTipo() == null){
+        if (record.getTipo() == null) {
             errores.add("Tipo de persona no especificado.");
         }
 
-        if (record.getTipo() != null && tipoPersonaServices.getTipoPersona(record.getTipo().getNombre()) == null){
+        if (record.getTipo() != null && tipoPersonaServices.getTipoPersona(record.getTipo().getNombre()) == null) {
             errores.add("Tipo de persona desconocido.");
         }
 
@@ -200,7 +175,7 @@ public class PersonaServices {
             throw new MultiplesErroresException("Persona con datos erróneos:", errores);
     }
 
-    private String validarCarnet(String ci){
+    private String validarCarnet(String ci) {
         if (!stringEsValido(ci)) {
             return "Carnet de identidad no especificado.";
         }
@@ -238,10 +213,31 @@ public class PersonaServices {
             }
         }
         if (!diaValido) {
-            return  "Carnet de identidad no válido: Dia incorrecto.";
+            return "Carnet de identidad no válido: Dia incorrecto.";
         }
 
         return null;
+    }
+
+    // Internal Mapper
+    private static class PersonaMapper implements RowMapper<Persona> {
+        @Override
+        public Persona mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Persona p = new Persona();
+
+            p.setId(rs.getLong("id"));
+            p.setNombre(rs.getString("nombre"));
+            p.setApellido(rs.getString("apellido"));
+            p.setSexo(rs.getString("sexo"));
+            p.setCarnet(rs.getString("carnet"));
+            p.setTipo(new TipoPersona(rs.getString("tipo")));
+            p.setUltimaGuardiaAsignada(rs.getDate("ultima_guardia_hecha") == null ? null : rs.getDate("ultima_guardia_hecha").toLocalDate());
+            p.setBaja(rs.getDate("baja") == null ? null : rs.getDate("baja").toLocalDate());
+            p.setReincorporacion(rs.getDate("reincorporacion") == null ? null : rs.getDate("reincorporacion").toLocalDate());
+            p.setGuardiasDeRecuperacion(rs.getInt("guardias_de_recuperacion"));
+
+            return p;
+        }
     }
 
 

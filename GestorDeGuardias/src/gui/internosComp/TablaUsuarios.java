@@ -54,7 +54,7 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         return usuarioSeleccionado;
     }
 
-    private JPanel imprimirEncabezado()  {
+    private JPanel imprimirEncabezado() {
         JPanel encabezado = new JPanel(new GridBagLayout());
         encabezado.setPreferredSize(new Dimension(0, 67));
         encabezado.setBorder(new EmptyBorder(PAD, 0, PAD, 0));
@@ -75,7 +75,7 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         gbc.gridwidth = 4;
         encabezado.add(celdaEncabezado(""), gbc);
 
-        String[] textos = { "Usuario", "Rol"};
+        String[] textos = {"Usuario", "Rol"};
         gbc.gridy = 1;
         gbc.gridwidth = 1;
 
@@ -97,7 +97,7 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
         return lbl;
     }
 
-    private JScrollPane imprimirCuerpo(ArrayList<Usuario> usuarios){
+    private JScrollPane imprimirCuerpo(ArrayList<Usuario> usuarios) {
         JPanel cuerpo = new JPanel();
         cuerpo.setBackground(Color.WHITE);
         cuerpo.setLayout(new BoxLayout(cuerpo, BoxLayout.Y_AXIS));
@@ -145,7 +145,7 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
                 Color.WHITE,                         // selection text color
                 paleta.getColorLetraMenu(),          // normal text color
                 colorDiaFondo,                       // alternate background
-                Color.WHITE  );
+                Color.WHITE);
         fila.setMinimumSize(new Dimension(Integer.MAX_VALUE, rowHeight));
         fila.setMaximumSize(new Dimension(Integer.MAX_VALUE, rowHeight));
 
@@ -186,8 +186,10 @@ public class TablaUsuarios extends Cuadro implements IsTabla {
     }
 
     @Override
-    public void actualizar() {}
+    public void actualizar() {
+    }
 
     @Override
-    public void actualizarVistaTabla() {}
+    public void actualizarVistaTabla() {
+    }
 }

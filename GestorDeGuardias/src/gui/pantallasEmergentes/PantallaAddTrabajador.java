@@ -19,13 +19,13 @@ public class PantallaAddTrabajador extends PantallaAddPersona {
             Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Añadido Exitosamente", "Trabajador añadido Exitosamente", "Aceptar", true);
             advertencia.setVisible(true);
             this.dispose();
-        }catch (MultiplesErroresException e) {
+        } catch (MultiplesErroresException e) {
             StringBuilder errores = new StringBuilder();
             for (String error : e.getErrores()) {
                 errores.append(error).append("\n");
             }
             JOptionPane.showMessageDialog(this, errores.toString(), "Errores de validación", JOptionPane.ERROR_MESSAGE);
-        }catch (SqlServerCustomException e){
+        } catch (SqlServerCustomException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Errores de validación", JOptionPane.ERROR_MESSAGE);
         }
     }

@@ -26,7 +26,7 @@ public class PanelOpcionesEstudiante extends JPanel {
     private final Dimension dimBoton = new Dimension(180, 35);
 
     private final CustomCheckBox checkDisp;
-//    private final CustomCheckBox checkLicencia;
+    //    private final CustomCheckBox checkLicencia;
     private final CustomCheckBox checkBaja;
 
     private final CustomCheckBox checkMasc;
@@ -40,7 +40,7 @@ public class PanelOpcionesEstudiante extends JPanel {
     private final int separacion = 10;
     private final int x = 20;
     private final Font fuente = new Font("Arial", Font.PLAIN, 14);
-//    private final Font fuente2 = new Font("Arial", Font.BOLD, 17);
+    //    private final Font fuente2 = new Font("Arial", Font.BOLD, 17);
     private Boton botonBajaMini;
     private JPanel panelCalendar;
     private CustomCalendar calendario;

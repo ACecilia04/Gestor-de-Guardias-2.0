@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class LocalDateMapper implements RowMapper<LocalDate> {
 
-    private String columnName;
+    private final String columnName;
 
     public LocalDateMapper() {
         this.columnName = null;

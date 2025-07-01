@@ -25,7 +25,7 @@ public class TipoPersonaServices {
     public void insertTipoPersona(String nombre) throws MultiplesErroresException, SqlServerCustomException {
         validarTipoPersona(nombre);
 
-       baseDao.spUpdate("sp_tipo_persona_create(?)", nombre);
+        baseDao.spUpdate("sp_tipo_persona_create(?)", nombre);
     }
 
     // READ all
@@ -48,18 +48,6 @@ public class TipoPersonaServices {
         baseDao.spUpdate("sp_tipo_persona_delete(?)", nombre);
     }
 
-
-    // Internal Mapper
-    private static class TipoPersonaMapper implements RowMapper<TipoPersona> {
-        @Override
-        public TipoPersona mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new TipoPersona(
-                    rs.getString("nombre")
-            );
-        }
-    }
-
-
     // ==============   VALIDACIONES   ==========================================
     private void validarTipoPersona(String nombre) throws MultiplesErroresException {
         List<String> errores = new ArrayList<>();
@@ -69,5 +57,15 @@ public class TipoPersonaServices {
 
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Tipo de persona con datos erróneos:", errores);
+    }
+
+    // Internal Mapper
+    private static class TipoPersonaMapper implements RowMapper<TipoPersona> {
+        @Override
+        public TipoPersona mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new TipoPersona(
+                    rs.getString("nombre")
+            );
+        }
     }
 }

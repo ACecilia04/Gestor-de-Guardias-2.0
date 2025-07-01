@@ -63,6 +63,7 @@ public class Advertencia extends JDialog {
 
         setVisible(true);
     }
+
     public Advertencia(Dimension dim, String title, String texto, String op2) {
         super(Ventana.getInstance(), title, true);
         this.myself = this;

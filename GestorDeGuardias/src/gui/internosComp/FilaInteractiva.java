@@ -4,15 +4,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class FilaInteractiva extends JPanel {
-    private boolean seleccionado = false;
     private final Color colorNormal;
     private final Color colorAlterno;
     private final Color colorSeleccionado;
     private final Color colorTextoNormal;
     private final Color colorTextoSeleccionado;
+    private boolean seleccionado = false;
 
     public FilaInteractiva(Boolean isAlt, Color colorSeleccionado, Color colorTextoSeleccionado,
                            Color colorTextoNormal, Color colorAlterno, Color colorNormal) {
@@ -52,6 +51,10 @@ public class FilaInteractiva extends JPanel {
         });
     }
 
+    public boolean getSeleccionado() {
+        return seleccionado;
+    }
+
     public void setSeleccionado(boolean selected) {
         this.seleccionado = selected;
         Color bg = seleccionado ? colorSeleccionado : getNormalBackground();
@@ -62,10 +65,6 @@ public class FilaInteractiva extends JPanel {
 //            }
 //        }
         repaint();
-    }
-
-    public boolean getSeleccionado() {
-        return seleccionado;
     }
 
     public void resetColor(boolean isAlt) {

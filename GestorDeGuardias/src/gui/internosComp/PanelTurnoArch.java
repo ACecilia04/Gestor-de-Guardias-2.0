@@ -13,11 +13,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PanelTurnoArch extends PanelTurno{
+public class PanelTurnoArch extends PanelTurno {
     private static final long serialVersionUID = 1L;
 
-    private CustomRadioButton cumplido, noCumplido;
-    private ButtonGroup radioGrupo;
+    private final CustomRadioButton cumplido;
+    private final CustomRadioButton noCumplido;
+    private final ButtonGroup radioGrupo;
 
     public PanelTurnoArch(int ancho, Color color, final TurnoDeGuardia turno, DiaGuardia fecha, final Actualizable act) {
         super(ancho, color, turno, fecha, act);
@@ -44,11 +45,12 @@ public class PanelTurnoArch extends PanelTurno{
         radioGrupo.add(cumplido);
         radioGrupo.add(noCumplido);
 
-        if(turno.getCumplimiento() != null){
-            if(turno.getCumplimiento()){
+        if (turno.getCumplimiento() != null) {
+            if (turno.getCumplimiento()) {
                 cumplido.setSelected(true);
                 turno.actualizarCumplimiento(true);
-            } if(!turno.getCumplimiento()){
+            }
+            if (!turno.getCumplimiento()) {
                 noCumplido.setSelected(true);
                 turno.actualizarCumplimiento(false);
             }
@@ -83,7 +85,7 @@ public class PanelTurnoArch extends PanelTurno{
 
     }
 
-    public void cambiar(Color fondo,Color letra){
+    public void cambiar(Color fondo, Color letra) {
         super.cambiar(fondo, letra);
         cumplido.setForeground(letra);
         noCumplido.setForeground(letra);

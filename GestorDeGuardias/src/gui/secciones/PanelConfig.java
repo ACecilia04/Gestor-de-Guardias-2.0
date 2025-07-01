@@ -48,7 +48,8 @@ public class PanelConfig extends JPanel {
                 .getConfiguracionServices().getAllConfiguraciones();
         if (opcionesReferencia instanceof PanelSupOpcionesConfig panelOpciones) {
             panelOpciones.setAlgunaConfigSeleccionada(false);
-        }        construirTabla();
+        }
+        construirTabla();
     }
 
     private void construirTabla() {

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class IntegerMapper implements RowMapper<Integer> {
 
-    private String columnName;
+    private final String columnName;
 
     public IntegerMapper() {
         this.columnName = null;

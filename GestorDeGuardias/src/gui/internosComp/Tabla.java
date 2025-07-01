@@ -38,7 +38,7 @@ public class Tabla extends Cuadro implements IsTabla {
     ArrayList<DiaGuardia> dias;
     private int mouseX, mouseY;
 
-    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias,PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) {
+    public Tabla(Dimension dimension, Color color, ArrayList<DiaGuardia> estosDias, PanelOpcionesPlanif tablaOpciones, int distX, int distY, JPanel contenedor) {
         super(dimension, redondez, color);
         int sepIzquierda = 46;
         PanelDia.setCasillaLargo(dimension.width - sepIzquierda * 2);

@@ -1,17 +1,15 @@
 package gui.secciones;
 
 import gui.auxiliares.Paleta;
-import gui.componentes.PanelMes;
 import gui.componentes.CustomScrollBar;
 import gui.componentes.Etiqueta;
+import gui.componentes.PanelMes;
 import model.DiaGuardia;
 import services.ServicesLocator;
 import utils.exceptions.EntradaInvalidaException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.Serial;
 import java.time.LocalDate;
 import java.util.ArrayList;

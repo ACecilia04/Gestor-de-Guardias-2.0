@@ -48,17 +48,6 @@ public class RolServices {
         baseDao.spUpdate("sp_rol_delete(?)", nombre);
     }
 
-    // Internal Mapper
-    private static class RolMapper implements RowMapper<Rol> {
-        @Override
-        public Rol mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Rol(
-                    rs.getString("nombre")
-            );
-        }
-    }
-
-
     // ==============   VALIDACIONES   ==========================================
     private void validarRol(String nombre) throws MultiplesErroresException {
         List<String> errores = new ArrayList<>();
@@ -68,5 +57,15 @@ public class RolServices {
 
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Rol con datos erróneos:", errores);
+    }
+
+    // Internal Mapper
+    private static class RolMapper implements RowMapper<Rol> {
+        @Override
+        public Rol mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Rol(
+                    rs.getString("nombre")
+            );
+        }
     }
 }

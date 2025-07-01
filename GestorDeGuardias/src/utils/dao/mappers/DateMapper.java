@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class DateMapper implements RowMapper<Date> {
 
-    private String columnName;
+    private final String columnName;
 
     public DateMapper() {
         this.columnName = null;

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class PanelOpcionesPlanif extends JPanel {
     private static final long serialVersionUID = 1L;
     private final JPanel superior;
-    private final CustomSplitPane splitPane;;
+    private final CustomSplitPane splitPane;
     private final JPanel panelControl;
     private final JPanel panelTablaSeleccionados;
     private final JPanel panelGuardar;
@@ -163,7 +163,7 @@ public class PanelOpcionesPlanif extends JPanel {
         }
     }
 
-    public void addPersona(){
+    public void addPersona() {
         if (botonAddPersona.isSeleccionable()) {
             try {
 
@@ -197,44 +197,44 @@ public class PanelOpcionesPlanif extends JPanel {
 
     }
 
-    public void generarAutomaticamente(){
-            String string1 = "<html><p>Procesando.....<br><br></p><html>";
-            Notificacion notificacion = new Notificacion(new Dimension(300, 200), "Generar automáticamente", string1);
+    public void generarAutomaticamente() {
+        String string1 = "<html><p>Procesando.....<br><br></p><html>";
+        Notificacion notificacion = new Notificacion(new Dimension(300, 200), "Generar automáticamente", string1);
 
-            SwingWorker myWorker = new SwingWorker<String, Void>() {
-                public String doInBackground() {
+        SwingWorker myWorker = new SwingWorker<String, Void>() {
+            public String doInBackground() {
 
-                    ArrayList<DiaGuardia> diasAPlanificar = !getDiasSeleccionados().isEmpty()
-                                        ? getDiasSeleccionados()
-                                        : tabla.getDias();
-                    try {
+                ArrayList<DiaGuardia> diasAPlanificar = !getDiasSeleccionados().isEmpty()
+                        ? getDiasSeleccionados()
+                        : tabla.getDias();
+                try {
 
-                        ServicesLocator.getInstance().getPlantillaServices().crearPlanificacionAutomaticamente(diasAPlanificar);
+                    ServicesLocator.getInstance().getPlantillaServices().crearPlanificacionAutomaticamente(diasAPlanificar);
 
-                    } catch (MultiplesErroresException e1) {
-                        StringBuilder stringAux = new StringBuilder();
-                        for (String error : e1.getErrores()) {
-                            stringAux.append(error).append("<br>");
-                        }
-
-                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
-                    } catch (EntradaInvalidaException e1) {
-                        String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
+                } catch (MultiplesErroresException e1) {
+                    StringBuilder stringAux = new StringBuilder();
+                    for (String error : e1.getErrores()) {
+                        stringAux.append(error).append("<br>");
                     }
-                    tabla.actualizarVistaTabla();
 
-                    notificacion.dispose();
-                    return null;
+                    String string = "<html><p style='text-align: center;'> ERROR <br><br>" + stringAux + "</p></html>";
+                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
+                } catch (EntradaInvalidaException e1) {
+                    String string = "<html><p style='text-align: center;'> ERROR <br><br><br>" + e1.getMessage() + "</p></html>";
+                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar");
                 }
+                tabla.actualizarVistaTabla();
 
-                public void done() {
-                }
-            };
-            myWorker.execute();
-            notificacion.setVisible(true);
-        }
+                notificacion.dispose();
+                return null;
+            }
+
+            public void done() {
+            }
+        };
+        myWorker.execute();
+        notificacion.setVisible(true);
+    }
 
     private void guardar() {
         try {
@@ -246,6 +246,7 @@ public class PanelOpcionesPlanif extends JPanel {
         Advertencia advertencia = new Advertencia(new Dimension(530, 300), "Guardado Exitoso", string, "Aceptar", true);
         advertencia.dispose();
     }
+
     public void setTabla(Tabla tabla) {
         this.tabla = tabla;
     }

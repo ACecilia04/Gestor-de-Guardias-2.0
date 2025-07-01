@@ -20,20 +20,18 @@ public class Menu extends JPanel {
     private final JPanel panel2;
     private final int separacion = 30;
     private final int x = 30;
-    private int y = separacion - 10;
-
     Boton btnMinimizar = new Boton();
     Boton btnPlanifs = new Boton();
     Boton btnEstudiantes = new Boton();
     Boton btnTrabajadores = new Boton();
-
     Boton btnConfig = new Boton();
     Boton btnUsuarios = new Boton();
     Boton btnActualizarAsist = new Boton();
     Boton btnFacultad = new Boton();
     String usuarioRol;
+    private int y = separacion - 10;
 
-    public Menu (JPanel contenedor, final Ventana ventana, Usuario usuario) {
+    public Menu(JPanel contenedor, final Ventana ventana, Usuario usuario) {
         paleta = new Paleta();
         setBackground(paleta.getColorFondoTabla());
 
@@ -186,7 +184,7 @@ public class Menu extends JPanel {
         return false;
     }
 
-    private void minimizarMenu(){
+    private void minimizarMenu() {
         setPreferredSize(new Dimension(70, getHeight()));
 
         if (puedeVer(usuarioRol, "planifs")) {
@@ -224,7 +222,8 @@ public class Menu extends JPanel {
             btnUsuarios.setLocation(10, btnUsuarios.getY());
         }
     }
-    private void maximizarMenu(){
+
+    private void maximizarMenu() {
         setPreferredSize(new Dimension(247, getHeight()));
 
         if (puedeVer(usuarioRol, "planifs")) {

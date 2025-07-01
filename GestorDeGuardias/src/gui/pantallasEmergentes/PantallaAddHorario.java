@@ -3,8 +3,9 @@ package gui.pantallasEmergentes;
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.Etiqueta;
-import services.ServicesLocator;
+import gui.secciones.Ventana;
 import model.Horario;
+import services.ServicesLocator;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -125,10 +126,14 @@ public class PantallaAddHorario extends JDialog {
             String horaFin = txtHoraFin.getText().trim();
             // Validación simple de campos y formato HH:mm
             if (horaInicio.isEmpty() || horaFin.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Debe rellenar ambos campos de hora.", "Error", JOptionPane.ERROR_MESSAGE);
+                new Advertencia(new Dimension(400, 250), "Error", "Debe rellenar ambos campos de hora.", "Aceptar");
+
+//                JOptionPane.showMessageDialog(this, "Debe rellenar ambos campos de hora.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
             if (!horaInicio.matches("\\d{2}:\\d{2}") || !horaFin.matches("\\d{2}:\\d{2}")) {
+                new Advertencia(new Dimension(400, 250), "Error", "Formato de hora inválido. Use HH:mm", "Aceptar");
+
                 JOptionPane.showMessageDialog(this, "Formato de hora inválido. Use HH:mm", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
@@ -142,7 +147,9 @@ public class PantallaAddHorario extends JDialog {
                 ServicesLocator.getInstance().getHorarioServices().insertHorario(nuevoHorario);
                 horarioGuardado = nuevoHorario;
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Error al guardar el horario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                new Advertencia(new Dimension(400, 250), "Error", "Error al guardar el horario: " + ex.getMessage(), "Aceptar");
+
+//                JOptionPane.showMessageDialog(this, "Error al guardar el horario: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -161,6 +168,7 @@ public class PantallaAddHorario extends JDialog {
     public String getHoraInicio() {
         return txtHoraInicio.getText().trim();
     }
+
     public String getHoraFin() {
         return txtHoraFin.getText().trim();
     }

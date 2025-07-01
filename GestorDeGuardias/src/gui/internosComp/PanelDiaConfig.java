@@ -53,10 +53,12 @@ public class PanelDiaConfig extends JPanel {
             public void mouseEntered(MouseEvent e) {
                 fila.setBackground(new Color(210, 230, 255));
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
                 fila.setBackground(Color.WHITE);
             }
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (onSeleccion != null) onSeleccion.accept(conf);

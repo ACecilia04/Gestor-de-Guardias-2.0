@@ -77,18 +77,36 @@ public class ConfiguracionServices {
         baseDao.spUpdate("sp_configuracion_delete(?)", id);
     }
 
-    public List<Configuracion> getConfiguracionesDeFecha(LocalDate fecha){
+    public List<Configuracion> getConfiguracionesDeFecha(LocalDate fecha) {
         return baseDao.spQuery("sp_configuraciones_de_fecha(?)", new ConfiguracionMapper(), fecha);
     }
 
-    public int getCantPersonasAsignables(Long horario, LocalDate fecha){
+    public int getCantPersonasAsignables(Long horario, LocalDate fecha) {
         return baseDao.spQuerySingleObject("sp_configuracion_get_cant_personas_asignables(?, ?)", new IntegerMapper(), horario, fecha);
     }
+
+    // ==============   VALIDACIONES   ==========================================
+    private void validarConfiguracion(Configuracion record) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        if ((record.getDiaSemana() == null) || record.getDiaSemana() == 0)
+            errores.add("Dia de semana no especificado.");
+        if (record.getDiaSemana() != null && (record.getDiaSemana() < 1 || record.getDiaSemana() > 7))
+            errores.add("Dia de semana no válido (1-7).");
+        if (record.diaEsReceso() == null)
+            errores.add("Dia de receso no especificado.");
+        if (record.getHorario() == null)
+            errores.add("Horario no especificado.");
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Configuración con datos erróneos:", errores);
+    }
+
     // Internal Mapper
     private static class ConfiguracionMapper implements RowMapper<Configuracion> {
 
-        private static HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
-        private static TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
+        private static final HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
+        private static final TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
 
         @Override
         public Configuracion mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -109,25 +127,6 @@ public class ConfiguracionServices {
 
             return config;
         }
-    }
-
-
-
-    // ==============   VALIDACIONES   ==========================================
-    private void validarConfiguracion(Configuracion record) throws MultiplesErroresException {
-        List<String> errores = new ArrayList<>();
-
-        if ((record.getDiaSemana() == null) || record.getDiaSemana() == 0)
-            errores.add("Dia de semana no especificado.");
-        if (record.getDiaSemana() != null && (record.getDiaSemana() < 1 || record.getDiaSemana() > 7))
-            errores.add("Dia de semana no válido (1-7).");
-        if (record.diaEsReceso() == null)
-            errores.add("Dia de receso no especificado.");
-        if (record.getHorario() == null)
-            errores.add("Horario no especificado.");
-
-        if (!errores.isEmpty())
-            throw new MultiplesErroresException("Configuración con datos erróneos:", errores);
     }
 }
 

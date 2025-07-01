@@ -62,23 +62,9 @@ public class HorarioServices {
         baseDao.spUpdate("sp_horario_delete(?)", id);
     }
 
-    public List<Horario> getHorariosDeFecha(LocalDate fecha){
+    public List<Horario> getHorariosDeFecha(LocalDate fecha) {
         return baseDao.spQuery("sp_horarios_de_fecha(?)", new HorarioMapper(), fecha);
     }
-    // Internal Mapper
-    private static class HorarioMapper implements RowMapper<Horario> {
-        @Override
-        public Horario mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Horario horario = new Horario();
-
-           horario.setId(rs.getLong("id"));
-           horario.setInicio(rs.getTime("inicio").toLocalTime());
-           horario.setFin(rs.getTime("fin").toLocalTime());
-
-           return horario;
-        }
-    }
-
 
     // ==============   VALIDACIONES   ==========================================
     private void validarHorario(Horario record) throws MultiplesErroresException {
@@ -91,5 +77,19 @@ public class HorarioServices {
 
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Horario con datos erróneos:", errores);
+    }
+
+    // Internal Mapper
+    private static class HorarioMapper implements RowMapper<Horario> {
+        @Override
+        public Horario mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Horario horario = new Horario();
+
+            horario.setId(rs.getLong("id"));
+            horario.setInicio(rs.getTime("inicio").toLocalTime());
+            horario.setFin(rs.getTime("fin").toLocalTime());
+
+            return horario;
+        }
     }
 }

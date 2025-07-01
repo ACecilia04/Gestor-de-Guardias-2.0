@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class LongMapper implements RowMapper<Long> {
 
-    private String columnName;
+    private final String columnName;
 
     public LongMapper() {
         this.columnName = null;

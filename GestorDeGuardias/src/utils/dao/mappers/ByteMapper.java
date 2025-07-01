@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class ByteMapper implements RowMapper<Byte> {
 
-    private String columnName;
+    private final String columnName;
 
     public ByteMapper() {
         this.columnName = null;

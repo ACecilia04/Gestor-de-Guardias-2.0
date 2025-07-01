@@ -63,9 +63,24 @@ public class UsuarioServices {
         baseDao.spUpdate("sp_usuario_delete(?)", id);
     }
 
+    // ==============   VALIDACIONES   ==========================================
+    private void validarUsuario(Usuario record) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        if (!stringEsValido(record.getNombre()))
+            errores.add("Nombre no especificado.");
+        if (!stringEsValido(record.getContrasenna()))
+            errores.add("Contraseña no especificada.");
+        if (record.getRol() == null)
+            errores.add("Rol no especificado.");
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Usuario con datos erróneos:", errores);
+    }
+
     // Internal Mapper
     private static class UsuarioMapper implements RowMapper<Usuario> {
-        private static RolServices rolServices = ServicesLocator.getInstance().getRolServices();
+        private static final RolServices rolServices = ServicesLocator.getInstance().getRolServices();
 
         @Override
         public Usuario mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -80,21 +95,6 @@ public class UsuarioServices {
 
             return retVal;
         }
-    }
-
-    // ==============   VALIDACIONES   ==========================================
-    private void validarUsuario(Usuario record) throws MultiplesErroresException {
-        List<String> errores = new ArrayList<>();
-
-        if (!stringEsValido(record.getNombre()))
-            errores.add("Nombre no especificado.");
-        if (!stringEsValido(record.getContrasenna()))
-            errores.add("Contraseña no especificada.");
-        if (record.getRol() == null)
-            errores.add("Rol no especificado.");
-
-        if (!errores.isEmpty())
-            throw new MultiplesErroresException("Usuario con datos erróneos:", errores);
     }
 
 }

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class BigDecimalMapper implements RowMapper<BigDecimal> {
 
-    private String columnName;
+    private final String columnName;
     private boolean allowNull;
 
     public BigDecimalMapper() {

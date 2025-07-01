@@ -7,7 +7,7 @@ import gui.secciones.Ventana;
 import javax.swing.*;
 import java.awt.*;
 
-public class PanelSupCerrarSesion extends JPanel{
+public class PanelSupCerrarSesion extends JPanel {
 
     public PanelSupCerrarSesion(int alto) {
 

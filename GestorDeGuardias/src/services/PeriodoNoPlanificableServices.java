@@ -44,16 +44,17 @@ public class PeriodoNoPlanificableServices {
     public void deletePeriodoNoPlanificable(LocalDate inicio, LocalDate fin) throws SqlServerCustomException {
         baseDao.spUpdate("sp_periodo_no_planificable_delete(?, ?)", inicio, fin);
     }
-    public int countPeriodoNoPlanificable(){
+
+    public int countPeriodoNoPlanificable() {
         return baseDao.spQuerySingleObject("sp_periodo_no_planificable_count", new IntegerMapper("total"));
     }
 
-    public PeriodoNoPlanificable getPeriodoEnFecha(LocalDate fecha){
+    public PeriodoNoPlanificable getPeriodoEnFecha(LocalDate fecha) {
         return baseDao.spQuerySingleObject("sp_periodo_no_planificable_in_date(?)", new PeriodoNoPlanificableMapper(), fecha);
     }
 
-    public Boolean fechaEsNoPlanificable(LocalDate fecha){
-            return baseDao.spQuerySingleObject("sp_periodo_no_planificable_has_date(?)", new BooleanMapper("existe"), fecha);
+    public Boolean fechaEsNoPlanificable(LocalDate fecha) {
+        return baseDao.spQuerySingleObject("sp_periodo_no_planificable_has_date(?)", new BooleanMapper("existe"), fecha);
     }
 
 

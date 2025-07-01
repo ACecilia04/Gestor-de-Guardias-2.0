@@ -12,8 +12,8 @@ import java.io.Serial;
 public class AddPlanif extends JPanel {
     @Serial
     private static final long serialVersionUID = 1L;
-    private Dimension tablaDim ;
     private final JPanel backdropPane;
+    private Dimension tablaDim;
     private PanelOpcionesPlanif tablaOpciones;
     private Tabla tabla;
 

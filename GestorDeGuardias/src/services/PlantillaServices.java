@@ -34,12 +34,13 @@ public class PlantillaServices {
     public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy) {
         LocalDate inicio;
         ArrayList<DiaGuardia> dias = new ArrayList<>();
-
+        LocalDate now = LocalDate.now();
         if (empezarHoy)
-            inicio = LocalDate.now();
+            inicio = now;
 
         else {
-            inicio = turnoDeGuardiaServices.getUltimoTurnoDeGuardia().getFecha().plusDays(1);
+            TurnoDeGuardia ultimoTurno = turnoDeGuardiaServices.getUltimoTurnoDeGuardia();
+            inicio = ultimoTurno == null ? now.plusMonths(1).withDayOfMonth(1) : ultimoTurno.getFecha().plusDays(1);
 
         }
 

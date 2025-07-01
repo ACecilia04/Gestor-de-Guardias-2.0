@@ -204,7 +204,7 @@ public class PantallaFacultad extends JDialog {
         content.add(cantE);
 
         aux = Integer.toString(ServicesLocator.getInstance().getPersonaServices().getPersonaCountByTipo("Trabajador  "));
-        Etiqueta cantT = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Trabajadores :  " + aux +  "       ");
+        Etiqueta cantT = new Etiqueta(fuente, paleta.getColorLetraMenu(), "Cantidad de Trabajadores :  " + aux + "       ");
         cantT.setLocation(x, y);
         y += cantT.getHeight() + sepEtiq;
         content.add(cantT);
@@ -574,29 +574,29 @@ public class PantallaFacultad extends JDialog {
 //                boolean correcto = true;
 //                if (correcto) {
 //                    vacio1.setVisible(false);
-                    LocalDate fechaInicio = LocalDate.of(Integer.parseInt(agno.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
-                    LocalDate fechaFinal = LocalDate.of(Integer.parseInt(agno2.getText()), Integer.parseInt(mes2.getText()), Integer.parseInt(dia2.getText()));
-                    try {
-                        ServicesLocator.getInstance().getPeriodoNoPlanificableServices().insertPeriodoNoPlanificable(fechaInicio, fechaFinal);
-                        String string = "<html><p>Receso Guardado Exitosamente<br><br></p></html>";
-                        cantERec.setText("Cantidad de periodos no planificables :  " + ServicesLocator.getInstance().getPeriodoNoPlanificableServices().countPeriodoNoPlanificable());
+                LocalDate fechaInicio = LocalDate.of(Integer.parseInt(agno.getText()), Integer.parseInt(mes.getText()), Integer.parseInt(dia.getText()));
+                LocalDate fechaFinal = LocalDate.of(Integer.parseInt(agno2.getText()), Integer.parseInt(mes2.getText()), Integer.parseInt(dia2.getText()));
+                try {
+                    ServicesLocator.getInstance().getPeriodoNoPlanificableServices().insertPeriodoNoPlanificable(fechaInicio, fechaFinal);
+                    String string = "<html><p>Receso Guardado Exitosamente<br><br></p></html>";
+                    cantERec.setText("Cantidad de periodos no planificables :  " + ServicesLocator.getInstance().getPeriodoNoPlanificableServices().countPeriodoNoPlanificable());
 
-                        comboRec.setOpciones(new String[]{ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getAllPeriodosNoPlanificables().toString()});
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Receso Guardado", string, "Aceptar", true);
-                        CardLayout cardLayout = (CardLayout) contentVacio.getLayout();
-                        cardLayout.show(contentVacio, "panelMini1");
+                    comboRec.setOpciones(new String[]{ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getAllPeriodosNoPlanificables().toString()});
+                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Receso Guardado", string, "Aceptar", true);
+                    CardLayout cardLayout = (CardLayout) contentVacio.getLayout();
+                    cardLayout.show(contentVacio, "panelMini1");
 
 //                        nombre.getTextField().setText("");
-                        repaint();
-                        revalidate();
-                    } catch (SqlServerCustomException e1) {
-                        String string = "<html><p style='text-align: center;'> ERROR <br><br>" + e1.getMessage() + "</p></html>";
-                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar", true);
+                    repaint();
+                    revalidate();
+                } catch (SqlServerCustomException e1) {
+                    String string = "<html><p style='text-align: center;'> ERROR <br><br>" + e1.getMessage() + "</p></html>";
+                    Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Error", string, "Aceptar", true);
 //                    } catch (MultiplesErroresException e1) {
 //                        StringBuilder stringAux = new StringBuilder();
 //                        for (String error : e1.getErrores()) {
 //                            stringAux.append(error).append("<br>");
-                    }
+                }
 
 //                        String string = "<html><p style='text-align: center;'> ERROR <br>" + stringAux + "</p></html>";
 //                        Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Errores", string, "Aceptar");
@@ -609,7 +609,7 @@ public class PantallaFacultad extends JDialog {
 //                }
 //                repaint();
 //                revalidate();
-           }
+            }
         });
         panelCrear.add(annadir);
 

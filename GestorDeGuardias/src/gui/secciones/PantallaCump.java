@@ -24,7 +24,7 @@ public class PantallaCump extends JPanel {
         }
 
         Ventana venAux = Ventana.getInstance();
-        Dimension auxDim = new Dimension(venAux.getPanelVacio().getSize().width , venAux.getPanelVacio().getSize().height);
+        Dimension auxDim = new Dimension(venAux.getPanelVacio().getSize().width, venAux.getPanelVacio().getSize().height);
         this.tabla = new TablaArchivar(auxDim, Color.WHITE, diasAux);
 
         this.add(tabla, BorderLayout.CENTER);

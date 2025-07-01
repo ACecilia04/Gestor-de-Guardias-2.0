@@ -75,7 +75,7 @@ public class PanelTurno extends Cuadro implements Actualizable {
         Persona persona = (!turno.getPersonasAsignadas().isEmpty())
                 ? turno.getPersonasAsignadas().getFirst()
                 : turno.getPersonaAsignada();
-        if(persona != null) {
+        if (persona != null) {
             nombre = new Etiqueta(fuente, colorLetra, persona.getNombre());
             apellido = new Etiqueta(fuente, colorLetra, persona.getApellido());
             ID = new Etiqueta(fuente, colorLetra, persona.getCarnet());

@@ -17,7 +17,7 @@ public class Facultad {
 
     // ************************************************get listas de la facultad**********************************************************
 
-////    public ArrayList<Persona> getPersonas() {
+    ////    public ArrayList<Persona> getPersonas() {
 ////        return personas;
 ////    }
 //

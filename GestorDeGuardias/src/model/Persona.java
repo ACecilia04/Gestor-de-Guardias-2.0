@@ -7,7 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class Persona implements Comparable<Persona> {
-    protected LocalDate ultimaGuardiaHecha;
+    protected LocalDate ultimaGuardiaAsignada;
     private Long id;
     private String nombre;
     private String apellido;
@@ -39,7 +39,7 @@ public class Persona implements Comparable<Persona> {
         setBaja(baja);
         setReincorporacion(reincorporacion);
         guardiasDeRecuperacion = cantGuardiasRecuperacion;
-        setUltimaGuardiaHecha(ultimaGuardiaHecha);
+        setUltimaGuardiaAsignada(ultimaGuardiaHecha);
     }
 
     public Persona() {
@@ -85,6 +85,10 @@ public class Persona implements Comparable<Persona> {
         return tipo;
     }
 
+    public void setTipo(TipoPersona tipo) {
+        this.tipo = tipo;
+    }
+
     public String getCarnet() {
         return carnet;
     }
@@ -93,11 +97,11 @@ public class Persona implements Comparable<Persona> {
         this.carnet = id;
     }
 
-    public LocalDate getUltimaGuardiaHecha() {
-        return ultimaGuardiaHecha;
+    public LocalDate getUltimaGuardiaAsignada() {
+        return ultimaGuardiaAsignada;
     }
 
-    public void setUltimaGuardiaHecha(LocalDate ultimaGuardia) {
+    public void setUltimaGuardiaAsignada(LocalDate ultimaGuardia) {
 //        if (ultimaGuardia == null)
 //            throw new EntradaInvalidaException("Fecha de última guardia no especificada.");
 //        if (this.ultimaGuardiaHecha != null) {
@@ -106,22 +110,13 @@ public class Persona implements Comparable<Persona> {
 //                        + this.getNombre() + " " + this.getApellido() + ".");
 //            }
 //        }
-        this.ultimaGuardiaHecha = ultimaGuardia;
+        this.ultimaGuardiaAsignada = ultimaGuardia;
     }
 
-    public int getDiasDesdeUltimaGuardiaHecha(LocalDate fecha) throws EntradaInvalidaException {
-        if (fecha == null)
-            throw new EntradaInvalidaException("Fecha no especificada.");
-        return Math.abs((int) ChronoUnit.DAYS.between(ultimaGuardiaHecha, fecha));
+    public int getDiasDesdeUltimaGuardiaAsignada() {
+        return ultimaGuardiaAsignada == null ? 0 : (LocalDate.now().isBefore(ultimaGuardiaAsignada) ? 0 : Math.abs((int) ChronoUnit.DAYS.between(ultimaGuardiaAsignada, LocalDate.now())));
     }
 
-    public int getDiasDesdeUltimaGuardiaAsignada(LocalDate fecha) throws EntradaInvalidaException {
-        LocalDate fechaInicio;
-        if (fecha == null)
-            throw new EntradaInvalidaException("Fecha no especificada.");
-        fechaInicio = guardiasAsignadas.isEmpty() ? LocalDate.of(-999999999, 1, 1) : guardiasAsignadas.get(guardiasAsignadas.size() - 1);
-        return Math.abs((int) ChronoUnit.DAYS.between(fechaInicio, fecha));
-    }
 
     public int getGuardiasDeRecuperacion() {
         return guardiasDeRecuperacion;
@@ -147,10 +142,6 @@ public class Persona implements Comparable<Persona> {
         this.reincorporacion = reincorporacion;
     }
 
-    public void setTipo(TipoPersona tipo) {
-        this.tipo = tipo;
-    }
-
     public String getTipoPersonaAsString() {
         return tipo.toString();
     }
@@ -163,21 +154,21 @@ public class Persona implements Comparable<Persona> {
         this.guardiasAsignadas = guardiasAsignadas;
     }
 
-    public String getDisponibilidad(LocalDate fecha){
+    public String getDisponibilidad(LocalDate fecha) {
         boolean disponible = true;
 
-        if(this.baja != null) {
+        if (this.baja != null) {
             if (reincorporacion == null) {
                 disponible = fecha.isBefore(this.baja);
             } else
-                disponible =  fecha.isBefore(this.baja) || fecha.isAfter(reincorporacion);
+                disponible = fecha.isBefore(this.baja) || fecha.isAfter(reincorporacion);
         }
-         return disponible ? "Disponible" : "Baja";
+        return disponible ? "Disponible" : "Baja";
     }
 
     public Integer getCantGuardiasAsignadas() {
         int cant = 0;
-        if(guardiasAsignadas != null && !guardiasAsignadas.isEmpty()){
+        if (guardiasAsignadas != null && !guardiasAsignadas.isEmpty()) {
             int i = this.guardiasAsignadas.size() - 1;
             LocalDate now = LocalDate.now();
             while (!this.guardiasAsignadas.get(i).isBefore(now)) {
@@ -259,7 +250,7 @@ public class Persona implements Comparable<Persona> {
                 ", apellido='" + apellido + '\'' +
                 ", sexo=" + sexo +
                 ", carnet='" + carnet + '\'' +
-                ", ultimaGuardiaHecha=" + ultimaGuardiaHecha +
+                ", ultimaGuardiaHecha=" + ultimaGuardiaAsignada +
                 ", guardiasDeRecuperacion=" + guardiasDeRecuperacion +
                 ", baja=" + baja +
                 ", reincorporacion=" + reincorporacion +

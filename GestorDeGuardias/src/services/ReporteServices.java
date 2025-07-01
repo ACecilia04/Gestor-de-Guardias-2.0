@@ -40,7 +40,8 @@ public class ReporteServices {
                 logo.scaleToFit(60, 60);
                 logo.setAlignment(Image.ALIGN_RIGHT);
                 documento.add(logo);
-            } catch (Exception ignored) { }
+            } catch (Exception ignored) {
+            }
 
             // Título
             Paragraph titulo = new Paragraph(tituloReporte,
@@ -110,7 +111,7 @@ public class ReporteServices {
                         fontCell)));
                 // Últ. Guardia
                 tabla.addCell(new PdfPCell(new Phrase(
-                        p.getUltimaGuardiaHecha() != null ? p.getUltimaGuardiaHecha().format(formatoFecha) : "",
+                        p.getUltimaGuardiaAsignada() != null ? p.getUltimaGuardiaAsignada().format(formatoFecha) : "",
                         fontCell)));
                 // Guardias Rec.
                 tabla.addCell(new PdfPCell(new Phrase(
@@ -211,7 +212,7 @@ public class ReporteServices {
                         tabla.addCell(new PdfPCell(new Phrase(p.getNombre(), fontNormal)));
                         Boolean hecho = turno.getCumplimiento();
                         tabla.addCell(new PdfPCell(new Phrase(
-                                (hecho == null) ? "" : (hecho ? "Sí" : "No"), fontNormal)));;
+                                (hecho == null) ? "" : (hecho ? "Sí" : "No"), fontNormal)));
                     }
                 }
 

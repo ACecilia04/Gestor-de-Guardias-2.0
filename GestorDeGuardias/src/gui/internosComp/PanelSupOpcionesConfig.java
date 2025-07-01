@@ -2,8 +2,9 @@ package gui.internosComp;
 
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
+import gui.pantallasEmergentes.Advertencia;
 import gui.secciones.PanelConfig;
-import gui.secciones.PantallaUsuarios;
+import gui.secciones.Ventana;
 import utils.dao.SqlServerCustomException;
 
 import javax.swing.*;
@@ -46,7 +47,7 @@ public class PanelSupOpcionesConfig extends JPanel {
             try {
                 panelReferencia.eliminarConfiguracion();
             } catch (SqlServerCustomException ex) {
-                throw new RuntimeException(ex);
+                new Advertencia(new Dimension(400, 250), "Error", "No se pudieron hacer los cambios: " + ex.getMessage(), "Aceptar");
             }
         });
 
@@ -57,6 +58,7 @@ public class PanelSupOpcionesConfig extends JPanel {
         FlowLayout miLayout = new FlowLayout(FlowLayout.RIGHT, 5, alto - nuevoBtn.getHeight() - 8);
         setLayout(miLayout);
     }
+
     public void setAlgunaConfigSeleccionada(boolean algunaConfigSeleccionada) {
         this.algunaConfigSeleccionada = algunaConfigSeleccionada;
         editarBtn.setEnabled(algunaConfigSeleccionada);

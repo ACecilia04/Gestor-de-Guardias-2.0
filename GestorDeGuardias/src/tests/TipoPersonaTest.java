@@ -183,7 +183,7 @@ public class TipoPersonaTest {
         assertFalse(performed);
     }
 
-//    @Test
+    //    @Test
     public void deleteRecordInUse_throwException() {
         String tipo = "Estudiante";
         boolean validaError = false;

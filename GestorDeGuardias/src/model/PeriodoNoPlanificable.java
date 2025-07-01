@@ -48,7 +48,8 @@ public class PeriodoNoPlanificable implements Comparable<PeriodoNoPlanificable> 
 
         return inicio.compareTo(receso.getInicio());
     }
-//TODO: convertir fechas a formato legible
+
+    //TODO: convertir fechas a formato legible
     @Override
     public String toString() {
         return inicio.isEqual(fin) ? inicio.toString() : inicio + " - " + fin;

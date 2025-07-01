@@ -111,13 +111,13 @@ public class MostrarPlanif extends JPanel {
     }
 
     public void setSeleccionado(PanelMes seleccionado) {
-        if (seleccionado == null){
+        if (seleccionado == null) {
             if (this.seleccionado != null && this.seleccionado.isSeleccionado())
                 this.seleccionado.setSeleccionado(false);
         }
         this.seleccionado = seleccionado;
         if (opcionesReferencia != null && opcionesReferencia instanceof PanelSupOpcionesPlanifs)
-            ((PanelSupOpcionesPlanifs)opcionesReferencia).setAlgunMesSeleccionado(seleccionado != null);
+            ((PanelSupOpcionesPlanifs) opcionesReferencia).setAlgunMesSeleccionado(seleccionado != null);
     }
 
 

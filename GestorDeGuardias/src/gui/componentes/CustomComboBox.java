@@ -129,6 +129,7 @@ public class CustomComboBox extends Cuadro {
             }
         });
     }
+
     public CustomComboBox(final String[] opc, Dimension dimension, int redondez, Color color) {
         this(opc, "", dimension, redondez, color);
 
@@ -151,11 +152,13 @@ public class CustomComboBox extends Cuadro {
         info.setText(titulo);
 
     }
-    public void setSeleccionado(String text){
-        info.setText(titulo);
+
+    public String getSeleccionado() {
+        return info.getText();
     }
-    public String getSeleccionado(){
-       return info.getText();
+
+    public void setSeleccionado(String text) {
+        info.setText(titulo);
     }
 
     //Listeners

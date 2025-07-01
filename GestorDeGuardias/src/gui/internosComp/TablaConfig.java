@@ -29,15 +29,15 @@ public class TablaConfig extends Cuadro {
     private final int rowHeight = 40;
     private final int alturaCabecera = 67;
 
-    private ArrayList<Configuracion> configuraciones;
-    private Consumer<Configuracion> onDoubleClick;
+    private final ArrayList<Configuracion> configuraciones;
+    private final Consumer<Configuracion> onDoubleClick;
 
     // Para mantener el seleccionado
     private Configuracion seleccionada;
     //    private JPanel panelSeleccionado;
     private Object opcionesReferencia;
 
-    private java.util.List<JPanel> panelesFilas = new ArrayList<>();
+    private final java.util.List<JPanel> panelesFilas = new ArrayList<>();
 
     public TablaConfig(Dimension dimension, Color color, ArrayList<Configuracion> configuraciones, Consumer<Configuracion> onDoubleClick) {
         super(dimension, REDONDEZ, color);

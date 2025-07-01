@@ -1,12 +1,7 @@
 package gui.pantallasEmergentes;
 
 import gui.auxiliares.Paleta;
-import gui.componentes.Boton;
-import gui.componentes.Cuadro;
-import gui.componentes.Etiqueta;
-import gui.componentes.CustomComboBoxV2;
-import gui.componentes.CustomTextField;
-import gui.componentes.CustomPasswordField;
+import gui.componentes.*;
 import gui.secciones.Ventana;
 import model.Rol;
 import model.Usuario;
@@ -162,7 +157,7 @@ public class PantallaAddUsuario extends JDialog {
         int rolIdx = comboRoles.getSelectedIndex();
 
         if (usuario.isEmpty() || pass.isEmpty() || rolIdx < 0) {
-            new Advertencia(new Dimension(400, 150), "Campos requeridos", "Debe ingresar usuario, contraseña y rol.", "Aceptar");
+            new Advertencia(new Dimension(400, 250), "Campos requeridos", "Debe ingresar usuario, contraseña y rol.", "Aceptar");
             return;
         }
 
@@ -175,10 +170,10 @@ public class PantallaAddUsuario extends JDialog {
 
         try {
             ServicesLocator.getInstance().getUsuarioServices().insertUsuario(newUser);
-            new Advertencia(new Dimension(400, 150), "Éxito", "Usuario creado correctamente.", "Aceptar");
+            new Advertencia(new Dimension(400, 250), "Éxito", "Usuario creado correctamente.", "Aceptar");
             dispose();
         } catch (MultiplesErroresException | SqlServerCustomException ex) {
-            new Advertencia(new Dimension(400, 150), "Error", "Error al crear usuario: " + ex.getMessage(), "Aceptar");
+            new Advertencia(new Dimension(400, 250), "Error", "Error al crear usuario: " + ex.getMessage(), "Aceptar");
         }
     }
 }

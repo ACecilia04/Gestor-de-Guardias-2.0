@@ -61,7 +61,13 @@ public class TurnoDeGuardia {
         return hecho;
     }
 
-    public Long getId(){return id;}
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void asignarPersona(Persona personaAsignada) {
         personasAsignadas.add(personaAsignada);
@@ -70,12 +76,6 @@ public class TurnoDeGuardia {
     public void actualizarCumplimiento(Boolean hecho) {
         this.hecho = hecho;
     }
-
-    public void setHecho(Boolean hecho) {
-        this.hecho = hecho;
-    }
-
-    public void setId(Long id){this.id = id;}
 
     public Persona getPersonaAsignada() {
         return personaAsignada;
@@ -87,5 +87,9 @@ public class TurnoDeGuardia {
 
     public Boolean getHecho() {
         return hecho;
+    }
+
+    public void setHecho(Boolean hecho) {
+        this.hecho = hecho;
     }
 }

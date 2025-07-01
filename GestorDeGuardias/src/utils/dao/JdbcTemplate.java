@@ -12,9 +12,9 @@ import java.util.List;
 
 public class JdbcTemplate {
 
-    private String connUrl;
-    private String connUsername;
-    private String connPassword;
+    private final String connUrl;
+    private final String connUsername;
+    private final String connPassword;
 
     public JdbcTemplate(String connUrl, String connUsername, String connPassword) {
         this.connUrl = connUrl;
@@ -23,7 +23,7 @@ public class JdbcTemplate {
     }
 
 
-    public <T> List<T> query(String query, RowMapper<T> mapper){
+    public <T> List<T> query(String query, RowMapper<T> mapper) {
         Connection connection;
         try {
             connection = DriverManager.getConnection(connUrl, connUsername, connPassword);
@@ -38,7 +38,7 @@ public class JdbcTemplate {
 
             List<T> retVal = new ArrayList<>();
             int i = 0;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 retVal.add(mapper.mapRow(resultSet, i++));
             }
 
@@ -54,7 +54,7 @@ public class JdbcTemplate {
         }
     }
 
-    public <T> List<T> query(String query, RowMapper<T> mapper, Object... parameters){
+    public <T> List<T> query(String query, RowMapper<T> mapper, Object... parameters) {
         Connection connection;
         try {
             connection = DriverManager.getConnection(connUrl, connUsername, connPassword);
@@ -73,7 +73,7 @@ public class JdbcTemplate {
 
             List<T> retVal = new ArrayList<>();
             i = 0;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 retVal.add(mapper.mapRow(resultSet, i++));
             }
 
@@ -161,7 +161,7 @@ public class JdbcTemplate {
 
             List<T> retVal = new ArrayList<>();
             i = 0;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 retVal.add(mapper.mapRow(resultSet, i++));
             }
 
@@ -207,58 +207,36 @@ public class JdbcTemplate {
 
     private void setStatementField(PreparedStatement statement, int columnNr, Object value) throws SQLException {
         if (value instanceof Integer) {
-            statement.setInt(columnNr, (Integer)value);
-        } else
-
-        if(value instanceof String){
-            statement.setString(columnNr, (String)value);
-        } else
-
-        if(value instanceof Long){
-            statement.setLong(columnNr, (Long)value);
-        } else
-
-        if(value instanceof Character){
+            statement.setInt(columnNr, (Integer) value);
+        } else if (value instanceof String) {
+            statement.setString(columnNr, (String) value);
+        } else if (value instanceof Long) {
+            statement.setLong(columnNr, (Long) value);
+        } else if (value instanceof Character) {
             statement.setString(columnNr, String.valueOf(value));
-        } else
-
-        if(value instanceof Byte){
-            statement.setByte(columnNr, (Byte)value);
-        } else
-
-        if(value instanceof java.util.Date){
-            java.sql.Date sqlDate = new java.sql.Date(((Date)value).getTime());
+        } else if (value instanceof Byte) {
+            statement.setByte(columnNr, (Byte) value);
+        } else if (value instanceof java.util.Date) {
+            java.sql.Date sqlDate = new java.sql.Date(((Date) value).getTime());
             statement.setDate(columnNr, sqlDate);
-        } else
-
-        if(value instanceof Time){
-            statement.setTime(columnNr, (Time)value);
-        } else
-
-        if(value instanceof LocalDate){
-            java.util.Date date = java.util.Date.from(((LocalDate)value).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        } else if (value instanceof Time) {
+            statement.setTime(columnNr, (Time) value);
+        } else if (value instanceof LocalDate) {
+            java.util.Date date = java.util.Date.from(((LocalDate) value).atStartOfDay(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
             statement.setDate(columnNr, sqlDate);
-        } else
-
-        if(value instanceof LocalTime){
-            java.sql.Time sqlTime = Time.valueOf((LocalTime)value);
+        } else if (value instanceof LocalTime) {
+            java.sql.Time sqlTime = Time.valueOf((LocalTime) value);
             statement.setTime(columnNr, sqlTime);
-        } else
-
-        if(value instanceof LocalDateTime){
-            statement.setTimestamp(columnNr, Timestamp.valueOf((LocalDateTime)value));
-        } else
-
-        if(value instanceof Timestamp){
+        } else if (value instanceof LocalDateTime) {
+            statement.setTimestamp(columnNr, Timestamp.valueOf((LocalDateTime) value));
+        } else if (value instanceof Timestamp) {
             statement.setTimestamp(columnNr, (Timestamp) value);
+        } else if (value instanceof Boolean) {
+            statement.setBoolean(columnNr, (Boolean) value);
         } else
 
-        if(value instanceof Boolean){
-            statement.setBoolean(columnNr, (Boolean)value);
-        } else
-
-        statement.setObject(columnNr, null);
+            statement.setObject(columnNr, null);
     }
 
 }

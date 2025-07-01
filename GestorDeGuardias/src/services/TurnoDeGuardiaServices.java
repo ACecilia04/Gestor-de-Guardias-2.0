@@ -39,6 +39,7 @@ public class TurnoDeGuardiaServices {
     public ArrayList<TurnoDeGuardia> getAllTurnosDeGuardia() {
         return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_turno_de_guardia_read", new TurnoDeGuardiaMapper());
     }
+
     public ArrayList<TurnoDeGuardia> getTurnosAPartirDe(LocalDate fecha) {
         return (ArrayList<TurnoDeGuardia>) baseDao.spQuery("sp_turno_de_guardia_read_a_partir_de(?)", new TurnoDeGuardiaMapper(), fecha);
     }
@@ -52,6 +53,7 @@ public class TurnoDeGuardiaServices {
     public TurnoDeGuardia getTurnoDeGuardiaById(Long id) {
         return baseDao.spQuerySingleObject("sp_turno_de_guardia_read_by_id(?)", new TurnoDeGuardiaMapper(), id);
     }
+
     public TurnoDeGuardia getUltimoTurnoDeGuardia() {
         return baseDao.spQuerySingleObject("sp_turno_de_guardia_read_last()", new TurnoDeGuardiaMapper());
     }
@@ -124,10 +126,25 @@ public class TurnoDeGuardiaServices {
         }
     }
 
+    // ==============   VALIDACIONES   ==========================================
+    private void validarTurnoDeGuardia(TurnoDeGuardia record) throws MultiplesErroresException {
+        List<String> errores = new ArrayList<>();
+
+        if (record.getFecha() == null)
+            errores.add("Fecha no especificada.");
+        if (record.getHorario() == null)
+            errores.add("Horario no especificado.");
+        if (record.getPersonaAsignada() == null)
+            errores.add("Persona no especificada.");
+
+        if (!errores.isEmpty())
+            throw new MultiplesErroresException("Turno de guardia con datos erróneos:", errores);
+    }
+
     public static class TurnoDeGuardiaMapper implements RowMapper<TurnoDeGuardia> {
 
-        private static HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
-        private static PersonaServices personaServices = ServicesLocator.getInstance().getPersonaServices();
+        private static final HorarioServices horarioServices = ServicesLocator.getInstance().getHorarioServices();
+        private static final PersonaServices personaServices = ServicesLocator.getInstance().getPersonaServices();
 
         @Override
         public TurnoDeGuardia mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -145,20 +162,5 @@ public class TurnoDeGuardiaServices {
 
             return turno;
         }
-    }
-
-    // ==============   VALIDACIONES   ==========================================
-    private void validarTurnoDeGuardia(TurnoDeGuardia record) throws MultiplesErroresException {
-        List<String> errores = new ArrayList<>();
-
-        if (record.getFecha() == null)
-            errores.add("Fecha no especificada.");
-        if (record.getHorario() == null)
-            errores.add("Horario no especificado.");
-        if (record.getPersonaAsignada() == null)
-            errores.add("Persona no especificada.");
-
-        if (!errores.isEmpty())
-            throw new MultiplesErroresException("Turno de guardia con datos erróneos:", errores);
     }
 }

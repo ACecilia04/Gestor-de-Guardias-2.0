@@ -23,20 +23,20 @@ public class Usuario {
         this.id = id;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public void setContrasenna(String contrasenna) {
-        this.contrasenna = contrasenna;
-    }
-
     public String getNombre() {
         return nombre;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
     public String getContrasenna() {
         return contrasenna;
+    }
+
+    public void setContrasenna(String contrasenna) {
+        this.contrasenna = contrasenna;
     }
 
     public Rol getRol() {

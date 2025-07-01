@@ -389,6 +389,6 @@ public class UsuarioTest {
     public void getAll_success() {
         List<Usuario> records = usuarioServices.getAllUsuarios();
         assertNotNull(records);
-        assertTrue(!records.isEmpty());
+        assertFalse(records.isEmpty());
     }
 }

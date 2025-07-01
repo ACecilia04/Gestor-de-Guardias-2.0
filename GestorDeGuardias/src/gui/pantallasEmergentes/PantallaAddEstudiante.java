@@ -18,13 +18,13 @@ public class PantallaAddEstudiante extends PantallaAddPersona {
             ServicesLocator.getInstance().getPersonaServices().insertPersona(nuevaPersona);
             Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Añadido Exitosamente", "Estudiante añadido Exitosamente", "Aceptar", true);
             this.dispose();
-        }catch (MultiplesErroresException e) {
+        } catch (MultiplesErroresException e) {
             StringBuilder errores = new StringBuilder();
             for (String error : e.getErrores()) {
                 errores.append(error).append("\n");
             }
             JOptionPane.showMessageDialog(this, errores.toString(), "Errores de validación", JOptionPane.ERROR_MESSAGE);
-        }catch (SqlServerCustomException e){
+        } catch (SqlServerCustomException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Errores de validación", JOptionPane.ERROR_MESSAGE);
         }
     }

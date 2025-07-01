@@ -15,14 +15,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class PanelSupOpcionesPlanifs extends JPanel{
+public class PanelSupOpcionesPlanifs extends JPanel {
 
     private MostrarPlanif panelReferencia;
 
-    private Boton nuevoBtn;
-    private Boton editarBtn;
-    private Boton borrarBtn;
-    private Boton pdfBtn;
+    private final Boton nuevoBtn;
+    private final Boton editarBtn;
+    private final Boton borrarBtn;
+    private final Boton pdfBtn;
     private boolean algunMesSeleccionado;
 
     public PanelSupOpcionesPlanifs(int alto) {
@@ -110,7 +110,7 @@ public class PanelSupOpcionesPlanifs extends JPanel{
         }
     }
 
-    public void editar(){
+    public void editar() {
         if (panelReferencia.getSeleccionado() != null) {
             ArrayList<DiaGuardia> diasAux = ServicesLocator.getInstance().getPlantillaServices()
                     .agruparPorDia(ServicesLocator.getInstance().getTurnoDeGuardiaServices()

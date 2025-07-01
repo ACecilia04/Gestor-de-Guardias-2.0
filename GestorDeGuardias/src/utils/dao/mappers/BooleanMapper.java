@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class BooleanMapper implements RowMapper<Boolean> {
 
-    private String columnName;
+    private final String columnName;
 
     public BooleanMapper() {
         this.columnName = null;

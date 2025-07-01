@@ -25,7 +25,7 @@ public abstract class PanelDiaBase extends Cuadro implements Actualizable {
     //Casillas
     protected static int casillaLargo = 50;
     protected static int largoComun = 54;
-//    protected static int largoDoble = 80;
+    //    protected static int largoDoble = 80;
 //    protected static int largoTriple = 110;
     protected Paleta paleta = new Paleta();
     protected DiaGuardia dia;

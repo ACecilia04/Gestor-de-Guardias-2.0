@@ -22,7 +22,7 @@ public class TablaEstudiantes extends CustomTablaComplex {
                 aux[2] = e.getNombre();
                 aux[3] = e.getSexo();
                 aux[4] = e.getDisponibilidad(LocalDate.now());
-                aux[5] = String.valueOf(e.getCantGuardiasAsignadas());
+                aux[5] = String.valueOf(e.getDiasDesdeUltimaGuardiaAsignada());
 
                 modelo.addRow(aux);
             }
@@ -40,7 +40,7 @@ public class TablaEstudiantes extends CustomTablaComplex {
 
     @Override
     public String[] getColumnas() {
-        return new String[]{"ID", "Apellidos", "Nombre", "Sexo", "Disponibilidad", "Asignaciones"};
+        return new String[]{"ID", "Apellidos", "Nombre", "Sexo", "Disponibilidad", "Días desde última Asignación"};
     }
 
     @Override

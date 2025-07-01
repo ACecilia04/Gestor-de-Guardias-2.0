@@ -14,11 +14,13 @@ public class DiaGuardia implements Comparable<DiaGuardia> {
         setTurnos(turnos);
         guardarFechaTurno();
     }
-public void guardarFechaTurno(){
-        for(TurnoDeGuardia t: turnos){
+
+    public void guardarFechaTurno() {
+        for (TurnoDeGuardia t : turnos) {
             t.setFecha(this.fecha);
         }
-}
+    }
+
     public LocalDate getFecha() {
         return fecha;
     }

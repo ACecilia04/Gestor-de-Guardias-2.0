@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class DoubleMapper implements RowMapper<Double> {
 
-    private String columnName;
+    private final String columnName;
 
     public DoubleMapper() {
         this.columnName = null;
