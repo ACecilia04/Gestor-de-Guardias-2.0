@@ -10,6 +10,7 @@ import model.DiaGuardia;
 import model.TurnoDeGuardia;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
+import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -188,22 +189,26 @@ public class TablaArchivar extends Cuadro implements IsTabla {
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getCumplido().setSelected(true);
                                     a1.getTurno().actualizarCumplimiento(true);
-//                                    try {
-//                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
-//                                    } catch (SqlServerCustomException ex) {
-//                                        throw new RuntimeException(ex);
-//                                    }
+                                    try {
+                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(a1.getTurno());
+                                    } catch (SqlServerCustomException ex) {
+                                        throw new RuntimeException(ex);
+                                    } catch (MultiplesErroresException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
                                 }
                                 break;
                             case 2:
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getNoCumplido().setSelected(true);
                                     a1.getTurno().actualizarCumplimiento(false);
-//                                    try {
-//                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno.getId(),turno.getHorario().getId(),turno.getFecha(),turno.getPersonaAsignada().getId(),turno.getCumplimiento());
-//                                    } catch (SqlServerCustomException ex) {
-//                                        throw new RuntimeException(ex);
-//                                    }
+                                    try {
+                                        ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(a1.getTurno());
+                                    } catch (SqlServerCustomException ex) {
+                                        throw new RuntimeException(ex);
+                                    } catch (MultiplesErroresException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
                                 }
                                 break;
                         }
