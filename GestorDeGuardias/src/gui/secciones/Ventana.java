@@ -66,7 +66,7 @@ public class Ventana extends JFrame {
 //                login = new Login(overlayPanel);
 //                usuarioLogueado = login.getUsuarioLogueado();
 //                if (usuarioLogueado == null) System.exit(0);
-                usuarioLogueado = new Usuario("administrador", "administrador", new Rol("Administrador"));
+                usuarioLogueado = new Usuario("desarrollador", "desarrollador", new Rol("Desarrollador"));
                 // Instanciar el menú pasando el usuario logueado
                 menu = new Menu(zonaInferior, Ventana.this, usuarioLogueado);
                 zonaInferior.add(menu, BorderLayout.WEST);
@@ -221,16 +221,20 @@ public class Ventana extends JFrame {
 
         if (cambiar) {
             if (Objects.equals(nombrePanel, "panelPlanificaciones") && !Objects.equals(pantallaActual, "panelPlanificaciones")) {
-
                 pantallaPlanif.actualizarPlanif();
+                barraSup.mostrarNombreSeccion("     Planificaciones");
 
-            } else if (Objects.equals(nombrePanel, "panelTrab") && !Objects.equals(pantallaActual, "panelTrab")) {
-
+            } else if (Objects.equals(nombrePanel, "panelTrabajadores") && !Objects.equals(pantallaActual, "panelTrabajadores")) {
                 pantallaTrabajadores.revalidarTabla();
+                barraSup.mostrarNombreSeccion("     Trabajadores");
+
+            } else if (Objects.equals(nombrePanel,"panelEstudiantes") && !Objects.equals(pantallaActual, "panelEstudiantes")) {
+                pantallaEstudiantes.revalidarTabla();
+                barraSup.mostrarNombreSeccion("     Estudiantes");
 
             } else if (Objects.equals(nombrePanel, "panelAsistencia") && !Objects.equals(pantallaActual, "panelAsistencia")) {
-
                 pantallaAsistencia.actualizarPlanif();
+                barraSup.mostrarNombreSeccion("     Asistencias");
 
             } else if (Objects.equals(nombrePanel, "panelAddPlanif")) {
 
@@ -255,20 +259,24 @@ public class Ventana extends JFrame {
                 panelAddPlanif.addTabla(tabla);
             } else if (Objects.equals(nombrePanel, "panelConfig") && !Objects.equals(pantallaActual, "panelConfig")) {
                 pantallaConfig.cargarConfiguraciones();
+                barraSup.mostrarNombreSeccion("     Configuración");
+
             } else if (Objects.equals(nombrePanel, "panelUsuarios") && !Objects.equals(pantallaActual, "panelUsuarios")) {
                 ArrayList<Usuario> usuarios = (ArrayList<Usuario>) servicesLocator.getUsuarioServices().getAllUsuarios();
                 usuarios.removeIf(usuario -> usuario.getId().equals(usuarioLogueado.getId()));
                 pantallaUsuarios.setTabla(usuarios);
+                barraSup.mostrarNombreSeccion("     Usuarios");
 
-            } else if (Objects.equals(nombrePanel, "panelCumplimiento") && !Objects.equals(pantallaActual, "panelCumplimiento"))
+            } else if (Objects.equals(nombrePanel, "panelCumplimiento") && !Objects.equals(pantallaActual, "panelCumplimiento")) {
                 pantallaAsistencia.mostrarTabla();
 
+            }
             switch (nombrePanel) {
-                case "panelPlanificaciones" -> barraSup.mostrarPanel("panelOpcionesPlanifs");
-                case "panelCumplimiento" -> barraSup.mostrarPanel("panelOpcionesAsistencia");
-                case "panelConfig" -> barraSup.mostrarPanel("panelOpcionesConfig");
-                case "panelUsuarios" -> barraSup.mostrarPanel("panelOpcionesUsuarios");
-                case null, default -> barraSup.mostrarPanel("panelEd1");
+                case "panelPlanificaciones" -> barraSup.mostrarPanelDerecho("panelOpcionesPlanifs");
+                case "panelCumplimiento" -> barraSup.mostrarPanelDerecho("panelOpcionesAsistencia");
+                case "panelConfig" -> barraSup.mostrarPanelDerecho("panelOpcionesConfig");
+                case "panelUsuarios" -> barraSup.mostrarPanelDerecho("panelOpcionesUsuarios");
+                case null, default -> barraSup.mostrarPanelDerecho("panelEd1");
             }
 
             if (!Objects.equals(pantallaActual, nombrePanel)) {
@@ -341,7 +349,7 @@ public class Ventana extends JFrame {
     public void editarPlanif(ArrayList<DiaGuardia> diasAux) {
         Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
         Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), diasAux, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);
-        barraSup.mostrarPanel("panelEd1");
+        barraSup.mostrarPanelDerecho("panelEd1");
         CardLayout cardLayout = (CardLayout) panelVacio.getLayout();
         cardLayout.show(panelVacio, "panelAddPlanif");
         pantallaActual = "panelAddPlanif";

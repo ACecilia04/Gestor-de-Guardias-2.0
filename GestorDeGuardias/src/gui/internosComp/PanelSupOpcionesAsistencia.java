@@ -2,6 +2,7 @@ package gui.internosComp;
 
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
+import gui.componentes.Etiqueta;
 import gui.secciones.PantallaCump;
 import services.ServicesLocator;
 

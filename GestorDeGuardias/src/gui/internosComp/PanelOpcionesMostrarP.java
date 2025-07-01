@@ -3,6 +3,7 @@ package gui.internosComp;
 import gui.auxiliares.Paleta;
 import gui.componentes.Boton;
 import gui.componentes.Buscar;
+import gui.componentes.Etiqueta;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -104,7 +105,6 @@ public class PanelOpcionesMostrarP extends JPanel {
         //add
         add(superior, BorderLayout.NORTH);
         add(panel4, BorderLayout.CENTER);
-
 
         //Bordes
         Border border = BorderFactory.createMatteBorder(0, 3, 0, 0, paleta.getColorBorde());

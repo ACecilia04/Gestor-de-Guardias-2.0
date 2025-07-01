@@ -177,18 +177,18 @@ public class TablaArchivar extends Cuadro implements IsTabla {
                         switch (b) {
                             case 0:
                                 a1.getRadioGrupo().clearSelection();
-                                a1.getTurno().actualizarCumplimiento(null);
+                                a1.getTurno().setHecho(null);
                                 break;
                             case 1:
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getCumplido().setSelected(true);
-                                    a1.getTurno().actualizarCumplimiento(true);
+                                    a1.getTurno().setHecho(true);
                                 }
                                 break;
                             case 2:
                                 if (!a1.getCumplido().isSelected() && !a1.getNoCumplido().isSelected()) {
                                     a1.getNoCumplido().setSelected(true);
-                                    a1.getTurno().actualizarCumplimiento(false);
+                                    a1.getTurno().setHecho(false);
                                 }
                                 break;
                         }

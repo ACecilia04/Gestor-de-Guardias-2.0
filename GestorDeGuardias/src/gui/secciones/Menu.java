@@ -173,8 +173,17 @@ public class Menu extends JPanel {
 
     private boolean puedeVer(String rol, String clave) {
         rol = rol.toLowerCase();
-        if (rol.equalsIgnoreCase("administrador"))
+
+        // El desarrollador puede ver todo
+        if (rol.equals("desarrollador")) {
             return true;
+        }
+        if (rol.equals("administrador")) {
+            return switch (clave.toLowerCase()) {
+                case "trabajadores", "facultad", "estudiantes", "usuarios", "config" -> true;
+                default -> false;
+            };
+        }
         if (rol.equals("planificador"))
             return clave.equalsIgnoreCase("planifs");
 

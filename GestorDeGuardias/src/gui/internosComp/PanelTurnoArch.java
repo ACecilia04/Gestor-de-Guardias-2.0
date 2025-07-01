@@ -4,9 +4,6 @@ import gui.auxiliares.Actualizable;
 import gui.componentes.CustomRadioButton;
 import model.DiaGuardia;
 import model.TurnoDeGuardia;
-import services.ServicesLocator;
-import utils.dao.SqlServerCustomException;
-import utils.exceptions.MultiplesErroresException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,22 +45,18 @@ public class PanelTurnoArch extends PanelTurno {
         if (turno.getCumplimiento() != null) {
             if (turno.getCumplimiento()) {
                 cumplido.setSelected(true);
-                turno.actualizarCumplimiento(true);
+                turno.setHecho(true);
             }
             if (!turno.getCumplimiento()) {
                 noCumplido.setSelected(true);
-                turno.actualizarCumplimiento(false);
+                turno.setHecho(false);
             }
         }
 
         cumplido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno);
-                } catch (SqlServerCustomException | MultiplesErroresException ex) {
-                    throw new RuntimeException(ex);
-                }
+                turno.setHecho(true);
 
             }
         });
@@ -71,12 +64,8 @@ public class PanelTurnoArch extends PanelTurno {
         noCumplido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                turno.actualizarCumplimiento(false);
-                try {
-                    ServicesLocator.getInstance().getTurnoDeGuardiaServices().updateTurnoDeGuardia(turno);
-                } catch (SqlServerCustomException | MultiplesErroresException ex) {
-                    throw new RuntimeException(ex);
-                }
+                turno.setHecho(false);
+
             }
         });
 

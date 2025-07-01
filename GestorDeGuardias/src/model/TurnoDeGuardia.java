@@ -73,10 +73,6 @@ public class TurnoDeGuardia {
         personasAsignadas.add(personaAsignada);
     }
 
-    public void actualizarCumplimiento(Boolean hecho) {
-        this.hecho = hecho;
-    }
-
     public Persona getPersonaAsignada() {
         return personaAsignada;
     }

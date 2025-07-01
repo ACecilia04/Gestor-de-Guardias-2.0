@@ -76,9 +76,14 @@ public class BarraSuperior extends JPanel {
         cardLayout.show(panelIzquierda, "panelCerrarSesion");
     }
 
-    public void mostrarPanel(String nombrePanel) {
+    public void mostrarPanelDerecho(String nombrePanel) {
         CardLayout cardLayout = (CardLayout) panelDerecha.getLayout();
         cardLayout.show(panelDerecha, nombrePanel);
+        Ventana.getInstance().revalidate();
+        Ventana.getInstance().repaint();
+    }
+    public void mostrarNombreSeccion(String nombrePanel) {
+        cerrarSesionPnl.setNombreSeccion(nombrePanel);
         Ventana.getInstance().revalidate();
         Ventana.getInstance().repaint();
     }
