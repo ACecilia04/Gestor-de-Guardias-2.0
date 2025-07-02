@@ -334,7 +334,9 @@ CREATE PROCEDURE [dbo].[sp_auditoria_read]
 	@inicio datetime,
 	@fin datetime,
 	@servicio nvarchar(50),
-	@funcionalidad nvarchar(50)
+	@funcionalidad nvarchar(50),
+	@pageNr int,
+	@pageRows int
 AS
 BEGIN
     SELECT *
@@ -344,6 +346,8 @@ BEGIN
 	AND ([timestamp] <= @fin OR NULL = @fin)
 	AND (servicio = @servicio OR '' = @servicio)
 	AND (funcionalidad = @funcionalidad OR '' = @funcionalidad)
+	ORDER BY timestamp DESC
+    OFFSET @pageNr ROWS FETCH NEXT @pageRows ROWS ONLY
 END
 
 GO

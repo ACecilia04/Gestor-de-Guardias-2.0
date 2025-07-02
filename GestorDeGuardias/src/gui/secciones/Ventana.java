@@ -46,6 +46,7 @@ public class Ventana extends JFrame {
     private PantallaCump pantallaCump;
     private PanelConfig pantallaConfig;
     private PantallaUsuarios pantallaUsuarios;
+    private PantallaAuditoria pantallaAuditoria;
     private Login login;
     private PantallaAddPersona pantallaAddPersona;
     private LocalDate inicio;
@@ -160,6 +161,7 @@ public class Ventana extends JFrame {
         pantallaCump = new PantallaCump();
         pantallaConfig = new PanelConfig();
         pantallaUsuarios = new PantallaUsuarios();
+        pantallaAuditoria = new PantallaAuditoria();
         panelVerPlanif = new JPanel();
         panelVerPlanif.setLayout(new BorderLayout());
         panelHome = new JPanel();
@@ -174,6 +176,7 @@ public class Ventana extends JFrame {
         panelVacio.add(pantallaCump, "panelCumplimiento");
         panelVacio.add(pantallaConfig, "panelConfig");
         panelVacio.add(pantallaUsuarios, "panelUsuarios");
+        panelVacio.add(pantallaAuditoria, "panelAuditoria");
     }
 
     private void redimensionar() {
@@ -269,6 +272,11 @@ public class Ventana extends JFrame {
                 usuarios.removeIf(usuario -> usuario.getId().equals(usuarioLogueado.getId()));
                 pantallaUsuarios.setTabla(usuarios);
                 barraSup.mostrarNombreSeccion("     Usuarios");
+
+            } else if (Objects.equals(nombrePanel, "panelAuditoria") && !Objects.equals(pantallaActual, "panelAuditoria")) {
+                ArrayList<Auditoria> trazas = (ArrayList<Auditoria>) servicesLocator.getAuditoriaServices().getTraza(-1L, null, null, "", "", 0, 100);
+                pantallaAuditoria.setTabla(trazas);
+                barraSup.mostrarNombreSeccion("     Auditoría");
 
             } else if (Objects.equals(nombrePanel, "panelCumplimiento") && !Objects.equals(pantallaActual, "panelCumplimiento")) {
                 pantallaAsistencia.mostrarTabla();

@@ -1,14 +1,7 @@
 package utils;
 
-import model.DiaGuardia;
-import model.Persona;
-import utils.exceptions.EntradaInvalidaException;
-
-import java.time.LocalDate;
-import java.time.temporal.WeekFields;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Utilitarios {
     public static final String SIMPLE_DATE_FORMAT = "dd-MM-yyyy";
@@ -48,5 +41,15 @@ public class Utilitarios {
         return soloNumeros;
     }
 
+    public static String localDateTimeToString(LocalDateTime date, String format) {
+        if (date == null || !stringEsValido(format)) return null;
+
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+            return date.format(formatter);
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
 }

@@ -20,7 +20,7 @@ public class AuditoriaServices {
 
     // CREATE
     public void insertAuditoria(String servicio, String funcionalidad, String parametros) throws SqlServerCustomException {
-        if (ServicesLocator.getInstance().getUsuarioActual() != null)
+        if (ServicesLocator.getInstance().getUsuarioActual() != null){
             baseDao.spUpdate("sp_auditoria_create(?, ?, ?, ?, ?)",
                     ServicesLocator.getInstance().getUsuarioActual().getId(),
                     LocalDateTime.now(),
@@ -28,11 +28,12 @@ public class AuditoriaServices {
                     funcionalidad,
                     parametros
             );
+        }
     }
 
     // READ all
-    public List<Auditoria> getTraza(Long idUsuario, LocalDateTime inicio, LocalDateTime fin, String servicio, String funcionalidad) {
-        return baseDao.spQuery("sp_auditoria_read", new AuditoriaMapper(), idUsuario, inicio, fin, servicio, funcionalidad);
+    public List<Auditoria> getTraza(Long idUsuario, LocalDateTime inicio, LocalDateTime fin, String servicio, String funcionalidad, int numeroPagina, int filasPagina) {
+        return baseDao.spQuery("sp_auditoria_read(?, ?, ?, ?, ?, ?, ?)", new AuditoriaMapper(), idUsuario, inicio, fin, servicio, funcionalidad, numeroPagina, filasPagina);
     }
 
     // Internal Mapper

@@ -2,13 +2,16 @@ USE [Gestor_de_Guardias]
 
 INSERT INTO [dbo].[rol] ([nombre]) VALUES
     (N'Administrador'),
+    (N'Controlador'),
+    (N'Planificador'),
+    (N'Desarrollador'),
     (N'Usuario')
 GO
 
 SET IDENTITY_INSERT [dbo].[usuario] ON
 GO
 INSERT INTO [dbo].[usuario] ([id], [nombre], [contrasenna], [rol]) VALUES
-    (1, N'administrador', N'administrador', N'Administrador'),
+    (1, N'desarrollador', N'desarrollador', N'Desarrollador'),
     (2, N'usuario', N'usuario', N'Usuario')
 GO
 SET IDENTITY_INSERT [dbo].[usuario] OFF

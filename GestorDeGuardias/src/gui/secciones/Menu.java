@@ -26,6 +26,7 @@ public class Menu extends JPanel {
     Boton btnTrabajadores = new Boton();
     Boton btnConfig = new Boton();
     Boton btnUsuarios = new Boton();
+    Boton btnAuditoria = new Boton();
     Boton btnActualizarAsist = new Boton();
     Boton btnFacultad = new Boton();
     String usuarioRol;
@@ -154,6 +155,16 @@ public class Menu extends JPanel {
                 y += btnUsuarios.getSize().height + separacion;
             }
 
+            if (puedeVer(usuarioRol, "auditoria")) {
+                btnAuditoria = new Boton();
+                btnAuditoria.addIcono("/iconos/Community.png");
+                btnAuditoria.setSelectLetra(true);
+                btnAuditoria.setLocation(x, y);
+                btnAuditoria.addActionListener(e -> ventana.mostrarPanel("panelAuditoria"));
+                panel2.add(btnAuditoria);
+                y += btnAuditoria.getSize().height + separacion;
+            }
+
             panel2.setMinimumSize(new Dimension(this.getPreferredSize().width, y));
         }
 
@@ -230,6 +241,11 @@ public class Menu extends JPanel {
             btnUsuarios.setText("");
             btnUsuarios.setLocation(10, btnUsuarios.getY());
         }
+
+        if (puedeVer(usuarioRol, "auditoria")) {
+            btnAuditoria.setText("");
+            btnAuditoria.setLocation(10, btnAuditoria.getY());
+        }
     }
 
     private void maximizarMenu() {
@@ -270,5 +286,9 @@ public class Menu extends JPanel {
             btnUsuarios.setLocation(x, btnUsuarios.getY());
         }
 
+        if (puedeVer(usuarioRol, "auditoria")) {
+            btnAuditoria.setText("");
+            btnAuditoria.setLocation(10, btnAuditoria.getY());
+        }
     }
 }
