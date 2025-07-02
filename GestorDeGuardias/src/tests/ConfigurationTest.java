@@ -2,6 +2,7 @@ package tests;
 
 import model.Configuracion;
 import model.Horario;
+import model.Usuario;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -11,6 +12,7 @@ import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
 import utils.exceptions.MultiplesErroresException;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class ConfigurationTest {
     public static void setup() {
         configuracionServices = ServicesLocator.getInstance().getConfiguracionServices();
         horarioServices = ServicesLocator.getInstance().getHorarioServices();
+        Usuario usuarioLogueado = ServicesLocator.getInstance().getUsuarioServices().getUsuarioById(1L);
+        ServicesLocator.getInstance().setUsuarioActual(usuarioLogueado);
 
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
@@ -33,7 +37,7 @@ public class ConfigurationTest {
         try {
             configuracionServices.insertConfiguracion(nuevoRecord);
         } catch (MultiplesErroresException | SqlServerCustomException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         inicio = LocalTime.of(14, 0, 0);
@@ -43,7 +47,7 @@ public class ConfigurationTest {
         try {
             configuracionServices.insertConfiguracion(nuevoRecord2);
         } catch (MultiplesErroresException | SqlServerCustomException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -51,20 +55,22 @@ public class ConfigurationTest {
     public static void done() {
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now(), false);
         try {
             configuracionServices.deleteConfiguracion(record.getId());
         } catch (SqlServerCustomException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         inicio = LocalTime.of(14, 0, 0);
         fin = LocalTime.of(19, 0, 0);
-        Configuracion record2 = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record2 = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now(), false);
         try {
             configuracionServices.deleteConfiguracion(record2.getId());
         } catch (SqlServerCustomException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -171,7 +177,8 @@ public class ConfigurationTest {
     public void updateDiaSemanaEmpty_throwException() {
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now(), false);
         assertNotNull(record);
         record.setDiaSemana(null);
         boolean validaError = false;
@@ -192,7 +199,8 @@ public class ConfigurationTest {
     public void updateDiaSemanaIllegal_throwException() {
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now(), false);
         assertNotNull(record);
         record.setDiaSemana(9);
         boolean validaError = false;
@@ -213,7 +221,8 @@ public class ConfigurationTest {
     public void updateEsRecesoEmpty_throwException() {
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now(), false);
         assertNotNull(record);
         record.setDiaEsReceso(null);
         boolean validaError = false;
@@ -234,7 +243,8 @@ public class ConfigurationTest {
     public void updateHorarioNull_throwException() {
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now(), false);
         assertNotNull(record);
         record.setHorario(null);
         boolean validaError = false;
@@ -276,7 +286,8 @@ public class ConfigurationTest {
     public void updateExisting_throwException() {
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now(), false);
 
         inicio = LocalTime.of(14, 0, 0);
         fin = LocalTime.of(19, 0, 0);
@@ -355,7 +366,8 @@ public class ConfigurationTest {
     public void getNonExistingPk_returnNull() {
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 2, false);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now().plusDays(1L), false);
         assertNull(record);
     }
 
@@ -363,7 +375,8 @@ public class ConfigurationTest {
     public void getExistingPk_success() {
         LocalTime inicio = LocalTime.of(9, 0, 0);
         LocalTime fin = LocalTime.of(14, 0, 0);
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 1, false);
+        Horario horario = horarioServices.getHorarioByPk(inicio, fin);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario.getId(), LocalDate.now(), false);
         assertNotNull(record);
         Configuracion record2 = configuracionServices.getConfiguracionById(record.getId());
         assertNotNull(record2);
@@ -387,7 +400,7 @@ public class ConfigurationTest {
         } catch (MultiplesErroresException | SqlServerCustomException e) {
             System.out.println(e.getMessage());
         }
-        Configuracion record = configuracionServices.getConfiguracionByPk(inicio, fin, 2, false);
+        Configuracion record = configuracionServices.getConfiguracionByPk(horario1.getId(), LocalDate.now().plusDays(1L), false);
         assertNotNull(record);
 
         Integer nuevoDiaSemana = 3;

@@ -20,8 +20,9 @@ import static utils.Utilitarios.stringSoloNumeros;
 
 public class PersonaServices {
 
-    private static final TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
     private final MainBaseDao baseDao;
+    private static final TipoPersonaServices tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
+    private static final AuditoriaServices auditoriaServices = ServicesLocator.getInstance().getAuditoriaServices();
 
     public PersonaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -38,6 +39,7 @@ public class PersonaServices {
                 record.getCarnet(),
                 record.getTipo().getNombre()
         );
+        auditoriaServices.insertAuditoria("Persona", "Insertar persona", record.toString());
     }
 
     // READ
@@ -77,6 +79,7 @@ public class PersonaServices {
                 record.getReincorporacion(),
                 record.getTipo().getNombre()
         );
+        auditoriaServices.insertAuditoria("Persona", "Modificar persona", record.toString());
     }
 
     /*
@@ -93,6 +96,7 @@ public class PersonaServices {
         validarBaja(ci, fechaBaja);
 
         baseDao.spUpdate("sp_persona_update_baja(?, ?)", ci, fechaBaja);
+        auditoriaServices.insertAuditoria("Persona", "Dar baja", String.format("Carnét identidad = %1$s, Fecha baja = %2$s", ci, fechaBaja));
     }
 
     public void darFechaDeReincorporacion(String ci, LocalDate fechaReincorporacion) {
@@ -102,6 +106,7 @@ public class PersonaServices {
     public void darBajaConReincorporacion(String ci, LocalDate fechaBaja, LocalDate fechaReincorporacion) throws MultiplesErroresException, SqlServerCustomException {
         darBaja(ci, fechaBaja);
         darFechaDeReincorporacion(ci, fechaReincorporacion);
+        auditoriaServices.insertAuditoria("Persona", "Dar baja con reincorporación", String.format("Carnet de identidad = %1$s, Fecha baja = %2$s, Fecha reincorporación = %3$s", ci, fechaBaja, fechaReincorporacion));
     }
 
 
@@ -111,6 +116,7 @@ public class PersonaServices {
             throw new EntradaInvalidaException("Carnet de identidad no especificado.");
 
         baseDao.spUpdate("sp_persona_delete_by_ci(?)", ci);
+        auditoriaServices.insertAuditoria("Persona", "Eliminar persona", "Carnet de identidad =" + ci);
     }
 
     public void deletePersonaById(Long id) throws SqlServerCustomException {

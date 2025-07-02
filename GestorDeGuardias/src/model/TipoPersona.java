@@ -27,4 +27,5 @@ public class TipoPersona {
     public int hashCode() {
         return nombre.toLowerCase().hashCode();
     }
+
 }

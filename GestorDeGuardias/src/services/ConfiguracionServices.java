@@ -19,6 +19,7 @@ import java.util.List;
 public class ConfiguracionServices {
 
     private final MainBaseDao baseDao;
+    private static final AuditoriaServices auditoriaServices = ServicesLocator.getInstance().getAuditoriaServices();
 
     public ConfiguracionServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -36,6 +37,8 @@ public class ConfiguracionServices {
                 record.getSexo(),
                 record.getCantPersonas()
         );
+
+        auditoriaServices.insertAuditoria("Configuración", "Insertar configuración", record.toString());
     }
 
     // READ all
@@ -44,7 +47,7 @@ public class ConfiguracionServices {
     }
 
     // READ by primary key
-    public Configuracion getConfiguracionByPk(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
+    public Configuracion getConfiguracionByPk0(LocalTime horaInicio, LocalTime horaFin, int diaSemana, boolean diaEsReceso) {
         Horario horario = ServicesLocator.getInstance().getHorarioServices().getHorarioByPk(horaInicio, horaFin);
         return baseDao.spQuerySingleObject("sp_configuracion_read_by_pk(?, ?, ?)", new ConfiguracionMapper(), horario.getId(), diaSemana, diaEsReceso);
     }
@@ -70,11 +73,13 @@ public class ConfiguracionServices {
                 record.getSexo(),
                 record.getCantPersonas()
         );
+        auditoriaServices.insertAuditoria("Configuración", "Actualizar configuración", record.toString());
     }
 
     // DELETE
     public void deleteConfiguracion(Long id) throws SqlServerCustomException {
         baseDao.spUpdate("sp_configuracion_delete(?)", id);
+        auditoriaServices.insertAuditoria("Configuración", "Eliminar configuración", "id=" + id);
     }
 
     public List<Configuracion> getConfiguracionesDeFecha(LocalDate fecha) {

@@ -16,6 +16,7 @@ import static utils.Utilitarios.stringEsValido;
 public class RolServices {
 
     private final MainBaseDao baseDao;
+    private static final AuditoriaServices auditoriaServices = ServicesLocator.getInstance().getAuditoriaServices();
 
     public RolServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -26,6 +27,7 @@ public class RolServices {
         validarRol(nombre);
 
         baseDao.spUpdate("sp_rol_create(?)", nombre);
+        auditoriaServices.insertAuditoria("Rol", "Insertar rol", "Rol = " + nombre);
     }
 
     // READ all
@@ -41,11 +43,13 @@ public class RolServices {
     // UPDATE
     public void updateRol(String nombre, String nuevoNombre) throws SqlServerCustomException {
         baseDao.spUpdate("sp_rol_update(?, ?)", nombre, nuevoNombre);
+        auditoriaServices.insertAuditoria("Rol", "Modificar rol", String.format("Rol = %1$s, Nuevo rol = %2$s", nombre, nuevoNombre));
     }
 
     // DELETE
     public void deleteRol(String nombre) throws SqlServerCustomException {
         baseDao.spUpdate("sp_rol_delete(?)", nombre);
+        auditoriaServices.insertAuditoria("Rol", "Eliminar rol", "Rol = " + nombre);
     }
 
     // ==============   VALIDACIONES   ==========================================

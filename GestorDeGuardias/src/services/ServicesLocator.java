@@ -14,7 +14,8 @@ public class ServicesLocator {
     private final UsuarioServices usuarioServices;
     private final RolServices rolServices;
     private final PlantillaServices plantillaServices;
-    private Usuario usuarioActual;
+    private final AuditoriaServices auditoriaServices;
+    private Usuario usuarioActual = new Usuario();
 
     private ServicesLocator() {
         MainBaseDao mbDAO = new MainBaseDao();
@@ -25,13 +26,14 @@ public class ServicesLocator {
         turnoDeGuardiaServices = new TurnoDeGuardiaServices(mbDAO);
         usuarioServices = new UsuarioServices(mbDAO);
         rolServices = new RolServices(mbDAO);
+        auditoriaServices = new AuditoriaServices(mbDAO);
         configuracionServices = new ConfiguracionServices(mbDAO);
         plantillaServices = new PlantillaServices(this);
     }
 
     public static ServicesLocator getInstance() {
         if (me == null) {
-            return new ServicesLocator();
+            me = new ServicesLocator();
         }
         return me;
     }
@@ -70,6 +72,10 @@ public class ServicesLocator {
 
     public PlantillaServices getPlantillaServices() {
         return plantillaServices;
+    }
+
+    public AuditoriaServices getAuditoriaServices() {
+        return auditoriaServices;
     }
 
     public Usuario getUsuarioActual() {

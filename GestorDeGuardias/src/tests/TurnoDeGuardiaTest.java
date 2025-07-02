@@ -3,6 +3,7 @@ package tests;
 import model.Horario;
 import model.Persona;
 import model.TurnoDeGuardia;
+import model.Usuario;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,6 +30,8 @@ public class TurnoDeGuardiaTest {
         turnoDeGuardiaServices = ServicesLocator.getInstance().getTurnoDeGuardiaServices();
         horarioServices = ServicesLocator.getInstance().getHorarioServices();
         personaServices = ServicesLocator.getInstance().getPersonaServices();
+        Usuario usuarioLogueado = ServicesLocator.getInstance().getUsuarioServices().getUsuarioById(1L);
+        ServicesLocator.getInstance().setUsuarioActual(usuarioLogueado);
 
         Horario horario = horarioServices.getHorarioById(1L);
         LocalDate fecha = LocalDate.now();

@@ -1,6 +1,7 @@
 package tests;
 
 import model.TipoPersona;
+import model.Usuario;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.ServicesLocator;
@@ -19,6 +20,8 @@ public class TipoPersonaTest {
     @BeforeClass
     public static void setup() {
         tipoPersonaServices = ServicesLocator.getInstance().getTipoPersonaServices();
+        Usuario usuarioLogueado = ServicesLocator.getInstance().getUsuarioServices().getUsuarioById(1L);
+        ServicesLocator.getInstance().setUsuarioActual(usuarioLogueado);
     }
 
     @Test

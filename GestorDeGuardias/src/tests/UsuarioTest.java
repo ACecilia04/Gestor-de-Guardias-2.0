@@ -21,6 +21,8 @@ public class UsuarioTest {
     @BeforeClass
     public static void setup() {
         usuarioServices = ServicesLocator.getInstance().getUsuarioServices();
+        Usuario usuarioLogueado = ServicesLocator.getInstance().getUsuarioServices().getUsuarioById(1L);
+        ServicesLocator.getInstance().setUsuarioActual(usuarioLogueado);
 
         Usuario nuevoRecord = new Usuario("Usuario1", "usuario", new Rol("Usuario"));
         try {

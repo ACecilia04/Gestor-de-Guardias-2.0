@@ -1,6 +1,7 @@
 package tests;
 
 import model.Rol;
+import model.Usuario;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.RolServices;
@@ -19,6 +20,8 @@ public class RolTest {
     @BeforeClass
     public static void setup() {
         rolServices = ServicesLocator.getInstance().getRolServices();
+        Usuario usuarioLogueado = ServicesLocator.getInstance().getUsuarioServices().getUsuarioById(1L);
+        ServicesLocator.getInstance().setUsuarioActual(usuarioLogueado);
     }
 
 

@@ -16,6 +16,7 @@ import static utils.Utilitarios.stringEsValido;
 public class TipoPersonaServices {
 
     private final MainBaseDao baseDao;
+    private static final AuditoriaServices auditoriaServices = ServicesLocator.getInstance().getAuditoriaServices();
 
     public TipoPersonaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -26,6 +27,7 @@ public class TipoPersonaServices {
         validarTipoPersona(nombre);
 
         baseDao.spUpdate("sp_tipo_persona_create(?)", nombre);
+        auditoriaServices.insertAuditoria("Tipo de persona", "Insertar tipo", "Tipo = " + nombre);
     }
 
     // READ all
@@ -41,11 +43,13 @@ public class TipoPersonaServices {
     // UPDATE
     public void updateTipoPersona(String nombre, String nuevoNombre) throws SqlServerCustomException {
         baseDao.spUpdate("sp_tipo_persona_update(?, ?)", nombre, nuevoNombre);
+        auditoriaServices.insertAuditoria("Tipo de persona", "Modificar tipo", String.format("Tipo = %1$s, Nuevo tipo = %2$s", nombre, nuevoNombre));
     }
 
     // DELETE
     public void deleteTipoPersona(String nombre) throws SqlServerCustomException {
         baseDao.spUpdate("sp_tipo_persona_delete(?)", nombre);
+        auditoriaServices.insertAuditoria("Tipo de persona", "Eliminar tipo", "Tipo = " + nombre);
     }
 
     // ==============   VALIDACIONES   ==========================================

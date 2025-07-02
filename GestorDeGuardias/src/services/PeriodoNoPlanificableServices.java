@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class PeriodoNoPlanificableServices {
 
     private final MainBaseDao baseDao;
+    private static final AuditoriaServices auditoriaServices = ServicesLocator.getInstance().getAuditoriaServices();
 
     public PeriodoNoPlanificableServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -23,6 +24,7 @@ public class PeriodoNoPlanificableServices {
     // CREATE
     public void insertPeriodoNoPlanificable(LocalDate inicio, LocalDate fin) throws SqlServerCustomException {
         baseDao.spUpdate("sp_periodo_no_planificable_create(?, ?)", inicio, fin);
+        auditoriaServices.insertAuditoria("Periodo no planificable", "Insertar periodo", String.format("Fecha inicial = %1$s, Fecha final = %2$s", inicio, fin));
     }
 
     // READ all
@@ -38,11 +40,13 @@ public class PeriodoNoPlanificableServices {
     // UPDATE
     public void updatePeriodoNoPlanificable(LocalDate inicio, LocalDate fin, LocalDate nuevoInicio, LocalDate nuevoFin) throws SqlServerCustomException {
         baseDao.spUpdate("sp_periodo_no_planificable_update(?, ?, ?, ?)", inicio, fin, nuevoInicio, nuevoFin);
+        auditoriaServices.insertAuditoria("Periodo no planificable", "Modificar periodo", String.format("Fecha inicial = %1$s, Nueva fecha inicial = %2$s, Fecha final = %3$s, Nueva fecha final = %4$s", inicio, nuevoInicio, fin, nuevoFin));
     }
 
     // DELETE
     public void deletePeriodoNoPlanificable(LocalDate inicio, LocalDate fin) throws SqlServerCustomException {
         baseDao.spUpdate("sp_periodo_no_planificable_delete(?, ?)", inicio, fin);
+        auditoriaServices.insertAuditoria("Periodo no planificable", "Eliminar periodo", String.format("Fecha inicial = %1$s, Fecha final = %2$s", inicio, fin));
     }
 
     public int countPeriodoNoPlanificable() {

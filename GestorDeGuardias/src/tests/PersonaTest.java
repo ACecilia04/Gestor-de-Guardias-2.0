@@ -2,6 +2,7 @@ package tests;
 
 import model.Persona;
 import model.TipoPersona;
+import model.Usuario;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,6 +23,8 @@ public class PersonaTest {
     @BeforeClass
     public static void setup() {
         personaServices = ServicesLocator.getInstance().getPersonaServices();
+        Usuario usuarioLogueado = ServicesLocator.getInstance().getUsuarioServices().getUsuarioById(1L);
+        ServicesLocator.getInstance().setUsuarioActual(usuarioLogueado);
 
         TipoPersona tipo = new TipoPersona("Estudiante");
         Persona nuevoRecord = new Persona("01020112355", "Anaisa", "Garcia", "f", tipo);

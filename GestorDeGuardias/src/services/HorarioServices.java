@@ -16,6 +16,7 @@ import java.util.List;
 public class HorarioServices {
 
     private final MainBaseDao baseDao;
+    private static final AuditoriaServices auditoriaServices = ServicesLocator.getInstance().getAuditoriaServices();
 
     public HorarioServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -29,6 +30,7 @@ public class HorarioServices {
                 record.getInicio(),
                 record.getFin()
         );
+        auditoriaServices.insertAuditoria("Horario", "Insertar horario", record.toString());
     }
 
     // READ all
@@ -55,11 +57,13 @@ public class HorarioServices {
                 record.getInicio(),
                 record.getFin()
         );
+        auditoriaServices.insertAuditoria("Horario", "Actualizar horario", record.toString());
     }
 
     // DELETE
     public void deleteHorario(Long id) throws SqlServerCustomException {
         baseDao.spUpdate("sp_horario_delete(?)", id);
+        auditoriaServices.insertAuditoria("Horario", "Eliminar horario", "id=" + id);
     }
 
     public List<Horario> getHorariosDeFecha(LocalDate fecha) {

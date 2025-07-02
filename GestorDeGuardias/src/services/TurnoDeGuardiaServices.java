@@ -19,6 +19,7 @@ import java.util.List;
 public class TurnoDeGuardiaServices {
 
     private final MainBaseDao baseDao;
+    private static final AuditoriaServices auditoriaServices = ServicesLocator.getInstance().getAuditoriaServices();
 
     public TurnoDeGuardiaServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -33,6 +34,7 @@ public class TurnoDeGuardiaServices {
                 record.getFecha(),
                 record.getHorario().getId()
         );
+        auditoriaServices.insertAuditoria("Turno de guardia", "Insertar turno", record.toString());
     }
 
     // READ all
@@ -69,11 +71,13 @@ public class TurnoDeGuardiaServices {
                 record.getHorario().getId(),
                 record.getCumplimiento()
         );
+        auditoriaServices.insertAuditoria("Turno de guardia", "Modificar turno", record.toString());
     }
 
     // DELETE
     public void deleteTurnoDeGuardia(Long turnoId) throws SqlServerCustomException {
         baseDao.spUpdate("sp_turno_de_guardia_delete(?)", turnoId);
+        auditoriaServices.insertAuditoria("Turno de guardia", "Eliminar turno", "Id = " + turnoId);
     }
 
     public void deleteTurnosDeGuardiaAPartirDe(LocalDate fecha) throws SqlServerCustomException, EntradaInvalidaException {
@@ -84,6 +88,7 @@ public class TurnoDeGuardiaServices {
             throw new EntradaInvalidaException("No se pueden borrar turnos de fechas pasadas.");
 
         baseDao.spUpdate("sp_turno_de_guardia_delete_a_partir_de_fecha(?)", fecha);
+        auditoriaServices.insertAuditoria("Turno de guardia", "Eliminar turnos a partir de fecha", "Fecha = " + fecha);
     }
 
 

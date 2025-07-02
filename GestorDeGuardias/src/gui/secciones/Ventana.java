@@ -66,7 +66,10 @@ public class Ventana extends JFrame {
 //                login = new Login(overlayPanel);
 //                usuarioLogueado = login.getUsuarioLogueado();
 //                if (usuarioLogueado == null) System.exit(0);
-                usuarioLogueado = new Usuario("desarrollador", "desarrollador", new Rol("Desarrollador"));
+
+                usuarioLogueado = servicesLocator.getUsuarioServices().getUsuarioById(1L);
+                servicesLocator.setUsuarioActual(usuarioLogueado);
+
                 // Instanciar el menú pasando el usuario logueado
                 menu = new Menu(zonaInferior, Ventana.this, usuarioLogueado);
                 zonaInferior.add(menu, BorderLayout.WEST);
@@ -250,7 +253,7 @@ public class Ventana extends JFrame {
                     Advertencia advertencia = new Advertencia(Ventana.SIZE_ADVERTENCIA, "Advertencia", string, "Mes Actual", "Próximo Mes");
                     empezarHoy = advertencia.getEleccion();
                 }
-                dias = servicesLocator.getPlantillaServices().crearPLantilla(empezarHoy);
+                dias = servicesLocator.getPlantillaServices().crearPlantilla(empezarHoy);
 
                 Dimension tablaDim = panelAddPlanif.getTablaDim(panelVacio.getWidth(), panelVacio.getHeight());
                 Tabla tabla = new Tabla(tablaDim, paleta.getColorFondoTabla(), dias, panelAddPlanif.getTablaOpciones(), distX, distY, panelAddPlanif);

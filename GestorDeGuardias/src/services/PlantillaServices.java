@@ -1,6 +1,7 @@
 package services;
 
 import model.*;
+import utils.dao.SqlServerCustomException;
 import utils.exceptions.EntradaInvalidaException;
 import utils.exceptions.MultiplesErroresException;
 
@@ -14,6 +15,7 @@ public class PlantillaServices {
     private final ConfiguracionServices configuracionServices;
     private final PersonaServices personaServices;
     private final PeriodoNoPlanificableServices periodoNoPlanificableServices;
+    private final AuditoriaServices auditoriaServices;
 
     public PlantillaServices(ServicesLocator sl) {
         horarioServices = sl.getHorarioServices();
@@ -21,6 +23,7 @@ public class PlantillaServices {
         configuracionServices = sl.getConfiguracionServices();
         personaServices = sl.getPersonaServices();
         periodoNoPlanificableServices = sl.getPeriodoNoPlanificableServices();
+        auditoriaServices = sl.getAuditoriaServices();
     }
 
     /**
@@ -31,7 +34,7 @@ public class PlantillaServices {
      *
      * @return los de dias de guardia y sus horarios sin planificar
      */
-    public ArrayList<DiaGuardia> crearPLantilla(boolean empezarHoy) {
+    public ArrayList<DiaGuardia> crearPlantilla(boolean empezarHoy) {
         LocalDate inicio;
         ArrayList<DiaGuardia> dias = new ArrayList<>();
         LocalDate now = LocalDate.now();
@@ -57,6 +60,13 @@ public class PlantillaServices {
             }
             dias.add(new DiaGuardia(fecha, turnos));
         }
+
+        try {
+            auditoriaServices.insertAuditoria("Plantilla", "Crear plantilla", empezarHoy ? "Fecha actual" : "Primer día mes");
+        } catch (SqlServerCustomException e) {
+            e.printStackTrace();
+        }
+
         return dias;
     }
 
@@ -110,6 +120,12 @@ public class PlantillaServices {
             throw new EntradaInvalidaException("Este día no tiene el horario deseado.");
 
         turno.asignarPersona(persona);
+
+        try {
+            auditoriaServices.insertAuditoria("Plantilla", "Asignar persona", String.format("Día = %1$s, Horario = %2$s, Persona = %3$s", dia.getFecha(), horario.toString(), persona.toString()));
+        } catch (SqlServerCustomException e) {
+            e.printStackTrace();
+        }
     }
 
     public void crearPlanificacionAutomaticamente(ArrayList<DiaGuardia> dias) throws MultiplesErroresException, EntradaInvalidaException {
@@ -159,6 +175,12 @@ public class PlantillaServices {
         }
         if (!errores.isEmpty())
             throw new MultiplesErroresException("Datos incorrectos:", errores);
+
+        try {
+            auditoriaServices.insertAuditoria("Plantilla", "Crear planificación automáticamente", String.format("Día inicial = %1$s, Día final = %2$s", dias.get(0).getFecha(), dias.get(dias.size()-1).getFecha()));
+        } catch (SqlServerCustomException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Persona> getPersonasDisponibles2(LocalDate fecha, ArrayList<DiaGuardia> diasEnPantalla, TipoPersona tipoPersona, String sexo) {

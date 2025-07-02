@@ -1,6 +1,7 @@
 package tests;
 
 import model.Horario;
+import model.Usuario;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import services.HorarioServices;
@@ -20,6 +21,8 @@ public class HorarioTest {
     @BeforeClass
     public static void setup() {
         horarioServices = ServicesLocator.getInstance().getHorarioServices();
+        Usuario usuarioLogueado = ServicesLocator.getInstance().getUsuarioServices().getUsuarioById(1L);
+        ServicesLocator.getInstance().setUsuarioActual(usuarioLogueado);
     }
 
 

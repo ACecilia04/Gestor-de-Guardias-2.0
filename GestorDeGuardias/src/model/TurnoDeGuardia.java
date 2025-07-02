@@ -88,4 +88,14 @@ public class TurnoDeGuardia {
     public void setHecho(Boolean hecho) {
         this.hecho = hecho;
     }
+
+    @Override
+    public String toString() {
+        return "TurnoDeGuardia{" +
+                "id=" + id +
+                ", fecha=" + fecha +
+                ", horario=" + horario.toString() +
+                ", hecho=" + hecho +
+                '}';
+    }
 }

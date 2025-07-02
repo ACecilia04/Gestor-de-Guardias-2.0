@@ -221,6 +221,26 @@ CREATE TABLE [dbo].[usuario](
 GO
 SET ANSI_PADDING ON
 GO
+/****** Object:  Table [dbo].[auditoria]    Script Date: 02/07/2025 11:31:13 am ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[auditoria](
+	[id] [bigint] IDENTITY(1,1) NOT NULL,
+	[id_usuario] [bigint] NOT NULL,
+	[timestamp] [datetime] NOT NULL,
+	[servicio] [nvarchar](50) NOT NULL,
+	[funcionalidad] [nvarchar](50) NULL,
+	[parametros] [text] NULL,
+ CONSTRAINT [PK_auditoria] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
 /****** Object:  Index [IX_usuario]    Script Date: 30/06/2025 10:21:54 p. m. ******/
 CREATE UNIQUE NONCLUSTERED INDEX [IX_usuario] ON [dbo].[usuario]
 (
@@ -273,7 +293,59 @@ REFERENCES [dbo].[rol] ([nombre])
 GO
 ALTER TABLE [dbo].[usuario] CHECK CONSTRAINT [FK_usuario_rol]
 GO
+
 USE [Gestor_de_Guardias]
+GO
+/****** Object:  StoredProcedure [dbo].[sp_auditoria_create]    Script Date: 02/07/2025 11:31:13 am ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[sp_auditoria_create]
+    @id_usuario bigint,
+	@timestamp datetime,
+	@servicio nvarchar(50),
+	@funcionalidad nvarchar(50),
+	@parametros text
+AS
+BEGIN
+
+INSERT INTO auditoria
+           (id_usuario
+           ,[timestamp]
+           ,servicio
+           ,funcionalidad
+           ,parametros)
+     VALUES
+           (@id_usuario, @timestamp, @servicio, @funcionalidad, @parametros);
+
+END
+
+GO
+
+/****** Object:  StoredProcedure [dbo].[sp_auditoria_read]    Script Date: 02/07/2025 11:31:13 am ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[sp_auditoria_read]
+    @id_usuario bigint,
+	@inicio datetime,
+	@fin datetime,
+	@servicio nvarchar(50),
+	@funcionalidad nvarchar(50)
+AS
+BEGIN
+    SELECT *
+	FROM auditoria
+	WHERE (id_usuario = @id_usuario OR -1 = @id_usuario)
+	AND ([timestamp] >= @inicio OR NULL = @inicio)
+	AND ([timestamp] <= @fin OR NULL = @fin)
+	AND (servicio = @servicio OR '' = @servicio)
+	AND (funcionalidad = @funcionalidad OR '' = @funcionalidad)
+END
+
 GO
 /****** Object:  StoredProcedure [dbo].[sp_configuracion_create]    Script Date: 01/07/2025 02:05:41 p. m. ******/
 SET ANSI_NULLS ON

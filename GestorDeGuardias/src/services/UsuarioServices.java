@@ -15,7 +15,9 @@ import java.util.List;
 import static utils.Utilitarios.stringEsValido;
 
 public class UsuarioServices {
+
     private final MainBaseDao baseDao;
+    private static final AuditoriaServices auditoriaServices = ServicesLocator.getInstance().getAuditoriaServices();
 
     public UsuarioServices(MainBaseDao baseDao) {
         this.baseDao = baseDao;
@@ -30,6 +32,7 @@ public class UsuarioServices {
                 record.getContrasenna(),
                 record.getRol().getNombre()
         );
+        auditoriaServices.insertAuditoria("Usuario", "Insertar usuario", record.toString());
     }
 
     // READ all
@@ -56,11 +59,13 @@ public class UsuarioServices {
                 record.getContrasenna(),
                 record.getRol().getNombre()
         );
+        auditoriaServices.insertAuditoria("Usuario", "Modificar usuario", record.toString());
     }
 
     // DELETE
     public void deleteUsuario(Long id) throws SqlServerCustomException {
         baseDao.spUpdate("sp_usuario_delete(?)", id);
+        auditoriaServices.insertAuditoria("Usuario", "Eliminar usuario", "Id = " + id);
     }
 
     // ==============   VALIDACIONES   ==========================================
