@@ -44,8 +44,7 @@ public class PanelConfig extends JPanel {
 
     public void cargarConfiguraciones() {
         // Obtiene la lista desde el servicio
-        listaConfiguraciones = (ArrayList<Configuracion>) ServicesLocator.getInstance()
-                .getConfiguracionServices().getAllConfiguraciones();
+        listaConfiguraciones = (ArrayList<Configuracion>) ServicesLocator.getInstance().getConfiguracionServices().getAllConfiguraciones();
         if (opcionesReferencia instanceof PanelSupOpcionesConfig panelOpciones) {
             panelOpciones.setAlgunaConfigSeleccionada(false);
         }

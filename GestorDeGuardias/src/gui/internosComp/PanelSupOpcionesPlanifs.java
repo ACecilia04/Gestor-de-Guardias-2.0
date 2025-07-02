@@ -100,8 +100,7 @@ public class PanelSupOpcionesPlanifs extends JPanel {
             if (!path.toLowerCase().endsWith(".pdf")) path += ".pdf";
 
             // Obtiene todos los turnos a partir de la fecha de inicio seleccionada
-            ArrayList<DiaGuardia> diasGuardia = ServicesLocator.getInstance()
-                    .getPlantillaServices()
+            ArrayList<DiaGuardia> diasGuardia = ServicesLocator.getInstance().getPlantillaServices()
                     .getPlanificacionesAPartirDe(panelReferencia.getSeleccionado().getFechaInicio());
             // 3. Llamar al servicio de reporte
 

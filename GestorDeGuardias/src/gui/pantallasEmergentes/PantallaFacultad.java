@@ -5,7 +5,6 @@ import gui.auxiliares.Paleta;
 import gui.componentes.*;
 import gui.secciones.Ventana;
 import model.PeriodoNoPlanificable;
-import services.Gestor;
 import services.PeriodoNoPlanificableServices;
 import services.ServicesLocator;
 import utils.dao.SqlServerCustomException;
@@ -268,7 +267,7 @@ public class PantallaFacultad extends JDialog {
             @Override
             public void onItemSelected(String selectedItem) {
                 if (selectedItem != null) {
-                    PeriodoNoPlanificable rec = Gestor.getInstance().getFacultad().buscarRecesoDocente(selectedItem);
+                    PeriodoNoPlanificable rec = ServicesLocator.getInstance().getPeriodoNoPlanificableServices().getPeriodoEnFecha(LocalDate.parse(selectedItem));
                     mostrarReceso(rec);
                 }
             }
@@ -318,9 +317,9 @@ public class PantallaFacultad extends JDialog {
 
                 if (!advertencia.getEleccion()) {
                     PeriodoNoPlanificableServices pnpService = ServicesLocator.getInstance().getPeriodoNoPlanificableServices();
-                    LocalDate fechaAux2 = Gestor.getInstance().getFacultad().buscarRecesoDocente(comboRec.getEleccion()).getInicio();
+                    PeriodoNoPlanificable fechaAux2 = pnpService.getPeriodoEnFecha(LocalDate.parse(comboRec.getEleccion()));
                     try {
-                        PeriodoNoPlanificable indicado = pnpService.getPeriodoEnFecha(fechaAux2);
+                        PeriodoNoPlanificable indicado = pnpService.getPeriodoEnFecha(fechaAux2.getInicio());
                         pnpService.deletePeriodoNoPlanificable(indicado.getInicio(), indicado.getFin());
 
                     } catch (SqlServerCustomException ex) {
