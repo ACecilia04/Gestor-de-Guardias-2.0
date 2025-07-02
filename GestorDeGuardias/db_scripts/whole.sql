@@ -810,13 +810,21 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE PROCEDURE [dbo].[sp_periodo_no_planificable_create]
-    @inicio date,
-    @fin date
+    @inicio DATE,
+    @fin DATE
 AS
 BEGIN
-    INSERT INTO periodo_no_planificable (inicio, fin) VALUES (@inicio, @fin);
+    IF (@inicio > @fin)
+        THROW 51000, 'La fecha de inicio no puede ser posterior a la fecha de fin.', 1
+        RETURN;
+
+    INSERT INTO periodo_no_planificable (inicio, fin)
+    VALUES (@inicio, @fin);
 END
+GO
+
 
 GO
 /****** Object:  StoredProcedure [dbo].[sp_periodo_no_planificable_delete]    Script Date: 01/07/2025 02:05:41 p. m. ******/
