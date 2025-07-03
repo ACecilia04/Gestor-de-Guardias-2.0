@@ -63,10 +63,10 @@ public class Ventana extends JFrame {
         Timer timer = new Timer(delayInSeconds * 500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                setVisible(false);
-//                login = new Login(overlayPanel);
-//                usuarioLogueado = login.getUsuarioLogueado();
-//                if (usuarioLogueado == null) System.exit(0);
+                setVisible(false);
+                login = new Login(overlayPanel);
+                usuarioLogueado = login.getUsuarioLogueado();
+                if (usuarioLogueado == null) System.exit(0);
 
                 usuarioLogueado = servicesLocator.getUsuarioServices().getUsuarioById(1L);
                 servicesLocator.setUsuarioActual(usuarioLogueado);
@@ -269,7 +269,7 @@ public class Ventana extends JFrame {
 
             } else if (Objects.equals(nombrePanel, "panelUsuarios") && !Objects.equals(pantallaActual, "panelUsuarios")) {
                 ArrayList<Usuario> usuarios = (ArrayList<Usuario>) servicesLocator.getUsuarioServices().getAllUsuarios();
-                usuarios.removeIf(usuario -> usuario.getId().equals(usuarioLogueado.getId()));
+                usuarios.removeIf(usuario -> usuario.getRol().getNombre().equalsIgnoreCase("desarrollador"));
                 pantallaUsuarios.setTabla(usuarios);
                 barraSup.mostrarNombreSeccion("     Usuarios");
 

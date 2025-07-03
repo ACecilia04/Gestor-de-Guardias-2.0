@@ -59,6 +59,11 @@ public class PersonaServices {
         return baseDao.spQuery("sp_persona_read_by_tipo(?)", new PersonaMapper(), tipoPersona.getNombre());
     }
 
+    public List<Persona> getPersonaByNombre(String nombre){
+        return baseDao.spQuery("sp_persona_read_by_nombre(?)", new PersonaMapper(), nombre);
+
+    }
+
     public int getPersonaCountByTipo(String tipoPersona) {
         return baseDao.spQuerySingleObject("sp_persona_count_by_tipo(?)", new IntegerMapper("total"), tipoPersona);
     }

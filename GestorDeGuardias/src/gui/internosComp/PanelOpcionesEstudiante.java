@@ -139,7 +139,7 @@ public class PanelOpcionesEstudiante extends JPanel {
 
             int y2 = sepBotones;
 
-            buscar = new Buscar("Buscar ID", 11);
+            buscar = new Buscar("Buscar", 11);
             buscar.soloNumeros(true);
             buscar.setLocation(x, y2);
             panelBotones.add(buscar);

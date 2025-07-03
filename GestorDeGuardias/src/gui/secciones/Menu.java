@@ -161,7 +161,7 @@ public class Menu extends JPanel {
                 btnAuditoria.setSelectLetra(true);
                 btnAuditoria.setLocation(x, y);
                 btnAuditoria.addActionListener(e -> ventana.mostrarPanel("panelAuditoria"));
-                panel2.add(btnAuditoria);
+//                panel2.add(btnAuditoria);
                 y += btnAuditoria.getSize().height + separacion;
             }
 
