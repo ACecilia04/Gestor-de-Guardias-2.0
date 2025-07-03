@@ -1149,6 +1149,23 @@ BEGIN
 END
 
 GO
+/****** Object:  StoredProcedure [dbo].[sp_persona_read_by_nombre]    Script Date: 02/07/2025 9:07:01 pm ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[sp_persona_read_by_nombre]
+    @key nvarchar(50)
+AS
+BEGIN
+    SELECT * FROM persona
+	WHERE (LOWER(LTRIM(nombre)) LIKE '%' + LOWER(LTRIM(@key)) + '%'
+	OR LOWER(LTRIM(apellido)) LIKE '%' + LOWER(LTRIM(@key)) + '%')
+	AND borrado = 0;
+END
+
+GO
 /****** Object:  StoredProcedure [dbo].[sp_persona_read_by_tipo]    Script Date: 01/07/2025 02:05:41 p. m. ******/
 SET ANSI_NULLS ON
 GO
