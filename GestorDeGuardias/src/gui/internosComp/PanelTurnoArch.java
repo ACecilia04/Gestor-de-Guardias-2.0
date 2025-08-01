@@ -42,16 +42,16 @@ public class PanelTurnoArch extends PanelTurno {
         radioGrupo.add(cumplido);
         radioGrupo.add(noCumplido);
 
-        if (turno.getCumplimiento() != null) {
-            if (turno.getCumplimiento()) {
-                cumplido.setSelected(true);
-                turno.setHecho(true);
-            }
-            if (!turno.getCumplimiento()) {
-                noCumplido.setSelected(true);
-                turno.setHecho(false);
-            }
-        }
+//        if (turno.getCumplimiento() != null) {
+//            if (turno.getCumplimiento()) {
+//                cumplido.setSelected(true);
+//                turno.setHecho(true);
+//            }
+//            if (!turno.getCumplimiento()) {
+//                noCumplido.setSelected(true);
+//                turno.setHecho(false);
+//            }
+//        }
 
         cumplido.addActionListener(new ActionListener() {
             @Override

@@ -91,15 +91,15 @@ public class TurnoDeGuardiaServices {
         for (DiaGuardia dia : dias) {
             if (dia.getTurnos() == null || dia.getTurnos().isEmpty()) continue;
             for (TurnoDeGuardia turno : dia.getTurnos()) {
-                ArrayList<Persona> personasAsignadas = turno.getPersonasAsignadas();
-                for (Persona persona : personasAsignadas) {
+//                ArrayList<Persona> personasAsignadas = turno.getPersonasAsignadas();
+//                for (Persona persona : personasAsignadas) {
                     try {
-                        turno.setPersonaAsignada(persona);
+                        turno.setPersonaAsignada(turno.getPersonaAsignada());
                         updateTurnoDeGuardia(turno);
                     } catch (SqlServerCustomException | MultiplesErroresException ex) {
                         throw new RuntimeException("Error al actualizar el turno: " + turno, ex);
                     }
-                }
+//                }
             }
         }
     }
